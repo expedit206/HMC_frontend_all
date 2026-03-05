@@ -20,7 +20,7 @@ public/images
 *.ico
 dist-ssr
 *.local
-
+ public/images.rar
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
