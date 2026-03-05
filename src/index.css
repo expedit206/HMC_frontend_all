@@ -1,0 +1,165 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Serif:wght@400;500;600&family=Azeret+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Converter hex to HSL values */
+  --background: 270 50% 99%;
+  --foreground: 0 0% 0%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 0%;
+  --popover: 270 50% 99%;
+  --popover-foreground: 0 0% 0%;
+  --primary: 270 60% 15%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 15 85% 40%;
+  --secondary-foreground: 0 0% 100%;
+  --muted: 15 100% 75%;
+  --muted-foreground: 0 0% 17%;
+  --accent: 15 100% 75%;
+  --accent-foreground: 0 0% 5%;
+  --destructive: 0 95% 37%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 0 0% 83%;
+  --input: 0 0% 90%;
+  --ring: 15 100% 45%;
+  --chart-1: 120 100% 54%;
+  --chart-2: 0 100% 44%;
+  --chart-3: 120 100% 50%;
+  --chart-4: 270 100% 60%;
+  --chart-5: 20 55% 55%;
+  --sidebar: 280 8% 92%;
+  --sidebar-foreground: 0 0% 11%;
+  --sidebar-primary: 15 100% 45%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 0 0% 11%;
+  --sidebar-accent-foreground: 0 0% 100%;
+  --sidebar-border: 0 0% 92%;
+  --sidebar-ring: 0 0% 71%;
+  --font-sans: Poppins, ui-sans-serif, sans-serif, system-ui;
+  --font-serif: Roboto Serif, ui-serif, serif;
+  --font-mono: Azeret Mono, ui-monospace, monospace;
+  --radius: 0.45rem;
+  --shadow-x: 1px;
+  --shadow-y: 1px;
+  --shadow-blur: 0px;
+  --shadow-spread: 0px;
+  --shadow-opacity: 0.2;
+  --shadow-color: oklch(0 0 0);
+  --shadow-2xs: 1px 1px 0px 0px hsl(0 0% 0% / 0.10);
+  --shadow-xs: 1px 1px 0px 0px hsl(0 0% 0% / 0.10);
+  --shadow-sm: 1px 1px 0px 0px hsl(0 0% 0% / 0.20), 1px 1px 2px -1px hsl(0 0% 0% / 0.20);
+  --shadow: 1px 1px 0px 0px hsl(0 0% 0% / 0.20), 1px 1px 2px -1px hsl(0 0% 0% / 0.20);
+  --shadow-md: 1px 1px 0px 0px hsl(0 0% 0% / 0.20), 1px 2px 4px -1px hsl(0 0% 0% / 0.20);
+  --shadow-lg: 1px 1px 0px 0px hsl(0 0% 0% / 0.20), 1px 4px 6px -1px hsl(0 0% 0% / 0.20);
+  --shadow-xl: 1px 1px 0px 0px hsl(0 0% 0% / 0.20), 1px 8px 10px -1px hsl(0 0% 0% / 0.20);
+  --shadow-2xl: 1px 1px 0px 0px hsl(0 0% 0% / 0.50);
+  --tracking-normal: 0.025em;
+  --spacing: 0.25rem;
+}
+
+.dark {
+  --background: 270 100% 3%;
+  --foreground: 0 5% 93%;
+  --card: 0 3% 10%;
+  --card-foreground: 0 0% 84%;
+  --popover: 0 3% 10%;
+  --popover-foreground: 0 7% 80%;
+  --primary: 15 85% 40%;
+  --primary-foreground: 0 8% 95%;
+  --secondary: 0 5% 82%;
+  --secondary-foreground: 0 13% 11%;
+  --muted: 0 10% 11%;
+  --muted-foreground: 0 0% 82%;
+  --accent: 0 10% 19%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 95% 45%;
+  --destructive-foreground: 0 100% 98%;
+  --border: 0 0% 17%;
+  --input: 0 0% 17%;
+  --ring: 0 5% 69%;
+  --chart-1: 120 55% 55%;
+  --chart-2: 15 100% 45%;
+  --chart-3: 25 20% 10%;
+  --chart-4: 265 15% 27%;
+  --chart-5: 20 55% 55%;
+  --sidebar: 0 0% 7%;
+  --sidebar-foreground: 0 0% 84%;
+  --sidebar-primary: 0 0% 20%;
+  --sidebar-primary-foreground: 0 0% 98%;
+  --sidebar-accent: 0 0% 13%;
+  --sidebar-accent-foreground: 20 10% 73%;
+  --sidebar-border: 0 0% 92%;
+  --sidebar-ring: 0 0% 71%;
+  --font-sans: Poppins, ui-sans-serif, sans-serif, system-ui;
+  --font-serif: Roboto Serif, ui-serif, serif;
+  --font-mono: Azeret Mono, ui-monospace, monospace;
+  --radius: 0.45rem;
+  --shadow-x: 1px;
+  --shadow-y: 1px;
+  --shadow-blur: 0px;
+  --shadow-spread: 0px;
+  --shadow-opacity: 0.2;
+  --shadow-color: #ebe5e5;
+  --shadow-2xs: 1px 1px 0px 0px hsl(0 13.0435% 90.9804% / 0.10);
+  --shadow-xs: 1px 1px 0px 0px hsl(0 13.0435% 90.9804% / 0.10);
+  --shadow-sm: 1px 1px 0px 0px hsl(0 13.0435% 90.9804% / 0.20), 1px 1px 2px -1px hsl(0 13.0435% 90.9804% / 0.20);
+  --shadow: 1px 1px 0px 0px hsl(0 13.0435% 90.9804% / 0.20), 1px 1px 2px -1px hsl(0 13.0435% 90.9804% / 0.20);
+  --shadow-md: 1px 1px 0px 0px hsl(0 13.0435% 90.9804% / 0.20), 1px 2px 4px -1px hsl(0 13.0435% 90.9804% / 0.20);
+  --shadow-lg: 1px 1px 0px 0px hsl(0 13.0435% 90.9804% / 0.20), 1px 4px 6px -1px hsl(0 13.0435% 90.9804% / 0.20);
+  --shadow-xl: 1px 1px 0px 0px hsl(0 13.0435% 90.9804% / 0.20), 1px 8px 10px -1px hsl(0 13.0435% 90.9804% / 0.20);
+  --shadow-2xl: 1px 1px 0px 0px hsl(0 13.0435% 90.9804% / 0.50);
+}
+
+body {
+  letter-spacing: var(--tracking-normal);
+  @apply bg-background text-foreground transition-colors duration-200;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center rounded-lg px-4 py-2 font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
+  }
+
+  .btn-primary {
+    @apply btn bg-primary text-primary-foreground hover:bg-primary/90;
+  }
+
+  .btn-secondary {
+    @apply btn bg-secondary text-secondary-foreground hover:bg-secondary/90;
+  }
+
+  .btn-outline {
+    @apply btn border border-border bg-background text-foreground hover:bg-accent hover:text-accent-foreground;
+  }
+
+  .btn-destructive {
+    @apply btn bg-destructive text-destructive-foreground hover:bg-destructive/90;
+  }
+
+  .card {
+    @apply rounded-lg border border-border bg-card p-6 text-card-foreground shadow-sm;
+  }
+
+  .input {
+    @apply rounded-lg border border-input bg-input px-4 py-2 text-foreground placeholder:text-muted-foreground focus:border-ring focus:outline-none focus:ring-2 focus:ring-ring/50;
+  }
+
+  .badge {
+    @apply inline-flex items-center rounded-full px-3 py-1 text-sm font-medium bg-muted text-muted-foreground;
+  }
+
+  .badge-primary {
+    @apply badge bg-primary text-primary-foreground;
+  }
+
+  .badge-secondary {
+    @apply badge bg-secondary text-secondary-foreground;
+  }
+}

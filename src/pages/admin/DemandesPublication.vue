@@ -1,0 +1,209 @@
+<template>
+  <DashboardLayout>
+
+        <div
+          v-if="isLoading"
+          class="flex flex-col items-center justify-center h-full"
+        >
+          <div
+            class="w-16 h-16 border-4 border-[#E54801] border-t-transparent rounded-full animate-spin mb-4"
+          ></div>
+          <p class="text-gray-500 font-bold uppercase tracking-widest text-xs">
+            Chargement des demandes d'audit...
+          </p>
+        </div>
+
+        <div v-else class="max-w-7xl mx-auto">
+          <!-- TABLE -->
+          <div
+            class="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden"
+          >
+            <div
+              class="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50/20"
+            >
+              <h4
+                class="text-xs font-black text-[#1B0B38] uppercase tracking-widest"
+              >
+                Audit Terrain & Vérifications
+              </h4>
+            </div>
+
+            <div class="overflow-x-auto">
+              <table class="w-full text-left">
+                <thead
+                  class="text-[10px] font-black uppercase text-gray-400 border-b border-gray-100 bg-gray-50/50"
+                >
+                  <tr>
+                    <th class="px-6 py-5 tracking-widest">Bailleur</th>
+                    <th class="px-6 py-5 tracking-widest">Bien / Type</th>
+                    <th class="px-6 py-5 tracking-widest">Localisation</th>
+                    <th class="px-6 py-5 tracking-widest">Status</th>
+                    <th class="px-6 py-5 tracking-widest">Agent Assigné</th>
+                    <th class="px-6 py-5 tracking-widest text-right">
+                      Documents
+                    </th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-50">
+                  <tr
+                    v-for="req in requests"
+                    :key="req.id"
+                    class="hover:bg-gray-50/50 transition-all group"
+                  >
+                    <td class="px-6 py-5">
+                      <div class="flex flex-col">
+                        <span class="text-sm font-black text-[#1B0B38]">{{
+                          req.bailleur?.name
+                        }}</span>
+                        <span class="text-[10px] text-gray-400 underline">{{
+                          req.bailleur?.phone
+                        }}</span>
+                      </div>
+                    </td>
+                    <td class="px-6 py-5">
+                      <div class="flex flex-col">
+                        <span class="text-xs font-bold text-gray-700">{{
+                          req.title
+                        }}</span>
+                        <span
+                          class="text-[10px] font-black uppercase text-orange-500"
+                          >{{ req.category }} ({{ req.type }})</span
+                        >
+                      </div>
+                    </td>
+                    <td class="px-6 py-5">
+                      <span class="text-xs font-medium text-gray-500"
+                        >{{ req.city }}, {{ req.location }}</span
+                      >
+                    </td>
+                    <td class="px-6 py-5">
+                      <span
+                        :class="[
+                          'px-2 py-1 text-[9px] font-black uppercase rounded',
+                          getStatusClass(req.status),
+                        ]"
+                      >
+                        {{ req.status }}
+                      </span>
+                    </td>
+                    <td class="px-6 py-5">
+                      <div v-if="req.agent" class="flex items-center gap-2">
+                        <div
+                          class="w-6 h-6 rounded-full bg-orange-100 flex items-center justify-center text-[10px] font-black text-orange-600"
+                        >
+                          {{ req.agent.name.charAt(0) }}
+                        </div>
+                        <span class="text-xs font-bold text-gray-600">{{
+                          req.agent.name
+                        }}</span>
+                      </div>
+                      <select
+                        v-else
+                        @change="assignAgent(req.id, $event.target.value)"
+                        class="text-[10px] font-black uppercase tracking-widest border border-gray-100 rounded-lg px-2 py-1 bg-gray-50"
+                      >
+                        <option value="">Assigner un agent</option>
+                        <option
+                          v-for="agent in agents"
+                          :key="agent.id"
+                          :value="agent.id"
+                        >
+                          {{ agent.name }}
+                        </option>
+                      </select>
+                    </td>
+                    <td class="px-6 py-5 text-right">
+                      <div class="flex justify-end gap-2">
+                        <a
+                          v-for="(doc, idx) in req.documents"
+                          :key="idx"
+                          :href="`/storage/${doc}`"
+                          target="_blank"
+                          class="w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center text-gray-400 hover:text-blue-500 hover:bg-blue-50 transition-all"
+                        >
+                          <i class="fas fa-file-alt text-xs"></i>
+                        </a>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr v-if="requests.length === 0">
+                    <td
+                      colspan="6"
+                      class="px-6 py-12 text-center text-gray-400 font-bold text-xs uppercase tracking-widest"
+                    >
+                      Aucune demande d'audit en attente
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      
+
+  </DashboardLayout>
+</template>
+
+<script setup>
+import { ref, onMounted } from "vue";
+import DashboardLayout from "../../layouts/DashboardLayout.vue";
+import axios from "../../axios";
+
+const isLoading = ref(true);
+const requests = ref([]);
+const agents = ref([]);
+
+const fetchData = async () => {
+  isLoading.value = true;
+  try {
+    const [resReq, resAgents] = await Promise.all([
+      axios.get("/api/admin/publication-requests"),
+      axios.get("/api/admin/agents"),
+    ]);
+    requests.value = resReq.data.data.data;
+    agents.value = resAgents.data.data;
+  } catch (err) {
+    console.error("Erreur chargement données admin:", err);
+  } finally {
+    isLoading.value = false;
+  }
+};
+
+const assignAgent = async (requestId, agentId) => {
+  if (!agentId) return;
+  try {
+    const { data } = await axios.post(
+      `/api/admin/publication-requests/${requestId}/assign`,
+      {
+        agent_id: agentId,
+      },
+    );
+    if (data.success) {
+      alert("Agent assigné avec succès !");
+      fetchData();
+    }
+  } catch (err) {
+    console.error("Erreur assignation agent:", err);
+    alert("Erreur lors de l'assignation.");
+  }
+};
+
+const getStatusClass = (status) => {
+  switch (status) {
+    case "pending":
+      return "bg-orange-50 text-orange-600";
+    case "assigned":
+      return "bg-blue-50 text-blue-600";
+    case "published":
+      return "bg-green-50 text-green-600";
+    case "rejected":
+      return "bg-red-50 text-red-600";
+    default:
+      return "bg-gray-50 text-gray-600";
+  }
+};
+
+onMounted(fetchData);
+</script>
+
+

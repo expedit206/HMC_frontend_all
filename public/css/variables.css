@@ -1,0 +1,20 @@
+/* Design System Colors and Styles */
+:root {
+  /* Colors */
+  --primary: #180d34;
+  --primary-foreground: #ffffff;
+  --secondary: #961e11;
+  --secondary-foreground: #ffffff;
+  --accent: #f09f84;
+  --accent-foreground: #0d0d0d;
+  --destructive: #bd0514;
+  --destructive-foreground: #ffffff;
+  --border: #d4d4d4;
+  --input: #e6e6e6;
+  --ring: #de3900;
+  --chart-1: #28d74e;
+  --chart-2: #df0108;
+  --chart-3: #4dff00;
+  --chart-4: #541cfd;
+  --chart-5: #ab4d2b;
+}
