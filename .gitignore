@@ -10,6 +10,14 @@ lerna-debug.log*
 node_modules
 
 public/images
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.svg
+*.webp
+*.jfif
+*.ico
 dist-ssr
 *.local
 
