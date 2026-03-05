@@ -9,7 +9,9 @@ lerna-debug.log*
 
 node_modules
 
-public/images
+public/images/
+public/images.rar
+
 *.jpg
 *.jpeg
 *.png
@@ -20,7 +22,6 @@ public/images
 *.ico
 dist-ssr
 *.local
- public/images.rar
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
