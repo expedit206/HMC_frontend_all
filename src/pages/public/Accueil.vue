@@ -165,9 +165,9 @@
         </div>
       </div>
     </section>
-    <div class="text-xl p-3">
+    <!-- <div class="text-xl p-3">
       <h2 className='text-green-600'>Accueil HMC – Test Parfait</h2>
-    </div>
+    </div> -->
     <!-- PROPRIÉTÉS POPULAIRES - Nouveaux biens disponibles -->
     <section class="py-8 md:py-12 bg-background">
       <div class="max-w-7xl mx-auto px-4">
