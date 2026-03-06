@@ -7,6 +7,7 @@
         "></div>
       <div class="absolute inset-0 bg-black/50"></div>
 
+
       <div class="relative max-w-7xl mx-auto px-4 py-6 lg:py-8">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-10 items-center">
           <!-- Texte -->
@@ -15,6 +16,8 @@
               Trouvez votre logement
               <span>au cœur du Cameroun</span>
             </h1>
+
+
 
             <p class="text-sm md:text-base text-white/85 mb-6 max-w-xl">
               Une plateforme immobilière locale pour rechercher, louer et gérer
@@ -84,6 +87,7 @@
                     <option v-for="quartier in neighborhoods" :key="quartier" :value="quartier" />
                   </datalist>
                 </div>
+                
 
                 <div class="relative group flex items-center bg-white rounded-[.45rem] px-2">
                   <i class="fas fa-home text-secondary text-sm"></i>
@@ -161,6 +165,9 @@
         </div>
       </div>
     </section>
+    <div class="text-xl p-3">
+      <h2 className='text-green-600'>Accueil HMC – Test Parfait</h2>
+    </div>
     <!-- PROPRIÉTÉS POPULAIRES - Nouveaux biens disponibles -->
     <section class="py-8 md:py-12 bg-background">
       <div class="max-w-7xl mx-auto px-4">
