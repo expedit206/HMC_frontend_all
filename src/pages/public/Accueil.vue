@@ -173,7 +173,7 @@
       <div class="max-w-7xl mx-auto px-4">
         <!-- En-tête -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-6 md:mb-10">
-          <div class="text-cnter">
+          <div class="text-cnter"> 
             <h2 class="text-2xl md:text-3xl font-bold text-primary">
               Nouveaux biens disponibles
             </h2>
