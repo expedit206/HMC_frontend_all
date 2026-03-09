@@ -1,5 +1,5 @@
 <template>
-  <footer class="border-t border-border mt-16">
+  <footer class="border-t border-border mt-16 bg-background">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
       <!-- Contenu principal du footer -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
@@ -17,7 +17,7 @@
 
         <!-- Colonne 2: Liens rapides -->
         <div>
-          <h3 class="text-primary text-lg font-semibold mb-6">Liens rapides</h3>
+          <h3 class="text-foreground text-lg font-semibold mb-6">Liens rapides</h3>
           <ul class="space-y-3">
             <li>
               <RouterLink
@@ -72,7 +72,7 @@
 
         <!-- Colonne 3: Contact -->
         <div>
-          <h3 class="text-primary text-lg font-semibold mb-6">Contact</h3>
+          <h3 class="text-foreground text-lg font-semibold mb-6">Contact</h3>
           <div class="space-y-4">
             <div class="flex items-start gap-3">
               <i class="fas fa-phone text-primary mt-1"></i>
@@ -93,29 +93,29 @@
 
         <!-- Colonne 4: Réseaux sociaux -->
         <div>
-          <h3 class="text-primary text-lg font-semibold mb-6">Suivez-nous</h3>
+          <h3 class="text-foreground text-lg font-semibold mb-6">Suivez-nous</h3>
           <div class="flex gap-4 mb-6">
             <a
               href="#"
-              class="w-12 h-12 bg-sidebar rounded-full flex items-center justify-center text-sidebar-foreground hover:bg-primary hover:text-primary-foreground transition-all duration-300 transform hover:-translate-y-1"
+              class="w-12 h-12 bg-card rounded-full flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-all duration-300 transform hover:-translate-y-1 border border-border"
             >
               <i class="fab fa-facebook-f"></i>
             </a>
             <a
               href="#"
-              class="w-12 h-12 bg-sidebar rounded-full flex items-center justify-center text-sidebar-foreground hover:bg-primary hover:text-primary-foreground transition-all duration-300 transform hover:-translate-y-1"
+              class="w-12 h-12 bg-card rounded-full flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-all duration-300 transform hover:-translate-y-1 border border-border"
             >
               <i class="fab fa-instagram"></i>
             </a>
             <a
               href="#"
-              class="w-12 h-12 bg-sidebar rounded-full flex items-center justify-center text-sidebar-foreground hover:bg-primary hover:text-primary-foreground transition-all duration-300 transform hover:-translate-y-1"
+              class="w-12 h-12 bg-card rounded-full flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-all duration-300 transform hover:-translate-y-1 border border-border"
             >
               <i class="fab fa-linkedin-in"></i>
             </a>
             <a
               href="#"
-              class="w-12 h-12 bg-sidebar rounded-full flex items-center justify-center text-sidebar-foreground hover:bg-primary hover:text-primary-foreground transition-all duration-300 transform hover:-translate-y-1"
+              class="w-12 h-12 bg-card rounded-full flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-all duration-300 transform hover:-translate-y-1 border border-border"
             >
               <i class="fab fa-twitter"></i>
             </a>
@@ -146,14 +146,14 @@
             >
               Mentions légales
             </a>
-            <span class="text-border">|</span>
+            <span class="text-border hidden md:inline">|</span>
             <a
               href="#"
               class="text-muted-foreground hover:text-primary text-sm transition-colors duration-300"
             >
               Politique de confidentialité
             </a>
-            <span class="text-border">|</span>
+            <span class="text-border hidden md:inline">|</span>
             <a
               href="#"
               class="text-muted-foreground hover:text-primary text-sm transition-colors duration-300"
