@@ -24,19 +24,19 @@
             <!-- Stats réduites -->
             <div class="flex flex-wrap gap-4 mt-8">
               <div
-                class="bg-card/10 backdrop-blur-sm rounded-[.45rem] p-3 min-w-[100px] text-center border border-white/20">
+                class="bg-card/10 backdrop-blur-sm rounded-[.45rem] p-3 min-w-25 text-center border border-white/20">
                 <div class="text-lg font-semibold text-ring">1 200+</div>
                 <div class="text-xs text-white/80">Biens</div>
               </div>
 
               <div
-                class="bg-card/10 backdrop-blur-sm rounded-[.45rem] p-3 min-w-[100px] text-center border border-white/20">
+                class="bg-card/10 backdrop-blur-sm rounded-[.45rem] p-3 min-w-25 text-center border border-white/20">
                 <div class="text-lg font-semibold text-ring">300+</div>
                 <div class="text-xs text-white/80">Propriétaires</div>
               </div>
 
               <div
-                class="bg-card/10 backdrop-blur-sm rounded-[.45rem] p-3 min-w-[100px] text-center border border-white/20">
+                class="bg-card/10 backdrop-blur-sm rounded-[.45rem] p-3 min-w-25 text-center border border-white/20">
                 <div class="text-lg font-semibold text-ring">10</div>
                 <div class="text-xs text-white/80">Régions</div>
               </div>
@@ -124,7 +124,7 @@
               :key="category.uniqueKey || category.id + '_' + Math.random()" href="#"
               class="group flex items-center gap-3 bg-card rounded-[.45rem] px-5 py-3 shadow-sm hover:shadow-md border border-border hover:border-secondary transition-all flex-shrink-0 min-w-[200px]">
               <div
-                class="w-10 h-10 rounded-[.45rem] bg-gradient-to-br from-primary/10 to-primary/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                class="w-10 h-10 rounded-[.45rem] bg-linear-to-br from-primary/10 to-primary/20 flex items-center justify-center group-hover:scale-110 transition-transform">
                 <i :class="`fas fa-${category.icon} text-lg text-primary`"></i>
               </div>
               <div class="pr-2">
