@@ -1,4 +1,6 @@
 <template>
+  <DashboardLayout>
+  
   <div class="bg-[#FAF9F5] min-h-screen py-12 px-6">
     <div class="max-w-4xl mx-auto">
       <header class="mb-10 flex justify-between items-end">
@@ -241,12 +243,14 @@
       </form>
     </div>
   </div>
+  </DashboardLayout>
 </template>
 
 <script setup>
 import { ref, reactive, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import axios from "../../axios";
+import DashboardLayout from "../../layouts/DashboardLayout.vue";
 
 const route = useRoute();
 const router = useRouter();
