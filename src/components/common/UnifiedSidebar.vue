@@ -1,7 +1,7 @@
 <template>
   <aside
     :class="[
-      'fixed inset-y-0 left-0 z-50 bg-white border-r border-gray-100 transition-all duration-300 lg:static lg:h-auto shadow-2xl lg:shadow-none',
+      'fixed inset-y-0 left-0 z-50 bg-card border-r border-border transition-all duration-300 lg:static lg:h-auto shadow-2xl lg:shadow-none',
       isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0',
       expanded ? 'w-72 lg:w-64' : 'w-72 lg:w-20',
     ]"
@@ -12,12 +12,12 @@
       <!-- Header Dynamique & Switcher -->
       <!-- Bouton Fermer (Mobile) -->
       <div class="lg:hidden flex items-center justify-between mb-2">
-        <span class="text-xs font-black text-gray-300 uppercase tracking-widest"
+        <span class="text-xs font-black text-muted-foreground uppercase tracking-widest"
           >Menu</span
         >
         <button
           @click="$emit('close-mobile')"
-          class="w-9 h-9 rounded-xl bg-gray-100 hover:bg-red-50 flex items-center justify-center text-gray-400 hover:text-red-500 transition-all active:scale-90"
+          class="w-9 h-9 rounded-xl bg-muted/20 hover:bg-destructive/10 flex items-center justify-center text-muted-foreground hover:text-destructive transition-all active:scale-90"
           aria-label="Fermer le menu"
         >
           <i class="fas fa-xmark text-lg"></i>
@@ -33,11 +33,11 @@
             <i :class="config.headerIcon"></i>
           </div>
           <div v-if="expanded" class="transition-opacity duration-300 min-w-0">
-            <h2 class="font-bold text-[#1B0B38] text-sm truncate">
+            <h2 class="font-bold text-foreground text-sm truncate">
               {{ config.headerTitle }}
             </h2>
             <p
-              class="text-[10px] text-gray-400 uppercase tracking-widest font-black truncate"
+              class="text-[10px] text-muted-foreground uppercase tracking-widest font-black truncate"
             >
               {{ config.headerSubtitle }}
             </p>
@@ -48,7 +48,7 @@
         <button
           v-if="expanded && allRoles.length > 1"
           @click="showRoleSwitcher = !showRoleSwitcher"
-          class="w-7 h-7 rounded-lg bg-gray-50 flex items-center justify-center text-gray-400 hover:text-[#1B0B38] hover:bg-gray-100 transition-colors shrink-0 outline-none"
+          class="w-7 h-7 rounded-lg bg-muted/20 flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-muted/30 transition-colors shrink-0 outline-none"
         >
           <i
             class="fas fa-right-left text-xs transition-transform"
@@ -59,10 +59,10 @@
         <!-- Menu déroulant des rôles -->
         <div
           v-if="showRoleSwitcher && expanded"
-          class="absolute top-12 left-2 right-2 bg-white rounded-xl shadow-xl border border-gray-100 p-2 z-50 animate-fadeIn"
+          class="absolute top-12 left-2 right-2 bg-card rounded-xl shadow-xl border border-border p-2 z-50 animate-fadeIn"
         >
           <p
-            class="text-[9px] font-black text-gray-400 uppercase tracking-widest pl-2 mb-2"
+            class="text-[9px] font-black text-muted-foreground uppercase tracking-widest pl-2 mb-2"
           >
             Changer d'espace
           </p>
@@ -73,14 +73,14 @@
             class="w-full text-left px-3 py-2 rounded-lg text-xs font-bold transition-colors flex items-center gap-2"
             :class="
               r === role
-                ? 'bg-[#1B0B38] text-white'
-                : 'text-gray-600 hover:bg-gray-50 hover:text-[#1B0B38]'
+                ? 'bg-primary text-primary-foreground'
+                : 'text-foreground hover:bg-muted/20 hover:text-primary'
             "
           >
             <i
               :class="[
                 getRoleIcon(r),
-                r === role ? 'text-white' : 'text-gray-400 w-4 text-center',
+                r === role ? 'text-primary-foreground' : 'text-muted-foreground w-4 text-center',
               ]"
             ></i>
             <span class="capitalize">{{ getRoleName(r) }}</span>
@@ -98,7 +98,7 @@
           <!-- Label de Section -->
           <p
             v-if="link.isLabel && expanded"
-            class="px-4 text-[10px] font-black text-gray-300 uppercase tracking-[0.2em] mt-8 mb-3"
+            class="px-4 text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] mt-8 mb-3"
           >
             {{ link.name }}
           </p>
@@ -124,7 +124,7 @@
             <!-- Badge -->
             <span
               v-if="expanded && link.badge"
-              class="ml-auto bg-[#E54801] text-white text-[10px] font-bold px-2 py-0.5 rounded-full"
+              class="ml-auto bg-secondary text-secondary-foreground text-[10px] font-bold px-2 py-0.5 rounded-full"
             >
               {{ link.badge }}
             </span>
@@ -133,10 +133,10 @@
       </div>
 
       <!-- Footer Sidebar / Logout -->
-      <div class="mt-auto pt-6 border-t border-gray-50">
+      <div class="mt-auto pt-6 border-t border-border">
         <button
           @click="handleLogout"
-          class="w-full text-xs font-black text-red-500 hover:bg-red-50 py-4 rounded-2xl transition-all uppercase tracking-widest flex items-center justify-center gap-4 group"
+          class="w-full text-xs font-black text-destructive hover:bg-destructive/10 py-4 rounded-2xl transition-all uppercase tracking-widest flex items-center justify-center gap-4 group"
         >
           <i
             class="fas fa-power-off w-5 text-center group-hover:rotate-12 transition-transform"
@@ -223,37 +223,37 @@ const config = computed(() => {
     admin: {
       headerTitle: "Administration",
       headerSubtitle: "HMC Control",
-      headerIcon: "fas fa-shield-halved text-white",
-      headerClass: "bg-[#1B0B38]",
+      headerIcon: "fas fa-shield-halved text-primary-foreground",
+      headerClass: "bg-primary",
     },
     agent: {
       headerTitle: "Espace Agent",
       headerSubtitle: "Audit Terrain",
-      headerIcon: "fas fa-user-tie text-white",
-      headerClass: "bg-gradient-to-br from-[#E54801] to-[#913327]",
+      headerIcon: "fas fa-user-tie text-primary-foreground",
+      headerClass: "bg-gradient-to-br from-secondary to-secondary/80",
     },
     bailleur: {
       headerTitle: "Propriétaire",
       headerSubtitle: "Bailleur HMC",
-      headerIcon: "fas fa-house-chimney-user text-white",
-      headerClass: "bg-[#E54801]",
+      headerIcon: "fas fa-house-chimney-user text-primary-foreground",
+      headerClass: "bg-secondary",
     },
     prestataire: {
       headerTitle: "Prestataire",
       headerSubtitle: "Services Pro",
-      headerIcon: "fas fa-tools text-white",
+      headerIcon: "fas fa-tools text-primary-foreground",
       headerClass: "bg-indigo-600",
     },
     client: {
       headerTitle: "Espace Client",
       headerSubtitle: "HMC Immobilier",
-      headerIcon: "fas fa-search text-white",
+      headerIcon: "fas fa-search text-primary-foreground",
       headerClass: "bg-green-600",
     },
     locataire: {
       headerTitle: "Locataire",
       headerSubtitle: "HMC Résident",
-      headerIcon: "fas fa-key text-white",
+      headerIcon: "fas fa-key text-primary-foreground",
       headerClass: "bg-blue-600",
     },
   };
@@ -261,8 +261,8 @@ const config = computed(() => {
     roles[role.value] || {
       headerTitle: "Home Cameroon",
       headerSubtitle: "Mon Espace",
-      headerIcon: "fas fa-user-circle text-white",
-      headerClass: "bg-blue-600",
+      headerIcon: "fas fa-user-circle text-primary-foreground",
+      headerClass: "bg-primary",
     }
   );
 });
@@ -522,31 +522,34 @@ const handleLogout = async () => {
 
 <style scoped>
 .sidebar-link {
-  color: #64748b;
+  color: hsl(var(--muted-foreground));
 }
 .sidebar-link.active {
-  background-color: #1b0b38;
-  color: white;
-  box-shadow: 0 10px 15px -3px rgba(27, 11, 56, 0.2);
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  box-shadow: 0 10px 15px -3px hsl(var(--primary) / 0.2);
 }
-/* For agent and bailleur we might want to stick to E54801 or keep 1B0B38 for unity */
 .sidebar-link.active i {
-  color: white;
+  color: hsl(var(--primary-foreground));
 }
 
 .custom-scrollbar::-webkit-scrollbar {
   width: 4px;
 }
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: #f8fafc;
+  background: hsl(var(--muted) / 0.2);
 }
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #e2e8f0;
+  background: hsl(var(--muted-foreground) / 0.3);
   border-radius: 10px;
 }
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.5);
+}
+
 .sidebar-link:hover:not(.active) {
-  background-color: #f8fafc;
-  color: #e54801;
+  background-color: hsl(var(--muted) / 0.2);
+  color: hsl(var(--secondary));
 }
 
 @keyframes fadeIn {

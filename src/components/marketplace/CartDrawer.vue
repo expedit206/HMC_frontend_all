@@ -13,10 +13,10 @@
         <div
           class="pointer-events-auto w-screen max-w-md transform transition duration-500 ease-in-out sm:duration-700"
         >
-          <div class="flex h-full flex-col bg-white shadow-2xl">
+          <div class="flex h-full flex-col bg-card shadow-2xl border-l border-border">
             <!-- Header -->
             <div
-              class="flex items-center justify-between px-6 py-6 border-b border-gray-100"
+              class="flex items-center justify-between px-6 py-6 border-b border-border"
             >
               <h2
                 class="text-xl font-black text-primary uppercase tracking-tight flex items-center gap-3"
@@ -30,7 +30,7 @@
               </h2>
               <button
                 @click="cartStore.toggleCart()"
-                class="rounded-full p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 transition-all"
+                class="rounded-full p-2 text-muted-foreground hover:bg-muted/20 hover:text-foreground transition-all"
               >
                 <i class="fas fa-times text-xl"></i>
               </button>
@@ -43,14 +43,14 @@
                 class="h-full flex flex-col items-center justify-center text-center space-y-4"
               >
                 <div
-                  class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center text-gray-200"
+                  class="w-20 h-20 bg-muted/20 rounded-full flex items-center justify-center text-muted-foreground/30"
                 >
                   <i class="fas fa-shopping-cart text-4xl"></i>
                 </div>
-                <p class="text-gray-500 font-medium">Votre panier est vide</p>
+                <p class="text-muted-foreground font-medium">Votre panier est vide</p>
                 <button
                   @click="cartStore.toggleCart()"
-                  class="text-primary font-bold text-sm hover:underline"
+                  class="text-primary font-bold text-sm hover:text-secondary transition-colors"
                 >
                   Continuer mes achats
                 </button>
@@ -63,7 +63,7 @@
                   class="flex items-center gap-4 group"
                 >
                   <div
-                    class="h-20 w-20 flex-shrink-0 overflow-hidden rounded-xl border border-gray-100 bg-gray-50 flex items-center justify-center"
+                    class="h-20 w-20 flex-shrink-0 overflow-hidden rounded-xl border border-border bg-muted/20 flex items-center justify-center"
                   >
                     <img
                       v-if="!item.image?.startsWith('fas ')"
@@ -77,21 +77,21 @@
                     <i
                       v-else
                       :class="item.image"
-                      class="text-3xl text-primary/30"
+                      class="text-3xl text-muted-foreground/30"
                     ></i>
                   </div>
 
                   <div class="flex flex-1 flex-col">
                     <div
-                      class="flex justify-between text-base font-bold text-gray-900"
+                      class="flex justify-between text-base font-bold text-foreground"
                     >
                       <h3 class="line-clamp-1">{{ item.name }}</h3>
-                      <p class="ml-4 whitespace-nowrap text-primary">
+                      <p class="ml-4 whitespace-nowrap text-secondary">
                         {{ formatPrice(item.price * item.quantity) }}
                       </p>
                     </div>
                     <p
-                      class="mt-1 text-xs text-gray-400 uppercase font-black tracking-widest"
+                      class="mt-1 text-xs text-muted-foreground uppercase font-black tracking-widest"
                     >
                       {{ item.category }}
                     </p>
@@ -100,7 +100,7 @@
                       class="flex flex-1 items-end justify-between text-sm mt-3"
                     >
                       <div
-                        class="flex items-center border border-gray-200 rounded-lg"
+                        class="flex items-center border border-border rounded-lg"
                       >
                         <button
                           @click="
@@ -110,11 +110,11 @@
                               item.quantity - 1,
                             )
                           "
-                          class="p-1 px-2 hover:bg-gray-50 text-gray-500"
+                          class="p-1 px-2 hover:bg-muted/20 text-muted-foreground transition-colors"
                         >
                           -
                         </button>
-                        <span class="px-2 font-bold min-w-[2rem] text-center">{{
+                        <span class="px-2 font-bold min-w-[2rem] text-center text-foreground">{{
                           item.quantity
                         }}</span>
                         <button
@@ -125,7 +125,7 @@
                               item.quantity + 1,
                             )
                           "
-                          class="p-1 px-2 hover:bg-gray-50 text-gray-500"
+                          class="p-1 px-2 hover:bg-muted/20 text-muted-foreground transition-colors"
                         >
                           +
                         </button>
@@ -133,7 +133,7 @@
 
                       <button
                         @click="cartStore.removeItem(item.id, item.type)"
-                        class="text-red-500 hover:text-red-700 font-medium text-xs flex items-center gap-1 transition-colors"
+                        class="text-destructive hover:text-destructive/80 font-medium text-xs flex items-center gap-1 transition-colors"
                       >
                         <i class="far fa-trash-alt"></i> Supprimer
                       </button>
@@ -146,29 +146,29 @@
             <!-- Footer -->
             <div
               v-if="!cartStore.isEmpty"
-              class="border-t border-gray-100 px-6 py-8 bg-gray-50/50"
+              class="border-t border-border px-6 py-8 bg-muted/10"
             >
               <div
-                class="flex justify-between text-base font-black text-gray-900 mb-2"
+                class="flex justify-between text-base font-black text-foreground mb-2"
               >
                 <p>Sous-total</p>
-                <p class="text-xl text-primary">
+                <p class="text-xl text-secondary">
                   {{ formatPrice(cartStore.totalAmount) }}
                 </p>
               </div>
-              <p class="text-xs text-gray-400 mb-6 font-medium">
+              <p class="text-xs text-muted-foreground mb-6 font-medium">
                 Taxes et frais de livraison calculés lors du paiement.
               </p>
 
               <div class="space-y-4">
                 <button
-                  class="w-full flex items-center justify-center rounded-xl bg-primary px-6 py-4 text-sm font-black text-white shadow-lg hover:bg-primary/90 transition-all active:scale-95 uppercase tracking-widest"
+                  class="w-full flex items-center justify-center rounded-xl bg-primary px-6 py-4 text-sm font-black text-primary-foreground shadow-lg hover:bg-primary/90 transition-all active:scale-95 uppercase tracking-widest"
                 >
                   Finaliser la commande
                 </button>
                 <button
                   @click="cartStore.toggleCart()"
-                  class="w-full text-center text-gray-500 font-bold text-xs hover:text-gray-700 transition-colors uppercase tracking-widest"
+                  class="w-full text-center text-muted-foreground font-bold text-xs hover:text-foreground transition-colors uppercase tracking-widest"
                 >
                   Ou continuer mes achats
                 </button>
@@ -220,7 +220,10 @@ const formatPrice = (price) => {
   background: transparent;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #e54801;
+  background: hsl(var(--secondary));
   border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary));
 }
 </style>
