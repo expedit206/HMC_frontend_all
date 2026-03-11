@@ -150,9 +150,9 @@
         </div>
 
         <!-- CTA: Publier une annonce (Visible sur Tablette+) -->
-        <RouterLink to="/publier-bien" class="">
+        <RouterLink to="/publier-bien" class="flex items-center gap-2 font-semibold">
           <i class="fas fa-plus-circle text-xl text-secondary "></i>
-          <!-- <span class="hidden md:inline">Publier </span> -->
+          <span class="hidden md:inline text-secondary">Publier </span>
         </RouterLink>
 
         <!-- Burger Button (Mobile) -->
@@ -334,6 +334,8 @@ const getDashboardLink = () => {
       return "/prestataire/dashboard";
     case "agent":
       return "/agent/dashboard";
+    case "client":
+      return "/client/dashboard";
     default:
       return "/client/dashboard";
   }
@@ -424,9 +426,11 @@ const navLinks = computed(() => {
       ];
     default:
       return [
+        
         { to: "/", label: "Accueil", icon: "fas fa-home" },
         { to: "/annonces", label: "Annonces", icon: "fas fa-search-location" },
         { to: "/marketplace", label: "Marketplace", icon: "fas fa-store" },
+        { to: "/client/dashboard", label: "Dashboard", icon: "fas fa-user-shield" },
       ];
   }
 });
@@ -531,6 +535,8 @@ const mobileBottomLinks = computed(() => {
     default:
       return [
         ...base,
+        { to: getDashboardLink(), label: "Dashboard", icon: "fas fa-user-shield" },
+
         { to: "/annonces", label: "Annonces", icon: "fas fa-search-location" },
         { to: "/marketplace", label: "Market", icon: "fas fa-store" },
         {

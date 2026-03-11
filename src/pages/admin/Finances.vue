@@ -170,13 +170,7 @@
               </table>
             </div>
 
-            <div
-              class="p-6 border-t border-gray-50 bg-gray-50/10 flex justify-between items-center"
-            >
-              <span class="text-[10px] text-gray-400 font-black uppercase"
-                >Pagination disponible</span
-              >
-            </div>
+         
           </div>
         </div>
       

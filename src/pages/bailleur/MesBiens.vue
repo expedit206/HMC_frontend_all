@@ -15,7 +15,7 @@
             class="lg:hidden p-2 text-gray-500 hover:text-[#E54801] transition-colors">
             <i class="fas fa-bars text-xl"></i>
           </button>
-          <RouterLink :to="{ name: 'BailleurPublierBien' }"
+          <RouterLink :to="{ name: 'PublierBien' }"
             class="px-6 py-3 bg-[#E54801] text-white rounded-xl text-sm font-bold hover:shadow-lg transition-all flex items-center gap-2">
             <i class="fas fa-plus"></i>
             <span class="hidden sm:inline">Ajouter un Bien</span>
@@ -35,7 +35,7 @@
             class="col-span-full py-20 text-center bg-white rounded-2xl border border-gray-100 shadow-sm">
             <i class="fas fa-building text-5xl mb-4 text-gray-200"></i>
             <p class="text-gray-500 font-bold">Vous n'avez pas encore publié de bien.</p>
-            <RouterLink :to="{ name: 'BailleurPublierBien' }"
+            <RouterLink :to="{ name: 'PublierBien' }"
               class="text-[#E54801] font-bold mt-2 inline-block hover:underline">
               Publier mon premier bien
             </RouterLink>

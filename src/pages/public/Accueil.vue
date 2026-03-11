@@ -129,7 +129,6 @@
         </div>
       </div>
     </section>
-
     <!-- CATÉGORIES en scroll horizontal -->
     <section class="py-6 md:py-4 bg-white border-b border-gray-100">
       <div class="max-w-7xl mx-auto px-4">
@@ -212,7 +211,7 @@
                   <i class="fas fa-ruler"></i><span>{{ property.area }} m²</span>
                 </div>
               </div>
-              <RouterLink :to="`/annonces/${property.id}`"
+              <RouterLink :to="{ name: 'DetailAnnonce', params: { slug: property.slug } }"
                 class="text-sm block text-center w-full bg-secondary hover:bg-primary text-white py-1 rounded-[.45rem] font-medium hover:shadow-lg transition-all border border-secondary">
                 Voir détails
               </RouterLink>
@@ -244,7 +243,7 @@
         <h2 class="text-2xl md:text-4xl font-bold text-primary mb-2 md:mb-4">
           Nos agents immobiliers
         </h2>
-        <p class="text-muted-foreground max-w-2xl mx-auto text-base md:text-lg">
+        <p class="text-muted-foreground max-w-2xl   text-base md:text-lg">
           Découvrez les professionnels qui gèrent les meilleures propriétés
         </p>
       </div>
@@ -347,7 +346,7 @@
         <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary mb-3">
           Nos prestataires de services
         </h2>
-        <p class="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto">
+        <p class="text-sm sm:text-base text-muted-foreground max-w-2xl ">
           Des professionnels qualifiés pour entretenir, rénover et améliorer
           votre logement.
         </p>
@@ -428,7 +427,7 @@
         <h2 class="text-2xl md:text-4xl font-bold text-primary mb-2 md:mb-4">
           Marketplace - Articles pour votre maison
         </h2>
-        <p class="text-muted-foreground max-w-2xl mx-auto text-base md:text-lg">
+        <p class="text-muted-foreground max-w-2xl  text-base md:text-lg">
           Équipez et rénovez votre logement avec nos sélections
         </p>
       </div>
@@ -490,7 +489,7 @@
         <h2 class="text-2xl md:text-4xl font-bold text-primary mb-2 md:mb-4">
           Pourquoi choisir Home Cameroon ?
         </h2>
-        <p class="text-muted-foreground max-w-2xl mx-auto text-base md:text-lg">
+        <p class="text-muted-foreground max-w-2xl text-base md:text-lg">
           Une plateforme fiable, sécurisée et pensée pour vous
         </p>
       </div>

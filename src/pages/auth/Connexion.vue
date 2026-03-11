@@ -27,7 +27,7 @@
               <div
                 class="absolute inset-2 bg-gradient-to-br from-white to-gray-100 rounded-xl flex items-center justify-center"
               >
-                <i class="fas fa-home text-[#E54801] text-3xl"></i>
+              <img src="/images/logo/image.png" alt="">
               </div>
             </div>
           </div>
@@ -96,9 +96,10 @@
                 class="absolute inset-0 bg-gradient-to-br from-[#1B0B38] to-[#913327] rounded-2xl transform rotate-3"
               ></div>
               <div
-                class="absolute inset-2 bg-gradient-to-br from-white to-gray-100 rounded-xl flex items-center justify-center"
+                class="absolute inset-2 bg-gradient-to-br from-white to-gray-100 rounded-xl flex items-center justify-center p-1"
               >
-                <i class="fas fa-home text-[#E54801] text-2xl"></i>
+              <img src="/images/logo/image.png" alt="">
+                <!-- <i class="fas fa-home text-[#E54801] text-2xl"></i> -->
               </div>
             </div>
             <div>

@@ -9,7 +9,7 @@
 
     <div v-else class="max-w-7xl mx-auto">
       <!-- STATS CARDS -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 animate-fadeIn">
+      <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 animate-fadeIn">
         <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-shadow">
           <div class="flex items-center justify-between mb-4">
             <div class="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center">

@@ -805,12 +805,12 @@ const amenityIconMap = {
 const amenityIcon = (name) => amenityIconMap[name] ?? "fa-check-circle";
 
 // ─── Fetch ───────────────────────────────────────────────────────────
-const fetchProperty = async (id) => {
+const fetchProperty = async (slug) => {
   isLoading.value = true;
   property.value = null;
   similarProperties.value = [];
   try {
-    const { data } = await axios.get(`/api/properties/${id}`);
+    const { data } = await axios.get(`/api/properties/${slug}`);
     if (data.success) {
       property.value = data.data;
       similarProperties.value = data.similar ?? [];
@@ -883,10 +883,10 @@ const shareProperty = () => {
 const formatPrice = (price) => new Intl.NumberFormat("fr-FR").format(price);
 
 // ─── Mount & watch route change ──────────────────────────────────────
-onMounted(() => fetchProperty(route.params.id));
+onMounted(() => fetchProperty(route.params.slug));
 
 watch(
-  () => route.params.id,
+  () => route.params.slug,
   (newId) => {
     if (newId) {
       window.scrollTo({ top: 0, behavior: "smooth" });

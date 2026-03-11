@@ -35,7 +35,7 @@ routes = {
 
     '/bailleur/dashboard': 'BailleurDashboard',
     '/bailleur/mes-biens': 'BailleurMesBiens',
-    '/bailleur/publier-bien': 'BailleurPublierBien',
+    '/bailleur/publier-bien': 'PublierBien',
     '/bailleur/mes-locataires': 'BailleurMesLocataires',
     '/bailleur/interventions': 'BailleurInterventions',
     '/bailleur/visites': 'BailleurVisites',

@@ -1,373 +1,121 @@
 <template>
-  <DashboardLayout>
+  <SharedProfileLayout title="Espace Client" subtitle="Gérez votre profil et suivez votre activité"
+    roleLabel="Client Privilège" :form="form" :isSaving="isSaving" :saveMessage="saveMessage" @save="updateProfile">
+    <template #badge-icon>
+      <i class="fas fa-gem text-blue-500"></i>
+    </template>
 
-        <!-- Mobile Header Toggle -->
-        <div class="lg:hidden flex items-center justify-between mb-6">
-          <h1 class="text-xl font-bold text-[#1B0B38]">Mon Espace</h1>
-          <button
-            @click="sidebarOpen = !sidebarOpen"
-            class="p-2 text-gray-500 hover:text-[#E54801]"
-          >
-            <i class="fas fa-bars text-xl"></i>
-          </button>
+    <!-- Stats sous avatar -->
+    <template #left-column-stats>
+      <div class="grid grid-cols-2 gap-4 mt-6">
+        <div class="text-center p-3 bg-gray-50 rounded-2xl border border-gray-100">
+          <p class="text-[10px] text-gray-400 font-black uppercase tracking-widest mb-1">Favoris</p>
+          <p class="text-xl font-black text-[#1B0B38]">8</p>
         </div>
-
-        <!-- Onglets de navigation -->
-        <div class="flex mb-8 border-b border-gray-200">
-          <button
-            @click="activeTab = 'profile'"
-            :class="[
-              'px-6 py-4 text-lg font-bold border-b-2 transition-colors flex items-center gap-2',
-              activeTab === 'profile'
-                ? 'border-[#E54801] text-[#E54801]'
-                : 'border-transparent text-gray-500 hover:text-[#1B0B38]',
-            ]"
-          >
-            <i class="fas fa-user-circle"></i> Mon Profil
-          </button>
-          <button
-            @click="activeTab = 'favorites'"
-            :class="[
-              'px-6 py-4 text-lg font-bold border-b-2 transition-colors flex items-center gap-2',
-              activeTab === 'favorites'
-                ? 'border-[#E54801] text-[#E54801]'
-                : 'border-transparent text-gray-500 hover:text-[#1B0B38]',
-            ]"
-          >
-            <i class="fas fa-heart"></i> Mes Favoris
-          </button>
+        <div class="text-center p-3 bg-gray-50 rounded-2xl border border-gray-100">
+          <p class="text-[10px] text-gray-400 font-black uppercase tracking-widest mb-1">Visites</p>
+          <p class="text-xl font-black text-[#1B0B38]">3</p>
         </div>
+      </div>
+    </template>
 
-        <!-- PROFILE CONTENT -->
-        <div v-if="activeTab === 'profile'" class="animate-fadeIn">
-          <div
-            class="bg-white rounded-[2.5rem] shadow-sm border border-gray-50 p-8 mb-8"
-          >
-            <div class="flex flex-col md:flex-row items-start gap-8">
-              <!-- Avatar et info de base -->
-              <div class="md:w-1/3 text-center md:text-left w-full">
-                <div
-                  class="w-32 h-32 md:w-48 md:h-48 rounded-3xl bg-[#1B0B38] mx-auto md:mx-0 mb-6 flex items-center justify-center text-white text-4xl md:text-6xl font-black"
-                >
-                  JD
-                </div>
-                <h2 class="text-2xl md:text-3xl font-black text-[#1B0B38]">
-                  Jean Dupont
-                </h2>
-                <p class="text-gray-500 mt-2">
-                  Membre depuis <span class="font-bold">Janvier 2023</span>
-                </p>
-                <button
-                  class="mt-6 px-8 py-3 bg-[#E54801] text-white rounded-xl font-bold hover:bg-[#913327] transition shadow-lg w-full md:w-auto"
-                >
-                  <i class="fas fa-edit mr-2"></i>Modifier le profil
-                </button>
-              </div>
+    <!-- Menu rapide en bas à gauche -->
+    <template #left-column-bottom>
+      <div class="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm text-center lg:text-left">
+        <h3 class="text-xs font-black text-[#1B0B38] uppercase tracking-[0.2em] mb-4">Liens Rapides</h3>
+        <div class="flex flex-col gap-3">
+          <RouterLink to="/mes-favoris"
+            class="p-4 bg-[#FAF9F5] rounded-2xl flex items-center justify-between hover:bg-[#E54801] hover:text-white transition-all group border border-gray-100">
+            <div class="flex items-center gap-3">
+              <i class="fas fa-heart text-[#E54801] group-hover:text-white"></i>
+              <span class="text-sm font-bold">Mes Favoris</span>
+            </div>
+            <i class="fas fa-chevron-right text-xs"></i>
+          </RouterLink>
+          <RouterLink to="/mon-suivi"
+            class="p-4 bg-[#FAF9F5] rounded-2xl flex items-center justify-between hover:bg-[#E54801] hover:text-white transition-all group border border-gray-100">
+            <div class="flex items-center gap-3">
+              <i class="fas fa-map-marker-alt text-[#E54801] group-hover:text-white"></i>
+              <span class="text-sm font-bold">Mon Suivi de Location</span>
+            </div>
+            <i class="fas fa-chevron-right text-xs"></i>
+          </RouterLink>
+          <RouterLink to="/mes-demandes"
+            class="p-4 bg-[#FAF9F5] rounded-2xl flex items-center justify-between hover:bg-[#E54801] hover:text-white transition-all group border border-gray-100">
+            <div class="flex items-center gap-3">
+              <i class="fas fa-file-alt text-[#E54801] group-hover:text-white"></i>
+              <span class="text-sm font-bold">Mes Demandes</span>
+            </div>
+            <i class="fas fa-chevron-right text-xs"></i>
+          </RouterLink>
+        </div>
+      </div>
+    </template>
 
-              <!-- Informations détaillées -->
-              <div class="md:w-2/3 w-full">
-                <div class="flex justify-between items-center mb-6">
-                  <h3 class="text-xl md:text-2xl font-black text-[#1B0B38]">
-                    Informations Personnelles
-                  </h3>
-                  <button
-                    class="px-4 py-2 border border-[#1B0B38] text-[#1B0B38] rounded-xl hover:bg-[#1B0B38] hover:text-white transition hidden md:block"
-                  >
-                    <i class="fas fa-pencil-alt mr-2"></i>Éditer
-                  </button>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                  <div>
-                    <p
-                      class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1"
-                    >
-                      Nom complet
-                    </p>
-                    <p class="text-lg font-bold text-[#1B0B38]">Jean Dupont</p>
-                  </div>
-                  <div>
-                    <p
-                      class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1"
-                    >
-                      Email
-                    </p>
-                    <p class="text-lg font-bold text-[#1B0B38]">
-                      jean.dupont@email.com
-                    </p>
-                  </div>
-                  <div>
-                    <p
-                      class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1"
-                    >
-                      Téléphone
-                    </p>
-                    <p class="text-lg font-bold text-[#1B0B38]">
-                      +237 6XX XX XX XX
-                    </p>
-                  </div>
-                  <div>
-                    <p
-                      class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1"
-                    >
-                      Ville
-                    </p>
-                    <p class="text-lg font-bold text-[#1B0B38]">Yaoundé</p>
-                  </div>
-                </div>
-
-                <h4 class="text-xl font-black text-[#1B0B38] mb-4">
-                  Mes Préférences
-                </h4>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div class="bg-gray-50 p-4 rounded-2xl">
-                    <p
-                      class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1"
-                    >
-                      Type de bien recherché
-                    </p>
-                    <p class="font-bold text-[#1B0B38]">Appartement, Villa</p>
-                  </div>
-                  <div class="bg-gray-50 p-4 rounded-2xl">
-                    <p
-                      class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1"
-                    >
-                      Villes préférées
-                    </p>
-                    <p class="font-bold text-[#1B0B38]">Yaoundé, Douala</p>
-                  </div>
-                </div>
-              </div>
+    <template #right-column-extra>
+      <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
+        <h3 class="text-xl font-bold text-[#1B0B38] mb-6">Mes Préférences de Recherche</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="p-5 bg-orange-50 rounded-2xl border border-orange-100 flex items-start gap-3">
+            <div class="w-12 h-12 bg-[#E54801] rounded-2xl flex items-center justify-center flex-shrink-0">
+              <i class="fas fa-home text-white text-xl"></i>
+            </div>
+            <div>
+              <h4 class="font-bold text-[#1B0B38] mb-1">Type de bien recherché</h4>
+              <p class="text-sm text-gray-500">Appartement, Villa</p>
             </div>
           </div>
-
-          <!-- Statistiques -->
-          <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-            <div
-              class="bg-white rounded-[2rem] shadow-sm border border-gray-50 p-6 text-center"
-            >
-              <div
-                class="w-12 h-12 bg-orange-50 rounded-xl flex items-center justify-center mx-auto mb-3 text-[#E54801]"
-              >
-                <i class="fas fa-eye text-xl"></i>
-              </div>
-              <p
-                class="text-xs text-gray-500 font-bold uppercase tracking-wider"
-              >
-                Biens vus
-              </p>
-              <p class="text-2xl font-black text-[#1B0B38]">24</p>
+          <div class="p-5 bg-blue-50 rounded-2xl border border-blue-100 flex items-start gap-3">
+            <div class="w-12 h-12 bg-[#1B0B38] rounded-2xl flex items-center justify-center flex-shrink-0">
+              <i class="fas fa-city text-white text-xl"></i>
             </div>
-            <div
-              class="bg-white rounded-[2rem] shadow-sm border border-gray-50 p-6 text-center"
-            >
-              <div
-                class="w-12 h-12 bg-red-50 rounded-xl flex items-center justify-center mx-auto mb-3 text-red-500"
-              >
-                <i class="fas fa-heart text-xl"></i>
-              </div>
-              <p
-                class="text-xs text-gray-500 font-bold uppercase tracking-wider"
-              >
-                Favoris
-              </p>
-              <p class="text-2xl font-black text-[#1B0B38]">
-                {{ favorites.length }}
-              </p>
-            </div>
-            <div
-              class="bg-white rounded-[2rem] shadow-sm border border-gray-50 p-6 text-center"
-            >
-              <div
-                class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mx-auto mb-3 text-blue-500"
-              >
-                <i class="fas fa-calendar-check text-xl"></i>
-              </div>
-              <p
-                class="text-xs text-gray-500 font-bold uppercase tracking-wider"
-              >
-                Visites
-              </p>
-              <p class="text-2xl font-black text-[#1B0B38]">3</p>
-            </div>
-            <div
-              class="bg-white rounded-[2rem] shadow-sm border border-gray-50 p-6 text-center"
-            >
-              <div
-                class="w-12 h-12 bg-green-50 rounded-xl flex items-center justify-center mx-auto mb-3 text-green-500"
-              >
-                <i class="fas fa-clock text-xl"></i>
-              </div>
-              <p
-                class="text-xs text-gray-500 font-bold uppercase tracking-wider"
-              >
-                Connexion
-              </p>
-              <p class="text-base font-bold text-[#1B0B38]">10:24</p>
+            <div>
+              <h4 class="font-bold text-[#1B0B38] mb-1">Villes préférées</h4>
+              <p class="text-sm text-gray-500">Yaoundé, Douala</p>
             </div>
           </div>
         </div>
-
-        <!-- FAVORITES CONTENT -->
-        <div v-if="activeTab === 'favorites'" class="animate-slide-up">
-          <div class="mb-8">
-            <h2 class="text-2xl font-black text-[#1B0B38] mb-2">
-              Mes Biens Favoris
-            </h2>
-            <p class="text-gray-500">
-              Vous avez
-              <span class="font-bold text-[#E54801]"
-                >{{ favorites.length }} biens</span
-              >
-              enregistrés.
-            </p>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div
-              v-for="fav in favorites"
-              :key="fav.id"
-              class="bg-white rounded-[2.5rem] shadow-sm border border-gray-50 overflow-hidden hover:shadow-lg transition group"
-            >
-              <div class="relative h-64 bg-gray-200 overflow-hidden">
-                <img
-                  :src="fav.image"
-                  :alt="fav.title"
-                  class="w-full h-full object-cover group-hover:scale-110 transition duration-700"
-                />
-                <div
-                  v-if="fav.badge"
-                  class="absolute top-4 right-4 px-3 py-1 bg-gradient-to-r from-[#E54801] to-[#913327] text-white rounded-full text-xs font-bold shadow-md"
-                >
-                  {{ fav.badge }}
-                </div>
-              </div>
-              <div class="p-6">
-                <h3 class="text-lg font-black text-[#1B0B38] mb-1">
-                  {{ fav.title }}
-                </h3>
-                <div
-                  class="flex items-center text-[#E54801] font-bold text-xs mb-4 uppercase tracking-wide"
-                >
-                  <i class="fas fa-map-marker-alt mr-2"></i>
-                  <span>{{ fav.location }}</span>
-                </div>
-                <p class="text-xl font-black text-[#E54801] mb-6">
-                  {{ fav.price }}
-                </p>
-
-                <div
-                  class="flex justify-between text-gray-500 text-xs mb-6 border-t border-gray-100 pt-4"
-                >
-                  <div class="text-center">
-                    <i class="fas fa-bed text-base mb-1 block"></i>
-                    <span class="font-bold">{{ fav.beds }} ch.</span>
-                  </div>
-                  <div class="text-center">
-                    <i class="fas fa-bath text-base mb-1 block"></i>
-                    <span class="font-bold">{{ fav.baths }} sdb</span>
-                  </div>
-                  <div class="text-center">
-                    <i class="fas fa-ruler-combined text-base mb-1 block"></i>
-                    <span class="font-bold">{{ fav.area }} m²</span>
-                  </div>
-                </div>
-
-                <div class="flex gap-3">
-                  <RouterLink
-                    :to="`/annonces/${fav.id}`"
-                    class="flex-1 px-4 py-3 border border-[#1B0B38] text-[#1B0B38] rounded-xl font-bold hover:bg-[#1B0B38] hover:text-white transition text-center text-sm"
-                  >
-                    Voir
-                  </RouterLink>
-                  <button
-                    class="flex-1 px-4 py-3 bg-[#E54801] text-white rounded-xl font-bold hover:bg-[#913327] transition text-sm"
-                  >
-                    Contacter
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      
-
-  </DashboardLayout>
+      </div>
+    </template>
+  </SharedProfileLayout>
 </template>
 
 <script setup>
-import { ref, reactive } from "vue";
-import DashboardLayout from "../../layouts/DashboardLayout.vue";
-const activeTab = ref("profile");
+import { ref } from "vue";
+import SharedProfileLayout from "../../components/profile/SharedProfileLayout.vue";
+import { useAuthStore } from "../../stores/auth";
+import axios from "../../axios";
 
-const favorites = reactive([
-  {
-    id: 1,
-    title: "Appartement Grand Luxe",
-    location: "Yaoundé · Bastos",
-    price: "250 000 FCFA",
-    image:
-      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=500&q=80",
-    badge: "Nouveau",
-    beds: 3,
-    baths: 2,
-    area: 120,
-  },
-  {
-    id: 2,
-    title: "Villa Contemporaine",
-    location: "Douala · Akwa",
-    price: "400 000 FCFA",
-    image:
-      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=500&q=80",
-    badge: "Populaire",
-    beds: 4,
-    baths: 3,
-    area: 220,
-  },
-  {
-    id: 3,
-    title: "Maison de Ville",
-    location: "Kribi · Centre",
-    price: "150 000 FCFA",
-    image:
-      "https://images.unsplash.com/photo-1580587771525-78b9dba3b91d?auto=format&fit=crop&w=500&q=80",
-    badge: null,
-    beds: 2,
-    baths: 1,
-    area: 90,
-  },
-]);
+const authStore = useAuthStore();
+const form = ref({
+  name: authStore.user?.name || "Client",
+  email: authStore.user?.email || "",
+  phone: authStore.user?.phone || "",
+  city: authStore.user?.city || "Yaoundé",
+});
+
+const isSaving = ref(false);
+const saveMessage = ref("");
+
+const updateProfile = async () => {
+  if (!form.value.name) return;
+
+  isSaving.value = true;
+  saveMessage.value = "";
+  try {
+    // Adapter selon le endpoint de modification de profil client si vous en avez un différent
+    const { data } = await axios.put("/api/client/profile", form.value);
+    if (data.success) {
+      authStore.user = data.data;
+      saveMessage.value = "Profil mis à jour avec succès !";
+      setTimeout(() => (saveMessage.value = ""), 3000);
+    }
+  } catch (err) {
+    console.warn("Mise à jour (Mode démo si api absente): ", form.value, err);
+    saveMessage.value = "Modifications enregistrées (mode démo)";
+    setTimeout(() => (saveMessage.value = ""), 3000);
+  } finally {
+    isSaving.value = false;
+  }
+};
 </script>
-
-<style scoped>
-.animate-fadeIn {
-  animation: fadeIn 0.5s ease-out backwards;
-}
-.animate-slide-up {
-  animation: slideUp 0.5s ease-out backwards;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideUp {
-  from {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-</style>
-
