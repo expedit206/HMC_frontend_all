@@ -2,43 +2,43 @@
   <div class="bg-background min-h-screen">
     <!-- ═══════════════════════════════ SKELETON ═══════════════════════════════ -->
     <div v-if="isLoading" class="max-w-7xl mx-auto px-4 py-8">
-      <div class="sk h-4 w-64 rounded mb-6"></div>
+      <div class="h-4 w-64 bg-muted rounded mb-6"></div>
       <div class="grid lg:grid-cols-3 gap-8">
         <div class="lg:col-span-2 space-y-6">
-          <div class=" rounded-2xl p-6 border border-border">
-            <div class="sk h-8 w-3/4 rounded mb-4"></div>
-            <div class="sk h-4 w-1/2 rounded mb-6"></div>
+          <div class="rounded-2xl p-6 border border-border bg-card">
+            <div class="h-8 w-3/4 bg-muted rounded mb-4"></div>
+            <div class="h-4 w-1/2 bg-muted rounded mb-6"></div>
             <div class="flex gap-6">
-              <div class="sk h-4 w-24 rounded"></div>
-              <div class="sk h-4 w-24 rounded"></div>
-              <div class="sk h-4 w-24 rounded"></div>
+              <div class="h-4 w-24 bg-muted rounded"></div>
+              <div class="h-4 w-24 bg-muted rounded"></div>
+              <div class="h-4 w-24 bg-muted rounded"></div>
             </div>
           </div>
-          <div class=" rounded-2xl p-6 border border-border">
-            <div class="sk h-72 w-full rounded-xl mb-4"></div>
+          <div class="rounded-2xl p-6 border border-border bg-card">
+            <div class="h-72 w-full bg-muted rounded-xl mb-4"></div>
             <div class="grid grid-cols-4 gap-3">
-              <div v-for="i in 4" :key="i" class="sk h-20 rounded-lg"></div>
+              <div v-for="i in 4" :key="i" class="h-20 bg-muted rounded-lg"></div>
             </div>
           </div>
-          <div class=" rounded-2xl p-6 border border-border space-y-3">
-            <div class="sk h-5 w-40 rounded"></div>
-            <div class="sk h-4 w-full rounded"></div>
-            <div class="sk h-4 w-5/6 rounded"></div>
-            <div class="sk h-4 w-4/6 rounded"></div>
+          <div class="rounded-2xl p-6 border border-border bg-card space-y-3">
+            <div class="h-5 w-40 bg-muted rounded"></div>
+            <div class="h-4 w-full bg-muted rounded"></div>
+            <div class="h-4 w-5/6 bg-muted rounded"></div>
+            <div class="h-4 w-4/6 bg-muted rounded"></div>
           </div>
         </div>
         <div class="lg:col-span-1 space-y-6">
-          <div class=" rounded-2xl p-6 border border-border">
-            <div class="sk h-10 w-2/3 rounded mb-6"></div>
-            <div class="sk h-12 w-full rounded-xl mb-3"></div>
-            <div class="sk h-12 w-full rounded-xl"></div>
+          <div class="rounded-2xl p-6 border border-border bg-card">
+            <div class="h-10 w-2/3 bg-muted rounded mb-6"></div>
+            <div class="h-12 w-full bg-muted rounded-xl mb-3"></div>
+            <div class="h-12 w-full bg-muted rounded-xl"></div>
           </div>
-          <div class=" rounded-2xl p-6 border border-border">
+          <div class="rounded-2xl p-6 border border-border bg-card">
             <div class="flex gap-4 mb-4">
-              <div class="sk w-16 h-16 rounded-full"></div>
+              <div class="w-16 h-16 bg-muted rounded-full"></div>
               <div class="space-y-2 flex-1">
-                <div class="sk h-4 w-32 rounded"></div>
-                <div class="sk h-3 w-24 rounded"></div>
+                <div class="h-4 w-32 bg-muted rounded"></div>
+                <div class="h-3 w-24 bg-muted rounded"></div>
               </div>
             </div>
           </div>
@@ -57,7 +57,7 @@
       </p>
       <RouterLink
         :to="{ name: 'Annonces' }"
-        class="inline-flex items-center gap-2 bg-secondary text-white px-6 py-3 rounded-xl font-semibold hover:bg-primary transition-colors"
+        class="inline-flex items-center gap-2 bg-secondary text-secondary-foreground px-6 py-3 rounded-xl font-semibold hover:bg-primary hover:text-primary-foreground transition-colors"
       >
         <i class="fas fa-arrow-left"></i> Retour aux annonces
       </RouterLink>
@@ -95,7 +95,7 @@
               <div class="flex-1 min-w-0">
                 <div class="flex items-center flex-wrap gap-2 mb-3">
                   <span
-                    class="px-4 py-1.5 bg-secondary text-white text-sm font-bold rounded-full"
+                    class="px-4 py-1.5 bg-secondary text-secondary-foreground text-sm font-bold rounded-full"
                   >
                     {{ property.type === "rent" ? "À louer" : "À vendre" }}
                   </span>
@@ -106,7 +106,7 @@
                   >
                   <span
                     v-if="property.etat"
-                    class="px-3 py-1.5 bg-green-100 text-green-800 text-xs font-medium rounded-full flex items-center gap-1"
+                    class="px-3 py-1.5 bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 text-xs font-medium rounded-full flex items-center gap-1"
                   >
                     <i class="fas fa-check-circle"></i> {{ property.etat }}
                   </span>
@@ -130,8 +130,8 @@
                   :class="[
                     'p-3 rounded-xl transition-all flex items-center gap-1.5',
                     property.is_favorite
-                      ? 'bg-red-500 text-white shadow-md'
-                      : ' text-muted-foreground hover:bg-red-50 hover:text-red-500',
+                      ? 'bg-destructive text-destructive-foreground shadow-md'
+                      : 'text-muted-foreground hover:bg-destructive/10 hover:text-destructive',
                   ]"
                   title="Ajouter aux favoris"
                 >
@@ -233,10 +233,10 @@
                   activeIndex = i;
                 "
                 :class="[
-                  'w-full h-16 md:h-20 object-cover rounded-lg cursor-pointer transition-all duration-200',
+                  'w-full h-16 md:h-20 object-cover rounded-lg cursor-pointer transition-all duration-200 border-2',
                   activeImage === img
-                    ? 'ring-2 ring-secondary ring-offset-2 scale-105'
-                    : 'opacity-70 hover:opacity-100 hover:scale-105',
+                    ? 'border-secondary scale-105'
+                    : 'border-transparent opacity-70 hover:opacity-100 hover:scale-105',
                 ]"
               />
             </div>
@@ -258,7 +258,7 @@
             <div
               class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 pt-6 border-t border-border"
             >
-              <div class="p-4 rounded-xl">
+              <div class="p-4 rounded-xl bg-muted/10">
                 <h4 class="font-bold text-primary mb-3 flex items-center gap-2">
                   <i class="fas fa-list-ul text-secondary text-sm"></i>
                   Caractéristiques
@@ -312,7 +312,7 @@
               </div>
 
               <!-- Commodités -->
-              <div class="p-4 rounded-xl">
+              <div class="p-4 rounded-xl bg-muted/10">
                 <h4 class="font-bold text-primary mb-3 flex items-center gap-2">
                   <i class="fas fa-star text-secondary text-sm"></i> Commodités
                 </h4>
@@ -346,7 +346,7 @@
                 <div
                   v-for="a in amenities"
                   :key="a"
-                  class="p-3 bg-gray-100 rounded-xl text-center hover:-translate-y-1 hover:shadow-md transition-all duration-300 group cursor-default"
+                  class="p-3 bg-muted/20 rounded-xl text-center hover:-translate-y-1 hover:shadow-md transition-all duration-300 group cursor-default border border-border"
                 >
                   <i
                     :class="`fas ${amenityIcon(a)} text-2xl text-secondary mb-2 group-hover:scale-110 transition-transform inline-block`"
@@ -397,7 +397,7 @@
                 <div class="flex items-start justify-between mb-2">
                   <div class="flex items-center gap-3">
                     <div
-                      class="w-10 h-10 bg-gradient-to-br from-secondary to-primary rounded-full flex items-center justify-center text-white font-bold text-sm shrink-0"
+                      class="w-10 h-10 bg-gradient-to-br from-secondary to-primary rounded-full flex items-center justify-center text-primary-foreground font-bold text-sm shrink-0"
                     >
                       {{ r.initials }}
                     </div>
@@ -441,7 +441,7 @@
                   <span class="text-muted-foreground text-sm">FCFA / mois</span>
                 </div>
                 <div
-                  class="text-sm text-muted-foreground bg-muted/50 rounded-lg p-3 space-y-1"
+                  class="text-sm text-muted-foreground bg-muted/20 rounded-lg p-3 space-y-1 border border-border"
                 >
                   <div class="flex items-center gap-2">
                     <i class="fas fa-shield-alt text-secondary/60 w-4"></i>
@@ -463,21 +463,21 @@
                 <!-- Bloc de Poursuite de la procédure locative (s'il y en a une en cours) -->
                 <div
                   v-if="activeProcess"
-                  class="bg-orange-50/80 border border-orange-200 p-4 rounded-xl shadow-sm text-center"
+                  class="bg-orange-50 dark:bg-orange-950/30 border border-orange-200 dark:border-orange-800 p-4 rounded-xl shadow-sm text-center"
                 >
                   <p
-                    class="text-[10px] text-[#E54801] font-black uppercase tracking-widest mb-1.5 flex items-center justify-center gap-1.5"
+                    class="text-[10px] text-orange-600 dark:text-orange-400 font-black uppercase tracking-widest mb-1.5 flex items-center justify-center gap-1.5"
                   >
                     <i class="fas fa-spinner animate-spin"></i> Procédure en
                     cours
                   </p>
-                  <p class="text-sm font-bold text-gray-800 mb-4">
+                  <p class="text-sm font-bold text-foreground mb-4">
                     {{ activeProcess.label }}
                   </p>
 
                   <RouterLink
                     :to="`/mon-suivi?property_id=${property.id}`"
-                    class="w-full py-2.5 bg-[#E54801] text-white rounded-lg font-bold hover:bg-[#c73d01] transition-all flex items-center justify-center gap-2 shadow-md hover:shadow-lg text-sm"
+                    class="w-full py-2.5 bg-orange-600 text-white rounded-lg font-bold hover:bg-orange-700 transition-all flex items-center justify-center gap-2 shadow-md hover:shadow-lg text-sm"
                   >
                     Suivre ma demande
                     <i class="fas fa-arrow-right ml-1"></i>
@@ -489,7 +489,7 @@
                   <RouterLink
                     v-if="property.type === 'rent'"
                     :to="`/locataire/formulaire-location?property_id=${property.id}`"
-                    class="w-full py-3 bg-[#1B0B38] text-white rounded-xl font-bold hover:bg-opacity-90 transition-all flex items-center justify-center gap-2 shadow-md hover:shadow-lg group"
+                    class="w-full py-3 bg-primary text-primary-foreground rounded-xl font-bold hover:bg-primary/90 transition-all flex items-center justify-center gap-2 shadow-md hover:shadow-lg group"
                   >
                     <i
                       class="fas fa-key group-hover:scale-110 transition-transform"
@@ -498,7 +498,7 @@
                   </RouterLink>
                   <RouterLink
                     :to="`/programmer-visite?property_id=${property.id}`"
-                    class="w-full py-3 bg-secondary text-white rounded-xl font-bold hover:bg-primary transition-all flex items-center justify-center gap-2 shadow-md hover:shadow-lg group"
+                    class="w-full py-3 bg-secondary text-secondary-foreground rounded-xl font-bold hover:bg-primary hover:text-primary-foreground transition-all flex items-center justify-center gap-2 shadow-md hover:shadow-lg group"
                   >
                     <i
                       class="fas fa-calendar-check group-hover:scale-110 transition-transform"
@@ -510,13 +510,13 @@
                 <a
                   :href="`tel:${ownerPhone}`"
                   v-if="ownerPhone"
-                  class="w-full py-3 bg-green-500 text-white rounded-xl font-bold hover:bg-green-600 transition-all flex items-center justify-center gap-2 shadow-sm"
+                  class="w-full py-3 bg-green-600 text-white rounded-xl font-bold hover:bg-green-700 transition-all flex items-center justify-center gap-2 shadow-sm"
                 >
                   <i class="fas fa-phone"></i> Appeler le propriétaire
                 </a>
                 <RouterLink
                   :to="{ name: 'Assistance' }"
-                  class="w-full py-3 border-2 border-secondary text-secondary rounded-xl font-bold hover:bg-secondary hover:text-white transition-all flex items-center justify-center gap-2"
+                  class="w-full py-3 border-2 border-secondary text-secondary rounded-xl font-bold hover:bg-secondary hover:text-primary transition-all flex items-center justify-center gap-2"
                 >
                   <i class="fas fa-headset"></i> Assistance
                 </RouterLink>
@@ -528,7 +528,7 @@
                 <p
                   class="text-sm text-blue-800 dark:text-blue-300 flex items-center gap-2"
                 >
-                  <i class="fas fa-clock text-blue-600"></i>
+                  <i class="fas fa-clock text-blue-600 dark:text-blue-400"></i>
                   Réponse moyenne : <strong>2 heures</strong>
                 </p>
               </div>
@@ -543,7 +543,7 @@
               </h3>
               <div class="flex items-center gap-4 mb-4">
                 <div
-                  class="w-14 h-14 bg-gradient-to-br from-secondary to-primary rounded-full flex items-center justify-center text-white text-lg font-bold shrink-0 overflow-hidden"
+                  class="w-14 h-14 bg-gradient-to-br from-secondary to-primary rounded-full flex items-center justify-center text-primary-foreground text-lg font-bold shrink-0 overflow-hidden"
                 >
                   <img
                     v-if="property.owner?.avatar_url"
@@ -564,7 +564,7 @@
                 <div class="flex items-center justify-between">
                   <span class="text-muted-foreground">Vérification</span>
                   <span
-                    class="px-2 py-0.5 bg-green-100 text-green-800 text-xs font-medium rounded-full flex items-center gap-1"
+                    class="px-2 py-0.5 bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 text-xs font-medium rounded-full flex items-center gap-1"
                   >
                     <i class="fas fa-check-circle"></i> Vérifié
                   </span>
@@ -590,13 +590,13 @@
               </h3>
               <!-- Mini carte placeholder stylisée -->
               <div
-                class="rounded-xl overflow-hidden mb-4 relative bg-gradient-to-br from-green-50 to-green-100 dark:from-green-950/30 dark:to-green-900/30 h-44 flex items-center justify-center border border-green-200/50"
+                class="rounded-xl overflow-hidden mb-4 relative bg-gradient-to-br from-green-50 to-green-100 dark:from-green-950/30 dark:to-green-900/30 h-44 flex items-center justify-center border border-green-200/50 dark:border-green-800/30"
               >
                 <div class="text-center">
                   <div
                     class="w-12 h-12 bg-secondary rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg animate-bounce-slow"
                   >
-                    <i class="fas fa-map-marker-alt text-white text-xl"></i>
+                    <i class="fas fa-map-marker-alt text-secondary-foreground text-xl"></i>
                   </div>
                   <p class="text-sm font-semibold text-foreground">
                     {{ property.city }}
@@ -644,7 +644,7 @@
                 class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500"
               />
               <span
-                class="absolute top-3 left-3 px-3 py-1 bg-secondary text-white text-xs font-bold rounded-full"
+                class="absolute top-3 left-3 px-3 py-1 bg-secondary text-secondary-foreground text-xs font-bold rounded-full"
               >
                 {{ formatPrice(s.price) }} F
               </span>
@@ -684,7 +684,7 @@
                   >
                 </div>
                 <span
-                  class="px-2.5 py-1 bg-secondary/10 text-secondary rounded-lg font-medium group-hover:bg-secondary group-hover:text-white transition-all"
+                  class="px-2.5 py-1 bg-secondary/10 text-secondary rounded-lg font-medium group-hover:bg-secondary group-hover:text-secondary-foreground transition-all"
                 >
                   Voir
                 </span>
@@ -721,9 +721,8 @@ const activeIndex = ref(0);
 const activeProcess = computed(() => {
   if (!property.value || !authStore.user) return null;
   const process = rentalStore.processPhaseForProperty(property.value.id);
-  // Retourner null s'il n'y a pas de visite ou si la visite a été annulée/rejetée et pas de contrat.
   if (!process) return null;
-  if (process.status === "cancelled") return null; // Pas pertinent de bloquer
+  if (process.status === "cancelled") return null;
   return process;
 });
 
@@ -814,14 +813,11 @@ const fetchProperty = async (slug) => {
     if (data.success) {
       property.value = data.data;
       similarProperties.value = data.similar ?? [];
-      // Initialiser la galerie
       const imgs = data.data.all_images;
       activeImage.value = imgs?.length ? imgs[0] : (data.data.image ?? "");
       activeIndex.value = 0;
-      // Mettre à jour le titre de la page
       document.title = `${data.data.title} | Home Cameroun`;
 
-      // Si connecté, charger les informations du suivi locatif
       if (authStore.user) {
         await Promise.all([
           rentalStore.fetchVisits(),
@@ -898,11 +894,12 @@ watch(
 
 <style scoped>
 /* Skeleton shimmer */
-.sk {
-  background-color: rgba(200, 200, 200, 0.264);
+.bg-muted {
+  background: linear-gradient(90deg, hsl(var(--muted)) 25%, hsl(var(--muted)/0.5) 50%, hsl(var(--muted)) 75%);
   background-size: 200% 100%;
   animation: shimmer 1.6s ease-in-out infinite;
 }
+
 @keyframes shimmer {
   0% {
     background-position: 200% 0;

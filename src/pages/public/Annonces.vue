@@ -10,12 +10,12 @@
       </div>
       <div class="flex gap-3">
         <button @click="showMobileFilters = true"
-          class="flex-1 flex items-center justify-center gap-2 bg-background border border-border rounded-lg px-4 py-2 shadow-sm">
+          class="flex-1 flex items-center justify-center gap-2 bg-background border border-border rounded-lg px-4 py-2 shadow-sm hover:bg-muted/20 transition-colors">
           <i class="fas fa-filter text-primary"></i>
           <span class="font-semibold text-foreground">Filtres</span>
         </button>
-        <button
-          class="flex-1 flex items-center justify-center gap-2 bg-background border border-border rounded-lg px-4 py-2 shadow-sm">
+        <button @click="showSortDropdown = !showSortDropdown"
+          class="flex-1 flex items-center justify-center gap-2 bg-background border border-border rounded-lg px-4 py-2 shadow-sm hover:bg-muted/20 transition-colors">
           <i class="fas fa-sort-amount-down text-primary"></i>
           <span class="font-semibold text-foreground">Trier</span>
         </button>
@@ -42,7 +42,7 @@
               <div class="relative">
                 <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground"></i>
                 <input v-model="filters.search" type="text" placeholder="Rechercher un bien..."
-                  class="w-full bg-background border border-input rounded-[.45rem] pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent transition-all" />
+                  class="w-full bg-background border border-input rounded-[.45rem] pl-10 pr-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent transition-all" />
               </div>
             </div>
 
@@ -61,9 +61,10 @@
                 <div v-show="openSections.types">
                   <div class="grid grid-cols-2 gap-1">
                     <label v-for="type in propertyTypes" :key="type.value"
-                      class="flex items-center p-2 hover:bg-muted/50 rounded-[.45rem] cursor-pointer transition-colors">
+                      class="flex items-center p-2 hover:bg-muted/50 rounded-[.45rem] cursor-pointer transition-colors"
+                      :class="{ 'bg-secondary/10': filters.types.includes(type.value) }">
                       <input type="checkbox" :value="type.value" v-model="filters.types"
-                        class="mr-2 w-4 h-4 rounded border-input text-secondary focus:ring-secondary" />
+                        class="mr-2 w-4 h-4 rounded border-input text-secondary focus:ring-secondary focus:ring-2 bg-background" />
                       <span class="text-foreground/80 text-sm">{{
                         type.label
                       }}</span>
@@ -87,14 +88,15 @@
                     <i
                       class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground text-sm"></i>
                     <input type="text" placeholder="Rechercher une ville..."
-                      class="w-full bg-background border border-input rounded-[.45rem] pl-10 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent" />
+                      class="w-full bg-background border border-input rounded-[.45rem] pl-10 pr-4 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent" />
                   </div>
                   <div class="max-h-40 overflow-y-auto custom-scrollbar">
                     <label v-for="city in cities" :key="city.value"
-                      class="flex items-center justify-between p-2 hover:bg-muted/50 rounded-[.45rem] cursor-pointer transition-colors">
+                      class="flex items-center justify-between p-2 hover:bg-muted/50 rounded-[.45rem] cursor-pointer transition-colors"
+                      :class="{ 'bg-secondary/10': filters.cities.includes(city.value) }">
                       <div class="flex items-center">
                         <input type="checkbox" :value="city.value" v-model="filters.cities"
-                          class="mr-3 w-4 h-4 rounded border-input text-secondary focus:ring-secondary" />
+                          class="mr-3 w-4 h-4 rounded border-input text-secondary focus:ring-secondary focus:ring-2 bg-background" />
                         <span class="text-foreground/80 text-sm">{{
                           city.label
                         }}</span>
@@ -117,9 +119,9 @@
                 <div v-show="openSections.price">
                   <div class="flex space-x-3 mb-3">
                     <input v-model.number="filters.minPrice" type="number" placeholder="Min"
-                      class="w-full bg-background border border-input rounded-[.45rem] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent" />
+                      class="w-full bg-background border border-input rounded-[.45rem] px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent" />
                     <input v-model.number="filters.maxPrice" type="number" placeholder="Max"
-                      class="w-full bg-background border border-input rounded-[.45rem] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent" />
+                      class="w-full bg-background border border-input rounded-[.45rem] px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent" />
                   </div>
                   <div class="mb-2">
                     <input type="range" min="10000" max="1000000" step="10000"
@@ -144,9 +146,9 @@
                 <div v-show="openSections.surface">
                   <div class="flex space-x-3 mb-3">
                     <input type="number" placeholder="Min"
-                      class="w-full bg-background border border-input rounded-[.45rem] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent" />
+                      class="w-full bg-background border border-input rounded-[.45rem] px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent" />
                     <input type="number" placeholder="Max"
-                      class="w-full bg-background border border-input rounded-[.45rem] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent" />
+                      class="w-full bg-background border border-input rounded-[.45rem] px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent" />
                   </div>
                   <div class="mb-2">
                     <input type="range" min="10" max="500" step="10"
@@ -174,7 +176,7 @@
                       'px-4 py-2 border rounded-full text-sm font-medium transition-colors',
                       filters.minRooms === 0
                         ? 'bg-secondary border-secondary text-white'
-                        : 'border-border hover:border-secondary hover:text-secondary bg-background',
+                        : 'border-border hover:border-secondary hover:text-secondary bg-background text-foreground',
                     ]">
                       Toutes
                     </button>
@@ -182,7 +184,7 @@
                       'px-4 py-2 border rounded-full text-sm font-medium transition-colors',
                       filters.minRooms === -1
                         ? 'bg-secondary border-secondary text-white'
-                        : 'border-border hover:border-secondary hover:text-secondary bg-background',
+                        : 'border-border hover:border-secondary hover:text-secondary bg-background text-foreground',
                     ]">
                       Studio
                     </button>
@@ -192,7 +194,7 @@
                         'px-4 py-2 border rounded-full text-sm font-medium transition-colors',
                         filters.minRooms === room
                           ? 'bg-secondary border-secondary text-white'
-                          : 'border-border hover:border-secondary hover:text-secondary bg-background',
+                          : 'border-border hover:border-secondary hover:text-secondary bg-background text-foreground',
                       ]">
                       {{ room }}{{ room === 4 ? "+" : "" }}
                     </button>
@@ -214,10 +216,9 @@
                   <div class="grid grid-cols-2 gap-1">
                     <label v-for="e in etats" :key="e.value"
                       class="flex items-center p-2 hover:bg-muted/50 rounded-[.45rem] cursor-pointer transition-colors"
-                      :class="filters.etats.includes(e.value) ? 'bg-secondary/10' : ''
-                        ">
+                      :class="{ 'bg-secondary/10': filters.etats.includes(e.value) }">
                       <input type="checkbox" :value="e.value" v-model="filters.etats"
-                        class="mr-2 w-4 h-4 rounded border-input text-secondary focus:ring-secondary" />
+                        class="mr-2 w-4 h-4 rounded border-input text-secondary focus:ring-secondary focus:ring-2 bg-background" />
                       <span class="text-foreground/80 text-sm">{{
                         e.label
                       }}</span>
@@ -240,12 +241,9 @@
                   <div class="grid grid-cols-2 gap-1">
                     <label v-for="a in amenitiesList" :key="a.value"
                       class="flex items-center p-2 hover:bg-muted/50 rounded-[.45rem] cursor-pointer transition-colors"
-                      :class="filters.amenities.includes(a.value)
-                          ? 'bg-secondary/10'
-                          : ''
-                        ">
+                      :class="{ 'bg-secondary/10': filters.amenities.includes(a.value) }">
                       <input type="checkbox" :value="a.value" v-model="filters.amenities"
-                        class="mr-2 w-4 h-4 rounded border-input text-secondary focus:ring-secondary" />
+                        class="mr-2 w-4 h-4 rounded border-input text-secondary focus:ring-secondary focus:ring-2 bg-background" />
                       <span class="text-foreground/80 text-sm">{{
                         a.label
                       }}</span>
@@ -273,7 +271,7 @@
                 </span>
               </div>
               <button v-if="activeFiltersCount > 0" @click="resetFilters"
-                class="text-xs text-red-500 hover:text-red-600 font-medium flex items-center gap-1 transition-colors">
+                class="text-xs text-destructive hover:text-destructive/80 font-medium flex items-center gap-1 transition-colors">
                 <i class="fas fa-times"></i> Effacer
               </button>
             </div>
@@ -290,7 +288,7 @@
                   <span class="text-secondary font-semibold">{{ pagination.total }} annonces</span>
                   trouvées
                 </h1>
-                <p class="text-foreground/60 mt-1">
+                <p class="text-muted-foreground mt-1">
                   Affinez votre recherche avec les filtres pour trouver le
                   logement idéal
                 </p>
@@ -299,7 +297,7 @@
                 <!-- Bouton Trier avec dropdown -->
                 <div class="relative">
                   <button @click="showSortDropdown = !showSortDropdown"
-                    class="flex items-center gap-2 border border-border rounded-[.45rem] px-4 py-2.5 text-sm font-medium hover:border-secondary hover:text-secondary transition-colors bg-background">
+                    class="flex items-center gap-2 border border-border rounded-[.45rem] px-4 py-2.5 text-sm font-medium hover:border-secondary hover:text-secondary transition-colors bg-background text-foreground">
                     <i class="fas fa-sort-amount-down"></i>
                     Trier par: {{ sortLabels[sortBy] }}
                     <i class="fas fa-chevron-down ml-1 text-xs"></i>
@@ -311,7 +309,7 @@
                         sortBy = opt.value;
                       showSortDropdown = false;
                       "
-                        class="w-full text-left px-4 py-2 text-sm hover:bg-muted/50 flex justify-between items-center">
+                        class="w-full text-left px-4 py-2 text-sm hover:bg-muted/50 text-foreground flex justify-between items-center">
                         {{ opt.label }}
                         <i v-if="sortBy === opt.value" class="fas fa-check text-secondary"></i>
                       </button>
@@ -319,7 +317,7 @@
                   </div>
                 </div>
                 <button
-                  class="flex items-center gap-2 border border-border rounded-[.45rem] px-4 py-2.5 text-sm font-medium hover:border-secondary hover:text-secondary transition-colors bg-background">
+                  class="flex items-center gap-2 border border-border rounded-[.45rem] px-4 py-2.5 text-sm font-medium hover:border-secondary hover:text-secondary transition-colors bg-background text-foreground">
                   <i class="fas fa-map-marker-alt"></i>
                   Carte
                 </button>
@@ -333,7 +331,7 @@
               <span v-for="city in filters.cities" :key="city"
                 class="px-3 py-1.5 bg-secondary text-white text-sm rounded-full flex items-center gap-2">
                 {{ city }}
-                <button class="text-white hover:text-gray-200" @click="
+                <button class="text-white hover:text-white/80" @click="
                   filters.cities = filters.cities.filter((c) => c !== city)
                   ">
                   <i class="fas fa-times text-xs"></i>
@@ -343,17 +341,17 @@
               <span v-for="type in filters.types" :key="type"
                 class="px-3 py-1.5 bg-secondary text-white text-sm rounded-full flex items-center gap-2">
                 {{ type }}
-                <button class="text-white hover:text-gray-200" @click="
+                <button class="text-white hover:text-white/80" @click="
                   filters.types = filters.types.filter((t) => t !== type)
                   ">
                   <i class="fas fa-times text-xs"></i>
                 </button>
               </span>
 
-              <span v-if="filters.minRooms"
+              <span v-if="filters.minRooms && filters.minRooms !== 0"
                 class="px-3 py-1.5 bg-secondary text-white text-sm rounded-full flex items-center gap-2">
-                {{ filters.minRooms }}+ chambres
-                <button class="text-white hover:text-gray-200" @click="filters.minRooms = 0">
+                {{ filters.minRooms === -1 ? 'Studio' : filters.minRooms + '+ chambres' }}
+                <button class="text-white hover:text-white/80" @click="filters.minRooms = 0">
                   <i class="fas fa-times text-xs"></i>
                 </button>
               </span>
@@ -379,18 +377,18 @@
               <div v-for="n in 4" :key="n"
                 class="bg-card rounded-[.45rem] shadow-lg overflow-hidden border border-border">
                 <div class="flex flex-col md:flex-row">
-                  <div class="md:w-2/5 h-56 md:h-48 sk"></div>
+                  <div class="md:w-2/5 h-56 md:h-48 bg-muted/50"></div>
                   <div class="md:w-3/5 p-6 space-y-3">
-                    <div class="sk h-6 w-3/4 rounded"></div>
-                    <div class="sk h-4 w-full rounded"></div>
-                    <div class="sk h-4 w-4/5 rounded"></div>
+                    <div class="h-6 w-3/4 bg-muted rounded"></div>
+                    <div class="h-4 w-full bg-muted rounded"></div>
+                    <div class="h-4 w-4/5 bg-muted rounded"></div>
                     <div class="flex gap-4 pt-2">
-                      <div class="sk h-4 w-20 rounded"></div>
-                      <div class="sk h-4 w-20 rounded"></div>
-                      <div class="sk h-4 w-20 rounded"></div>
+                      <div class="h-4 w-20 bg-muted rounded"></div>
+                      <div class="h-4 w-20 bg-muted rounded"></div>
+                      <div class="h-4 w-20 bg-muted rounded"></div>
                     </div>
                     <div class="flex justify-end pt-2">
-                      <div class="sk h-10 w-36 rounded-[.45rem]"></div>
+                      <div class="h-10 w-36 bg-muted rounded-[.45rem]"></div>
                     </div>
                   </div>
                 </div>
@@ -443,10 +441,10 @@
                           {{ property.title }}
                         </h2>
                         <button @click.prevent="toggleFavorite(property.id)"
-                          class="text-muted-foreground hover:text-red-500 transition-colors">
+                          class="text-muted-foreground hover:text-destructive transition-colors">
                           <i :class="[
                             isFavorite(property.id)
-                              ? 'fas text-red-500'
+                              ? 'fas text-destructive'
                               : 'far',
                             'fa-heart text-xl',
                           ]"></i>
@@ -489,8 +487,8 @@
                       <!-- Bailleur -->
                       <div v-if="property.owner" class="flex items-center gap-2 text-sm text-muted-foreground mr-auto">
                         <img v-if="property.owner.avatar_url" :src="property.owner.avatar_url"
-                          class="w-6 h-6 rounded-full object-cover" />
-                        <i v-else class="fas fa-user-circle text-lg"></i>
+                          class="w-6 h-6 rounded-full object-cover border border-border" />
+                        <i v-else class="fas fa-user-circle text-lg text-muted-foreground"></i>
                         <span>{{ property.owner.name }}</span>
                       </div>
                     </div>
@@ -499,9 +497,9 @@
                       <div>
                         <div class="text-secondary font-bold text-2xl">
                           {{ formatPrice(property.price) }} F
-                          <span class="text-foreground/60 font-normal text-base">/ mois</span>
+                          <span class="text-muted-foreground font-normal text-base">/ mois</span>
                         </div>
-                        <p class="text-sm text-foreground/50">
+                        <p class="text-sm text-muted-foreground/70">
                           Charges incluses
                         </p>
                       </div>
@@ -519,7 +517,7 @@
           <!-- Pagination -->
           <div v-if="totalPages > 1" class="flex items-center justify-center gap-2 mt-10">
             <button @click="currentPage = Math.max(1, currentPage - 1)" :disabled="currentPage === 1"
-              class="w-10 h-10 rounded-[.45rem] border border-border flex items-center justify-center disabled:opacity-50 hover:bg-muted transition-colors">
+              class="w-10 h-10 rounded-[.45rem] border border-border flex items-center justify-center disabled:opacity-50 hover:bg-muted transition-colors bg-background text-foreground">
               <i class="fas fa-chevron-left text-muted-foreground"></i>
             </button>
             <button v-for="page in pageNumbers" :key="page" @click="currentPage = page" :class="[
@@ -531,7 +529,7 @@
               {{ page }}
             </button>
             <button @click="currentPage = Math.min(totalPages, currentPage + 1)" :disabled="currentPage === totalPages"
-              class="w-10 h-10 rounded-[.45rem] border border-border flex items-center justify-center disabled:opacity-50 hover:bg-muted transition-colors">
+              class="w-10 h-10 rounded-[.45rem] border border-border flex items-center justify-center disabled:opacity-50 hover:bg-muted transition-colors bg-background text-foreground">
               <i class="fas fa-chevron-right text-muted-foreground"></i>
             </button>
           </div>
@@ -752,7 +750,7 @@ const activeFiltersCount = computed(() => {
   if (filters.value.etats.length) c++;
   if (filters.value.amenities.length) c++;
   if (filters.value.minPrice || filters.value.maxPrice) c++;
-  if (filters.value.minRooms > 0) c++;
+  if (filters.value.minRooms && filters.value.minRooms !== 0) c++;
   return c;
 });
 
@@ -832,20 +830,59 @@ const formatPrice = (price) => new Intl.NumberFormat("fr-FR").format(price);
   background: hsl(var(--primary) / 0.8);
 }
 
-/* Skeleton shimmer */
-.sk {
-  background: linear-gradient(90deg, #e5e7eb 25%, #f3f4f6 50%, #e5e7eb 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.6s ease-in-out infinite;
-}
-
+/* Animation de chargement */
 @keyframes shimmer {
   0% {
-    background-position: 200% 0;
-  }
-
-  100% {
     background-position: -200% 0;
   }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.bg-muted\/50 {
+  background: linear-gradient(90deg, hsl(var(--muted)) 25%, hsl(var(--muted)/0.3) 50%, hsl(var(--muted)) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+/* Style pour l'input range */
+input[type=range] {
+  -webkit-appearance: none;
+  background: transparent;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: hsl(var(--secondary));
+  cursor: pointer;
+  margin-top: -6px;
+  border: 2px solid hsl(var(--background));
+}
+
+input[type=range]::-moz-range-thumb {
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: hsl(var(--secondary));
+  cursor: pointer;
+  border: 2px solid hsl(var(--background));
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 4px;
+  background: hsl(var(--secondary) / 0.3);
+  border-radius: 2px;
+}
+
+input[type=range]::-moz-range-track {
+  width: 100%;
+  height: 4px;
+  background: hsl(var(--secondary) / 0.3);
+  border-radius: 2px;
 }
 </style>

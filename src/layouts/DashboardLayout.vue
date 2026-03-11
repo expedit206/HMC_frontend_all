@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-[#F8F9FA] text-gray-800 antialiased flex overflow-hidden h-full w-full"
+    class="bg-background text-foreground antialiased flex overflow-hidden h-full w-full"
   >
     <!-- SIDEBAR UNIQUE -->
     <UnifiedSidebar
@@ -21,7 +21,7 @@
     <button
       v-if="!mobileMenuOpen"
       @click="mobileMenuOpen = true"
-      class="mobile-sidebar-toggle fixed left-0 top-1/2 -translate-y-1/2 z-30 lg:hidden w-6 h-14 bg-[#1B0B38]/80 backdrop-blur-md text-white rounded-r-xl shadow-lg flex items-center justify-center hover:w-8 hover:bg-[#1B0B38] active:scale-95 transition-all duration-200"
+      class="mobile-sidebar-toggle fixed left-0 top-1/2 -translate-y-1/2 z-30 lg:hidden w-6 h-14 bg-primary/80 backdrop-blur-md text-primary-foreground rounded-r-xl shadow-lg flex items-center justify-center hover:w-8 hover:bg-primary active:scale-95 transition-all duration-200"
       aria-label="Ouvrir le menu"
     >
       <i class="fas fa-chevron-right text-xs"></i>
@@ -31,7 +31,7 @@
     <div class="flex-1 flex flex-col h-full overflow-hidden">
       <!-- CONTENU DE LA PAGE -->
       <main
-        class="flex-1 overflow-y-auto p-4 pt-4 lg:p-10 bg-[#F8F9FB] scroll-smooth"
+        class="flex-1 overflow-y-auto p-4 pt-4 lg:p-10 bg-muted/20 scroll-smooth"
       >
         <slot />
       </main>
@@ -52,3 +52,39 @@ const authStore = useAuthStore();
 const sidebarExpanded = ref(true);
 const mobileMenuOpen = ref(false);
 </script>
+
+<style scoped>
+/* Styles supplémentaires si nécessaires */
+.mobile-sidebar-toggle {
+  border-top-right-radius: 9999px;
+  border-bottom-right-radius: 9999px;
+}
+
+/* Pour que le contenu principal prenne bien toute la hauteur */
+html, body, #app {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* Scrollbar personnalisée pour le main */
+main::-webkit-scrollbar {
+  width: 6px;
+}
+
+main::-webkit-scrollbar-track {
+  background: hsl(var(--muted) / 0.2);
+  border-radius: 10px;
+}
+
+main::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary) / 0.3);
+  border-radius: 10px;
+}
+
+main::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary) / 0.5);
+}
+</style>
