@@ -3,15 +3,15 @@
     <div class="max-w-[1600px] mx-auto w-full relative">
       <!-- Hero Banner -->
       <div
-        class="relative bg-[#1B0B38] rounded-[2.5rem] p-8 lg:p-12 text-white overflow-hidden mb-12 shadow-2xl"
+        class="relative bg-primary rounded-[2.5rem] p-8 lg:p-12 text-primary-foreground overflow-hidden mb-12 shadow-2xl"
       >
         <div class="relative z-10 max-w-2xl">
           <h1 class="text-3xl md:text-4xl lg:text-5xl font-black mb-4">
             Bonjour,
-            <span class="text-[#E54801]">{{ userName }}</span> !
+            <span class="text-secondary">{{ userName }}</span> !
           </h1>
           <p
-            class="text-white/70 text-base md:text-lg font-medium leading-relaxed mb-8"
+            class="text-primary-foreground/70 text-base md:text-lg font-medium leading-relaxed mb-8"
           >
             Votre espace personnel est prêt. Choisissez votre rôle pour
             maximiser votre expérience immobilière.
@@ -19,7 +19,7 @@
           <div class="flex flex-col sm:flex-row gap-4">
             <a
               href="#roles"
-              class="px-8 py-4 bg-[#E54801] text-white rounded-2xl font-black hover:bg-[#913327] transition shadow-lg text-center flex items-center justify-center gap-2"
+              class="px-8 py-4 bg-secondary text-secondary-foreground rounded-2xl font-black hover:bg-secondary/90 transition shadow-lg text-center flex items-center justify-center gap-2"
             >
               <i class="fas fa-bolt"></i> Découvrir les rôles
             </a>
@@ -58,7 +58,7 @@
           </div>
           <RouterLink
             to="/mon-suivi"
-            class="w-full md:w-auto px-8 py-4 bg-white text-blue-700 rounded-xl font-black hover:bg-gray-50 transition shadow-md whitespace-nowrap text-center"
+            class="w-full md:w-auto px-8 py-4 bg-white text-blue-700 rounded-xl font-black hover:bg-gray-50 dark:hover:bg-gray-100 transition shadow-md whitespace-nowrap text-center"
           >
             Voir mon suivi <i class="fas fa-arrow-right ml-2"></i>
           </RouterLink>
@@ -68,11 +68,11 @@
       <!-- Section Rôles -->
       <section id="roles" class="mb-16">
         <div class="text-center max-w-3xl mx-auto mb-12">
-          <h2 class="text-2xl md:text-3xl font-black text-[#1B0B38] mb-4">
+          <h2 class="text-2xl md:text-3xl font-black text-foreground mb-4">
             Choisissez votre rôle
-            <span class="text-[#E54801]">HomeCameroon</span>
+            <span class="text-secondary">HomeCameroon</span>
           </h2>
-          <p class="text-gray-600">
+          <p class="text-muted-foreground">
             Rejoignez notre communauté et bénéficiez d'avantages exclusifs
           </p>
         </div>
@@ -81,7 +81,7 @@
           <div
             v-for="role in roles"
             :key="role.label"
-            class="bg-white rounded-3xl p-6 shadow-sm border hover:shadow-lg transition-all group cursor-pointer"
+            class="bg-card rounded-3xl p-6 shadow-sm border hover:shadow-lg transition-all group cursor-pointer"
             :class="role.border"
           >
             <div class="flex gap-5 mb-6">
@@ -91,10 +91,10 @@
                 <i :class="`fas fa-${role.icon}`"></i>
               </div>
               <div>
-                <h3 class="text-lg font-bold text-[#1B0B38] mb-2">
+                <h3 class="text-lg font-bold text-foreground mb-2">
                   {{ role.title }}
                 </h3>
-                <p class="text-sm text-gray-500">{{ role.desc }}</p>
+                <p class="text-sm text-muted-foreground">{{ role.desc }}</p>
               </div>
             </div>
             <div class="flex items-center justify-between">
@@ -114,22 +114,22 @@
 
         <!-- Bannière conseil -->
         <div
-          class="bg-gradient-to-r from-[#E54801]/10 to-[#913327]/10 rounded-3xl p-8 mb-12"
+          class="bg-gradient-to-r from-secondary/10 to-secondary/20 rounded-3xl p-8 mb-12"
         >
           <div
             class="flex flex-col md:flex-row items-center justify-between gap-4"
           >
             <div>
-              <h3 class="text-2xl font-black text-[#1B0B38] mb-2">
+              <h3 class="text-2xl font-black text-foreground mb-2">
                 Vous hésitez sur le rôle à choisir ?
               </h3>
-              <p class="text-gray-600">
+              <p class="text-muted-foreground">
                 Nos conseillers sont à votre disposition
               </p>
             </div>
             <RouterLink
               :to="{ name: 'Assistance' }"
-              class="px-8 py-4 bg-[#E54801] text-white rounded-2xl font-bold hover:bg-[#913327] transition shadow-lg whitespace-nowrap flex items-center gap-2"
+              class="px-8 py-4 bg-secondary text-secondary-foreground rounded-2xl font-bold hover:bg-secondary/90 transition shadow-lg whitespace-nowrap flex items-center gap-2"
             >
               <i class="fas fa-comment-dots"></i> Parler à un conseiller
             </RouterLink>
@@ -145,16 +145,16 @@
           <section>
             <div class="flex justify-between items-end mb-8">
               <div>
-                <h2 class="text-2xl font-black text-[#1B0B38] italic">
+                <h2 class="text-2xl font-black text-foreground italic">
                   Annonces à la une
                 </h2>
-                <p class="text-sm text-gray-400 font-medium">
+                <p class="text-sm text-muted-foreground font-medium">
                   Découvrez notre sélection exclusive
                 </p>
               </div>
               <RouterLink
                 :to="{ name: 'Annonces' }"
-                class="text-[#E54801] font-black text-xs uppercase tracking-widest hover:underline"
+                class="text-secondary font-black text-xs uppercase tracking-widest hover:underline"
                 >Tout voir</RouterLink
               >
             </div>
@@ -162,7 +162,7 @@
               <div
                 v-for="listing in featuredListings"
                 :key="listing.title"
-                class="bg-white p-5 rounded-[2.5rem] shadow-sm border border-gray-50 hover:shadow-lg transition group"
+                class="bg-card p-5 rounded-[2.5rem] shadow-sm border border-border hover:shadow-lg transition group"
               >
                 <div
                   class="relative h-56 rounded-[1.8rem] overflow-hidden mb-5"
@@ -173,28 +173,28 @@
                     class="w-full h-full object-cover group-hover:scale-110 transition duration-700"
                   />
                   <button
-                    class="absolute top-4 right-4 w-10 h-10 bg-white/90 backdrop-blur rounded-full text-[#E54801] flex items-center justify-center shadow-md"
+                    class="absolute top-4 right-4 w-10 h-10 bg-card/90 backdrop-blur rounded-full text-secondary flex items-center justify-center shadow-md border border-border"
                   >
                     <i class="fas fa-heart"></i>
                   </button>
                 </div>
-                <h3 class="font-bold text-[#1B0B38] text-lg px-2">
+                <h3 class="font-bold text-foreground text-lg px-2">
                   {{ listing.title }}
                 </h3>
                 <p
-                  class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-4 px-2"
+                  class="text-xs text-muted-foreground font-bold uppercase tracking-wider mb-4 px-2"
                 >
                   {{ listing.location }}
                 </p>
                 <div
-                  class="flex justify-between items-center p-4 border-t border-gray-50"
+                  class="flex justify-between items-center p-4 border-t border-border"
                 >
-                  <span class="text-[#E54801] font-black">{{
+                  <span class="text-secondary font-black">{{
                     listing.price
                   }}</span>
                   <RouterLink
                     :to="{ name: 'DetailAnnonce', params: { id: 1 } }"
-                    class="w-10 h-10 rounded-xl bg-[#1B0B38] text-white flex items-center justify-center hover:bg-[#E54801] transition shadow-md"
+                    class="w-10 h-10 rounded-xl bg-primary text-primary-foreground flex items-center justify-center hover:bg-secondary transition shadow-md"
                   >
                     <i class="fas fa-arrow-right"></i>
                   </RouterLink>
@@ -207,16 +207,16 @@
           <section>
             <div class="flex justify-between items-end mb-8">
               <div>
-                <h2 class="text-2xl font-black text-[#1B0B38] italic">
+                <h2 class="text-2xl font-black text-foreground italic">
                   Marketplace HMC
                 </h2>
-                <p class="text-sm text-gray-400 font-medium">
+                <p class="text-sm text-muted-foreground font-medium">
                   Équipez votre intérieur en un clic
                 </p>
               </div>
               <RouterLink
                 :to="{ name: 'MarketplaceIndex' }"
-                class="text-[#E54801] font-black text-xs uppercase tracking-widest hover:underline"
+                class="text-secondary font-black text-xs uppercase tracking-widest hover:underline"
                 >Accéder au market</RouterLink
               >
             </div>
@@ -224,19 +224,19 @@
               <div
                 v-for="item in marketItems"
                 :key="item.name"
-                class="bg-white p-4 rounded-3xl shadow-sm border border-gray-50 hover:border-[#E54801] transition text-center group"
+                class="bg-card p-4 rounded-3xl shadow-sm border border-border hover:border-secondary transition text-center group"
               >
-                <div class="h-32 rounded-2xl overflow-hidden mb-4 bg-gray-50">
+                <div class="h-32 rounded-2xl overflow-hidden mb-4 bg-muted/20">
                   <img
                     :src="item.img"
                     :alt="item.name"
                     class="w-full h-full object-cover group-hover:scale-110 transition"
                   />
                 </div>
-                <h4 class="font-bold text-sm text-[#1B0B38]">
+                <h4 class="font-bold text-sm text-foreground">
                   {{ item.name }}
                 </h4>
-                <p class="text-[#E54801] font-black mt-1">{{ item.price }}</p>
+                <p class="text-secondary font-black mt-1">{{ item.price }}</p>
               </div>
             </div>
           </section>
@@ -246,9 +246,9 @@
         <div class="space-y-12">
           <!-- Tendances Immo -->
           <section
-            class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-gray-50"
+            class="bg-card p-8 rounded-[2.5rem] shadow-sm border border-border"
           >
-            <h3 class="text-xl font-black text-[#1B0B38] italic mb-6">
+            <h3 class="text-xl font-black text-foreground italic mb-6">
               Tendances Immo
             </h3>
             <div class="space-y-6">
@@ -259,11 +259,11 @@
                   <i class="fas fa-location-dot"></i>
                 </div>
                 <div>
-                  <p class="text-sm font-bold text-[#1B0B38]">
+                  <p class="text-sm font-bold text-foreground">
                     {{ trend.city }}
                   </p>
                   <p
-                    class="text-xs text-gray-400 font-bold uppercase tracking-widest mt-1"
+                    class="text-xs text-muted-foreground font-bold uppercase tracking-widest mt-1"
                   >
                     {{ trend.stat }}
                   </p>
@@ -274,23 +274,23 @@
 
           <!-- CTA Pro -->
           <section
-            class="bg-[#1B0B38] p-8 rounded-[2.5rem] text-white relative overflow-hidden shadow-xl"
+            class="bg-primary p-8 rounded-[2.5rem] text-primary-foreground relative overflow-hidden shadow-xl"
           >
             <div class="relative z-10">
               <h3 class="text-xl font-black italic mb-3">🚀 Devenir Pro ?</h3>
-              <p class="text-white/70 text-sm mb-6">
+              <p class="text-primary-foreground/70 text-sm mb-6">
                 Maximisez vos revenus avec HomeCameroon
               </p>
               <div class="space-y-4">
                 <RouterLink
                   :to="{ name: 'BailleurFormulaire' }"
-                  class="block w-full px-6 py-4 bg-[#E54801] text-white text-center rounded-xl font-bold hover:bg-[#913327] transition shadow-md flex items-center justify-center gap-3"
+                  class="block w-full px-6 py-4 bg-secondary text-secondary-foreground text-center rounded-xl font-bold hover:bg-secondary/90 transition shadow-md flex items-center justify-center gap-3"
                 >
                   <i class="fas fa-building"></i> Publier un bien
                 </RouterLink>
                 <RouterLink
                   :to="{ name: 'AgentInscription' }"
-                  class="block w-full px-6 py-4 bg-white/20 backdrop-blur text-white text-center rounded-xl font-bold hover:bg-white/30 transition flex items-center justify-center gap-3"
+                  class="block w-full px-6 py-4 bg-white/20 backdrop-blur text-primary-foreground text-center rounded-xl font-bold hover:bg-white/30 transition flex items-center justify-center gap-3"
                 >
                   <i class="fas fa-user-tie"></i> Rejoindre le réseau
                 </RouterLink>
@@ -324,7 +324,6 @@ const userName = computed(() => {
 });
 
 const hasActiveProcedure = computed(() => {
-  // A-t-il des visites ou dossiers en cours ?
   const hasVisits = rentalStore.visits.some((v) =>
     ["pending", "confirmed", "completed"].includes(v.status),
   );
@@ -345,10 +344,10 @@ const roles = [
     title: "Louer un bien",
     desc: "Trouvez votre logement idéal simplement",
     badge: "Accès gratuit",
-    bg: "bg-blue-50",
-    color: "text-blue-600",
-    textColor: "text-blue-600",
-    border: "border-blue-100",
+    bg: "bg-blue-50 dark:bg-blue-950/30",
+    color: "text-blue-600 dark:text-blue-400",
+    textColor: "text-blue-600 dark:text-blue-400",
+    border: "border-blue-100 dark:border-blue-800/50",
     link: { name: "Annonces", query: { search: "" } },
     cta: "Explorer",
   },
@@ -357,10 +356,10 @@ const roles = [
     title: "Publier un bien",
     desc: "Générez des revenus avec vos biens",
     badge: "+25% revenus",
-    bg: "bg-orange-50",
-    color: "text-[#E54801]",
-    textColor: "text-[#E54801]",
-    border: "border-orange-100",
+    bg: "bg-orange-50 dark:bg-secondary/10",
+    color: "text-secondary",
+    textColor: "text-secondary",
+    border: "border-orange-100 dark:border-secondary/20",
     link: { name: "BailleurFormulaire" },
     cta: "Commencer",
   },
@@ -369,10 +368,10 @@ const roles = [
     title: "Proposer un service",
     desc: "Offrez vos services à notre communauté",
     badge: "Nouveaux clients",
-    bg: "bg-purple-50",
-    color: "text-purple-600",
-    textColor: "text-purple-600",
-    border: "border-purple-100",
+    bg: "bg-purple-50 dark:bg-purple-950/30",
+    color: "text-purple-600 dark:text-purple-400",
+    textColor: "text-purple-600 dark:text-purple-400",
+    border: "border-purple-100 dark:border-purple-800/50",
     link: { name: "PrestataireInscription" },
     cta: "Proposer",
   },
@@ -381,10 +380,10 @@ const roles = [
     title: "Rejoindre le réseau",
     desc: "Rejoignez notre réseau certifié d'agents",
     badge: "Certifié HMC",
-    bg: "bg-green-50",
-    color: "text-green-600",
-    textColor: "text-green-600",
-    border: "border-green-100",
+    bg: "bg-green-50 dark:bg-green-950/30",
+    color: "text-green-600 dark:text-green-400",
+    textColor: "text-green-600 dark:text-green-400",
+    border: "border-green-100 dark:border-green-800/50",
     link: { name: "AgentInscription" },
     cta: "Postuler",
   },
@@ -427,32 +426,32 @@ const trends = [
   {
     city: "Yaoundé (Bastos)",
     stat: "Prix : +5.2%",
-    bg: "bg-orange-50",
-    color: "text-[#E54801]",
+    bg: "bg-orange-50 dark:bg-secondary/10",
+    color: "text-secondary",
   },
   {
     city: "Douala (Akwa)",
     stat: "Demande élevée",
-    bg: "bg-blue-50",
-    color: "text-blue-500",
+    bg: "bg-blue-50 dark:bg-blue-950/30",
+    color: "text-blue-500 dark:text-blue-400",
   },
   {
     city: "Douala (Bonapriso)",
     stat: "Prix : +3.1%",
-    bg: "bg-green-50",
-    color: "text-green-500",
+    bg: "bg-green-50 dark:bg-green-950/30",
+    color: "text-green-500 dark:text-green-400",
   },
 ];
 </script>
 
 <style scoped>
 .sidebar-link.active {
-  background-color: #1b0b38;
-  color: white;
-  box-shadow: 0 4px 15px rgba(27, 11, 56, 0.2);
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  box-shadow: 0 4px 15px hsl(var(--primary) / 0.2);
 }
 .sidebar-link.active i {
-  color: white;
+  color: hsl(var(--primary-foreground));
 }
 .custom-scrollbar::-webkit-scrollbar {
   width: 4px;
@@ -461,7 +460,10 @@ const trends = [
   background: transparent;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #e5e7eb;
+  background: hsl(var(--muted-foreground) / 0.3);
   border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.5);
 }
 </style>

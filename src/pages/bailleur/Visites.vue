@@ -1,164 +1,161 @@
 <template>
   <DashboardLayout>
+    <div class="max-w-5xl mx-auto">
+      <!-- Header -->
+      <div
+        class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4 animate-fadeIn"
+      >
+        <div>
+          <h1 class="text-3xl font-black text-foreground leading-tight">
+            Gestion des <span class="text-secondary">Visites</span>
+          </h1>
+          <p
+            class="text-muted-foreground font-bold uppercase text-[10px] tracking-widest mt-1"
+          >
+            Demandes de rendez-vous sur vos propriétés
+          </p>
+        </div>
+        <div class="flex items-center gap-3">
+          <button
+            @click="mobileMenuOpen = !mobileMenuOpen"
+            class="lg:hidden p-2 text-muted-foreground hover:text-secondary transition-colors"
+          >
+            <i class="fas fa-bars text-xl"></i>
+          </button>
+        </div>
+      </div>
 
-      <div class="max-w-5xl mx-auto">
-        <!-- Header -->
-        <div
-          class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4 animate-fadeIn"
-        >
-          <div>
-            <h1 class="text-3xl font-black text-[#1B0B38] leading-tight">
-              Gestion des <span class="text-[#E54801]">Visites</span>
-            </h1>
-            <p
-              class="text-gray-500 font-medium font-bold uppercase text-[10px] tracking-widest mt-1"
-            >
-              Demandes de rendez-vous sur vos propriétés
-            </p>
-          </div>
-          <div class="flex items-center gap-3">
-            <button
-              @click="mobileMenuOpen = !mobileMenuOpen"
-              class="lg:hidden p-2 text-gray-500 hover:text-[#E54801] transition-colors"
-            >
-              <i class="fas fa-bars text-xl"></i>
-            </button>
-          </div>
+      <div class="space-y-6 animate-fadeIn" style="animation-delay: 0.1s">
+        <!-- Loading State -->
+        <div v-if="isLoading" class="py-20 text-center text-muted-foreground">
+          <i
+            class="fas fa-circle-notch fa-spin text-3xl mb-4 text-secondary"
+          ></i>
+          <p class="font-bold uppercase text-[10px] tracking-widest">
+            Récupération des visites...
+          </p>
         </div>
 
-        <div class="space-y-6 animate-fadeIn" style="animation-delay: 0.1s">
-          <!-- Loading State -->
-          <div v-if="isLoading" class="py-20 text-center text-gray-400">
-            <i
-              class="fas fa-circle-notch fa-spin text-3xl mb-4 text-[#E54801]"
-            ></i>
-            <p class="font-bold uppercase text-[10px] tracking-widest">
-              Récupération des visites...
-            </p>
-          </div>
+        <!-- Empty State -->
+        <div
+          v-else-if="visits.length === 0"
+          class="py-20 text-center bg-card rounded-[2rem] border border-border shadow-sm"
+        >
+          <i class="fas fa-calendar-times text-5xl mb-4 text-muted-foreground/20"></i>
+          <p class="text-muted-foreground font-bold">
+            Aucune demande de visite enregistrée.
+          </p>
+        </div>
 
-          <!-- Empty State -->
+        <!-- Visits List -->
+        <template v-else>
           <div
-            v-else-if="visits.length === 0"
-            class="py-20 text-center bg-white rounded-[2rem] border border-gray-100 shadow-sm"
+            v-for="visit in visits"
+            :key="visit.id"
+            class="bg-card p-6 md:p-8 rounded-[2rem] shadow-sm border border-border flex flex-col md:flex-row gap-6 md:gap-8 relative overflow-hidden group hover:shadow-lg transition-all"
+            :class="{
+              'border-l-[6px] border-secondary': visit.status === 'pending',
+            }"
           >
-            <i class="fas fa-calendar-times text-5xl mb-4 text-gray-200"></i>
-            <p class="text-gray-500 font-bold">
-              Aucune demande de visite enregistrée.
-            </p>
-          </div>
-
-          <!-- Visits List -->
-          <template v-else>
             <div
-              v-for="visit in visits"
-              :key="visit.id"
-              class="bg-white p-6 md:p-8 rounded-[2rem] shadow-sm border border-gray-100 flex flex-col md:flex-row gap-6 md:gap-8 relative overflow-hidden group hover:shadow-lg transition-all"
-              :class="{
-                'border-l-[6px] border-[#E54801]': visit.status === 'pending',
-              }"
+              class="w-16 h-16 rounded-2xl flex items-center justify-center text-2xl shrink-0 group-hover:scale-110 transition-transform"
+              :class="getStatusClass(visit.status)"
             >
-              <div
-                class="w-16 h-16 rounded-2xl flex items-center justify-center text-2xl shrink-0 group-hover:scale-110 transition-transform"
-                :class="getStatusClass(visit.status)"
-              >
-                <i class="fas fa-calendar-check"></i>
+              <i class="fas fa-calendar-check"></i>
+            </div>
+            <div class="flex-1">
+              <div class="flex items-center gap-3 mb-2 flex-wrap">
+                <h3 class="text-lg font-black text-foreground">
+                  {{ visit.property?.title }}
+                </h3>
+                <span
+                  class="px-3 py-1 text-[9px] font-black uppercase tracking-widest rounded-full"
+                  :class="getStatusClass(visit.status)"
+                >
+                  {{ getStatusLabel(visit.status) }}
+                </span>
               </div>
-              <div class="flex-1">
-                <div class="flex items-center gap-3 mb-2 flex-wrap">
-                  <h3 class="text-lg font-black text-[#1B0B38]">
-                    {{ visit.property?.title }}
-                  </h3>
+              <p
+                class="text-xs text-muted-foreground mb-4 font-medium flex items-center gap-2"
+              >
+                <i class="fas fa-clock text-secondary"></i>
+                <span class="font-black text-foreground">{{
+                  formatDate(visit.scheduled_at)
+                }}</span>
+                à {{ formatTime(visit.scheduled_at) }}
+              </p>
+
+              <div
+                class="flex items-center gap-3 bg-muted/20 p-3 rounded-2xl inline-flex"
+              >
+                <div
+                  class="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-[10px] font-black"
+                >
+                  {{ visit.visitor?.name?.[0]?.toUpperCase() || "?" }}
+                </div>
+                <div class="flex flex-col">
                   <span
-                    class="px-3 py-1 text-[9px] font-black uppercase tracking-widest rounded-full"
-                    :class="getStatusClass(visit.status)"
+                    class="text-[10px] text-foreground font-black uppercase tracking-tight"
                   >
-                    {{ getStatusLabel(visit.status) }}
+                    {{ visit.visitor?.name || "Visiteur anonyme" }}
                   </span>
-                </div>
-                <p
-                  class="text-xs text-gray-500 mb-4 font-medium flex items-center gap-2"
-                >
-                  <i class="fas fa-clock text-[#E54801]"></i>
-                  <span class="font-black text-[#1B0B38]">{{
-                    formatDate(visit.scheduled_at)
+                  <span class="text-[9px] text-muted-foreground font-medium">{{
+                    visit.visitor?.phone || "Pas de numéro"
                   }}</span>
-                  à {{ formatTime(visit.scheduled_at) }}
-                </p>
-
-                <div
-                  class="flex items-center gap-3 bg-gray-50 p-3 rounded-2xl inline-flex"
-                >
-                  <div
-                    class="w-8 h-8 rounded-full bg-[#1B0B38] text-white flex items-center justify-center text-[10px] font-black"
-                  >
-                    {{ visit.visitor?.name?.[0]?.toUpperCase() || "?" }}
-                  </div>
-                  <div class="flex flex-col">
-                    <span
-                      class="text-[10px] text-[#1B0B38] font-black uppercase tracking-tight"
-                    >
-                      {{ visit.visitor?.name || "Visiteur anonyme" }}
-                    </span>
-                    <span class="text-[9px] text-gray-400 font-medium">{{
-                      visit.visitor?.phone || "Pas de numéro"
-                    }}</span>
-                  </div>
-                </div>
-              </div>
-
-              <div
-                class="flex flex-col justify-end items-end gap-3 min-w-[180px] w-full md:w-auto"
-              >
-                <!-- Actions Status -->
-                <div
-                  class="flex flex-col gap-2 w-full"
-                  v-if="visit.status === 'pending'"
-                >
-                  <button
-                    @click="handleStatusUpdate(visit.id, 'confirmed')"
-                    class="w-full py-2.5 bg-[#E54801] text-white text-[9px] font-black uppercase tracking-widest rounded-xl hover:shadow-md transition-all flex items-center justify-center gap-2"
-                  >
-                    <i class="fas fa-check"></i> Confirmer
-                  </button>
-                  <button
-                    @click="handleStatusUpdate(visit.id, 'cancelled')"
-                    class="w-full py-2.5 border border-gray-100 text-gray-400 text-[9px] font-black uppercase tracking-widest rounded-xl hover:bg-gray-50 transition-all flex items-center justify-center gap-2"
-                  >
-                    <i class="fas fa-times"></i> Rejeter
-                  </button>
-                </div>
-                <div
-                  v-else-if="visit.status === 'confirmed'"
-                  class="w-full flex flex-col gap-2"
-                >
-                  <button
-                    @click="handleStatusUpdate(visit.id, 'completed')"
-                    class="w-full py-2.5 bg-green-600 text-white text-[9px] font-black uppercase tracking-widest rounded-xl hover:bg-green-700 transition-all flex items-center justify-center gap-2"
-                  >
-                    <i class="fas fa-check-double"></i> Marquer Terminée
-                  </button>
-                  <button
-                    @click="handleStatusUpdate(visit.id, 'cancelled')"
-                    class="w-full py-2.5 border border-gray-100 text-gray-400 text-[9px] font-black uppercase tracking-widest rounded-xl hover:bg-gray-50 transition-all"
-                  >
-                    Annuler
-                  </button>
-                </div>
-                <div
-                  v-else
-                  class="text-[10px] font-black text-gray-300 uppercase italic"
-                >
-                  Visite
-                  {{ visit.status === "completed" ? "effectuée" : "annulée" }}
                 </div>
               </div>
             </div>
-          </template>
-        </div>
-      </div>
-    
 
+            <div
+              class="flex flex-col justify-end items-end gap-3 min-w-[180px] w-full md:w-auto"
+            >
+              <!-- Actions Status -->
+              <div
+                class="flex flex-col gap-2 w-full"
+                v-if="visit.status === 'pending'"
+              >
+                <button
+                  @click="handleStatusUpdate(visit.id, 'confirmed')"
+                  class="w-full py-2.5 bg-secondary text-secondary-foreground text-[9px] font-black uppercase tracking-widest rounded-xl hover:bg-secondary/90 transition-all flex items-center justify-center gap-2"
+                >
+                  <i class="fas fa-check"></i> Confirmer
+                </button>
+                <button
+                  @click="handleStatusUpdate(visit.id, 'cancelled')"
+                  class="w-full py-2.5 border border-border text-muted-foreground text-[9px] font-black uppercase tracking-widest rounded-xl hover:bg-muted/20 transition-all flex items-center justify-center gap-2"
+                >
+                  <i class="fas fa-times"></i> Rejeter
+                </button>
+              </div>
+              <div
+                v-else-if="visit.status === 'confirmed'"
+                class="w-full flex flex-col gap-2"
+              >
+                <button
+                  @click="handleStatusUpdate(visit.id, 'completed')"
+                  class="w-full py-2.5 bg-green-600 text-white text-[9px] font-black uppercase tracking-widest rounded-xl hover:bg-green-700 transition-all flex items-center justify-center gap-2"
+                >
+                  <i class="fas fa-check-double"></i> Marquer Terminée
+                </button>
+                <button
+                  @click="handleStatusUpdate(visit.id, 'cancelled')"
+                  class="w-full py-2.5 border border-border text-muted-foreground text-[9px] font-black uppercase tracking-widest rounded-xl hover:bg-muted/20 transition-all"
+                >
+                  Annuler
+                </button>
+              </div>
+              <div
+                v-else
+                class="text-[10px] font-black text-muted-foreground uppercase italic"
+              >
+                Visite
+                {{ visit.status === "completed" ? "effectuée" : "annulée" }}
+              </div>
+            </div>
+          </div>
+        </template>
+      </div>
+    </div>
   </DashboardLayout>
 </template>
 
@@ -166,6 +163,8 @@
 import { ref, onMounted } from "vue";
 import DashboardLayout from "../../layouts/DashboardLayout.vue";
 import axios from "../../axios";
+
+const mobileMenuOpen = ref(false);
 const visits = ref([]);
 const isLoading = ref(true);
 
@@ -212,12 +211,12 @@ const getStatusLabel = (s) => {
 
 const getStatusClass = (s) => {
   const map = {
-    pending: "bg-orange-100 text-orange-600",
-    confirmed: "bg-blue-100 text-blue-600",
-    completed: "bg-green-100 text-green-600",
-    cancelled: "bg-gray-100 text-gray-600",
+    pending: "bg-orange-100 dark:bg-orange-950/30 text-orange-600 dark:text-orange-400",
+    confirmed: "bg-blue-100 dark:bg-blue-950/30 text-blue-600 dark:text-blue-400",
+    completed: "bg-green-100 dark:bg-green-950/30 text-green-600 dark:text-green-400",
+    cancelled: "bg-muted text-muted-foreground",
   };
-  return map[s] || "bg-gray-100";
+  return map[s] || "bg-muted text-muted-foreground";
 };
 
 const formatDate = (dateStr) => {
@@ -256,4 +255,3 @@ const formatTime = (dateStr) => {
   }
 }
 </style>
-
