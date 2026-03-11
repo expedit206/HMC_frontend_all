@@ -1,35 +1,35 @@
 <template>
-  <div class="bg-gray-50 min-h-screen pb-16">
+  <div class="bg-background min-h-screen pb-16">
     <!-- ─── PAGE DE CONFIRMATION APRÈS SOUMISSION ─── -->
     <Transition name="fade">
       <div
         v-if="submitted"
-        class="fixed inset-0 bg-white z-50 flex flex-col items-center justify-center text-center px-6"
+        class="fixed inset-0 bg-background z-50 flex flex-col items-center justify-center text-center px-6"
       >
         <div
-          class="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mb-8 animate-bounce-once"
+          class="w-24 h-24 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-8 animate-bounce-once"
         >
-          <i class="fas fa-check-circle text-5xl text-green-500"></i>
+          <i class="fas fa-check-circle text-5xl text-green-600 dark:text-green-400"></i>
         </div>
-        <h1 class="text-3xl font-black text-gray-900 mb-3">Dossier envoyé !</h1>
-        <p class="text-gray-500 max-w-md mb-2">
+        <h1 class="text-3xl font-black text-foreground mb-3">Dossier envoyé !</h1>
+        <p class="text-muted-foreground max-w-md mb-2">
           Votre demande de location pour
-          <strong class="text-gray-800">{{ property?.title }}</strong> a été
+          <strong class="text-foreground">{{ property?.title }}</strong> a été
           transmise au bailleur avec succès.
         </p>
-        <p class="text-sm text-gray-400 mb-10">
+        <p class="text-sm text-muted-foreground/70 mb-10">
           Vous recevrez une notification dès que votre dossier sera examiné.
         </p>
         <div class="flex flex-col sm:flex-row gap-4">
           <router-link
             :to="{ name: 'LocataireMesLocations' }"
-            class="px-8 py-4 bg-primary text-white font-bold rounded-xl shadow-lg hover:bg-primary/90 transition-all"
+            class="px-8 py-4 bg-primary text-primary-foreground font-bold rounded-xl shadow-lg hover:bg-primary/90 transition-all"
           >
             <i class="fas fa-list mr-2"></i> Voir mes demandes
           </router-link>
           <router-link
             :to="{ name: 'Annonces' }"
-            class="px-8 py-4 border-2 border-gray-200 text-gray-700 font-bold rounded-xl hover:bg-gray-50 transition-all"
+            class="px-8 py-4 border-2 border-border text-foreground font-bold rounded-xl hover:bg-muted/20 transition-all"
           >
             Continuer à chercher
           </router-link>
@@ -42,7 +42,7 @@
       <div class="max-w-3xl mx-auto">
         <!-- En-tête / Bien concerné -->
         <div
-          class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 mb-6"
+          class="bg-card rounded-2xl shadow-sm border border-border p-5 mb-6"
         >
           <div class="flex items-start gap-4 mb-6">
             <div
@@ -51,24 +51,24 @@
               <i class="fas fa-home text-2xl text-primary"></i>
             </div>
             <div class="flex-1 min-w-0">
-              <h1 class="text-xl sm:text-2xl font-black text-gray-900">
+              <h1 class="text-xl sm:text-2xl font-black text-foreground">
                 Demande de location
               </h1>
               <div
                 v-if="isLoadingProperty"
-                class="h-4 w-48 bg-gray-100 rounded animate-pulse mt-2"
+                class="h-4 w-48 bg-muted rounded animate-pulse mt-2"
               ></div>
               <p
                 v-else-if="property"
-                class="text-sm text-gray-500 mt-1 truncate"
+                class="text-sm text-muted-foreground mt-1 truncate"
               >
                 <i class="fas fa-map-marker-alt text-primary mr-1"></i>
-                <span class="font-semibold text-gray-700">{{
+                <span class="font-semibold text-foreground">{{
                   property.title
                 }}</span>
                 · {{ property.location }}
               </p>
-              <p v-else class="text-sm text-red-500 mt-1">
+              <p v-else class="text-sm text-destructive mt-1">
                 <i class="fas fa-exclamation-triangle mr-1"></i> Aucun bien
                 sélectionné —
                 <router-link :to="{ name: 'Annonces' }" class="underline"
@@ -81,7 +81,7 @@
           <!-- Barre de progression -->
           <div>
             <div
-              class="flex items-center justify-between text-xs font-bold text-gray-400 uppercase tracking-widest mb-3"
+              class="flex items-center justify-between text-xs font-bold text-muted-foreground uppercase tracking-widest mb-3"
             >
               <span :class="currentStep >= 1 ? 'text-primary' : ''"
                 >1. Informations</span
@@ -90,7 +90,7 @@
                 >2. Validation</span
               >
             </div>
-            <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
+            <div class="h-2 bg-muted rounded-full overflow-hidden">
               <div
                 class="h-full bg-primary transition-all duration-500 ease-out rounded-full"
                 :style="{ width: currentStep === 1 ? '50%' : '100%' }"
@@ -105,13 +105,13 @@
         <div v-if="currentStep === 1" class="space-y-6">
           <!-- Identité -->
           <div
-            class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6"
+            class="bg-card rounded-2xl shadow-sm border border-border p-6"
           >
             <h2
-              class="text-base font-black text-gray-800 mb-5 flex items-center gap-2 uppercase tracking-wide"
+              class="text-base font-black text-foreground mb-5 flex items-center gap-2 uppercase tracking-wide"
             >
               <span
-                class="w-7 h-7 bg-primary text-white text-xs rounded-full flex items-center justify-center font-black"
+                class="w-7 h-7 bg-primary text-primary-foreground text-xs rounded-full flex items-center justify-center font-black"
                 >1</span
               >
               Informations personnelles
@@ -119,23 +119,23 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label
-                  class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2"
-                  >Prénom <span class="text-red-500">*</span></label
+                  class="block text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2"
+                  >Prénom <span class="text-destructive">*</span></label
                 >
                 <input
                   type="text"
                   v-model="form.firstName"
                   :class="[
-                    'w-full px-4 py-3 border-2 rounded-xl outline-none transition-colors',
+                    'w-full px-4 py-3 border-2 rounded-xl outline-none transition-colors bg-background',
                     errors.firstName
-                      ? 'border-red-400 bg-red-50'
-                      : 'border-gray-100 focus:border-primary',
+                      ? 'border-destructive bg-destructive/5'
+                      : 'border-border focus:border-primary',
                   ]"
                   placeholder="Votre prénom"
                 />
                 <p
                   v-if="errors.firstName"
-                  class="text-xs text-red-500 mt-1 flex items-center gap-1"
+                  class="text-xs text-destructive mt-1 flex items-center gap-1"
                 >
                   <i class="fas fa-exclamation-circle"></i>
                   {{ errors.firstName }}
@@ -143,23 +143,23 @@
               </div>
               <div>
                 <label
-                  class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2"
-                  >Nom <span class="text-red-500">*</span></label
+                  class="block text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2"
+                  >Nom <span class="text-destructive">*</span></label
                 >
                 <input
                   type="text"
                   v-model="form.lastName"
                   :class="[
-                    'w-full px-4 py-3 border-2 rounded-xl outline-none transition-colors',
+                    'w-full px-4 py-3 border-2 rounded-xl outline-none transition-colors bg-background',
                     errors.lastName
-                      ? 'border-red-400 bg-red-50'
-                      : 'border-gray-100 focus:border-primary',
+                      ? 'border-destructive bg-destructive/5'
+                      : 'border-border focus:border-primary',
                   ]"
                   placeholder="Votre nom"
                 />
                 <p
                   v-if="errors.lastName"
-                  class="text-xs text-red-500 mt-1 flex items-center gap-1"
+                  class="text-xs text-destructive mt-1 flex items-center gap-1"
                 >
                   <i class="fas fa-exclamation-circle"></i>
                   {{ errors.lastName }}
@@ -167,24 +167,24 @@
               </div>
               <div class="sm:col-span-2">
                 <label
-                  class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2"
+                  class="block text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2"
                   >Email</label
                 >
                 <input
                   type="email"
                   v-model="form.email"
                   readonly
-                  class="w-full px-4 py-3 border-2 border-gray-100 rounded-xl outline-none bg-gray-50 text-gray-400 cursor-not-allowed"
+                  class="w-full px-4 py-3 border-2 border-border rounded-xl outline-none bg-muted/20 text-muted-foreground cursor-not-allowed"
                 />
               </div>
               <div class="sm:col-span-2">
                 <label
-                  class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2"
-                  >Téléphone <span class="text-red-500">*</span></label
+                  class="block text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2"
+                  >Téléphone <span class="text-destructive">*</span></label
                 >
                 <div class="flex">
                   <div
-                    class="flex items-center px-4 border-2 border-r-0 border-gray-100 rounded-l-xl bg-gray-50 text-sm font-bold text-gray-700 shrink-0"
+                    class="flex items-center px-4 border-2 border-r-0 border-border rounded-l-xl bg-muted/20 text-sm font-bold text-foreground shrink-0"
                   >
                     🇨🇲 +237
                   </div>
@@ -192,17 +192,17 @@
                     type="tel"
                     v-model="form.phone"
                     :class="[
-                      'flex-1 px-4 py-3 border-2 border-l-0 rounded-r-xl outline-none transition-colors',
+                      'flex-1 px-4 py-3 border-2 border-l-0 rounded-r-xl outline-none transition-colors bg-background',
                       errors.phone
-                        ? 'border-red-400 bg-red-50'
-                        : 'border-gray-100 focus:border-primary',
+                        ? 'border-destructive bg-destructive/5'
+                        : 'border-border focus:border-primary',
                     ]"
                     placeholder="6XX XX XX XX"
                   />
                 </div>
                 <p
                   v-if="errors.phone"
-                  class="text-xs text-red-500 mt-1 flex items-center gap-1"
+                  class="text-xs text-destructive mt-1 flex items-center gap-1"
                 >
                   <i class="fas fa-exclamation-circle"></i> {{ errors.phone }}
                 </p>
@@ -212,13 +212,13 @@
 
           <!-- Détails location -->
           <div
-            class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6"
+            class="bg-card rounded-2xl shadow-sm border border-border p-6"
           >
             <h2
-              class="text-base font-black text-gray-800 mb-5 flex items-center gap-2 uppercase tracking-wide"
+              class="text-base font-black text-foreground mb-5 flex items-center gap-2 uppercase tracking-wide"
             >
               <span
-                class="w-7 h-7 bg-primary text-white text-xs rounded-full flex items-center justify-center font-black"
+                class="w-7 h-7 bg-primary text-primary-foreground text-xs rounded-full flex items-center justify-center font-black"
                 >2</span
               >
               Détails de la location
@@ -226,24 +226,24 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label
-                  class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2"
+                  class="block text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2"
                   >Date de début souhaitée
-                  <span class="text-red-500">*</span></label
+                  <span class="text-destructive">*</span></label
                 >
                 <input
                   type="date"
                   v-model="form.start_date"
                   :min="minDate"
                   :class="[
-                    'w-full px-4 py-3 border-2 rounded-xl outline-none transition-colors',
+                    'w-full px-4 py-3 border-2 rounded-xl outline-none transition-colors bg-background',
                     errors.start_date
-                      ? 'border-red-400 bg-red-50'
-                      : 'border-gray-100 focus:border-primary',
+                      ? 'border-destructive bg-destructive/5'
+                      : 'border-border focus:border-primary',
                   ]"
                 />
                 <p
                   v-if="errors.start_date"
-                  class="text-xs text-red-500 mt-1 flex items-center gap-1"
+                  class="text-xs text-destructive mt-1 flex items-center gap-1"
                 >
                   <i class="fas fa-exclamation-circle"></i>
                   {{ errors.start_date }}
@@ -251,12 +251,12 @@
               </div>
               <div>
                 <label
-                  class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2"
-                  >Durée <span class="text-red-500">*</span></label
+                  class="block text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2"
+                  >Durée <span class="text-destructive">*</span></label
                 >
                 <select
                   v-model="form.duration_months"
-                  class="w-full h-[50px] px-4 border-2 border-gray-100 rounded-xl outline-none focus:border-primary transition-colors bg-white"
+                  class="w-full h-[50px] px-4 border-2 border-border rounded-xl outline-none focus:border-primary transition-colors bg-background text-foreground"
                 >
                   <option v-for="n in [6, 12, 18, 24, 36]" :key="n" :value="n">
                     {{ n }} mois
@@ -265,13 +265,13 @@
               </div>
               <div class="sm:col-span-2">
                 <label
-                  class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2"
+                  class="block text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2"
                   >Notes ou demandes particulières</label
                 >
                 <textarea
                   v-model="form.notes"
                   rows="3"
-                  class="w-full px-4 py-3 border-2 border-gray-100 rounded-xl outline-none focus:border-primary transition-colors resize-none text-sm"
+                  class="w-full px-4 py-3 border-2 border-border rounded-xl outline-none focus:border-primary transition-colors resize-none text-sm bg-background text-foreground placeholder:text-muted-foreground/50"
                   placeholder="Ex : j'ai un animal de compagnie, je souhaite emménager un week-end..."
                 ></textarea>
               </div>
@@ -280,18 +280,18 @@
 
           <!-- Documents -->
           <div
-            class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6"
+            class="bg-card rounded-2xl shadow-sm border border-border p-6"
           >
             <h2
-              class="text-base font-black text-gray-800 mb-1 flex items-center gap-2 uppercase tracking-wide"
+              class="text-base font-black text-foreground mb-1 flex items-center gap-2 uppercase tracking-wide"
             >
               <span
-                class="w-7 h-7 bg-primary text-white text-xs rounded-full flex items-center justify-center font-black"
+                class="w-7 h-7 bg-primary text-primary-foreground text-xs rounded-full flex items-center justify-center font-black"
                 >3</span
               >
               Documents du dossier
             </h2>
-            <p class="text-xs text-gray-400 mb-5 ml-9">
+            <p class="text-xs text-muted-foreground mb-5 ml-9">
               Les documents marqués * sont obligatoires pour soumettre votre
               dossier.
             </p>
@@ -301,10 +301,10 @@
                 v-for="doc in documents"
                 :key="doc.id"
                 :class="[
-                  'border-2 rounded-xl p-4 transition-colors',
+                  'border-2 rounded-xl p-4 transition-colors bg-background',
                   doc.status === 'uploaded'
-                    ? 'border-green-300 bg-green-50/50'
-                    : 'border-gray-100',
+                    ? 'border-green-300 dark:border-green-700 bg-green-50/50 dark:bg-green-950/20'
+                    : 'border-border',
                 ]"
               >
                 <div class="flex items-start justify-between gap-3">
@@ -313,30 +313,30 @@
                       :class="[
                         'w-10 h-10 rounded-lg flex items-center justify-center shrink-0',
                         doc.status === 'uploaded'
-                          ? 'bg-green-100'
-                          : 'bg-gray-100',
+                          ? 'bg-green-100 dark:bg-green-900/30'
+                          : 'bg-muted/20',
                       ]"
                     >
                       <i
                         :class="[
                           'text-lg',
                           doc.status === 'uploaded'
-                            ? 'fas fa-check text-green-600'
-                            : 'fas fa-file-alt text-gray-400',
+                            ? 'fas fa-check text-green-600 dark:text-green-400'
+                            : 'fas fa-file-alt text-muted-foreground',
                         ]"
                       ></i>
                     </div>
                     <div>
-                      <p class="font-bold text-gray-800 text-sm">
+                      <p class="font-bold text-foreground text-sm">
                         {{ doc.label }}
-                        <span v-if="doc.required" class="text-red-500">*</span>
+                        <span v-if="doc.required" class="text-destructive">*</span>
                       </p>
-                      <p class="text-xs text-gray-400 mt-0.5">
+                      <p class="text-xs text-muted-foreground mt-0.5">
                         {{ doc.description }}
                       </p>
                       <p
                         v-if="doc.fileName"
-                        class="text-xs text-green-600 font-medium mt-1"
+                        class="text-xs text-green-600 dark:text-green-400 font-medium mt-1"
                       >
                         <i class="fas fa-paperclip mr-1"></i>{{ doc.fileName }}
                       </p>
@@ -346,8 +346,8 @@
                     :class="[
                       'text-[10px] font-black px-2 py-1 rounded-full uppercase tracking-widest shrink-0',
                       doc.status === 'uploaded'
-                        ? 'bg-green-100 text-green-700'
-                        : 'bg-yellow-100 text-yellow-700',
+                        ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400'
+                        : 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400',
                     ]"
                   >
                     {{ doc.status === "uploaded" ? "Reçu ✓" : "Requis" }}
@@ -357,7 +357,7 @@
                 <!-- Zone d'upload -->
                 <div
                   v-if="doc.status !== 'uploaded'"
-                  class="relative mt-4 border-2 border-dashed border-gray-200 rounded-xl p-5 text-center bg-gray-50 hover:bg-gray-100 hover:border-primary/40 transition-all cursor-pointer group"
+                  class="relative mt-4 border-2 border-dashed border-border rounded-xl p-5 text-center bg-muted/10 hover:bg-muted/20 hover:border-primary/40 transition-all cursor-pointer group"
                 >
                   <input
                     type="file"
@@ -366,19 +366,19 @@
                     @change="handleFileUpload($event, doc.id)"
                   />
                   <i
-                    class="fas fa-cloud-upload-alt text-2xl text-gray-300 group-hover:text-primary transition-colors mb-2"
+                    class="fas fa-cloud-upload-alt text-2xl text-muted-foreground group-hover:text-primary transition-colors mb-2"
                   ></i>
-                  <p class="text-xs text-gray-500 font-medium">
+                  <p class="text-xs text-muted-foreground font-medium">
                     Cliquez ou glissez-déposez
                   </p>
-                  <p class="text-[10px] text-gray-400 mt-0.5">
+                  <p class="text-[10px] text-muted-foreground/70 mt-0.5">
                     JPG, PNG ou PDF · max 5 Mo
                   </p>
                 </div>
                 <button
                   v-else
                   @click="removeFile(doc.id)"
-                  class="mt-3 text-xs text-red-400 hover:text-red-600 font-bold flex items-center gap-1"
+                  class="mt-3 text-xs text-destructive hover:text-destructive/80 font-bold flex items-center gap-1"
                 >
                   <i class="fas fa-times-circle"></i> Retirer le fichier
                 </button>
@@ -386,7 +386,7 @@
             </div>
             <p
               v-if="errors.documents"
-              class="text-xs text-red-500 mt-3 flex items-center gap-1 font-bold"
+              class="text-xs text-destructive mt-3 flex items-center gap-1 font-bold"
             >
               <i class="fas fa-exclamation-triangle"></i> {{ errors.documents }}
             </p>
@@ -395,19 +395,19 @@
           <!-- Consentement -->
           <div
             :class="[
-              'rounded-2xl p-5 border-2 transition-colors',
+              'rounded-2xl p-5 border-2 transition-colors bg-background',
               errors.agree
-                ? 'border-red-300 bg-red-50'
-                : 'border-blue-100 bg-blue-50/60',
+                ? 'border-destructive bg-destructive/5'
+                : 'border-border bg-muted/10',
             ]"
           >
             <label class="flex items-start gap-3 cursor-pointer">
               <input
                 type="checkbox"
                 v-model="form.agree"
-                class="mt-1 h-5 w-5 rounded accent-primary border-gray-300"
+                class="mt-1 h-5 w-5 rounded accent-primary border-border bg-background"
               />
-              <span class="text-sm text-gray-700 leading-relaxed">
+              <span class="text-sm text-foreground leading-relaxed">
                 Je certifie que les informations et documents fournis sont
                 exacts et authentiques. J'accepte les
                 <a
@@ -423,12 +423,12 @@
                   class="text-primary font-bold hover:underline"
                   >Politique de Confidentialité</a
                 >
-                de Home Cameroon. <span class="text-red-500">*</span>
+                de Home Cameroon. <span class="text-destructive">*</span>
               </span>
             </label>
             <p
               v-if="errors.agree"
-              class="text-xs text-red-500 mt-2 ml-8 font-bold"
+              class="text-xs text-destructive mt-2 ml-8 font-bold"
             >
               {{ errors.agree }}
             </p>
@@ -441,49 +441,49 @@
         <div v-if="currentStep === 2" class="space-y-6">
           <!-- Récap du dossier -->
           <div
-            class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6"
+            class="bg-card rounded-2xl shadow-sm border border-border p-6"
           >
             <h2
-              class="font-black text-gray-900 mb-5 uppercase tracking-wide text-sm flex items-center gap-2"
+              class="font-black text-foreground mb-5 uppercase tracking-wide text-sm flex items-center gap-2"
             >
               <i class="fas fa-clipboard-check text-primary"></i> Récapitulatif
               de votre dossier
             </h2>
-            <div class="divide-y divide-gray-100">
+            <div class="divide-y divide-border">
               <div class="flex justify-between py-3 text-sm">
-                <span class="text-gray-500">Locataire</span>
-                <span class="font-bold text-gray-800"
+                <span class="text-muted-foreground">Locataire</span>
+                <span class="font-bold text-foreground"
                   >{{ form.firstName }} {{ form.lastName }}</span
                 >
               </div>
               <div class="flex justify-between py-3 text-sm">
-                <span class="text-gray-500">Téléphone</span>
-                <span class="font-bold text-gray-800"
+                <span class="text-muted-foreground">Téléphone</span>
+                <span class="font-bold text-foreground"
                   >+237 {{ form.phone }}</span
                 >
               </div>
               <div class="flex justify-between py-3 text-sm">
-                <span class="text-gray-500">Bien souhaité</span>
+                <span class="text-muted-foreground">Bien souhaité</span>
                 <span
-                  class="font-bold text-gray-800 text-right max-w-[60%] truncate"
+                  class="font-bold text-foreground text-right max-w-[60%] truncate"
                   >{{ property?.title }}</span
                 >
               </div>
               <div class="flex justify-between py-3 text-sm">
-                <span class="text-gray-500">Date d'entrée souhaitée</span>
-                <span class="font-bold text-gray-800">{{
+                <span class="text-muted-foreground">Date d'entrée souhaitée</span>
+                <span class="font-bold text-foreground">{{
                   formatDate(form.start_date)
                 }}</span>
               </div>
               <div class="flex justify-between py-3 text-sm">
-                <span class="text-gray-500">Durée</span>
-                <span class="font-bold text-gray-800"
+                <span class="text-muted-foreground">Durée</span>
+                <span class="font-bold text-foreground"
                   >{{ form.duration_months }} mois</span
                 >
               </div>
               <div class="flex justify-between py-3 text-sm">
-                <span class="text-gray-500">Documents joints</span>
-                <span class="font-bold text-green-600"
+                <span class="text-muted-foreground">Documents joints</span>
+                <span class="font-bold text-green-600 dark:text-green-400"
                   >{{ uploadedCount }}/{{ documents.length }} ✓</span
                 >
               </div>
@@ -492,42 +492,42 @@
 
           <!-- Récapitulatif financier -->
           <div
-            class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6"
+            class="bg-card rounded-2xl shadow-sm border border-border p-6"
           >
             <h2
-              class="font-black text-gray-900 mb-5 uppercase tracking-wide text-sm flex items-center gap-2"
+              class="font-black text-foreground mb-5 uppercase tracking-wide text-sm flex items-center gap-2"
             >
               <i class="fas fa-wallet text-primary"></i> Estimation financière
             </h2>
-            <div class="divide-y divide-gray-100">
+            <div class="divide-y divide-border">
               <div class="flex justify-between py-3 text-sm">
-                <span class="text-gray-500">Loyer mensuel</span>
-                <span class="font-bold text-gray-800" v-if="property"
+                <span class="text-muted-foreground">Loyer mensuel</span>
+                <span class="font-bold text-foreground" v-if="property"
                   >{{ formatPrice(property.price) }} FCFA</span
                 >
-                <span v-else class="text-gray-300 italic">—</span>
+                <span v-else class="text-muted-foreground italic">—</span>
               </div>
               <div class="flex justify-between py-3 text-sm">
-                <span class="text-gray-500">Caution (2 mois)</span>
-                <span class="font-bold text-gray-800" v-if="property"
+                <span class="text-muted-foreground">Caution (2 mois)</span>
+                <span class="font-bold text-foreground" v-if="property"
                   >{{ formatPrice(property.price * 2) }} FCFA</span
                 >
-                <span v-else class="text-gray-300 italic">—</span>
+                <span v-else class="text-muted-foreground italic">—</span>
               </div>
               <div class="flex justify-between py-3 text-sm">
-                <span class="text-gray-500">Frais de dossier</span>
-                <span class="font-bold text-green-600">Offerts</span>
+                <span class="text-muted-foreground">Frais de dossier</span>
+                <span class="font-bold text-green-600 dark:text-green-400">Offerts</span>
               </div>
             </div>
             <div
-              class="flex justify-between items-center pt-4 mt-2 border-t-2 border-gray-100"
+              class="flex justify-between items-center pt-4 mt-2 border-t-2 border-border"
             >
-              <span class="font-black text-gray-900">À prévoir à l'entrée</span>
+              <span class="font-black text-foreground">À prévoir à l'entrée</span>
               <span class="text-2xl font-black text-primary" v-if="property"
                 >{{ formatPrice(property.price * 3) }} FCFA</span
               >
             </div>
-            <p class="text-[11px] text-gray-400 mt-3 italic">
+            <p class="text-[11px] text-muted-foreground mt-3 italic">
               <i class="fas fa-info-circle mr-1"></i>
               Le paiement sera demandé uniquement après validation de votre
               dossier par le bailleur.
@@ -536,10 +536,10 @@
 
           <!-- Mode de paiement (préférence) -->
           <div
-            class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6"
+            class="bg-card rounded-2xl shadow-sm border border-border p-6"
           >
             <h2
-              class="font-black text-gray-900 mb-5 uppercase tracking-wide text-sm flex items-center gap-2"
+              class="font-black text-foreground mb-5 uppercase tracking-wide text-sm flex items-center gap-2"
             >
               <i class="fas fa-money-bill-wave text-primary"></i> Moyen de
               paiement préféré
@@ -549,10 +549,10 @@
                 v-for="m in paymentMethods"
                 :key="m.id"
                 :class="[
-                  'flex items-center gap-4 p-4 border-2 rounded-xl cursor-pointer transition-all',
+                  'flex items-center gap-4 p-4 border-2 rounded-xl cursor-pointer transition-all bg-background',
                   paymentMethod === m.id
                     ? 'border-primary bg-primary/5'
-                    : 'border-gray-100 hover:border-gray-200',
+                    : 'border-border hover:border-muted-foreground/20',
                 ]"
               >
                 <input
@@ -565,22 +565,22 @@
                   :class="[
                     'w-11 h-11 rounded-xl flex items-center justify-center text-xl shrink-0',
                     paymentMethod === m.id
-                      ? 'bg-primary text-white'
-                      : 'bg-gray-100 text-gray-400',
+                      ? 'bg-primary text-primary-foreground'
+                      : 'bg-muted/20 text-muted-foreground',
                   ]"
                 >
                   <i :class="m.icon"></i>
                 </div>
                 <div class="flex-1">
-                  <p class="font-bold text-gray-900 text-sm">{{ m.label }}</p>
-                  <p class="text-xs text-gray-400">{{ m.sub }}</p>
+                  <p class="font-bold text-foreground text-sm">{{ m.label }}</p>
+                  <p class="text-xs text-muted-foreground">{{ m.sub }}</p>
                 </div>
                 <div
                   :class="[
                     'w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0',
                     paymentMethod === m.id
                       ? 'border-primary'
-                      : 'border-gray-300',
+                      : 'border-border',
                   ]"
                 >
                   <div
@@ -594,16 +594,16 @@
 
           <!-- Avertissement & confirmation -->
           <div
-            class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-5 flex items-start gap-4"
+            class="bg-amber-50 dark:bg-amber-950/20 border-2 border-amber-200 dark:border-amber-800/50 rounded-2xl p-5 flex items-start gap-4"
           >
             <i
-              class="fas fa-exclamation-triangle text-amber-500 text-xl mt-0.5 shrink-0"
+              class="fas fa-exclamation-triangle text-amber-500 dark:text-amber-400 text-xl mt-0.5 shrink-0"
             ></i>
             <div>
-              <h4 class="font-black text-gray-900 mb-1 text-sm">
+              <h4 class="font-black text-foreground mb-1 text-sm">
                 Confirmation finale
               </h4>
-              <p class="text-sm text-gray-600 leading-relaxed">
+              <p class="text-sm text-muted-foreground leading-relaxed">
                 En soumettant ce dossier, vous confirmez que toutes les
                 informations sont exactes. Le bailleur sera notifié
                 immédiatement par email. Vous ne pourrez pas modifier ce dossier
@@ -615,12 +615,12 @@
 
         <!-- ─── NAVIGATION ─── -->
         <div
-          class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-8 pt-6 border-t border-gray-100"
+          class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-8 pt-6 border-t border-border"
         >
           <button
             v-if="currentStep > 1"
             @click="prevStep"
-            class="flex items-center gap-2 px-6 py-3 rounded-xl border-2 border-gray-200 text-gray-600 font-bold hover:bg-gray-50 transition-all w-full sm:w-auto justify-center"
+            class="flex items-center gap-2 px-6 py-3 rounded-xl border-2 border-border text-muted-foreground font-bold hover:bg-muted/20 transition-all w-full sm:w-auto justify-center"
           >
             <i class="fas fa-chevron-left text-xs"></i> Retour
           </button>
@@ -630,7 +630,7 @@
             <button
               v-if="currentStep === 1"
               @click="saveDraft"
-              class="px-6 py-3 rounded-xl border-2 border-gray-200 text-gray-600 font-bold hover:bg-gray-50 transition-all flex items-center gap-2 justify-center"
+              class="px-6 py-3 rounded-xl border-2 border-border text-muted-foreground font-bold hover:bg-muted/20 transition-all flex items-center gap-2 justify-center"
             >
               <i class="fas fa-save"></i> Brouillon
             </button>
@@ -640,7 +640,7 @@
               :class="[
                 'px-8 py-3 rounded-xl font-black text-white transition-all flex items-center gap-2 justify-center min-w-[180px]',
                 isSubmitting
-                  ? 'bg-gray-300 cursor-not-allowed'
+                  ? 'bg-muted cursor-not-allowed'
                   : 'bg-primary hover:bg-primary/90 hover:-translate-y-0.5 shadow-lg active:scale-95',
               ]"
             >
@@ -659,10 +659,10 @@
         <!-- Message d'erreur API global -->
         <div
           v-if="apiError"
-          class="mt-4 p-4 bg-red-50 border border-red-200 rounded-xl flex items-center gap-3"
+          class="mt-4 p-4 bg-destructive/10 border border-destructive/20 rounded-xl flex items-center gap-3"
         >
-          <i class="fas fa-times-circle text-red-500 text-xl"></i>
-          <p class="text-sm text-red-700 font-medium">{{ apiError }}</p>
+          <i class="fas fa-times-circle text-destructive text-xl"></i>
+          <p class="text-sm text-destructive font-medium">{{ apiError }}</p>
         </div>
       </div>
     </main>
@@ -873,7 +873,7 @@ const nextStep = () => {
     if (!validateStep1()) {
       // Scroll vers la première erreur
       document
-        .querySelector(".border-red-400, .border-red-300")
+        .querySelector(".border-destructive, .border-red-300")
         ?.scrollIntoView({ behavior: "smooth", block: "center" });
       return;
     }

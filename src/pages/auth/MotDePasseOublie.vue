@@ -2,7 +2,7 @@
   <div class="auth-page min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 to-secondary/5 py-8">
     <div class="max-w-md w-full mx-4">
       <!-- Card -->
-      <div class="card p-8 border-2 border-secondary/20">
+      <div class="bg-card p-8 rounded-xl shadow-lg border border-border">
         <!-- En-tête -->
         <div class="text-center mb-8">
           <h1 class="text-3xl font-bold text-primary mb-2">
@@ -48,21 +48,26 @@
                 v-model="form.email"
                 type="email"
                 required
-                class="input w-full"
+                class="w-full px-4 py-2 border border-input rounded-lg bg-background text-foreground focus:border-primary focus:ring-2 focus:ring-primary/50 outline-none transition-all"
                 placeholder="votre@email.com"
               />
             </div>
 
-            <div v-if="error" class="bg-destructive/10 border border-destructive text-destructive p-3 rounded text-sm">
+            <div v-if="error" class="bg-destructive/10 border border-destructive text-destructive p-3 rounded-lg text-sm">
               <i class="fas fa-exclamation-circle mr-2"></i>
               {{ error }}
+            </div>
+
+            <div v-if="success" class="bg-green-100 dark:bg-green-900/30 border border-green-400 dark:border-green-800 text-green-700 dark:text-green-400 p-3 rounded-lg text-sm">
+              <i class="fas fa-check-circle mr-2"></i>
+              {{ success }}
             </div>
 
             <button
               type="button"
               @click="sendResetCode"
               :disabled="isLoading"
-              class="btn btn-primary w-full"
+              class="w-full bg-primary text-primary-foreground font-semibold py-2 px-4 rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <span v-if="!isLoading">
                 <i class="fas fa-paper-plane mr-2"></i>
@@ -81,7 +86,7 @@
               <i class="fas fa-key text-primary text-4xl mb-4 block"></i>
               <h2 class="text-xl font-bold text-foreground mb-2">Vérification</h2>
               <p class="text-muted-foreground text-sm">
-                Nous avons envoyé un code à <strong>{{ form.email }}</strong>
+                Nous avons envoyé un code à <strong class="text-foreground">{{ form.email }}</strong>
               </p>
             </div>
 
@@ -95,7 +100,7 @@
                 type="text"
                 maxlength="6"
                 placeholder="000000"
-                class="input w-full text-center text-2xl tracking-widest"
+                class="w-full px-4 py-2 border border-input rounded-lg bg-background text-foreground text-center text-2xl tracking-widest focus:border-primary focus:ring-2 focus:ring-primary/50 outline-none transition-all"
                 required
               />
             </div>
@@ -114,16 +119,21 @@
               </button>
             </div>
 
-            <div v-if="error" class="bg-destructive/10 border border-destructive text-destructive p-3 rounded text-sm">
+            <div v-if="error" class="bg-destructive/10 border border-destructive text-destructive p-3 rounded-lg text-sm">
               <i class="fas fa-exclamation-circle mr-2"></i>
               {{ error }}
+            </div>
+
+            <div v-if="success" class="bg-green-100 dark:bg-green-900/30 border border-green-400 dark:border-green-800 text-green-700 dark:text-green-400 p-3 rounded-lg text-sm">
+              <i class="fas fa-check-circle mr-2"></i>
+              {{ success }}
             </div>
 
             <button
               type="button"
               @click="verifyCode"
               :disabled="isLoading || form.code.length !== 6"
-              class="btn btn-primary w-full"
+              class="w-full bg-primary text-primary-foreground font-semibold py-2 px-4 rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <span v-if="!isLoading">
                 <i class="fas fa-check mr-2"></i>
@@ -156,7 +166,7 @@
                   v-model="form.newPassword"
                   :type="showPassword ? 'text' : 'password'"
                   required
-                  class="input w-full pr-10"
+                  class="w-full px-4 py-2 border border-input rounded-lg bg-background text-foreground pr-10 focus:border-primary focus:ring-2 focus:ring-primary/50 outline-none transition-all"
                   placeholder="••••••••"
                 />
                 <button
@@ -180,7 +190,7 @@
                   v-model="form.confirmPassword"
                   :type="showPassword ? 'text' : 'password'"
                   required
-                  class="input w-full pr-10"
+                  class="w-full px-4 py-2 border border-input rounded-lg bg-background text-foreground pr-10 focus:border-primary focus:ring-2 focus:ring-primary/50 outline-none transition-all"
                   placeholder="••••••••"
                 />
                 <button
@@ -193,12 +203,12 @@
               </div>
             </div>
 
-            <div v-if="error" class="bg-destructive/10 border border-destructive text-destructive p-3 rounded text-sm">
+            <div v-if="error" class="bg-destructive/10 border border-destructive text-destructive p-3 rounded-lg text-sm">
               <i class="fas fa-exclamation-circle mr-2"></i>
               {{ error }}
             </div>
 
-            <div v-if="success" class="bg-success/10 border border-success text-success p-3 rounded text-sm">
+            <div v-if="success" class="bg-green-100 dark:bg-green-900/30 border border-green-400 dark:border-green-800 text-green-700 dark:text-green-400 p-3 rounded-lg text-sm">
               <i class="fas fa-check-circle mr-2"></i>
               {{ success }}
             </div>
@@ -206,7 +216,7 @@
             <button
               type="submit"
               :disabled="isLoading"
-              class="btn btn-primary w-full"
+              class="w-full bg-primary text-primary-foreground font-semibold py-2 px-4 rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <span v-if="!isLoading">
                 <i class="fas fa-check mr-2"></i>
