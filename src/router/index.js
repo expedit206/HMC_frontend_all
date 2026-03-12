@@ -56,7 +56,7 @@ const BailleurMonProfil = () => import('../pages/bailleur/MonProfil.vue')
 const BailleurAssistance = () => import('../pages/bailleur/Assistance.vue')
 const BailleurDevenirPrestataire = () => import('../pages/bailleur/DevenirPrestataire.vue')
 const BailleurFormulaire = () => import('../pages/bailleur/FormulaireBailleur.vue')
-const BailleurMesDemandes = () => import('../pages/shared/PublicationRequests.vue')
+const MesDemandes = () => import('../pages/shared/PublicationRequests.vue')
 
 // Client Pages
 const ClientDashboard = () => import('../pages/client/Dashboard.vue')
@@ -131,7 +131,7 @@ const routes = [
       
       { path: 'dossier-location', name: 'DossierLocation', component: DossierLocation },
       { path: '/publier-bien', name: 'PublierBien', component: PublierBien, meta: { hasSidebar: true } },
-      { path: '/mes-demandes', name: 'PublicationRequests', component: BailleurMesDemandes, meta: { hasSidebar: true } },
+      { path: '/mes-demandes', name: 'PublicationRequests', component: MesDemandes, meta: { hasSidebar: true } },
       { path: '/mes-favoris', name: 'MesFavoris', component: MesFavoris, meta: { hasSidebar: true } },
 
     

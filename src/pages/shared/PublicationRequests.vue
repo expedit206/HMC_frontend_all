@@ -174,14 +174,187 @@
                   <i class="fas fa-quote-left mr-1 opacity-50"></i>{{ req.agent_notes }}
                 </p>
               </div>
-              <button @click="openDetail(req)"
-                class="flex-1 md:flex-none px-4 py-2 bg-[#1B0B38] text-white text-xs font-black uppercase tracking-widest rounded-xl hover:bg-[#E54801] transition-all flex items-center justify-center gap-2">
-                <i class="fas fa-eye"></i> Détails
-              </button>
+              <div class="flex gap-2">
+                <button @click="openDetail(req)"
+                  class="px-4 py-2 bg-[#1B0B38] text-white text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-[#E54801] transition-all flex items-center justify-center gap-2">
+                  <i class="fas fa-eye"></i> Détails
+                </button>
+                <button v-if="['pending', 'assigned'].includes(req.status)" @click="handleEdit(req)"
+                  class="w-9 h-9 bg-blue-100 text-blue-600 rounded-xl hover:bg-blue-600 hover:text-white transition-all flex items-center justify-center"
+                  title="Modifier">
+                  <i class="fas fa-pen text-xs"></i>
+                </button>
+                <button v-if="['pending', 'assigned'].includes(req.status)" @click="confirmDelete(req)"
+                  class="w-9 h-9 bg-red-100 text-red-600 rounded-xl hover:bg-red-600 hover:text-white transition-all flex items-center justify-center"
+                  title="Supprimer">
+                  <i class="fas fa-trash text-xs"></i>
+                </button>
+              </div>
               <span v-if="req.visited_at"
                 class="text-[9px] font-bold text-green-600 text-center uppercase tracking-widest">
                 Audit Réalisé le {{ formatDate(req.visited_at) }}
               </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODAL DÉTAILS -->
+      <div v-if="selectedRequest"
+        class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-[#1B0B38]/60 backdrop-blur-sm">
+        <div class="bg-white w-full max-w-2xl rounded-[2.5rem] overflow-hidden shadow-2xl animate-modal relative">
+          <!-- Close Button -->
+          <button @click="closeDetail"
+            class="absolute top-6 right-6 w-10 h-10 bg-gray-50 text-gray-400 hover:text-[#1B0B38] rounded-full flex items-center justify-center transition-all z-10">
+            <i class="fas fa-times"></i>
+          </button>
+
+          <!-- Top Section: Image & Header -->
+          <div class="p-8 pb-4">
+            <div class="flex items-start gap-6">
+              <div
+                class="w-20 h-20 rounded-3xl bg-orange-50 text-[#E54801] flex items-center justify-center text-3xl shrink-0">
+                <i :class="getCategoryIcon(selectedRequest.category)"></i>
+              </div>
+              <div>
+                <span :class="[
+                  'px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest inline-block mb-3',
+                  getStatusClass(selectedRequest.status),
+                ]">
+                  {{ getStatusLabel(selectedRequest.status) }}
+                </span>
+                <h2 class="text-2xl font-black text-[#1B0B38] mb-1">
+                  {{ selectedRequest.title }}
+                </h2>
+                <p class="text-xs text-gray-500 font-bold uppercase tracking-widest">
+                  Estimation : <span class="text-[#E54801]">{{ formatPrice(selectedRequest.price_estimate) }}
+                    FCFA</span>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Content Scrollable -->
+          <div class="p-8 pt-4 overflow-y-auto max-h-[60vh] custom-scrollbar">
+            <!-- Timeline -->
+            <div class="mb-10">
+              <h4 class="text-[10px] font-black text-gray-300 uppercase tracking-widest mb-6">
+                Progression de l'audit
+              </h4>
+              <div class="flex items-center justify-between relative">
+                <div class="absolute top-5 left-8 right-8 h-1 bg-gray-100 rounded-full"></div>
+                <div v-for="step in statusSteps" :key="step.key" class="relative z-10 flex flex-col items-center gap-2">
+                  <div :class="[
+                    'w-10 h-10 rounded-xl flex items-center justify-center text-sm border-2 transition-all',
+                    isStepDone(step.key) ? 'bg-green-500 border-green-500 text-white' :
+                      isCurrentStep(step.key) ? 'bg-[#E54801] border-[#E54801] text-white' : 'bg-white border-gray-100 text-gray-300'
+                  ]">
+                    <i :class="isStepDone(step.key) ? 'fas fa-check' : step.icon"></i>
+                  </div>
+                  <span
+                    :class="['text-[9px] font-black uppercase tracking-tighter', isCurrentStep(step.key) ? 'text-[#E54801]' : 'text-gray-400']">
+                    {{ step.label }}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Details Grid -->
+            <div class="grid grid-cols-2 gap-8 mb-8">
+              <div>
+                <h4 class="text-[10px] font-black text-gray-300 uppercase tracking-widest mb-4">
+                  Emplacement
+                </h4>
+                <div class="space-y-3">
+                  <div class="flex items-center gap-3">
+                    <i class="fas fa-city text-[#1B0B38] opacity-20 w-4"></i>
+                    <p class="text-sm font-bold text-[#1B0B38]">Ville: <span class="text-gray-500">{{
+                      selectedRequest.city }}</span></p>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <i class="fas fa-map-location-dot text-[#1B0B38] opacity-20 w-4"></i>
+                    <p class="text-sm font-bold text-[#1B0B38]">Quartier: <span class="text-gray-500">{{
+                      selectedRequest.location }}</span></p>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <h4 class="text-[10px] font-black text-gray-300 uppercase tracking-widest mb-4">
+                  Caractéristiques
+                </h4>
+                <div class="space-y-3">
+                  <div class="flex items-center gap-3">
+                    <i class="fas fa-vector-square text-[#1B0B38] opacity-20 w-4"></i>
+                    <p class="text-sm font-bold text-[#1B0B38]">Surface: <span class="text-gray-500">{{
+                      selectedRequest.area || '—' }} m²</span></p>
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <i class="fas fa-bed text-[#1B0B38] opacity-20 w-4"></i>
+                    <p class="text-sm font-bold text-[#1B0B38]">Chambres: <span class="text-gray-500">{{
+                      selectedRequest.bedrooms || '—' }}</span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Description -->
+            <div class="mb-8">
+              <h4 class="text-[10px] font-black text-gray-300 uppercase tracking-widest mb-4">
+                Description du bien
+              </h4>
+              <p class="text-sm text-gray-600 leading-relaxed bg-gray-50 p-5 rounded-2xl border border-gray-100">
+                {{ selectedRequest.description || 'Aucune description fournie.' }}
+              </p>
+            </div>
+
+            <!-- Media/Docs -->
+            <div v-if="selectedRequest.documents && selectedRequest.documents.length">
+              <h4 class="text-[10px] font-black text-gray-300 uppercase tracking-widest mb-4">
+                Documents & Photos
+              </h4>
+              <div class="grid grid-cols-4 gap-4">
+                <div v-for="(doc, i) in selectedRequest.documents" :key="i"
+                  class="aspect-square rounded-xl bg-gray-100 overflow-hidden relative group">
+                  <img :src="'/storage/' + doc" class="w-full h-full object-cover" />
+                  <div
+                    class="absolute inset-0 bg-[#1B0B38]/40 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center">
+                    <a :href="'/storage/' + doc" target="_blank"
+                      class="w-8 h-8 rounded-full bg-white text-[#1B0B38] flex items-center justify-center hover:scale-110 transition-transform shadow-lg">
+                      <i class="fas fa-external-link-alt text-[10px]"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Actions -->
+          <div class="p-8 bg-gray-50 border-t border-gray-100 flex items-center justify-between">
+            <div v-if="selectedRequest.agent" class="flex items-center gap-3">
+              <div
+                class="w-10 h-10 rounded-full bg-orange-400 flex items-center justify-center text-white font-black text-sm">
+                {{ selectedRequest.agent.name.charAt(0) }}
+              </div>
+              <div>
+                <p class="text-[9px] font-black text-gray-400 uppercase tracking-widest">Agent Assigné</p>
+                <p class="text-xs font-black text-[#1B0B38]">{{ selectedRequest.agent.name }}</p>
+              </div>
+            </div>
+            <div v-else class="text-gray-400 text-[10px] font-bold uppercase italic">
+              En attente d'affectation d'agent
+            </div>
+
+            <div class="flex gap-3">
+              <button v-if="['pending', 'assigned'].includes(selectedRequest.status)"
+                @click="confirmDelete(selectedRequest)"
+                class="px-5 py-3 bg-red-50 text-red-600 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all">
+                Supprimer
+              </button>
+              <button v-if="['pending', 'assigned'].includes(selectedRequest.status)"
+                @click="handleEdit(selectedRequest)"
+                class="px-5 py-3 bg-[#1B0B38] text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-[#E54801] transition-all">
+                Modifier la demande
+              </button>
             </div>
           </div>
         </div>
@@ -217,6 +390,32 @@ const openDetail = (req) => {
 };
 const closeDetail = () => {
   selectedRequest.value = null;
+};
+
+// ── Actions: Edit & Delete ──
+const handleEdit = (req) => {
+  router.push({
+    name: "PublierBien",
+    query: { edit: req.id }
+  });
+};
+
+const confirmDelete = async (req) => {
+  if (confirm(`Êtes-vous sûr de vouloir supprimer la demande "${req.title}" ?`)) {
+    try {
+      const res = await axios.delete(`/api/bailleur/publication-requests/${req.id}`);
+      if (res.data.success) {
+        requests.value = requests.value.filter(r => r.id !== req.id);
+        if (selectedRequest.value?.id === req.id) {
+          selectedRequest.value = null;
+        }
+        alert(res.data.message || "Demande supprimée avec succès.");
+      }
+    } catch (err) {
+      console.error("Erreur suppression demande:", err);
+      alert(err.response?.data?.message || "Une erreur est survenue lors de la suppression.");
+    }
+  }
 };
 
 // ── Timeline statut ──

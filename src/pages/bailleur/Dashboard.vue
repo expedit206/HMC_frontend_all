@@ -1,6 +1,8 @@
 <template>
   <DashboardLayout title="Tableau de Bord Bailleur">
     <div class="max-w-6xl mx-auto">
+      <!-- Role Switcher -->
+      <DashboardRoleSwitcher />
       <!-- ═══ SKELETON ════════════════════════════════════════ -->
       <div v-if="isLoading">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -40,7 +42,7 @@
                 <i class="fas fa-home text-xl"></i>
               </div>
               <span class="px-2 py-1 rounded-lg bg-blue-50 text-blue-600 text-[10px] font-bold">{{ stats.occupancy_rate
-                }}%</span>
+              }}%</span>
             </div>
             <p class="text-sm font-medium text-gray-500">Taux d'occupation</p>
             <h3 class="text-2xl font-bold text-gray-900 mt-1">
@@ -273,6 +275,7 @@ import { RouterLink, useRouter } from "vue-router";
 import { useAuthStore } from "../../stores/auth";
 import axios from "../../axios";
 import DashboardLayout from "../../layouts/DashboardLayout.vue";
+import DashboardRoleSwitcher from "../../components/common/DashboardRoleSwitcher.vue";
 
 const router = useRouter();
 const authStore = useAuthStore();

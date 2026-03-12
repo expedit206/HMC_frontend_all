@@ -270,9 +270,9 @@ const fetchData = async () => {
       const u = profileRes.data.data;
       form.value.name = u.name;
       form.value.phone = u.phone || "";
-      form.value.city = u.city || "Yaoundé";
+      form.value.city = u.city || "";
       form.value.bio = u.bio || "";
-      form.value.email = u.email || ""; // Assurez-vous d'avoir l'email s'il y en a un
+      form.value.email = u.email || "";
       stats.value.property_count = u.properties_count;
     } else {
       // Fallback

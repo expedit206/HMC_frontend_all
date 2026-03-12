@@ -212,7 +212,7 @@
       </div>
     </section>
     <!-- SECTION 2: AGENTS IMMOBILIERS -->
-    <section class="py-12 md:py-16 bg-muted/20">
+    <section class="py-12 md:py-16 ">
       <div class="max-w-7xl mx-auto px-4">
         <!-- En-tête -->
         <div class="text-center mb-10 md:mb-16">
@@ -390,7 +390,7 @@
     </section>
 
     <!-- SECTION 4: MARKETPLACE -->
-    <section class="py-8 md:py-6 md:pt-12 bg-muted/20">
+    <section class="py-8 md:py-6 md:pt-12 ">
       <div class="max-w-7xl mx-auto px-4">
         <div class="text-center mb-10 md:mb-4">
           <h2 class="text-2xl md:text-4xl font-bold text-foreground mb-2 md:mb-4">
@@ -680,11 +680,13 @@ onMounted(() => {
 /* Style pour l'input range */
 input[type=range] {
   -webkit-appearance: none;
+  appearance: none;
   background: transparent;
 }
 
 input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
+  appearance: none;
   height: 16px;
   width: 16px;
   border-radius: 50%;

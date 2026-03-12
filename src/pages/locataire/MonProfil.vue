@@ -173,7 +173,7 @@ const form = ref({
   name: authStore.user?.name || "",
   email: authStore.user?.email || "",
   phone: authStore.user?.phone || "",
-  city: authStore.user?.city || "Yaoundé",
+  city: authStore.user?.city || "",
 });
 
 const isSaving = ref(false);

@@ -1,6 +1,8 @@
 <template>
   <DashboardLayout title="Mon Espace Home Cameroon">
     <div class="max-w-[1600px] mx-auto w-full pb-12">
+      <!-- Role Switcher -->
+      <DashboardRoleSwitcher />
 
       <!-- HEADER: Greeting & Quick Stats -->
       <header class="mb-10">
@@ -270,20 +272,7 @@
             </RouterLink>
           </section>
 
-          <!-- EVOLVE CARD -->
-          <section
-            class="bg-gradient-to-br from-[#E54801] to-[#913327] rounded-[2.5rem] p-8 text-white relative overflow-hidden shadow-xl">
-            <div class="relative z-10">
-              <h3 class="text-xl font-black mb-2 italic">Vous êtes propriétaire ?</h3>
-              <p class="text-white/70 text-xs mb-6 leading-relaxed">Publiez vos biens dès maintenant et bénéficiez de
-                notre réseau d'agents certifiés.</p>
-              <RouterLink :to="{ name: 'BailleurFormulaire' }"
-                class="flex items-center gap-3 px-6 py-4 bg-white text-[#1B0B38] rounded-xl font-black shadow-lg hover:scale-105 transition text-sm">
-                <i class="fas fa-building"></i> Passer en mode Bailleur
-              </RouterLink>
-            </div>
-            <i class="fas fa-rocket absolute -right-2 -bottom-2 text-6xl text-white/10 transform -rotate-12"></i>
-          </section>
+
 
         </div>
       </div>
@@ -295,6 +284,7 @@
 import { ref, computed, onMounted } from "vue";
 import { RouterLink } from "vue-router";
 import DashboardLayout from "../../layouts/DashboardLayout.vue";
+import DashboardRoleSwitcher from "../../components/common/DashboardRoleSwitcher.vue";
 import { useAuthStore } from "../../stores/auth";
 import { useRentalStore } from "../../stores/rental";
 
@@ -352,7 +342,7 @@ const featuredListings = [
 const marketItems = [
   {
     name: "Canapé Nordique",
-    
+
     price: "185 000 FCFA",
     img: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=300&q=80",
   },

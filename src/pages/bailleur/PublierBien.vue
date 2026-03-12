@@ -9,7 +9,7 @@
           <h1
             class="text-3xl font-black text-[#1B0B38] leading-tight uppercase relative"
           >
-            Demander une publication
+            Demander de publication
             <span
               class="absolute -bottom-2 left-0 w-20 h-1 bg-[#E54801]"
             ></span>

@@ -8,6 +8,8 @@
     </div>
 
     <div v-else class="max-w-7xl mx-auto">
+      <!-- Role Switcher -->
+      <DashboardRoleSwitcher />
       <!-- STATS CARDS -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 animate-fadeIn">
         <div class="bg-card p-6 rounded-2xl border border-border shadow-sm hover:shadow-lg transition-shadow">
@@ -15,7 +17,8 @@
             <div class="w-12 h-12 rounded-xl bg-secondary/10 flex items-center justify-center">
               <i class="fas fa-users text-secondary text-xl"></i>
             </div>
-            <span class="text-xs font-bold text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-950/30 px-2 py-1 rounded-full">Actifs</span>
+            <span
+              class="text-xs font-bold text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-950/30 px-2 py-1 rounded-full">Actifs</span>
           </div>
           <h3 class="text-2xl font-bold text-foreground mb-1">
             {{ dashboardData.stats.total_users }}
@@ -28,8 +31,9 @@
             <div class="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-950/30 flex items-center justify-center">
               <i class="fas fa-home text-blue-600 dark:text-blue-400 text-xl"></i>
             </div>
-            <span class="text-xs font-bold text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-950/30 px-2 py-1 rounded-full">{{
-              dashboardData.stats.pending_properties }} en attente</span>
+            <span
+              class="text-xs font-bold text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-950/30 px-2 py-1 rounded-full">{{
+                dashboardData.stats.pending_properties }} en attente</span>
           </div>
           <h3 class="text-2xl font-bold text-foreground mb-1">
             {{ dashboardData.stats.total_properties }}
@@ -42,7 +46,8 @@
             <div class="w-12 h-12 rounded-xl bg-green-50 dark:bg-green-950/30 flex items-center justify-center">
               <i class="fas fa-handshake text-green-600 dark:text-green-400 text-xl"></i>
             </div>
-            <span class="text-xs font-bold text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-950/30 px-2 py-1 rounded-full">Confirmées</span>
+            <span
+              class="text-xs font-bold text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-950/30 px-2 py-1 rounded-full">Confirmées</span>
           </div>
           <h3 class="text-2xl font-bold text-foreground mb-1">
             {{ dashboardData.stats.total_transactions }}
@@ -78,7 +83,7 @@
               </p>
             </div>
           </div>
-          <div class="h-64 bg-muted/20 rounded-xl flex items-end justify-between p-4 px-8 gap-4">
+          <div class="h-64  rounded-xl flex items-end justify-between p-4 px-8 gap-4">
             <div v-for="(val, i) in [40, 55, 65, 70, 60, 85]" :key="i"
               class="w-full bg-secondary opacity-70 rounded-t-lg hover:opacity-100 transition relative group"
               :style="`height: ${val}%`">
@@ -143,7 +148,7 @@
           </div>
           <div v-else class="overflow-x-auto">
             <table class="w-full">
-              <thead class="bg-muted/20">
+              <thead class="">
                 <tr>
                   <th class="text-left p-4 text-xs font-bold text-muted-foreground uppercase">
                     Utilisateur
@@ -176,7 +181,7 @@
                     </div>
                   </td>
                   <td class="p-4">
-                    <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-muted/20 text-muted-foreground">
+                    <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase  text-muted-foreground">
                       {{ user.role }}
                     </span>
                   </td>
@@ -219,7 +224,8 @@
             <div v-for="prop in dashboardData.recent_properties" :key="prop.id"
               class="p-4 flex items-center justify-between hover:bg-muted/10 transition-colors">
               <div class="flex items-center gap-3">
-                <div class="w-12 h-12 rounded-xl bg-muted/20 overflow-hidden flex items-center justify-center border border-border">
+                <div
+                  class="w-12 h-12 rounded-xl  overflow-hidden flex items-center justify-center border border-border">
                   <img v-if="prop.images && prop.images.length > 0" :src="`/storage/${prop.images[0].path}`"
                     class="w-full h-full object-cover" />
                   <i v-else class="fas fa-image text-muted-foreground/50"></i>
@@ -304,7 +310,7 @@
         </div>
       </div>
     </div>
-    
+
   </DashboardLayout>
 </template>
 
@@ -313,6 +319,7 @@ import { ref, onMounted } from "vue";
 import { RouterLink } from "vue-router";
 import axios from "../../axios";
 import DashboardLayout from "../../layouts/DashboardLayout.vue";
+import DashboardRoleSwitcher from "../../components/common/DashboardRoleSwitcher.vue";
 
 const isLoading = ref(true);
 const dashboardData = ref({
@@ -370,6 +377,7 @@ const formatPrice = (p) => {
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);

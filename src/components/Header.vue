@@ -18,7 +18,7 @@
       <div class="hidden lg:flex items-center flex-1 justify-center gap-6 px-2">
         <!-- Navigation Links -->
         <nav class="flex items-center gap-6 font-medium text-sm text-muted-foreground">
-          <RouterLink v-for="link in navLinks" :key="link.to" :to="link.to" active-class="text-primary font-bold"
+          <RouterLink v-for="link in navLinks" :key="link.to" :to="link.to" active-class="text-secondary font-bold"
             class="flex items-center gap-2 hover:text-primary transition-colors whitespace-nowrap">
             <i :class="link.icon" class="text-xs"></i> {{ link.label }}
           </RouterLink>
@@ -34,7 +34,7 @@
               <i class="fas" :class="searchExpanded ? 'fa-times' : 'fa-search'"></i>
             </button>
             <input ref="searchInput" v-model="searchQuery" type="text" placeholder="Rechercher un logement..."
-              class="w-full h-10 rounded-full border border-border bg-muted/20 pl-10 pr-4 text-sm placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20 focus:bg-card outline-none transition-all"
+              class="w-full h-10 rounded-full border border-border  pl-10 pr-4 text-sm placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20 focus:bg-card outline-none transition-all"
               :class="searchExpanded ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4 pointer-events-none'"
               @blur="handleBlur" @keyup.enter="handleSearch" />
           </div>
@@ -166,7 +166,7 @@
       class="lg:hidden bg-card border-t border-border flex justify-between px-6 py-2 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] overflow-x-auto scrollbar-hide sticky bottom-0 z-50">
       <RouterLink v-for="link in mobileBottomLinks" :key="link.to" :to="link.to" custom v-slot="{ navigate, isActive }">
         <div @click="navigate" role="button" class="flex flex-col items-center gap-1 min-w-15 transition cursor-pointer"
-          :class="[isActive ? 'text-primary scale-110' : 'text-muted-foreground hover:text-primary']">
+          :class="[isActive ? 'text-secondary scale-110' : 'text-muted-foreground hover:text-primary']">
           <i :class="isActive ? link.icon.replace('far ', 'fas ') : link.icon" class="text-lg"></i>
           <span class="text-[10px] font-bold">{{ link.label }}</span>
         </div>
@@ -190,7 +190,7 @@
         </RouterLink>
 
         <RouterLink to="/auth/connexion"
-          class="flex items-center justify-center gap-2 border border-border bg-muted/20 text-foreground py-2.5 rounded-lg font-medium hover:bg-muted transition">
+          class="flex items-center justify-center gap-2 border border-border  text-foreground py-2.5 rounded-lg font-medium hover:bg-muted transition">
           Se connecter
         </RouterLink>
       </div>
@@ -228,7 +228,7 @@
         </button>
       </div>
 
-      <div class="bg-muted/20 rounded-xl p-3">
+      <div class=" rounded-xl p-3">
         <h3 class="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2">
           Navigation
         </h3>
@@ -254,7 +254,7 @@
   <div v-show="searchExpanded" class="lg:hidden bg-card border-t border-border px-4 py-3 shadow-sm">
     <div class="relative max-w-7xl mx-auto">
       <input v-model="searchQuery" type="text" placeholder="Rechercher un logement..."
-        class="w-full h-11 rounded-full border border-border bg-muted/20 pl-4 pr-12 text-sm placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20 focus:bg-card outline-none"
+        class="w-full h-11 rounded-full border border-border  pl-4 pr-12 text-sm placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20 focus:bg-card outline-none"
         @keyup.enter="handleSearch" />
       <button @click="handleSearch" class="absolute right-3 top-1/2 -translate-y-1/2 text-primary">
         <i class="fas fa-search"></i>

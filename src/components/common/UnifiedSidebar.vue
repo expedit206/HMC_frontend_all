@@ -134,12 +134,12 @@ const getRoleIcon = (r) => {
 
 const getRoleName = (r) => {
   const names = {
-    admin: "Plateforme (Admin)",
+    admin: "Administrateur",
     agent: "Agent Terrain",
-    bailleur: "Propriétaire",
-    prestataire: "Professionnel",
-    client: "Locataire",
-    locataire: "Locataire & Engagé",
+    bailleur: "Bailleur",
+    prestataire: "Prestataire de service",
+    client: "Client",
+    locataire: "Locataire",
   };
   return names[r] || r;
 };
@@ -256,7 +256,7 @@ const allLinks = [
   {
     name: "Services",
     route: "AdminServices",
-    icon: "fas fa-tools-wrench",
+    icon: "fas fa-tools",
     roles: ["admin"],
   },
 

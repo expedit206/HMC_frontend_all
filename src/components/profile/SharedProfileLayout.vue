@@ -37,14 +37,22 @@
 
                         <div class="relative z-10 pt-4">
                             <div class="relative mb-6 inline-block group">
-                                <div class="w-32 h-32 lg:w-40 lg:h-40 mx-auto rounded-full bg-white p-2 shadow-2xl">
-                                    <div
-                                        class="w-full h-full rounded-full bg-gradient-to-br from-[#E54801] to-[#913327] flex items-center justify-center text-white text-4xl lg:text-5xl font-black">
-                                        {{ userInitials }}
+                                <div
+                                    class="w-32 h-32 lg:w-40 lg:h-40 mx-auto rounded-full bg-white p-2 shadow-2xl overflow-hidden relative">
+                                    <UserAvatar :user="authStore.user" size="3xl" class="w-full h-full" />
+
+                                    <!-- Overlay de chargement -->
+                                    <div v-if="isUploading"
+                                        class="absolute inset-0 bg-black/40 flex items-center justify-center z-20">
+                                        <i class="fas fa-circle-notch fa-spin text-white text-2xl"></i>
                                     </div>
                                 </div>
-                                <button
-                                    class="absolute bottom-2 right-2 w-10 h-10 bg-[#1B0B38] text-white rounded-full flex items-center justify-center shadow-lg group-hover:bg-[#E54801] group-hover:scale-110 transition-all border-4 border-white">
+
+                                <input type="file" ref="fileInput" class="hidden" accept="image/*"
+                                    @change="handleFileUpload" />
+
+                                <button @click="triggerFileInput" :disabled="isUploading"
+                                    class="absolute bottom-2 right-2 w-10 h-10 bg-[#1B0B38] text-white rounded-full flex items-center justify-center shadow-lg group-hover:bg-[#E54801] group-hover:scale-110 transition-all border-4 border-white z-30 disabled:opacity-50 disabled:cursor-not-allowed">
                                     <i class="fas fa-camera text-sm"></i>
                                 </button>
                             </div>
@@ -55,7 +63,7 @@
                             <div class="flex items-center justify-center gap-2 mb-4">
                                 <span
                                     class="px-3 py-1 bg-[#E54801]/10 text-[#E54801] rounded-full text-[10px] font-black uppercase tracking-widest">{{
-                                    roleLabel }}</span>
+                                        roleLabel }}</span>
                                 <slot name="badge-icon"></slot>
                             </div>
                             <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-6">
@@ -203,8 +211,9 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import DashboardLayout from "../../layouts/DashboardLayout.vue";
+import UserAvatar from "../../components/common/UserAvatar.vue";
 import { useAuthStore } from "../../stores/auth";
 
 const props = defineProps({
@@ -222,6 +231,8 @@ const props = defineProps({
 const emit = defineEmits(["save", "toggleSidebar"]);
 
 const authStore = useAuthStore();
+const fileInput = ref(null);
+const isUploading = ref(false);
 
 const userInitials = computed(() => {
     const name = authStore.user?.name || "U";
@@ -232,6 +243,42 @@ const authDate = computed(() => {
     const date = authStore.user?.created_at ? new Date(authStore.user.created_at) : new Date();
     return date.toLocaleDateString("fr-FR", { year: "numeric", month: "long" });
 });
+
+const triggerFileInput = () => {
+    fileInput.value.click();
+};
+
+const handleFileUpload = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    // Validation simple
+    if (!file.type.startsWith('image/')) {
+        alert('Veuillez sélectionner une image valide.');
+        return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+        alert('L\'image est trop volumineuse (max 5 Mo).');
+        return;
+    }
+
+    isUploading.value = true;
+    try {
+        const result = await authStore.updateAvatar(file);
+        if (result.success) {
+            // Optionnel: petit message de succès
+        } else {
+            alert(result.message);
+        }
+    } catch (err) {
+        console.error(err);
+    } finally {
+        isUploading.value = false;
+        // Reset l'input pour permettre de re-sélectionner le même fichier si besoin
+        event.target.value = '';
+    }
+};
 
 const onSave = () => {
     emit("save");
