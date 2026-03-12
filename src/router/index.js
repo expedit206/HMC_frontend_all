@@ -56,7 +56,7 @@ const BailleurMonProfil = () => import('../pages/bailleur/MonProfil.vue')
 const BailleurAssistance = () => import('../pages/bailleur/Assistance.vue')
 const BailleurDevenirPrestataire = () => import('../pages/bailleur/DevenirPrestataire.vue')
 const BailleurFormulaire = () => import('../pages/bailleur/FormulaireBailleur.vue')
-const MesDemandes = () => import('../pages/shared/PublicationRequests.vue')
+const MesDemandes = () => import('../pages/shared/MesDemandes.vue')
 
 // Client Pages
 const ClientDashboard = () => import('../pages/client/Dashboard.vue')

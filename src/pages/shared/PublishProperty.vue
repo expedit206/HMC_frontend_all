@@ -198,8 +198,7 @@
               style="flex: 2">
               <i v-if="isSubmitting" class="fas fa-circle-notch fa-spin"></i>
               <i v-else :class="isEditMode ? 'fas fa-save' : 'fas fa-paper-plane'"></i>
-              {{ isSubmitting ? "Envoi en cours..." : (isEditMode ? "Enregistrer les modifications" : "Envoyer ma
-              demande") }}
+              {{ isSubmitting ? "Envoi en cours..." : (isEditMode ? "Enregistrer les modifications" : "Envoyer ma demande") }}
             </button>
           </div>
         </form>

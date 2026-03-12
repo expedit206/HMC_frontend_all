@@ -33,7 +33,8 @@
         </div>
 
         <!-- Toggle Roles Switcher -->
-        <button v-if="expanded && allRoles.length > 1" @click="showRoleSwitcher = !showRoleSwitcher"
+        <button v-if="expanded && allRoles.length > 1" @mouseover ="showRoleSwitcher = true" 
+          @click="showRoleSwitcher = !showRoleSwitcher"
           class="w-7 h-7 rounded-lg bg-gray-50 flex items-center justify-center text-gray-400 hover:text-[#1B0B38] hover:bg-gray-100 transition-colors shrink-0 outline-none">
           <i class="fas fa-right-left text-xs transition-transform" :class="{ '-rotate-90': showRoleSwitcher }"></i>
         </button>
@@ -122,24 +123,24 @@ const showRoleSwitcher = ref(false);
 
 const getRoleIcon = (r) => {
   const icons = {
-    admin: "fas fa-shield-halved",
-    agent: "fas fa-user-tie",
-    bailleur: "fas fa-house-chimney-user",
-    prestataire: "fas fa-tools",
     client: "fas fa-search",
     locataire: "fas fa-key",
+    bailleur: "fas fa-house-chimney-user",
+    agent: "fas fa-user-tie",
+    prestataire: "fas fa-tools",
+    admin: "fas fa-shield-halved",
   };
   return icons[r] || "fas fa-user-circle";
 };
 
 const getRoleName = (r) => {
   const names = {
-    admin: "Administrateur",
+    client: "Client",
+    locataire: "Locataire",
     agent: "Agent Terrain",
     bailleur: "Bailleur",
     prestataire: "Prestataire de service",
-    client: "Client",
-    locataire: "Locataire",
+    admin: "Administrateur",
   };
   return names[r] || r;
 };
@@ -155,12 +156,12 @@ const handleSwitchRole = async (newRole) => {
     showRoleSwitcher.value = false;
     // Redirection automatique vers le bon dashboard
     const dashboards = {
-      admin: "AdminDashboard",
-      agent: "AgentDashboard",
-      bailleur: "BailleurDashboard",
-      prestataire: "PrestataireDashboard",
       client: "ClientDashboard",
       locataire: "LocataireDashboard",
+      bailleur: "BailleurDashboard",
+      agent: "AgentDashboard",
+      prestataire: "PrestataireDashboard",
+      admin: "AdminDashboard",
     };
     if (dashboards[newRole]) {
       router.push({ name: dashboards[newRole] });
@@ -242,7 +243,7 @@ const allLinks = [
     roles: ["admin"],
   },
   {
-    name: "Missions Audit",
+    name: "demandes de publication",
     route: "AdminDemandesPublication",
     icon: "fas fa-tasks",
     roles: ["admin"],
@@ -273,12 +274,7 @@ const allLinks = [
     icon: "fas fa-briefcase",
     roles: ["agent"],
   },
-  {
-    name: "Mes Biens",
-    route: "AgentBiens",
-    icon: "fas fa-city",
-    roles: ["agent"],
-  },
+
   {
     name: "Agenda",
     route: "AgentAgenda",
@@ -301,7 +297,7 @@ const allLinks = [
   },
 
   {
-    name: "Publier (Audit)",
+    name: "Publier",
     route: "PublierBien",
     icon: "fas fa-plus-circle",
     roles: ["bailleur"],

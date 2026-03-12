@@ -160,17 +160,47 @@
 
             <!-- Actions -->
             <div class="flex md:flex-col gap-2 shrink-0 w-full md:w-auto items-end">
-              <!-- Audit programmé -->
+              <!-- Audit programmé et confirmation -->
               <div v-if="req.scheduled_at && !req.visited_at"
-                class="bg-blue-50/70 border border-blue-100 p-3 rounded-2xl mb-2 w-full max-w-[220px] shadow-sm">
-                <p class="text-[9px] font-black text-blue-500 uppercase tracking-widest leading-none mb-1 text-right">
+                class="bg-blue-50/70 border border-blue-100 p-4 rounded-2xl mb-2 w-full max-w-[280px] shadow-sm">
+                <p class="text-[9px] font-black text-blue-500 uppercase tracking-widest leading-none mb-2 text-right">
                   📅 RDV Audit Terrain
                 </p>
-                <p class="text-xs font-black text-blue-800 text-right">
-                  {{ formatDateFull(req.scheduled_at) }}
+                <p class="text-xs font-black text-blue-800 text-right mb-1 uppercase">
+                  {{ formatDate(req.scheduled_at) }}
                 </p>
+
+                <!-- Status de confirmation -->
+                <div class="flex justify-end mb-2">
+                  <span v-if="req.bailleur_confirmed_at"
+                    class="text-[8px] font-black text-green-600 bg-green-50 px-2 py-0.5 rounded border border-green-200 uppercase">
+                    <i class="fas fa-check-circle mr-1"></i> Vous avez confirmé
+                  </span>
+                  <span v-else-if="req.bailleur_declined_at"
+                    class="text-[8px] font-black text-red-600 bg-red-50 px-2 py-0.5 rounded border border-red-200 uppercase">
+                    <i class="fas fa-history mr-1"></i> Report demandé
+                  </span>
+                  <span v-else
+                    class="text-[8px] font-black text-orange-600 bg-orange-50 px-2 py-0.5 rounded border border-orange-200 animate-pulse uppercase">
+                    <i class="fas fa-clock mr-1"></i> Confirmation attendue
+                  </span>
+                </div>
+
+                <!-- Boutons d'action si pas encore confirmé/décliné -->
+                <div v-if="!req.bailleur_confirmed_at && !req.bailleur_declined_at"
+                  class="flex gap-2 justify-end mt-3 border-t border-blue-100 pt-3">
+                  <button @click="handleDeclineAudit(req)"
+                    class="px-2 py-1.5 bg-white text-red-600 border border-red-200 rounded-lg text-[8px] font-black uppercase hover:bg-red-50 transition-all flex items-center gap-1">
+                    <i class="fas fa-times"></i> Reporter
+                  </button>
+                  <button @click="handleConfirmAudit(req)"
+                    class="px-3 py-1.5 bg-blue-600 text-white rounded-lg text-[8px] font-black uppercase hover:bg-blue-700 transition-all flex items-center gap-1">
+                    <i class="fas fa-check"></i> Confirmer
+                  </button>
+                </div>
+
                 <p v-if="req.agent_notes"
-                  class="text-[9px] text-blue-600 italic text-right mt-1.5 border-t border-blue-100 pt-1">
+                  class="text-[9px] text-blue-600 italic text-right mt-2 border-t border-blue-50 pt-1">
                   <i class="fas fa-quote-left mr-1 opacity-50"></i>{{ req.agent_notes }}
                 </p>
               </div>
@@ -315,10 +345,10 @@
               <div class="grid grid-cols-4 gap-4">
                 <div v-for="(doc, i) in selectedRequest.documents" :key="i"
                   class="aspect-square rounded-xl bg-gray-100 overflow-hidden relative group">
-                  <img :src="'/storage/' + doc" class="w-full h-full object-cover" />
+                  <img :src="getFileUrl(doc)" class="w-full h-full object-cover" />
                   <div
                     class="absolute inset-0 bg-[#1B0B38]/40 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center">
-                    <a :href="'/storage/' + doc" target="_blank"
+                    <a :href="getFileUrl(doc)" target="_blank"
                       class="w-8 h-8 rounded-full bg-white text-[#1B0B38] flex items-center justify-center hover:scale-110 transition-transform shadow-lg">
                       <i class="fas fa-external-link-alt text-[10px]"></i>
                     </a>
@@ -366,8 +396,9 @@
 <script setup>
 import { ref, computed, onMounted } from "vue";
 import DashboardLayout from "../../layouts/DashboardLayout.vue";
-import { RouterLink } from "vue-router";
+import { RouterLink, useRouter } from "vue-router";
 import axios from "../../axios";
+const router = useRouter();
 const isLoading = ref(true);
 const requests = ref([]);
 const selectedRequest = ref(null);
@@ -388,8 +419,68 @@ const fetchData = async () => {
 const openDetail = (req) => {
   selectedRequest.value = req;
 };
+
 const closeDetail = () => {
   selectedRequest.value = null;
+}
+const getFileUrl = (path) => {
+  if (!path) return "";
+  if (path.startsWith("http")) return path;
+  const baseUrl = axios.defaults.baseURL?.replace(/\/$/, "") || "http://localhost:8000";
+  return `${baseUrl}/storage/${path.replace(/^\//, "").replace(/^storage\//, "")}`;
+};
+
+// ── Résolution RDV Audit ──
+const isProcessingAudit = ref(false);
+
+const handleConfirmAudit = async (req) => {
+  if (isProcessingAudit.value) return;
+  isProcessingAudit.value = true;
+  try {
+    const { data } = await axios.post(`/api/bailleur/publication-requests/${req.id}/confirm-audit`);
+    if (data.success) {
+      alert(data.message);
+      // Actualiser les données locales
+      const idx = requests.value.findIndex(r => r.id === req.id);
+      if (idx !== -1) {
+        requests.value[idx] = data.data;
+        if (selectedRequest.value?.id === req.id) {
+          selectedRequest.value = data.data;
+        }
+      }
+    }
+  } catch (err) {
+    console.error("Erreur confirmation audit:", err);
+    alert("Une erreur est survenue lors de la confirmation.");
+  } finally {
+    isProcessingAudit.value = false;
+  }
+};
+
+const handleDeclineAudit = async (req) => {
+  const notes = prompt("Veuillez indiquer pourquoi vous souhaitez reporter le rendez-vous (Optionnel) :");
+  if (notes === null) return; // Annulation du prompt
+
+  if (isProcessingAudit.value) return;
+  isProcessingAudit.value = true;
+  try {
+    const { data } = await axios.post(`/api/bailleur/publication-requests/${req.id}/decline-audit`, { notes });
+    if (data.success) {
+      alert(data.message);
+      const idx = requests.value.findIndex(r => r.id === req.id);
+      if (idx !== -1) {
+        requests.value[idx] = data.data;
+        if (selectedRequest.value?.id === req.id) {
+          selectedRequest.value = data.data;
+        }
+      }
+    }
+  } catch (err) {
+    console.error("Erreur report audit:", err);
+    alert("Une erreur est survenue.");
+  } finally {
+    isProcessingAudit.value = false;
+  }
 };
 
 // ── Actions: Edit & Delete ──
@@ -453,21 +544,32 @@ const publishedCount = computed(
 
 // ── Formatters ──
 const formatPrice = (p) => new Intl.NumberFormat("fr-FR").format(p || 0);
-const formatDate = (d) =>
-  d
-    ? new Date(d).toLocaleDateString("fr-FR", {
-      day: "numeric",
-      month: "short",
-    })
-    : "—";
-const formatDateFull = (d) =>
-  d
-    ? new Date(d).toLocaleDateString("fr-FR", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    })
-    : "—";
+// const formatDate = (d) =>
+//   d
+//     ? new Date(d).toLocaleDateString("fr-FR", {
+//       day: "numeric",
+//       month: "short",
+//     })
+//     : "—";
+// const formatDateFull = (d) =>
+//   d
+//     ? new Date(d).toLocaleDateString("fr-FR", {
+//       day: "numeric",
+//       month: "long",
+//       year: "numeric",
+//     })
+//     : "—";
+
+const formatDate = (d) => {
+  if (!d) return "—";
+  return new Date(d).toLocaleDateString("fr-FR", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+};
 
 // ── Status helpers ──
 const getStatusClass = (status) => {
