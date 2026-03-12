@@ -1,20 +1,20 @@
 <template>
   <div
-    class="min-h-screen bg-gray-50 flex items-center justify-center p-4 font-sans"
+    class="min-h-screen bg-background flex items-center justify-center p-4 font-sans"
   >
-    <div class="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-lg">
+    <div class="max-w-md w-full space-y-8 bg-card p-8 rounded-xl shadow-lg border border-border">
       <!-- Header -->
       <div>
         <RouterLink
           :to="{ name: 'ClientDashboard' }"
-          class="text-gray-500 hover:text-gray-900 text-sm mb-4 inline-flex items-center gap-2 transition-colors"
+          class="text-muted-foreground hover:text-foreground text-sm mb-4 inline-flex items-center gap-2 transition-colors"
         >
           <i class="fas fa-arrow-left"></i> Annuler
         </RouterLink>
-        <h2 class="mt-2 text-center text-3xl font-extrabold text-[#1B0B38]">
+        <h2 class="mt-2 text-center text-3xl font-extrabold text-foreground">
           Espace Locataire
         </h2>
-        <p class="mt-2 text-center text-sm text-gray-600">
+        <p class="mt-2 text-center text-sm text-muted-foreground">
           Complétez votre profil pour faciliter vos locations.
         </p>
       </div>
@@ -32,17 +32,17 @@
                 id="situation"
                 v-model="form.situation"
                 required
-                class="appearance-none rounded-none rounded-t-md relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-[#E54801] focus:border-[#E54801] focus:z-10 sm:text-sm transition-all"
+                class="appearance-none rounded-none rounded-t-md relative block w-full px-3 py-3 border border-border bg-background text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-secondary focus:border-secondary focus:z-10 sm:text-sm transition-all"
               >
-                <option value="" disabled>Votre situation...</option>
-                <option value="cdi">CDI</option>
-                <option value="cdd">CDD</option>
-                <option value="etudiant">Étudiant</option>
-                <option value="independant">Indépendant</option>
-                <option value="retraite">Retraité</option>
+                <option value="" disabled class="bg-card">Votre situation...</option>
+                <option value="cdi" class="bg-card">CDI</option>
+                <option value="cdd" class="bg-card">CDD</option>
+                <option value="etudiant" class="bg-card">Étudiant</option>
+                <option value="independant" class="bg-card">Indépendant</option>
+                <option value="retraite" class="bg-card">Retraité</option>
               </select>
               <div
-                class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
+                class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-muted-foreground"
               >
                 <i class="fas fa-chevron-down text-xs"></i>
               </div>
@@ -57,7 +57,7 @@
               v-model="form.revenus"
               type="number"
               required
-              class="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-[#E54801] focus:border-[#E54801] focus:z-10 sm:text-sm transition-all"
+              class="appearance-none rounded-none relative block w-full px-3 py-3 border border-border bg-background text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-secondary focus:border-secondary focus:z-10 sm:text-sm transition-all"
               placeholder="Revenus Mensuels (FCFA)"
             />
           </div>
@@ -69,14 +69,14 @@
               <select
                 id="garants"
                 v-model="form.garant"
-                class="appearance-none rounded-none rounded-b-md relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-[#E54801] focus:border-[#E54801] focus:z-10 sm:text-sm transition-all"
+                class="appearance-none rounded-none rounded-b-md relative block w-full px-3 py-3 border border-border bg-background text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-secondary focus:border-secondary focus:z-10 sm:text-sm transition-all"
               >
-                <option value="" disabled>Avez-vous un garant ?</option>
-                <option value="non">Non</option>
-                <option value="oui">Oui</option>
+                <option value="" disabled class="bg-card">Avez-vous un garant ?</option>
+                <option value="non" class="bg-card">Non</option>
+                <option value="oui" class="bg-card">Oui</option>
               </select>
               <div
-                class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
+                class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-muted-foreground"
               >
                 <i class="fas fa-chevron-down text-xs"></i>
               </div>
@@ -90,11 +90,11 @@
             id="assurance"
             v-model="form.wantsInsurance"
             type="checkbox"
-            class="h-4 w-4 text-[#E54801] focus:ring-[#E54801] border-gray-300 rounded cursor-pointer"
+            class="h-4 w-4 text-secondary focus:ring-secondary border-border rounded cursor-pointer bg-background"
           />
           <label
             for="assurance"
-            class="ml-2 block text-sm text-gray-900 cursor-pointer"
+            class="ml-2 block text-sm text-foreground cursor-pointer"
           >
             Je souhaite être contacté pour une assurance habitation
           </label>
@@ -105,14 +105,14 @@
           <button
             type="submit"
             :disabled="isSubmitting"
-            class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-bold uppercase tracking-wide rounded-lg text-white bg-[#E54801] hover:bg-[#913327] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#E54801] transition-all disabled:opacity-70 disabled:cursor-not-allowed shadow-md hover:shadow-lg"
+            class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-bold uppercase tracking-wide rounded-lg text-secondary-foreground bg-secondary hover:bg-secondary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary transition-all disabled:opacity-70 disabled:cursor-not-allowed shadow-md hover:shadow-lg"
           >
             <span class="absolute left-0 inset-y-0 flex items-center pl-3">
               <i
                 v-if="!isSubmitting"
-                class="fas fa-key text-[#913327] group-hover:text-white transition-colors"
+                class="fas fa-key text-secondary-foreground/70 group-hover:text-secondary-foreground transition-colors"
               ></i>
-              <i v-else class="fas fa-spinner fa-spin text-white"></i>
+              <i v-else class="fas fa-spinner fa-spin text-secondary-foreground"></i>
             </span>
             {{
               isSubmitting ? "Activation..." : "Activer mon espace Locataire"

@@ -1,6 +1,6 @@
 <template>
     <div :class="[
-        'relative flex-shrink-0 overflow-hidden bg-gray-100 flex items-center justify-center',
+        'relative shrink-0 overflow-hidden bg-gray-100 flex items-center justify-center',
         sizeClasses[size] || 'w-10 h-10',
         roundedClasses[rounded] || 'rounded-full',
         border ? 'border-2 border-white shadow-sm' : ''

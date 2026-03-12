@@ -1,145 +1,145 @@
 <template>
-    <div class="bg-[#FAF9F5] overflow-y-auto h-full py-12 px-6">
+    <div class="bg-background overflow-y-auto h-full py-12 px-6">
         <div class="max-w-3xl mx-auto">
             <!-- En-tête -->
             <div class="mb-10 flex justify-between items-end">
                 <div>
-                    <h1 class="text-3xl font-black text-[#1B0B38] leading-tight uppercase relative">
+                    <h1 class="text-3xl font-black text-foreground leading-tight uppercase relative">
                         Éditer le bien
-                        <span class="absolute -bottom-2 left-0 w-20 h-1 bg-[#E54801]"></span>
+                        <span class="absolute -bottom-2 left-0 w-20 h-1 bg-secondary"></span>
                     </h1>
-                    <p class="text-gray-500 font-bold uppercase tracking-widest text-[11px] mt-4">
+                    <p class="text-muted-foreground font-bold uppercase tracking-widest text-[11px] mt-4">
                         Modifier les informations de votre bien immobilier
                     </p>
                 </div>
                 <RouterLink :to="{ name: 'BailleurMesBiens' }"
-                    class="group flex items-center gap-2 text-xs font-black text-gray-400 hover:text-[#E54801] transition-all uppercase tracking-widest">
+                    class="group flex items-center gap-2 text-xs font-black text-muted-foreground hover:text-secondary transition-all uppercase tracking-widest">
                     <span>Retour</span>
                     <div
-                        class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center group-hover:bg-[#E54801] group-hover:text-white transition-all">
+                        class="w-8 h-8 rounded-full bg-muted/20 flex items-center justify-center group-hover:bg-secondary group-hover:text-secondary-foreground transition-all">
                         <i class="fas fa-arrow-left"></i>
                     </div>
                 </RouterLink>
             </div>
 
             <div v-if="isLoading" class="flex justify-center py-20">
-                <i class="fas fa-spinner fa-spin text-4xl text-[#E54801]"></i>
+                <i class="fas fa-spinner fa-spin text-4xl text-secondary"></i>
             </div>
 
             <form v-else @submit.prevent="updateProperty" class="space-y-8 animate-fadeIn">
-                <section class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
+                <section class="bg-card p-8 rounded-3xl shadow-sm border border-border">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <!-- Titre -->
                         <div class="col-span-1 md:col-span-2">
-                            <label class="block text-[10px] text-gray-400 font-bold uppercase mb-2 ml-2">Titre du
+                            <label class="block text-[10px] text-muted-foreground font-bold uppercase mb-2 ml-2">Titre du
                                 bien</label>
                             <input v-model="form.title" type="text" required
-                                class="w-full px-5 py-4 bg-gray-50 border-none rounded-2xl text-sm font-medium focus:ring-2 focus:ring-[#E54801]/20 outline-none transition-all text-gray-700" />
+                                class="w-full px-5 py-4 bg-muted/20 border-none rounded-2xl text-sm font-medium focus:ring-2 focus:ring-secondary/20 outline-none transition-all text-foreground placeholder:text-muted-foreground" />
                         </div>
 
                         <!-- Type -->
                         <div>
-                            <label class="block text-[10px] text-gray-400 font-bold uppercase mb-2 ml-2">Type
+                            <label class="block text-[10px] text-muted-foreground font-bold uppercase mb-2 ml-2">Type
                                 d'offre</label>
                             <select v-model="form.type"
-                                class="w-full px-5 py-4 bg-gray-50 border-none rounded-2xl text-sm font-medium focus:ring-2 focus:ring-[#E54801]/20 outline-none transition-all cursor-pointer text-gray-700">
-                                <option value="rent">À Louer</option>
-                                <option value="sale">À Vendre</option>
+                                class="w-full px-5 py-4 bg-muted/20 border-none rounded-2xl text-sm font-medium focus:ring-2 focus:ring-secondary/20 outline-none transition-all cursor-pointer text-foreground">
+                                <option value="rent" class="bg-card">À Louer</option>
+                                <option value="sale" class="bg-card">À Vendre</option>
                             </select>
                         </div>
 
                         <!-- Catégorie -->
                         <div>
                             <label
-                                class="block text-[10px] text-gray-400 font-bold uppercase mb-2 ml-2">Catégorie</label>
+                                class="block text-[10px] text-muted-foreground font-bold uppercase mb-2 ml-2">Catégorie</label>
                             <select v-model="form.category"
-                                class="w-full px-5 py-4 bg-gray-50 border-none rounded-2xl text-sm font-medium focus:ring-2 focus:ring-[#E54801]/20 outline-none transition-all cursor-pointer text-gray-700">
-                                <option value="Villa">Villa</option>
-                                <option value="Appartement">Appartement</option>
-                                <option value="Studio">Studio</option>
-                                <option value="Chambre">Chambre</option>
-                                <option value="Bureau">Bureau / Local Pro</option>
-                                <option value="Terrain">Terrain</option>
+                                class="w-full px-5 py-4 bg-muted/20 border-none rounded-2xl text-sm font-medium focus:ring-2 focus:ring-secondary/20 outline-none transition-all cursor-pointer text-foreground">
+                                <option value="Villa" class="bg-card">Villa</option>
+                                <option value="Appartement" class="bg-card">Appartement</option>
+                                <option value="Studio" class="bg-card">Studio</option>
+                                <option value="Chambre" class="bg-card">Chambre</option>
+                                <option value="Bureau" class="bg-card">Bureau / Local Pro</option>
+                                <option value="Terrain" class="bg-card">Terrain</option>
                             </select>
                         </div>
 
                         <!-- Prix -->
                         <div>
-                            <label class="block text-[10px] text-gray-400 font-bold uppercase mb-2 ml-2">Loyer / Prix
+                            <label class="block text-[10px] text-muted-foreground font-bold uppercase mb-2 ml-2">Loyer / Prix
                                 (XAF)</label>
                             <input v-model.number="form.price" type="number" required
-                                class="w-full px-5 py-4 bg-gray-50 border-none rounded-2xl text-sm font-bold focus:ring-2 focus:ring-[#E54801]/20 outline-none transition-all text-[#1B0B38]" />
+                                class="w-full px-5 py-4 bg-muted/20 border-none rounded-2xl text-sm font-bold focus:ring-2 focus:ring-secondary/20 outline-none transition-all text-foreground" />
                         </div>
 
                         <!-- Ville -->
                         <div>
-                            <label class="block text-[10px] text-gray-400 font-bold uppercase mb-2 ml-2">Ville</label>
+                            <label class="block text-[10px] text-muted-foreground font-bold uppercase mb-2 ml-2">Ville</label>
                             <input v-model="form.city" type="text" required
-                                class="w-full px-5 py-4 bg-gray-50 border-none rounded-2xl text-sm font-medium focus:ring-2 focus:ring-[#E54801]/20 outline-none transition-all text-gray-700" />
+                                class="w-full px-5 py-4 bg-muted/20 border-none rounded-2xl text-sm font-medium focus:ring-2 focus:ring-secondary/20 outline-none transition-all text-foreground placeholder:text-muted-foreground" />
                         </div>
 
                         <!-- Quartier -->
                         <div class="col-span-1 md:col-span-2">
-                            <label class="block text-[10px] text-gray-400 font-bold uppercase mb-2 ml-2">Quartier /
+                            <label class="block text-[10px] text-muted-foreground font-bold uppercase mb-2 ml-2">Quartier /
                                 Adresse précise</label>
                             <input v-model="form.location" type="text" required
-                                class="w-full px-5 py-4 bg-gray-50 border-none rounded-2xl text-sm font-medium focus:ring-2 focus:ring-[#E54801]/20 outline-none transition-all text-gray-700" />
+                                class="w-full px-5 py-4 bg-muted/20 border-none rounded-2xl text-sm font-medium focus:ring-2 focus:ring-secondary/20 outline-none transition-all text-foreground placeholder:text-muted-foreground" />
                         </div>
 
                         <!-- Chambres / SDB -->
                         <div>
                             <label
-                                class="block text-[10px] text-gray-400 font-bold uppercase mb-2 ml-2">Chambres</label>
+                                class="block text-[10px] text-muted-foreground font-bold uppercase mb-2 ml-2">Chambres</label>
                             <input v-model.number="form.bedrooms" type="number"
-                                class="w-full px-5 py-4 bg-gray-50 border-none rounded-2xl text-sm font-medium focus:ring-2 focus:ring-[#E54801]/20 outline-none transition-all text-gray-700" />
+                                class="w-full px-5 py-4 bg-muted/20 border-none rounded-2xl text-sm font-medium focus:ring-2 focus:ring-secondary/20 outline-none transition-all text-foreground placeholder:text-muted-foreground" />
                         </div>
 
                         <div>
-                            <label class="block text-[10px] text-gray-400 font-bold uppercase mb-2 ml-2">Salles de
+                            <label class="block text-[10px] text-muted-foreground font-bold uppercase mb-2 ml-2">Salles de
                                 bain</label>
                             <input v-model.number="form.bathrooms" type="number"
-                                class="w-full px-5 py-4 bg-gray-50 border-none rounded-2xl text-sm font-medium focus:ring-2 focus:ring-[#E54801]/20 outline-none transition-all text-gray-700" />
+                                class="w-full px-5 py-4 bg-muted/20 border-none rounded-2xl text-sm font-medium focus:ring-2 focus:ring-secondary/20 outline-none transition-all text-foreground placeholder:text-muted-foreground" />
                         </div>
 
                         <!-- Surface -->
                         <div>
-                            <label class="block text-[10px] text-gray-400 font-bold uppercase mb-2 ml-2">Surface
+                            <label class="block text-[10px] text-muted-foreground font-bold uppercase mb-2 ml-2">Surface
                                 (m²)</label>
                             <input v-model.number="form.area" type="number"
-                                class="w-full px-5 py-4 bg-gray-50 border-none rounded-2xl text-sm font-medium focus:ring-2 focus:ring-[#E54801]/20 outline-none transition-all text-gray-700" />
+                                class="w-full px-5 py-4 bg-muted/20 border-none rounded-2xl text-sm font-medium focus:ring-2 focus:ring-secondary/20 outline-none transition-all text-foreground placeholder:text-muted-foreground" />
                         </div>
 
                         <!-- Etat -->
                         <div>
-                            <label class="block text-[10px] text-gray-400 font-bold uppercase mb-2 ml-2">État du
+                            <label class="block text-[10px] text-muted-foreground font-bold uppercase mb-2 ml-2">État du
                                 bien</label>
                             <select v-model="form.etat"
-                                class="w-full px-5 py-4 bg-gray-50 border-none rounded-2xl text-sm font-medium focus:ring-2 focus:ring-[#E54801]/20 outline-none transition-all cursor-pointer text-gray-700">
-                                <option value="Neuf">Neuf</option>
-                                <option value="Rénové">Rénové</option>
-                                <option value="Bon état">Bon état</option>
-                                <option value="À rafraîchir">À rafraîchir</option>
+                                class="w-full px-5 py-4 bg-muted/20 border-none rounded-2xl text-sm font-medium focus:ring-2 focus:ring-secondary/20 outline-none transition-all cursor-pointer text-foreground">
+                                <option value="Neuf" class="bg-card">Neuf</option>
+                                <option value="Rénové" class="bg-card">Rénové</option>
+                                <option value="Bon état" class="bg-card">Bon état</option>
+                                <option value="À rafraîchir" class="bg-card">À rafraîchir</option>
                             </select>
                         </div>
 
                         <!-- Description -->
                         <div class="col-span-1 md:col-span-2">
                             <label
-                                class="block text-[10px] text-gray-400 font-bold uppercase mb-2 ml-2">Description</label>
+                                class="block text-[10px] text-muted-foreground font-bold uppercase mb-2 ml-2">Description</label>
                             <textarea v-model="form.description" rows="5"
-                                class="w-full px-5 py-4 bg-gray-50 border-none rounded-2xl text-sm font-medium focus:ring-2 focus:ring-[#E54801]/20 outline-none transition-all text-gray-700"></textarea>
+                                class="w-full px-5 py-4 bg-muted/20 border-none rounded-2xl text-sm font-medium focus:ring-2 focus:ring-secondary/20 outline-none transition-all text-foreground placeholder:text-muted-foreground"></textarea>
                         </div>
                     </div>
                 </section>
 
                 <div class="flex gap-4">
                     <RouterLink :to="{ name: 'BailleurMesBiens' }"
-                        class="flex-1 text-center py-4 bg-white border border-gray-200 text-gray-500 rounded-2xl font-black uppercase tracking-widest hover:bg-gray-50 transition-all text-xs">
+                        class="flex-1 text-center py-4 bg-card border border-border text-muted-foreground rounded-2xl font-black uppercase tracking-widest hover:bg-muted/20 transition-all text-xs">
                         Annuler
                     </RouterLink>
 
                     <button type="submit" :disabled="isSubmitting"
-                        class="flex-[2] py-4 bg-[#E54801] text-white rounded-2xl font-black uppercase tracking-widest hover:bg-[#913327] hover:shadow-lg hover:-translate-y-1 transition-all shadow-xl shadow-[#E54801]/20 text-xs flex items-center justify-center gap-2">
+                        class="flex-[2] py-4 bg-secondary text-secondary-foreground rounded-2xl font-black uppercase tracking-widest hover:bg-secondary/90 hover:shadow-lg hover:-translate-y-1 transition-all shadow-xl shadow-secondary/20 text-xs flex items-center justify-center gap-2">
                         <i v-if="isSubmitting" class="fas fa-circle-notch fa-spin"></i>
                         <i v-else class="fas fa-save"></i>
                         {{ isSubmitting ? "Enregistrement..." : "Enregistrer les modifications" }}
@@ -234,7 +234,6 @@ const updateProperty = async () => {
         opacity: 0;
         transform: translateY(10px);
     }
-
     to {
         opacity: 1;
         transform: translateY(0);
@@ -244,7 +243,7 @@ const updateProperty = async () => {
 input:focus,
 select:focus,
 textarea:focus {
-    background-color: white;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+    background-color: hsl(var(--card));
+    box-shadow: 0 10px 15px -3px hsl(var(--foreground) / 0.05);
 }
 </style>

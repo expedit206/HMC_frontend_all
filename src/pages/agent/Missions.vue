@@ -4,16 +4,23 @@
       <!-- HEADER SECTION -->
       <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4 animate-fadeIn">
         <div>
-          <h1 class="text-2xl font-bold text-[#1B0B38]">
+          <h1 class="text-2xl font-bold text-foreground">
             Mes Missions (Validation)
           </h1>
-          <p class="text-gray-500 text-sm mt-1">
+          <p class="text-muted-foreground text-sm mt-1">
             Gérez les demandes entrantes et faites avancer le processus locatif.
           </p>
         </div>
         <div class="flex gap-2">
+<<<<<<< HEAD
+          <button
+            @click="fetchMissions"
+            class="px-4 py-2 bg-card border border-border text-muted-foreground rounded-lg hover:bg-muted/20 hover:text-secondary transition-colors text-sm font-bold flex items-center gap-2"
+          >
+=======
           <button @click="fetchMissions"
             class="px-4 py-2 bg-white border border-gray-200 text-gray-600 rounded-lg hover:bg-gray-50 hover:text-[#E54801] transition-colors text-sm font-bold flex items-center gap-2">
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
             <i class="fas fa-sync-alt" :class="{ 'fa-spin': isLoading }"></i>
             Actualiser
           </button>
@@ -21,13 +28,43 @@
       </div>
 
       <!-- Erreur globale -->
+<<<<<<< HEAD
+      <div
+        v-if="errorMessage"
+        class="mb-6 p-4 bg-destructive/10 text-destructive rounded-xl border border-destructive/20 flex items-center gap-3"
+      >
+=======
       <div v-if="errorMessage"
         class="mb-6 p-4 bg-red-50 text-red-700 rounded-xl border border-red-200 flex items-center gap-3">
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
         <i class="fas fa-exclamation-triangle"></i>
         <p class="text-sm font-bold">{{ errorMessage }}</p>
       </div>
 
       <!-- STATS CARDS -->
+<<<<<<< HEAD
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8 animate-slide-up"
+      >
+        <div
+          @click="activeTab = 'visits'"
+          :class="[
+            'cursor-pointer bg-card p-5 rounded-2xl shadow-sm border transition-all flex items-center gap-4',
+            activeTab === 'visits'
+              ? 'border-secondary ring-1 ring-secondary'
+              : 'border-border hover:border-muted-foreground',
+          ]"
+        >
+          <div
+            class="w-12 h-12 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center text-xl"
+          >
+            <i class="fas fa-calendar-check"></i>
+          </div>
+          <div>
+            <p
+              class="text-muted-foreground text-xs font-black uppercase tracking-widest"
+            >
+=======
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8 animate-slide-up">
         <div @click="activeTab = 'visits'" :class="[
           'cursor-pointer bg-white p-5 rounded-2xl shadow-sm border transition-all flex items-center gap-4',
@@ -40,14 +77,35 @@
           </div>
           <div>
             <p class="text-gray-400 text-xs font-black uppercase tracking-widest">
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
               Visites à valider
             </p>
-            <p class="text-2xl font-black text-[#1B0B38]">
+            <p class="text-2xl font-black text-foreground">
               {{ stats.visits }}
             </p>
           </div>
         </div>
 
+<<<<<<< HEAD
+        <div
+          @click="activeTab = 'applications'"
+          :class="[
+            'cursor-pointer bg-card p-5 rounded-2xl shadow-sm border transition-all flex items-center gap-4',
+            activeTab === 'applications'
+              ? 'border-blue-500 ring-1 ring-blue-500'
+              : 'border-border hover:border-muted-foreground',
+          ]"
+        >
+          <div
+            class="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-950/30 text-blue-600 dark:text-blue-400 flex items-center justify-center text-xl"
+          >
+            <i class="fas fa-folder-open"></i>
+          </div>
+          <div>
+            <p
+              class="text-muted-foreground text-xs font-black uppercase tracking-widest"
+            >
+=======
         <div @click="activeTab = 'applications'" :class="[
           'cursor-pointer bg-white p-5 rounded-2xl shadow-sm border transition-all flex items-center gap-4',
           activeTab === 'applications'
@@ -59,14 +117,35 @@
           </div>
           <div>
             <p class="text-gray-400 text-xs font-black uppercase tracking-widest">
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
               Dossiers à examiner
             </p>
-            <p class="text-2xl font-black text-[#1B0B38]">
+            <p class="text-2xl font-black text-foreground">
               {{ stats.applications }}
             </p>
           </div>
         </div>
 
+<<<<<<< HEAD
+        <div
+          @click="activeTab = 'payments'"
+          :class="[
+            'cursor-pointer bg-card p-5 rounded-2xl shadow-sm border transition-all flex items-center gap-4',
+            activeTab === 'payments'
+              ? 'border-green-500 ring-1 ring-green-500'
+              : 'border-border hover:border-muted-foreground',
+          ]"
+        >
+          <div
+            class="w-12 h-12 rounded-xl bg-green-50 dark:bg-green-950/30 text-green-600 dark:text-green-400 flex items-center justify-center text-xl"
+          >
+            <i class="fas fa-money-bill-wave"></i>
+          </div>
+          <div>
+            <p
+              class="text-muted-foreground text-xs font-black uppercase tracking-widest"
+            >
+=======
         <div @click="activeTab = 'payments'" :class="[
           'cursor-pointer bg-white p-5 rounded-2xl shadow-sm border transition-all flex items-center gap-4',
           activeTab === 'payments'
@@ -78,13 +157,35 @@
           </div>
           <div>
             <p class="text-gray-400 text-xs font-black uppercase tracking-widest">
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
               Paiements attendus
             </p>
-            <p class="text-2xl font-black text-[#1B0B38]">
+            <p class="text-2xl font-black text-foreground">
               {{ stats.payments }}
             </p>
           </div>
         </div>
+<<<<<<< HEAD
+
+        <div
+          @click="activeTab = 'audit'"
+          :class="[
+            'cursor-pointer bg-card p-5 rounded-2xl shadow-sm border transition-all flex items-center gap-4',
+            activeTab === 'audit'
+              ? 'border-purple-500 ring-1 ring-purple-500'
+              : 'border-border hover:border-muted-foreground',
+          ]"
+        >
+          <div
+            class="w-12 h-12 rounded-xl bg-purple-50 dark:bg-purple-950/30 text-purple-600 dark:text-purple-400 flex items-center justify-center text-xl"
+          >
+            <i class="fas fa-camera-retro"></i>
+          </div>
+          <div>
+            <p
+              class="text-muted-foreground text-xs font-black uppercase tracking-widest"
+            >
+=======
         <!-- {{ activeTab }} -->
         <div @click="activeTab = 'audit'" :class="[
           'cursor-pointer bg-white p-5 rounded-2xl shadow-sm border transition-all flex items-center gap-4',
@@ -97,9 +198,10 @@
           </div>
           <div>
             <p class="text-gray-400 text-xs font-black uppercase tracking-widest">
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
               Audits Terrain
             </p>
-            <p class="text-2xl font-black text-[#1B0B38]">
+            <p class="text-2xl font-black text-foreground">
               {{ stats.audit }}
             </p>
           </div>
@@ -108,9 +210,16 @@
 
       <!-- LOADING STATE -->
       <div v-if="isLoading" class="py-20 text-center">
+<<<<<<< HEAD
+        <div
+          class="w-12 h-12 border-4 border-secondary/20 border-t-secondary rounded-full animate-spin mx-auto mb-4"
+        ></div>
+        <p class="text-muted-foreground text-sm font-bold uppercase tracking-widest">
+=======
         <div class="w-12 h-12 border-4 border-[#E54801]/20 border-t-[#E54801] rounded-full animate-spin mx-auto mb-4">
         </div>
         <p class="text-gray-500 text-sm font-bold uppercase tracking-widest">
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
           Chargement de vos missions...
         </p>
       </div>
@@ -118,45 +227,82 @@
       <div v-else>
         <!-- TAB 1 : VISITES -->
         <div v-if="activeTab === 'visits'" class="animate-fadeIn">
-          <h2 class="text-lg font-black text-[#1B0B38] mb-4">
+          <h2 class="text-lg font-black text-foreground mb-4">
             Visites en attente de confirmation agent
           </h2>
+<<<<<<< HEAD
+          <div
+            v-if="missions.visits.length === 0"
+            class="bg-card p-10 rounded-2xl border border-border text-center"
+          >
+            <div
+              class="w-16 h-16 bg-muted/20 rounded-full flex items-center justify-center mx-auto mb-3 text-muted-foreground/30 text-2xl"
+            >
+=======
           <div v-if="missions.visits.length === 0" class="bg-white p-10 rounded-2xl border border-gray-100 text-center">
             <div
               class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-3 text-gray-300 text-2xl">
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
               <i class="fas fa-calendar-times"></i>
             </div>
-            <p class="text-gray-500 font-bold">Aucune visite en attente.</p>
+            <p class="text-muted-foreground font-bold">Aucune visite en attente.</p>
           </div>
           <div v-else class="space-y-4">
+<<<<<<< HEAD
+            <div
+              v-for="v in missions.visits"
+              :key="v.id"
+              class="bg-card p-5 rounded-2xl border border-border shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4"
+            >
+              <div class="flex items-start gap-4">
+                <div
+                  class="w-12 h-12 rounded-xl bg-secondary/10 text-secondary flex flex-shrink-0 items-center justify-center text-xl"
+                >
+=======
             <div v-for="v in missions.visits" :key="v.id"
               class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div class="flex items-start gap-4">
                 <div
                   class="w-12 h-12 rounded-xl bg-orange-50 text-[#E54801] flex flex-shrink-0 items-center justify-center text-xl">
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
                   <i class="fas fa-home"></i>
                 </div>
                 <div>
-                  <p class="font-black text-[#1B0B38]">
+                  <p class="font-black text-foreground">
                     {{ v.property?.title }}
                   </p>
-                  <p class="text-xs text-gray-500 mb-1">
-                    <i class="fas fa-user text-gray-400 mr-1"></i> Client :
-                    <strong>{{ v.visitor?.name }}</strong>
+                  <p class="text-xs text-muted-foreground mb-1">
+                    <i class="fas fa-user text-muted-foreground/50 mr-1"></i> Client :
+                    <strong class="text-foreground">{{ v.visitor?.name }}</strong>
                   </p>
-                  <p class="text-xs text-gray-500">
-                    <i class="fas fa-calendar-alt text-gray-400 mr-1"></i>
+                  <p class="text-xs text-muted-foreground">
+                    <i class="fas fa-calendar-alt text-muted-foreground/50 mr-1"></i>
                     Date prévue : {{ formatDate(v.scheduled_at) }}
                   </p>
                 </div>
               </div>
               <div class="flex gap-2 w-full md:w-auto mt-2 md:mt-0">
+<<<<<<< HEAD
+                <button
+                  @click="cancelVisit(v.id)"
+                  :disabled="actionLoading"
+                  class="flex-1 md:flex-none px-4 py-2 border border-destructive/20 text-destructive rounded-lg hover:bg-destructive/10 text-sm font-bold transition-colors disabled:opacity-50"
+                >
+                  Annuler
+                </button>
+                <button
+                  @click="confirmVisit(v.id)"
+                  :disabled="actionLoading"
+                  class="flex-1 md:flex-none px-4 py-2 bg-secondary text-secondary-foreground rounded-lg hover:bg-secondary/90 text-sm font-bold transition-colors disabled:opacity-50 shadow-md flex items-center justify-center gap-2"
+                >
+=======
                 <button @click="cancelVisit(v.id)" :disabled="actionLoading"
                   class="flex-1 md:flex-none px-4 py-2 border border-red-200 text-red-600 rounded-lg hover:bg-red-50 text-sm font-bold transition-colors disabled:opacity-50">
                   Annuler
                 </button>
                 <button @click="confirmVisit(v.id)" :disabled="actionLoading"
                   class="flex-1 md:flex-none px-4 py-2 bg-[#E54801] text-white rounded-lg hover:bg-[#c73d01] text-sm font-bold transition-colors disabled:opacity-50 shadow-md flex items-center justify-center gap-2">
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
                   <i class="fas fa-check"></i> Confirmer la visite
                 </button>
               </div>
@@ -166,51 +312,89 @@
 
         <!-- TAB 2 : DOSSIERS -->
         <div v-if="activeTab === 'applications'" class="animate-fadeIn">
-          <h2 class="text-lg font-black text-[#1B0B38] mb-4">
+          <h2 class="text-lg font-black text-foreground mb-4">
             Dossiers de candidature à examiner
           </h2>
+<<<<<<< HEAD
+          <div
+            v-if="missions.applications.length === 0"
+            class="bg-card p-10 rounded-2xl border border-border text-center"
+          >
+            <div
+              class="w-16 h-16 bg-muted/20 rounded-full flex items-center justify-center mx-auto mb-3 text-muted-foreground/30 text-2xl"
+            >
+=======
           <div v-if="missions.applications.length === 0"
             class="bg-white p-10 rounded-2xl border border-gray-100 text-center">
             <div
               class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-3 text-gray-300 text-2xl">
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
               <i class="fas fa-folder"></i>
             </div>
-            <p class="text-gray-500 font-bold">Aucun dossier en attente.</p>
+            <p class="text-muted-foreground font-bold">Aucun dossier en attente.</p>
           </div>
           <div v-else class="space-y-4">
+<<<<<<< HEAD
+            <div
+              v-for="app in missions.applications"
+              :key="app.id"
+              class="bg-card p-5 rounded-2xl border border-border shadow-sm"
+            >
+              <div
+                class="flex flex-col md:flex-row justify-between items-start gap-4 mb-4"
+              >
+                <div class="flex items-start gap-4">
+                  <div
+                    class="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-950/30 text-blue-600 dark:text-blue-400 flex flex-shrink-0 items-center justify-center text-xl"
+                  >
+=======
             <div v-for="app in missions.applications" :key="app.id"
               class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm">
               <div class="flex flex-col md:flex-row justify-between items-start gap-4 mb-4">
                 <div class="flex items-start gap-4">
                   <div
                     class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex flex-shrink-0 items-center justify-center text-xl">
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
                     <i class="fas fa-file-contract"></i>
                   </div>
                   <div>
-                    <h3 class="font-black text-[#1B0B38]">
+                    <h3 class="font-black text-foreground">
                       Candidature de {{ app.applicant?.name }}
                     </h3>
-                    <p class="text-xs text-gray-500 mb-1">
+                    <p class="text-xs text-muted-foreground mb-1">
                       Bien :
+<<<<<<< HEAD
+                      <span class="font-bold text-foreground">{{
+=======
                       
                       <span class="font-bold text-[#333]">{{
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
                         app.property?.title
                       }}</span>
                     </p>
-                    <p class="text-xs text-gray-500">
+                    <p class="text-xs text-muted-foreground">
                       Loyer mensuel du bien :
                       {{ formatPrice(app.property?.price) }} FCFA
                     </p>
                   </div>
                 </div>
+<<<<<<< HEAD
+                <div
+                  class="text-right w-full md:w-auto bg-muted/20 p-3 rounded-xl border border-border"
+                >
+                  <p
+                    class="text-[10px] text-muted-foreground uppercase font-black tracking-wider mb-1"
+                  >
+=======
                 <div class="text-right w-full md:w-auto bg-gray-50 p-3 rounded-xl border border-gray-100">
                   <p class="text-[10px] text-gray-400 uppercase font-black tracking-wider mb-1">
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
                     Profil postulant
                   </p>
-                  <p class="text-xs font-bold text-[#1B0B38] capitalize">
+                  <p class="text-xs font-bold text-foreground capitalize">
                     {{ app.situation_professionnelle }}
                   </p>
-                  <p class="text-xs text-gray-600 mt-0.5">
+                  <p class="text-xs text-muted-foreground mt-0.5">
                     Revenus :
                     {{
                       app.revenus_mensuels
@@ -218,12 +402,35 @@
                         : "Non précisé"
                     }}
                   </p>
+<<<<<<< HEAD
+                  <p
+                    v-if="app.has_garant"
+                    class="text-xs text-green-600 dark:text-green-400 font-bold mt-1"
+                  >
+=======
                   <p v-if="app.has_garant" class="text-xs text-green-600 font-bold mt-1">
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
                     <i class="fas fa-shield-alt"></i> A un garant
                   </p>
                 </div>
               </div>
 
+<<<<<<< HEAD
+              <div
+                class="flex flex-col sm:flex-row gap-3 mt-4 pt-4 border-t border-border"
+              >
+                <button
+                  @click="openDocumentsModal(app)"
+                  class="px-4 py-2 border border-border text-blue-600 dark:text-blue-400 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-950/30 text-sm font-bold flex flex-1 items-center justify-center gap-2 transition-colors"
+                >
+                  <i class="fas fa-folder-open"></i> Voir les documents
+                </button>
+                <button
+                  @click="rejectAppPrompt(app)"
+                  :disabled="actionLoading"
+                  class="px-4 py-2 border border-destructive/20 text-destructive rounded-lg hover:bg-destructive/10 text-sm font-bold flex flex-1 items-center justify-center gap-2 transition-colors disabled:opacity-50"
+                >
+=======
               <div class="flex flex-col sm:flex-row gap-3 mt-4 pt-4 border-t border-gray-50">
                 <button @click="openDocumentsModal(app)"
                   class="px-4 py-2 border border-gray-200 text-blue-600 rounded-lg hover:bg-blue-50 text-sm font-bold flex flex-1 items-center justify-center gap-2 transition-colors">
@@ -231,6 +438,7 @@
                 </button>
                 <button @click="rejectAppPrompt(app)" :disabled="actionLoading"
                   class="px-4 py-2 border border-red-200 text-red-600 rounded-lg hover:bg-red-50 text-sm font-bold flex flex-1 items-center justify-center gap-2 transition-colors disabled:opacity-50">
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
                   <i class="fas fa-times"></i> Rejeter
                 </button>
                 <button @click="openValidateForm(app)" :disabled="actionLoading"
@@ -240,13 +448,62 @@
               </div>
 
               <!-- Formulaire de validation (Inline) -->
+<<<<<<< HEAD
+              <div
+                v-if="validatingAppId === app.id"
+                class="mt-4 p-4 bg-blue-50 dark:bg-blue-950/30 border border-blue-100 dark:border-blue-800 rounded-xl"
+              >
+                <h5
+                  class="text-xs font-black text-blue-800 dark:text-blue-300 mb-3 flex items-center gap-1"
+                >
+=======
               <div v-if="validatingAppId === app.id" class="mt-4 p-4 bg-blue-50 border border-blue-100 rounded-xl">
                 <h5 class="text-xs font-black text-blue-800 mb-3 flex items-center gap-1">
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
                   <i class="fas fa-file-signature"></i> Paramètres de la
                   location
                 </h5>
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <div>
+<<<<<<< HEAD
+                    <label class="block text-xs font-bold text-foreground mb-1"
+                      >Mois d'avance *</label
+                    >
+                    <input
+                      v-model="validateForm.advance_months"
+                      type="number"
+                      min="1"
+                      max="12"
+                      class="w-full text-sm p-2.5 rounded-lg border border-blue-200 dark:border-blue-800 bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-blue-400/40"
+                    />
+                  </div>
+                  <div>
+                    <label class="block text-xs font-bold text-foreground mb-1"
+                      >Date de début *</label
+                    >
+                    <input
+                      v-model="validateForm.start_date"
+                      type="date"
+                      class="w-full text-sm p-2.5 rounded-lg border border-blue-200 dark:border-blue-800 bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-blue-400/40"
+                    />
+                  </div>
+                  <div>
+                    <label class="block text-xs font-bold text-foreground mb-1"
+                      >Notes (optionnel)</label
+                    >
+                    <input
+                      v-model="validateForm.notes"
+                      type="text"
+                      class="w-full text-sm p-2.5 rounded-lg border border-blue-200 dark:border-blue-800 bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-blue-400/40"
+                      placeholder="Remarques..."
+                    />
+                  </div>
+                </div>
+                <div
+                  v-if="validateError"
+                  class="mt-2 text-xs text-destructive font-bold flex items-center gap-1"
+                >
+=======
                     <label class="block text-xs font-bold text-gray-700 mb-1">Mois d'avance *</label>
                     <input v-model="validateForm.advance_months" type="number" min="1" max="12"
                       class="w-full text-sm p-2.5 rounded-lg border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400/40" />
@@ -264,14 +521,25 @@
                   </div>
                 </div>
                 <div v-if="validateError" class="mt-2 text-xs text-red-600 font-bold flex items-center gap-1">
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
                   <i class="fas fa-exclamation-triangle"></i>
                   {{ validateError }}
                 </div>
                 <div class="flex justify-end gap-2 mt-3">
+<<<<<<< HEAD
+                  <button
+                    @click="
+                      validatingAppId = null;
+                      validateError = '';
+                    "
+                    class="px-3 py-1.5 text-xs font-bold text-muted-foreground hover:bg-muted/20 rounded-md"
+                  >
+=======
                   <button @click="
                     validatingAppId = null;
                   validateError = '';
                   " class="px-3 py-1.5 text-xs font-bold text-gray-500 hover:bg-gray-200 rounded-md">
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
                     Annuler
                   </button>
                   <button @click="validateApp(app.id)" :disabled="actionLoading"
@@ -282,6 +550,33 @@
               </div>
 
               <!-- Raison du rejet (Inline) -->
+<<<<<<< HEAD
+              <div
+                v-if="rejectingAppId === app.id"
+                class="mt-4 p-4 bg-destructive/10 border border-destructive/20 rounded-xl"
+              >
+                <label class="block text-xs font-bold text-destructive mb-2"
+                  >Motif du rejet (obligatoire)</label
+                >
+                <textarea
+                  v-model="rejectReason"
+                  class="w-full text-sm p-3 rounded-lg border border-destructive/20 bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-destructive/30"
+                  rows="2"
+                  placeholder="Ex: Revenus insuffisants..."
+                ></textarea>
+                <div class="flex justify-end gap-2 mt-2">
+                  <button
+                    @click="rejectingAppId = null"
+                    class="px-3 py-1.5 text-xs font-bold text-muted-foreground hover:bg-muted/20 rounded-md"
+                  >
+                    Annuler
+                  </button>
+                  <button
+                    @click="confirmRejectApp(app.id)"
+                    :disabled="!rejectReason || actionLoading"
+                    class="px-3 py-1.5 text-xs font-bold bg-destructive text-destructive-foreground hover:bg-destructive/90 rounded-md disabled:opacity-50"
+                  >
+=======
               <div v-if="rejectingAppId === app.id" class="mt-4 p-4 bg-red-50 border border-red-100 rounded-xl">
                 <label class="block text-xs font-bold text-red-800 mb-2">Motif du rejet (obligatoire)</label>
                 <textarea v-model="rejectReason"
@@ -294,6 +589,7 @@
                   </button>
                   <button @click="confirmRejectApp(app.id)" :disabled="!rejectReason || actionLoading"
                     class="px-3 py-1.5 text-xs font-bold bg-red-600 text-white hover:bg-red-700 rounded-md disabled:opacity-50">
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
                     Confirmer le rejet
                   </button>
                 </div>
@@ -304,35 +600,57 @@
 
         <!-- TAB 3 : PAIEMENTS -->
         <div v-if="activeTab === 'payments'" class="animate-fadeIn">
-          <h2 class="text-lg font-black text-[#1B0B38] mb-4">
+          <h2 class="text-lg font-black text-foreground mb-4">
             Paiements / Locataires à confirmer
           </h2>
+<<<<<<< HEAD
+          <div
+            v-if="missions.payments.length === 0"
+            class="bg-card p-10 rounded-2xl border border-border text-center"
+          >
+            <div
+              class="w-16 h-16 bg-muted/20 rounded-full flex items-center justify-center mx-auto mb-3 text-muted-foreground/30 text-2xl"
+            >
+=======
           <div v-if="missions.payments.length === 0"
             class="bg-white p-10 rounded-2xl border border-gray-100 text-center">
             <div
               class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-3 text-gray-300 text-2xl">
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
               <i class="fas fa-check-circle"></i>
             </div>
-            <p class="text-gray-500 font-bold">
+            <p class="text-muted-foreground font-bold">
               Aucun paiement en attente. Tout est à jour.
             </p>
           </div>
           <div v-else class="space-y-4">
+<<<<<<< HEAD
+            <div
+              v-for="rent in missions.payments"
+              :key="rent.id"
+              class="bg-card p-5 rounded-2xl border-l-4 border-l-green-500 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4"
+            >
+              <div class="flex items-start gap-4">
+                <div
+                  class="w-12 h-12 rounded-xl bg-green-50 dark:bg-green-950/30 text-green-600 dark:text-green-400 flex flex-shrink-0 items-center justify-center text-xl"
+                >
+=======
             <div v-for="rent in missions.payments" :key="rent.id"
               class="bg-white p-5 rounded-2xl border-l-4 border-l-green-500 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div class="flex items-start gap-4">
                 <div
                   class="w-12 h-12 rounded-xl bg-green-50 text-green-600 flex flex-shrink-0 items-center justify-center text-xl">
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
                   <i class="fas fa-hand-holding-usd"></i>
                 </div>
                 <div>
-                  <p class="font-black text-[#1B0B38]">
+                  <p class="font-black text-foreground">
                     {{ rent.property?.title }}
                   </p>
-                  <p class="text-xs text-gray-500 mb-1">
-                    Futur Locataire : <strong>{{ rent.tenant?.name }}</strong>
+                  <p class="text-xs text-muted-foreground mb-1">
+                    Futur Locataire : <strong class="text-foreground">{{ rent.tenant?.name }}</strong>
                   </p>
-                  <p class="text-sm font-bold text-green-700 mt-2">
+                  <p class="text-sm font-bold text-green-600 dark:text-green-400 mt-2">
                     Montant attendu :
                     {{ formatPrice(rent.monthly_rent) }} FCFA
                   </p>
@@ -343,7 +661,13 @@
                   class="w-full md:w-auto px-6 py-3 bg-green-600 text-white rounded-xl hover:bg-green-700 text-sm font-bold transition-all shadow-lg hover:-translate-y-1 disabled:opacity-50 disabled:transform-none flex items-center justify-center gap-2">
                   <i class="fas fa-check-circle"></i> Confirmer Paiement
                 </button>
+<<<<<<< HEAD
+                <p
+                  class="text-[10px] text-center text-muted-foreground mt-2 max-w-[200px]"
+                >
+=======
                 <p class="text-[10px] text-center text-gray-400 mt-2 max-w-[200px]">
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
                   En confirmant, vous attribuez le rôle "Locataire" à ce client.
                 </p>
               </div>
@@ -353,20 +677,30 @@
 
         <!-- TAB 4 : AUDITS TERRAIN -->
         <div v-if="activeTab === 'audit'" class="animate-fadeIn">
-          <h2 class="text-lg font-black text-[#1B0B38] mb-4">
+          <h2 class="text-lg font-black text-foreground mb-4">
             Missions d'audit &amp; publication terrain
           </h2>
 
           <!-- Liste vide -->
+<<<<<<< HEAD
+          <div
+            v-if="missions.audit.length === 0"
+            class="bg-card p-10 rounded-2xl border border-border text-center"
+          >
+            <div
+              class="w-16 h-16 bg-muted/20 rounded-full flex items-center justify-center mx-auto mb-3 text-muted-foreground/30 text-2xl"
+            >
+=======
           <div v-if="missions.audit.length === 0" class="bg-white p-10 rounded-2xl border border-gray-100 text-center">
             <div
               class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-3 text-gray-300 text-2xl">
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
               <i class="fas fa-camera-retro"></i>
             </div>
-            <p class="text-gray-500 font-bold">
+            <p class="text-muted-foreground font-bold">
               Aucune mission d'audit assignée.
             </p>
-            <p class="text-xs text-gray-400 mt-1">
+            <p class="text-xs text-muted-foreground/70 mt-1">
               Les demandes de bailleurs vous seront assignées par
               l'administration.
             </p>
@@ -374,28 +708,46 @@
 
           <!-- Cartes de missions -->
           <div v-else class="space-y-4">
+<<<<<<< HEAD
+            <div
+              v-for="mission in missions.audit"
+              :key="mission.id"
+              class="bg-card rounded-2xl border border-border shadow-sm overflow-hidden"
+            >
+              <!-- En-tête carte -->
+              <div class="flex flex-col md:flex-row gap-4 p-5">
+                <div
+                  class="w-12 h-12 rounded-xl bg-purple-50 dark:bg-purple-950/30 text-purple-600 dark:text-purple-400 flex flex-shrink-0 items-center justify-center text-xl"
+                >
+=======
             <div v-for="mission in missions.audit" :key="mission.id"
               class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
               <!-- En-tête carte -->
               <div class="flex flex-col md:flex-row gap-4 p-5">
                 <div
                   class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex flex-shrink-0 items-center justify-center text-xl">
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
                   <i class="fas fa-map-marker-alt"></i>
                 </div>
                 <div class="flex-1">
                   <div class="flex items-start justify-between gap-2 flex-wrap">
                     <div>
-                      <h3 class="font-black text-[#1B0B38]">
+                      <h3 class="font-black text-foreground">
                         {{ mission.title }}
                       </h3>
-                      <p class="text-xs text-gray-500 mt-0.5">
-                        <i class="fas fa-user mr-1 text-gray-400"></i>
+                      <p class="text-xs text-muted-foreground mt-0.5">
+                        <i class="fas fa-user mr-1 text-muted-foreground/50"></i>
                         Bailleur :
-                        <strong>{{ mission.bailleur?.name }}</strong>
+                        <strong class="text-foreground">{{ mission.bailleur?.name }}</strong>
                       </p>
                     </div>
                     <span
+<<<<<<< HEAD
+                      class="text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full bg-purple-50 dark:bg-purple-950/30 text-purple-700 dark:text-purple-400 border border-purple-200 dark:border-purple-800 whitespace-nowrap"
+                    >
+=======
                       class="text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full bg-purple-50 text-purple-700 border border-purple-200 whitespace-nowrap">
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
                       {{
                         mission.status === "assigned"
                           ? "À visiter"
@@ -407,35 +759,35 @@
                   </div>
 
                   <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-3">
-                    <div class="bg-gray-50 rounded-lg p-2">
-                      <p class="text-[10px] text-gray-400 uppercase font-bold">
+                    <div class="bg-muted/20 rounded-lg p-2">
+                      <p class="text-[10px] text-muted-foreground uppercase font-bold">
                         Ville
                       </p>
-                      <p class="text-xs font-bold text-[#1B0B38] truncate">
+                      <p class="text-xs font-bold text-foreground truncate">
                         {{ mission.city }}
                       </p>
                     </div>
-                    <div class="bg-gray-50 rounded-lg p-2">
-                      <p class="text-[10px] text-gray-400 uppercase font-bold">
+                    <div class="bg-muted/20 rounded-lg p-2">
+                      <p class="text-[10px] text-muted-foreground uppercase font-bold">
                         Catégorie
                       </p>
-                      <p class="text-xs font-bold text-[#1B0B38] capitalize">
+                      <p class="text-xs font-bold text-foreground capitalize">
                         {{ mission.category }}
                       </p>
                     </div>
-                    <div class="bg-gray-50 rounded-lg p-2">
-                      <p class="text-[10px] text-gray-400 uppercase font-bold">
+                    <div class="bg-muted/20 rounded-lg p-2">
+                      <p class="text-[10px] text-muted-foreground uppercase font-bold">
                         Type
                       </p>
-                      <p class="text-xs font-bold text-[#1B0B38]">
+                      <p class="text-xs font-bold text-foreground">
                         {{ mission.type === "rent" ? "Location" : "Vente" }}
                       </p>
                     </div>
-                    <div class="bg-gray-50 rounded-lg p-2">
-                      <p class="text-[10px] text-gray-400 uppercase font-bold">
+                    <div class="bg-muted/20 rounded-lg p-2">
+                      <p class="text-[10px] text-muted-foreground uppercase font-bold">
                         Prix estimé
                       </p>
-                      <p class="text-xs font-bold text-purple-700">
+                      <p class="text-xs font-bold text-purple-600 dark:text-purple-400">
                         {{
                           mission.price_estimate
                             ? formatPrice(mission.price_estimate) + " F"
@@ -445,17 +797,34 @@
                     </div>
                   </div>
 
+<<<<<<< HEAD
+                  <p v-if="mission.location" class="text-xs text-muted-foreground mt-2">
+                    <i class="fas fa-map-pin mr-1 text-muted-foreground/50"></i
+                    >{{ mission.location }}
+                  </p>
+                  <p
+                    v-if="mission.description"
+                    class="text-xs text-muted-foreground/70 mt-1 line-clamp-2"
+                  >
+=======
                   <p v-if="mission.location" class="text-xs text-gray-500 mt-2">
                     <i class="fas fa-map-pin mr-1 text-gray-400"></i>{{ mission.location }}
                   </p>
                   <p v-if="mission.description" class="text-xs text-gray-400 mt-1 line-clamp-2">
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
                     {{ mission.description }}
                   </p>
                 </div>
               </div>
 
               <!-- Action -->
+<<<<<<< HEAD
+              <div
+                class="border-t border-border px-5 py-3 bg-muted/10 flex justify-between items-center gap-2"
+              >
+=======
               <div class="border-t border-gray-50 px-5 py-3 bg-gray-50/50 flex justify-between items-center gap-2">
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
                 <div class="flex gap-2">
                   <button v-if="
                     mission.status === 'assigned' && (!mission.scheduled_at || mission.bailleur_declined_at)
@@ -464,6 +833,14 @@
                     <i class="fas fa-calendar-plus"></i>
                     Programmer l'audit
                   </button>
+<<<<<<< HEAD
+                  <div
+                    v-else-if="mission.scheduled_at"
+                    class="px-4 py-2.5 bg-blue-50 dark:bg-blue-950/30 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-800 rounded-xl text-xs font-bold flex items-center gap-2"
+                  >
+                    <i class="fas fa-calendar-check"></i>
+                    Audit : {{ formatDate(mission.scheduled_at) }}
+=======
                   <div v-else-if="mission.scheduled_at" class="flex flex-col items-start gap-1">
                     <div
                       class="px-4 py-2.5 bg-blue-50 text-blue-700 border border-blue-200 rounded-xl text-xs font-bold flex items-center gap-2">
@@ -490,6 +867,7 @@
                         <i class="fas fa-comment-dots mr-1"></i> {{ mission.bailleur_notes }}
                       </div>
                     </div>
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
                   </div>
 
                   <button @click="
@@ -498,7 +876,12 @@
                       params: { id: mission.id },
                     })
                     "
+<<<<<<< HEAD
+                    class="px-4 py-2.5 border border-purple-200 dark:border-purple-800 text-purple-700 dark:text-purple-400 rounded-xl hover:bg-purple-50 dark:hover:bg-purple-950/30 text-sm font-bold transition-colors flex items-center gap-2"
+                  >
+=======
                     class="px-4 py-2.5 border border-purple-200 text-purple-700 rounded-xl hover:bg-purple-50 text-sm font-bold transition-colors flex items-center gap-2">
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
                     <i class="fas fa-eye"></i>
                     Détails
                   </button>
@@ -511,14 +894,52 @@
               </div>
 
               <!-- Formulaire de Programmation (Inline) -->
+<<<<<<< HEAD
+              <div
+                v-if="schedulingMissionId === mission.id"
+                class="border-t border-blue-100 dark:border-blue-800 bg-blue-50/30 dark:bg-blue-950/20 p-5 animate-slide-down"
+              >
+                <h4
+                  class="text-sm font-black text-blue-800 dark:text-blue-300 mb-4 flex items-center gap-2"
+                >
+=======
               <div v-if="schedulingMissionId === mission.id"
                 class="border-t border-blue-100 bg-blue-50/30 p-5 animate-slide-down">
                 <h4 class="text-sm font-black text-blue-800 mb-4 flex items-center gap-2">
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
                   <i class="fas fa-calendar-day"></i>
                   Fixer un rendez-vous avec le bailleur
                 </h4>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
+<<<<<<< HEAD
+                    <label class="block text-xs font-bold text-foreground mb-1"
+                      >Date et heure de l'audit *</label
+                    >
+                    <input
+                      v-model="scheduleForm.scheduled_at"
+                      type="datetime-local"
+                      class="w-full text-sm p-2.5 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-blue-400/40"
+                    />
+                  </div>
+                  <div>
+                    <label class="block text-xs font-bold text-foreground mb-1"
+                      >Notes pour le bailleur (optionnel)</label
+                    >
+                    <input
+                      v-model="scheduleForm.agent_notes"
+                      type="text"
+                      class="w-full text-sm p-2.5 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-blue-400/40"
+                      placeholder="Ex: Confirmez-moi votre disponibilité..."
+                    />
+                  </div>
+                </div>
+                <div class="flex justify-end gap-3 mt-4">
+                  <button
+                    @click="schedulingMissionId = null"
+                    class="px-4 py-2 text-sm font-bold text-muted-foreground hover:bg-muted/20 rounded-lg"
+                  >
+=======
                     <label class="block text-xs font-bold text-gray-700 mb-1">Date et heure de l'audit *</label>
                     <input v-model="scheduleForm.scheduled_at" type="datetime-local"
                       class="w-full text-sm p-2.5 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-400/40" />
@@ -533,6 +954,7 @@
                 <div class="flex justify-end gap-3 mt-4">
                   <button @click="schedulingMissionId = null"
                     class="px-4 py-2 text-sm font-bold text-gray-500 hover:bg-gray-200 rounded-lg">
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
                     Annuler
                   </button>
                   <button @click="submitSchedule(mission.id)" :disabled="!scheduleForm.scheduled_at || actionLoading"
@@ -544,8 +966,18 @@
               </div>
 
               <!-- Formulaire de publication inline -->
+<<<<<<< HEAD
+              <div
+                v-if="auditingMissionId === mission.id"
+                class="border-t-2 border-purple-200 dark:border-purple-800 bg-purple-50/30 dark:bg-purple-950/20 p-5"
+              >
+                <h4
+                  class="text-sm font-black text-purple-800 dark:text-purple-300 mb-4 flex items-center gap-2"
+                >
+=======
               <div v-if="auditingMissionId === mission.id" class="border-t-2 border-purple-200 bg-purple-50/30 p-5">
                 <h4 class="text-sm font-black text-purple-800 mb-4 flex items-center gap-2">
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
                   <i class="fas fa-clipboard-list"></i>
                   Rapport de terrain — Publication du bien
                 </h4>
@@ -553,14 +985,44 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <!-- Titre -->
                   <div class="sm:col-span-2">
+<<<<<<< HEAD
+                    <label class="block text-xs font-bold text-foreground mb-1"
+                      >Titre du bien *</label
+                    >
+                    <input
+                      v-model="auditForm.title"
+                      type="text"
+                      class="w-full text-sm p-2.5 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-purple-400/40"
+                      placeholder="Ex: Appartement 3P lumineux, Bastos"
+                    />
+=======
                     <label class="block text-xs font-bold text-gray-700 mb-1">Titre du bien *</label>
                     <input v-model="auditForm.title" type="text"
                       class="w-full text-sm p-2.5 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400/40"
                       placeholder="Ex: Appartement 3P lumineux, Bastos" />
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
                   </div>
 
                   <!-- Catégorie -->
                   <div>
+<<<<<<< HEAD
+                    <label class="block text-xs font-bold text-foreground mb-1"
+                      >Catégorie *</label
+                    >
+                    <select
+                      v-model="auditForm.category"
+                      class="w-full text-sm p-2.5 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-purple-400/40"
+                    >
+                      <option value="" class="bg-card">-- Choisir --</option>
+                      <option value="appartement" class="bg-card">Appartement</option>
+                      <option value="villa" class="bg-card">Villa</option>
+                      <option value="studio" class="bg-card">Studio</option>
+                      <option value="duplex" class="bg-card">Duplex</option>
+                      <option value="bureau" class="bg-card">Bureau</option>
+                      <option value="commerce" class="bg-card">Commerce</option>
+                      <option value="terrain" class="bg-card">Terrain</option>
+                      <option value="autre" class="bg-card">Autre</option>
+=======
                     <label class="block text-xs font-bold text-gray-700 mb-1">Catégorie *</label>
                     <select v-model="auditForm.category"
                       class="w-full text-sm p-2.5 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400/40 bg-white">
@@ -573,45 +1035,130 @@
                       <option value="commerce">Commerce</option>
                       <option value="terrain">Terrain</option>
                       <option value="autre">Autre</option>
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
                     </select>
                   </div>
 
                   <!-- Type -->
                   <div>
+<<<<<<< HEAD
+                    <label class="block text-xs font-bold text-foreground mb-1"
+                      >Type *</label
+                    >
+                    <select
+                      v-model="auditForm.type"
+                      class="w-full text-sm p-2.5 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-purple-400/40"
+                    >
+                      <option value="rent" class="bg-card">Location</option>
+                      <option value="sale" class="bg-card">Vente</option>
+=======
                     <label class="block text-xs font-bold text-gray-700 mb-1">Type *</label>
                     <select v-model="auditForm.type"
                       class="w-full text-sm p-2.5 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400/40 bg-white">
                       <option value="rent">Location</option>
                       <option value="sale">Vente</option>
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
                     </select>
                   </div>
 
                   <!-- Prix -->
                   <div>
+<<<<<<< HEAD
+                    <label class="block text-xs font-bold text-foreground mb-1"
+                      >Prix (FCFA) *</label
+                    >
+                    <input
+                      v-model="auditForm.price"
+                      type="number"
+                      class="w-full text-sm p-2.5 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-purple-400/40"
+                      placeholder="Ex: 150000"
+                    />
+=======
                     <label class="block text-xs font-bold text-gray-700 mb-1">Prix (FCFA) *</label>
                     <input v-model="auditForm.price" type="number"
                       class="w-full text-sm p-2.5 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400/40"
                       placeholder="Ex: 150000" />
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
                   </div>
 
                   <!-- Ville -->
                   <div>
+<<<<<<< HEAD
+                    <label class="block text-xs font-bold text-foreground mb-1"
+                      >Ville *</label
+                    >
+                    <input
+                      v-model="auditForm.city"
+                      type="text"
+                      class="w-full text-sm p-2.5 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-purple-400/40"
+                      placeholder="Ex: Yaoundé"
+                    />
+=======
                     <label class="block text-xs font-bold text-gray-700 mb-1">Ville *</label>
                     <input v-model="auditForm.city" type="text"
                       class="w-full text-sm p-2.5 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400/40"
                       placeholder="Ex: Yaoundé" />
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
                   </div>
 
                   <!-- Localisation -->
                   <div class="sm:col-span-2">
+<<<<<<< HEAD
+                    <label class="block text-xs font-bold text-foreground mb-1"
+                      >Localisation précise *</label
+                    >
+                    <input
+                      v-model="auditForm.location"
+                      type="text"
+                      class="w-full text-sm p-2.5 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-purple-400/40"
+                      placeholder="Ex: Quartier Bastos, rue des Ministres, face à l'école"
+                    />
+=======
                     <label class="block text-xs font-bold text-gray-700 mb-1">Localisation précise *</label>
                     <input v-model="auditForm.location" type="text"
                       class="w-full text-sm p-2.5 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400/40"
                       placeholder="Ex: Quartier Bastos, rue des Ministres, face à l'école" />
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
                   </div>
 
                   <!-- Chambres / Salles de bain / Surface -->
                   <div>
+<<<<<<< HEAD
+                    <label class="block text-xs font-bold text-foreground mb-1"
+                      >Chambres</label
+                    >
+                    <input
+                      v-model="auditForm.bedrooms"
+                      type="number"
+                      min="0"
+                      class="w-full text-sm p-2.5 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-purple-400/40"
+                      placeholder="0"
+                    />
+                  </div>
+                  <div>
+                    <label class="block text-xs font-bold text-foreground mb-1"
+                      >Salles de bain</label
+                    >
+                    <input
+                      v-model="auditForm.bathrooms"
+                      type="number"
+                      min="0"
+                      class="w-full text-sm p-2.5 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-purple-400/40"
+                      placeholder="0"
+                    />
+                  </div>
+                  <div>
+                    <label class="block text-xs font-bold text-foreground mb-1"
+                      >Surface (m²)</label
+                    >
+                    <input
+                      v-model="auditForm.area"
+                      type="number"
+                      min="0"
+                      class="w-full text-sm p-2.5 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-purple-400/40"
+                      placeholder="Ex: 80"
+                    />
+=======
                     <label class="block text-xs font-bold text-gray-700 mb-1">Chambres</label>
                     <input v-model="auditForm.bedrooms" type="number" min="0"
                       class="w-full text-sm p-2.5 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400/40"
@@ -628,10 +1175,25 @@
                     <input v-model="auditForm.area" type="number" min="0"
                       class="w-full text-sm p-2.5 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400/40"
                       placeholder="Ex: 80" />
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
                   </div>
 
                   <!-- État du bien -->
                   <div>
+<<<<<<< HEAD
+                    <label class="block text-xs font-bold text-foreground mb-1"
+                      >État du bien *</label
+                    >
+                    <select
+                      v-model="auditForm.etat"
+                      class="w-full text-sm p-2.5 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-purple-400/40"
+                    >
+                      <option value="" class="bg-card">-- Choisir --</option>
+                      <option value="neuf" class="bg-card">Neuf</option>
+                      <option value="bon" class="bg-card">Bon état</option>
+                      <option value="moyen" class="bg-card">État moyen</option>
+                      <option value="a_renover" class="bg-card">À rénover</option>
+=======
                     <label class="block text-xs font-bold text-gray-700 mb-1">État du bien *</label>
                     <select v-model="auditForm.etat"
                       class="w-full text-sm p-2.5 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400/40 bg-white">
@@ -640,19 +1202,48 @@
                       <option value="bon">Bon état</option>
                       <option value="moyen">État moyen</option>
                       <option value="a_renover">À rénover</option>
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
                     </select>
                   </div>
 
                   <!-- Description -->
                   <div class="sm:col-span-2">
+<<<<<<< HEAD
+                    <label class="block text-xs font-bold text-foreground mb-1"
+                      >Description *</label
+                    >
+                    <textarea
+                      v-model="auditForm.description"
+                      rows="3"
+                      class="w-full text-sm p-2.5 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-purple-400/40"
+                      placeholder="Décrivez le bien tel que vous l'avez constaté sur place..."
+                    ></textarea>
+=======
                     <label class="block text-xs font-bold text-gray-700 mb-1">Description *</label>
                     <textarea v-model="auditForm.description" rows="3"
                       class="w-full text-sm p-2.5 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400/40"
                       placeholder="Décrivez le bien tel que vous l'avez constaté sur place..."></textarea>
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
                   </div>
 
                   <!-- Photos -->
                   <div class="sm:col-span-2">
+<<<<<<< HEAD
+                    <label class="block text-xs font-bold text-foreground mb-1"
+                      >Photos terrain *
+                      <span class="text-muted-foreground font-normal"
+                        >(min. 1 photo, max 10)</span
+                      ></label
+                    >
+                    <div
+                      class="border-2 border-dashed border-purple-200 dark:border-purple-800 rounded-xl p-4 text-center cursor-pointer hover:border-purple-400 transition-colors"
+                      @click="triggerFileInput(mission.id)"
+                    >
+                      <i
+                        class="fas fa-cloud-upload-alt text-purple-300 dark:text-purple-600 text-3xl mb-2"
+                      ></i>
+                      <p class="text-xs text-muted-foreground">
+=======
                     <label class="block text-xs font-bold text-gray-700 mb-1">Photos terrain *
                       <span class="text-gray-400 font-normal">(min. 1 photo, max 10)</span></label>
                     <div
@@ -660,6 +1251,7 @@
                       @click="triggerFileInput(mission.id)">
                       <i class="fas fa-cloud-upload-alt text-purple-300 text-3xl mb-2"></i>
                       <p class="text-xs text-gray-500">
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
                         Cliquer pour ajouter des photos JPEG / PNG / WebP (max 5
                         Mo chacune)
                       </p>
@@ -667,12 +1259,32 @@
                         accept="image/jpeg,image/png,image/webp" class="hidden" @change="onAuditImagesChange" />
                     </div>
                     <!-- Prévisualisation -->
+<<<<<<< HEAD
+                    <div
+                      v-if="auditImagePreviews.length > 0"
+                      class="mt-3 flex flex-wrap gap-2"
+                    >
+                      <div
+                        v-for="(preview, idx) in auditImagePreviews"
+                        :key="idx"
+                        class="relative w-20 h-20 rounded-lg overflow-hidden border-2 border-purple-200 dark:border-purple-800"
+                      >
+                        <img
+                          :src="preview"
+                          class="w-full h-full object-cover"
+                        />
+                        <button
+                          @click.stop="removeAuditImage(idx)"
+                          class="absolute top-0.5 right-0.5 w-5 h-5 bg-destructive text-destructive-foreground rounded-full text-xs flex items-center justify-center hover:bg-destructive/90"
+                        >
+=======
                     <div v-if="auditImagePreviews.length > 0" class="mt-3 flex flex-wrap gap-2">
                       <div v-for="(preview, idx) in auditImagePreviews" :key="idx"
                         class="relative w-20 h-20 rounded-lg overflow-hidden border-2 border-purple-200">
                         <img :src="preview" class="w-full h-full object-cover" />
                         <button @click.stop="removeAuditImage(idx)"
                           class="absolute top-0.5 right-0.5 w-5 h-5 bg-red-500 text-white rounded-full text-xs flex items-center justify-center hover:bg-red-600">
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
                           <i class="fas fa-times"></i>
                         </button>
                         <span v-if="idx === 0"
@@ -683,16 +1295,30 @@
                 </div>
 
                 <!-- Erreur audit -->
+<<<<<<< HEAD
+                <div
+                  v-if="auditError"
+                  class="mt-3 p-3 bg-destructive/10 text-destructive rounded-lg text-xs flex items-center gap-2"
+                >
+=======
                 <div v-if="auditError"
                   class="mt-3 p-3 bg-red-50 text-red-700 rounded-lg text-xs flex items-center gap-2">
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
                   <i class="fas fa-exclamation-triangle"></i>
                   {{ auditError }}
                 </div>
 
                 <!-- Boutons -->
                 <div class="mt-4 flex justify-end gap-3">
+<<<<<<< HEAD
+                  <button
+                    @click="closeAuditForm"
+                    class="px-4 py-2 text-sm font-bold text-muted-foreground hover:bg-muted/20 rounded-lg transition-colors"
+                  >
+=======
                   <button @click="closeAuditForm"
                     class="px-4 py-2 text-sm font-bold text-gray-500 hover:bg-gray-100 rounded-lg transition-colors">
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
                     Annuler
                   </button>
                   <button @click="submitAuditReport(mission.id)"
@@ -709,6 +1335,79 @@
         </div>
       </div>
     </div>
+
+    <!-- Modal des documents -->
+    <Teleport to="body">
+      <div
+        v-if="viewingDocsApp"
+        class="fixed inset-0 z-50 overflow-y-auto"
+        aria-labelledby="modal-title"
+        role="dialog"
+        aria-modal="true"
+      >
+        <div
+          class="flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0"
+        >
+          <div
+            class="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity"
+            aria-hidden="true"
+            @click="viewingDocsApp = null"
+          ></div>
+
+          <span
+            class="hidden sm:inline-block sm:h-screen sm:align-middle"
+            aria-hidden="true"
+            >&#8203;</span
+          >
+
+          <div
+            class="relative inline-block transform overflow-hidden rounded-2xl bg-card text-left align-bottom shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-3xl sm:align-middle"
+          >
+            <div class="bg-card px-6 pt-6 pb-4">
+              <div class="flex items-center justify-between mb-4">
+                <h3
+                  class="text-lg font-black text-foreground"
+                  id="modal-title"
+                >
+                  Documents de {{ viewingDocsApp.applicant?.name }}
+                </h3>
+                <button
+                  @click="viewingDocsApp = null"
+                  class="rounded-full p-1 text-muted-foreground hover:bg-muted/20 transition-colors"
+                >
+                  <i class="fas fa-times text-xl"></i>
+                </button>
+              </div>
+
+              <div class="grid grid-cols-1 gap-3 max-h-[60vh] overflow-y-auto custom-scrollbar p-1">
+                <a
+                  v-for="(path, type) in viewingDocsApp.documents"
+                  :key="type"
+                  :href="getDocumentUrl(path)"
+                  target="_blank"
+                  class="flex items-center gap-4 p-4 rounded-xl border border-border hover:bg-muted/10 transition-colors"
+                >
+                  <div
+                    class="w-10 h-10 rounded-lg bg-blue-50 dark:bg-blue-950/30 text-blue-600 dark:text-blue-400 flex items-center justify-center text-xl"
+                  >
+                    <i :class="getDocumentIcon(type)"></i>
+                  </div>
+                  <div class="flex-1">
+                    <p class="text-sm font-bold text-foreground">
+                      {{ getDocumentLabel(type) }}
+                    </p>
+                    <p class="text-xs text-muted-foreground mt-0.5">
+                      Cliquer pour ouvrir
+                    </p>
+                  </div>
+                  <i class="fas fa-external-link-alt text-muted-foreground"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Teleport>
   </DashboardLayout>
 </template>
 
@@ -717,9 +1416,10 @@ import { ref, onMounted } from "vue";
 import DashboardLayout from "../../layouts/DashboardLayout.vue";
 import { useRouter } from "vue-router";
 import axios from "../../axios";
+
 const router = useRouter();
 
-const activeTab = ref("visits"); // visits | applications | payments | audit
+const activeTab = ref("visits");
 
 const isLoading = ref(true);
 const actionLoading = ref(false);
@@ -860,18 +1560,14 @@ const getDocumentIcon = (type) => {
 
 const getDocumentUrl = (path) => {
   if (!path) return "";
-  // Si le path est déjà absolu, on le retourne directement
   if (path.startsWith("http")) return path;
-
-  // Utiliser axios.defaults.baseURL si le path est relatif,
-  // en enlevant le domaine existant du baseURL s'il y a un slash en fin
   const baseUrl = axios.defaults.baseURL
     ? axios.defaults.baseURL.replace(/\/$/, "")
     : "http://localhost:8000";
   return `${baseUrl}${path}`;
 };
 
-// Formulaire de validation de dossier (advance_months + start_date requis par le backend)
+// Formulaire de validation de dossier
 const validatingAppId = ref(null);
 const validateForm = ref({ advance_months: 2, start_date: "", notes: "" });
 const validateError = ref("");
@@ -885,7 +1581,6 @@ const scheduleForm = ref({
 const openValidateForm = (app) => {
   validatingAppId.value = app.id;
   validateError.value = "";
-  // Proposer une date de début à J+7 par défaut
   const d = new Date();
   d.setDate(d.getDate() + 7);
   validateForm.value = {
@@ -982,7 +1677,7 @@ const triggerFileInput = (missionId) => {
 
 const openAuditForm = (mission) => {
   auditingMissionId.value = mission.id;
-  schedulingMissionId.value = null; // Close schedule if open
+  schedulingMissionId.value = null;
   auditError.value = "";
   auditImageFiles.value = [];
   auditImagePreviews.value = [];
@@ -1003,7 +1698,7 @@ const openAuditForm = (mission) => {
 
 const openScheduleModal = (m) => {
   schedulingMissionId.value = m.id;
-  auditingMissionId.value = null; // Close audit if open
+  auditingMissionId.value = null;
   scheduleForm.value = {
     scheduled_at: m.scheduled_at
       ? new Date(m.scheduled_at).toISOString().slice(0, 16)
@@ -1050,7 +1745,6 @@ const onAuditImagesChange = (event) => {
     reader.onload = (e) => auditImagePreviews.value.push(e.target.result);
     reader.readAsDataURL(file);
   });
-  // reset input so same files can be re-added after removal
   event.target.value = "";
 };
 
@@ -1063,7 +1757,6 @@ const submitAuditReport = async (missionId) => {
   auditError.value = "";
   const f = auditForm.value;
 
-  // Validation rapide
   if (
     !f.title ||
     !f.category ||
@@ -1164,5 +1857,20 @@ onMounted(fetchMissions);
     transform: translateY(0);
     opacity: 1;
   }
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: hsl(var(--muted) / 0.2);
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.3);
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.5);
 }
 </style>

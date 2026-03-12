@@ -1,14 +1,37 @@
 <template>
   <DashboardLayout>
-
-  <div class="bg-[#FAF9F5] min-h-screen py-12 px-6">
-    <div class="max-w-3xl mx-auto">
-      <!-- Header of the form page -->
-      <div class="mb-10 flex justify-between items-end">
-        <div>
-          <h1
-            class="text-3xl font-black text-[#1B0B38] leading-tight uppercase relative"
+    <div class="bg-background min-h-screen py-12 px-6">
+      <div class="max-w-3xl mx-auto">
+        <!-- Header of the form page -->
+        <div class="mb-10 flex justify-between items-end">
+          <div>
+            <h1
+              class="text-3xl font-black text-foreground leading-tight uppercase relative"
+            >
+              Demander une publication
+              <span
+                class="absolute -bottom-2 left-0 w-20 h-1 bg-secondary"
+              ></span>
+            </h1>
+            <p
+              class="text-muted-foreground font-bold uppercase tracking-[0.2em] text-[11px] mt-4 italic"
+            >
+              Étape {{ currentStep }} sur 3 : {{ stepTitles[currentStep - 1] }}
+            </p>
+          </div>
+          <RouterLink
+            :to="{ name: 'BailleurDashboard' }"
+            class="group flex items-center gap-2 text-xs font-black text-muted-foreground hover:text-secondary transition-all uppercase tracking-widest"
           >
+<<<<<<< HEAD
+            <span>Annuler</span>
+            <div
+              class="w-8 h-8 rounded-full bg-muted/20 flex items-center justify-center group-hover:bg-secondary group-hover:text-secondary-foreground transition-all"
+            >
+              <i class="fas fa-times"></i>
+            </div>
+          </RouterLink>
+=======
             Demander de publication
             <span
               class="absolute -bottom-2 left-0 w-20 h-1 bg-[#E54801]"
@@ -19,312 +42,300 @@
           >
             Étape {{ currentStep }} sur 3 : {{ stepTitles[currentStep - 1] }}
           </p>
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
         </div>
-        <RouterLink
-          :to="{ name: 'BailleurDashboard' }"
-          class="group flex items-center gap-2 text-xs font-black text-gray-400 hover:text-[#E54801] transition-all uppercase tracking-widest"
-        >
-          <span>Annuler</span>
+
+        <!-- Info Alert -->
+        <div class="mb-8 bg-blue-50 dark:bg-blue-950/30 border-l-4 border-blue-500 p-4 rounded-xl">
+          <div class="flex items-start gap-3">
+            <i class="fas fa-info-circle text-blue-500 dark:text-blue-400 mt-1"></i>
+            <p
+              class="text-xs text-blue-700 dark:text-blue-300 font-bold uppercase tracking-wide leading-relaxed"
+            >
+              Note : Vous ne postez pas de photos vous-même. Un agent HMC sera
+              assigné pour auditer votre bien, prendre des photos professionnelles
+              et finaliser l'annonce pour vous.
+            </p>
+          </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="mb-10 flex gap-2">
           <div
-            class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center group-hover:bg-[#E54801] group-hover:text-white transition-all"
-          >
-            <i class="fas fa-times"></i>
-          </div>
-        </RouterLink>
-      </div>
-
-      <!-- Info Alert -->
-      <div class="mb-8 bg-blue-50 border-l-4 border-blue-500 p-4 rounded-xl">
-        <div class="flex items-start gap-3">
-          <i class="fas fa-info-circle text-blue-500 mt-1"></i>
-          <p
-            class="text-xs text-blue-700 font-bold uppercase tracking-wide leading-relaxed"
-          >
-            Note : Vous ne postez pas de photos vous-même. Un agent HMC sera
-            assigné pour auditer votre bien, prendre des photos professionnelles
-            et finaliser l'annonce pour vous.
-          </p>
+            v-for="step in 3"
+            :key="step"
+            class="h-1.5 flex-1 rounded-full transition-all duration-500"
+            :class="step <= currentStep ? 'bg-secondary' : 'bg-muted'"
+          ></div>
         </div>
-      </div>
 
-      <!-- Progress Bar -->
-      <div class="mb-10 flex gap-2">
-        <div
-          v-for="step in 3"
-          :key="step"
-          class="h-1.5 flex-1 rounded-full transition-all duration-500"
-          :class="step <= currentStep ? 'bg-[#E54801]' : 'bg-gray-200'"
-        ></div>
-      </div>
-
-      <form @submit.prevent="submitForm" class="space-y-8 animate-fadeIn">
-        <!-- Section 1 : Informations de base -->
-        <section
-          v-if="currentStep === 1"
-          class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300"
-        >
-          <div class="flex items-center gap-3 mb-6">
-            <div
-              class="w-8 h-8 rounded-full bg-[#E54801]/10 text-[#E54801] flex items-center justify-center font-bold text-sm"
-            >
-              1
-            </div>
-            <h3
-              class="text-xs font-black text-[#1B0B38] uppercase tracking-widest"
-            >
-              Informations de base
-            </h3>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="col-span-1 md:col-span-2">
-              <label
-                class="block text-[10px] text-gray-400 font-bold uppercase mb-2 ml-2"
-                >Titre du bien</label
+        <form @submit.prevent="submitForm" class="space-y-8 animate-fadeIn">
+          <!-- Section 1 : Informations de base -->
+          <section
+            v-if="currentStep === 1"
+            class="bg-card p-8 rounded-3xl shadow-sm border border-border hover:shadow-md transition-shadow duration-300"
+          >
+            <div class="flex items-center gap-3 mb-6">
+              <div
+                class="w-8 h-8 rounded-full bg-secondary/10 text-secondary flex items-center justify-center font-bold text-sm"
               >
-              <input
-                v-model="form.title"
-                type="text"
-                required
-                placeholder="Ex: Villa de luxe à Bastos"
-                class="w-full px-5 py-4 bg-gray-50 border-none rounded-2xl text-sm font-medium focus:ring-2 focus:ring-[#E54801]/20 outline-none transition-all placeholder-gray-300 text-gray-700"
-              />
-            </div>
-            <div>
-              <label
-                class="block text-[10px] text-gray-400 font-bold uppercase mb-2 ml-2"
-                >Type d'offre</label
+                1
+              </div>
+              <h3
+                class="text-xs font-black text-foreground uppercase tracking-widest"
               >
-              <select
-                v-model="form.type"
-                class="w-full px-5 py-4 bg-gray-50 border-none rounded-2xl text-sm font-medium focus:ring-2 focus:ring-[#E54801]/20 outline-none transition-all cursor-pointer text-gray-700"
-              >
-                <option value="rent">À Louer</option>
-                <option value="sale">À Vendre</option>
-              </select>
-            </div>
-            <div>
-              <label
-                class="block text-[10px] text-gray-400 font-bold uppercase mb-2 ml-2"
-                >Catégorie</label
-              >
-              <select
-                v-model="form.category"
-                class="w-full px-5 py-4 bg-gray-50 border-none rounded-2xl text-sm font-medium focus:ring-2 focus:ring-[#E54801]/20 outline-none transition-all cursor-pointer text-gray-700"
-              >
-                <option value="Villa">Villa</option>
-                <option value="Appartement">Appartement</option>
-                <option value="Studio">Studio</option>
-                <option value="Chambre">Chambre</option>
-                <option value="Bureau">Bureau / Local Pro</option>
-                <option value="Terrain">Terrain</option>
-              </select>
-            </div>
-            <div>
-              <label
-                class="block text-[10px] text-gray-400 font-bold uppercase mb-2 ml-2"
-                >Prix estimé (XAF)</label
-              >
-              <input
-                v-model.number="form.price_estimate"
-                type="number"
-                required
-                placeholder="0"
-                class="w-full px-5 py-4 bg-gray-50 border-none rounded-2xl text-sm font-bold focus:ring-2 focus:ring-[#E54801]/20 outline-none transition-all text-[#1B0B38]"
-              />
-            </div>
-          </div>
-        </section>
-
-        <!-- Section 2 : Détails & Localisation -->
-        <section
-          v-if="currentStep === 2"
-          class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300"
-        >
-          <div class="flex items-center gap-3 mb-6">
-            <div
-              class="w-8 h-8 rounded-full bg-[#E54801]/10 text-[#E54801] flex items-center justify-center font-bold text-sm"
-            >
-              2
-            </div>
-            <h3
-              class="text-xs font-black text-[#1B0B38] uppercase tracking-widest"
-            >
-              Détails & Localisation
-            </h3>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label
-                class="block text-[10px] text-gray-400 font-bold uppercase mb-2 ml-2"
-                >Ville</label
-              >
-              <input
-                v-model="form.city"
-                type="text"
-                required
-                placeholder="Ex: Yaoundé"
-                class="w-full px-5 py-4 bg-gray-50 border-none rounded-2xl text-sm font-medium focus:ring-2 focus:ring-[#E54801]/20 outline-none transition-all text-gray-700"
-              />
-            </div>
-            <div>
-              <label
-                class="block text-[10px] text-gray-400 font-bold uppercase mb-2 ml-2"
-                >Quartier / Adresse précise</label
-              >
-              <input
-                v-model="form.location"
-                type="text"
-                required
-                placeholder="Ex: Bastos, Rue de l'Ambassade"
-                class="w-full px-5 py-4 bg-gray-50 border-none rounded-2xl text-sm font-medium focus:ring-2 focus:ring-[#E54801]/20 outline-none transition-all text-gray-700"
-              />
+                Informations de base
+              </h3>
             </div>
 
-            <div class="col-span-1 md:col-span-2">
-              <label
-                class="block text-[10px] text-gray-400 font-bold uppercase mb-2 ml-2"
-                >Description sommaire</label
-              >
-              <textarea
-                v-model="form.description"
-                rows="4"
-                placeholder="Décrivez brièvement votre bien (nombre de pièces, état général...)"
-                class="w-full px-5 py-4 bg-gray-50 border-none rounded-2xl text-sm font-medium focus:ring-2 focus:ring-[#E54801]/20 outline-none transition-all text-gray-700"
-              ></textarea>
-            </div>
-          </div>
-        </section>
-
-        <!-- Section 3 : Documents d'audit -->
-        <section
-          v-if="currentStep === 3"
-          class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300"
-        >
-          <div class="flex items-center gap-3 mb-6">
-            <div
-              class="w-8 h-8 rounded-full bg-[#E54801]/10 text-[#E54801] flex items-center justify-center font-bold text-sm"
-            >
-              3
-            </div>
-            <h3
-              class="text-xs font-black text-[#1B0B38] uppercase tracking-widest"
-            >
-              Documents de vérification
-            </h3>
-          </div>
-
-          <div class="mb-8">
-            <label
-              class="block text-[10px] text-gray-400 font-bold uppercase mb-4"
-              >Documents (CNI, Titre foncier, Mandat...)</label
-            >
-            <div
-              @click="$refs.fileInput.click()"
-              class="border-2 border-dashed border-gray-200 rounded-3xl p-8 text-center group hover:border-[#E54801]/50 hover:bg-[#E54801]/5 transition-all cursor-pointer relative overflow-hidden"
-            >
-              <input
-                ref="fileInput"
-                type="file"
-                multiple
-                accept="application/pdf,image/*"
-                class="hidden"
-                @change="handleFileChange"
-              />
-              <div class="relative z-10">
-                <div
-                  class="w-12 h-12 mx-auto bg-gray-50 rounded-full flex items-center justify-center mb-4 group-hover:bg-white transition-colors"
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="col-span-1 md:col-span-2">
+                <label
+                  class="block text-[10px] text-muted-foreground font-bold uppercase mb-2 ml-2"
+                  >Titre du bien</label
                 >
-                  <i
-                    class="fas fa-file-contract text-xl text-gray-300 group-hover:text-[#E54801]"
-                  ></i>
-                </div>
-                <p
-                  class="text-[11px] font-bold text-gray-500 group-hover:text-[#1B0B38]"
+                <input
+                  v-model="form.title"
+                  type="text"
+                  required
+                  placeholder="Ex: Villa de luxe à Bastos"
+                  class="w-full px-5 py-4 bg-muted/20 border-none rounded-2xl text-sm font-medium focus:ring-2 focus:ring-secondary/20 outline-none transition-all placeholder:text-muted-foreground text-foreground"
+                />
+              </div>
+              <div>
+                <label
+                  class="block text-[10px] text-muted-foreground font-bold uppercase mb-2 ml-2"
+                  >Type d'offre</label
                 >
-                  Ajouter des justificatifs (PDF ou Images)
-                </p>
-                <p class="text-[9px] text-gray-400 mt-2 font-bold uppercase">
-                  Max 10MB par fichier
-                </p>
+                <select
+                  v-model="form.type"
+                  class="w-full px-5 py-4 bg-muted/20 border-none rounded-2xl text-sm font-medium focus:ring-2 focus:ring-secondary/20 outline-none transition-all cursor-pointer text-foreground"
+                >
+                  <option value="rent" class="bg-card">À Louer</option>
+                  <option value="sale" class="bg-card">À Vendre</option>
+                </select>
+              </div>
+              <div>
+                <label
+                  class="block text-[10px] text-muted-foreground font-bold uppercase mb-2 ml-2"
+                  >Catégorie</label
+                >
+                <select
+                  v-model="form.category"
+                  class="w-full px-5 py-4 bg-muted/20 border-none rounded-2xl text-sm font-medium focus:ring-2 focus:ring-secondary/20 outline-none transition-all cursor-pointer text-foreground"
+                >
+                  <option value="Villa" class="bg-card">Villa</option>
+                  <option value="Appartement" class="bg-card">Appartement</option>
+                  <option value="Studio" class="bg-card">Studio</option>
+                  <option value="Chambre" class="bg-card">Chambre</option>
+                  <option value="Bureau" class="bg-card">Bureau / Local Pro</option>
+                  <option value="Terrain" class="bg-card">Terrain</option>
+                </select>
+              </div>
+              <div>
+                <label
+                  class="block text-[10px] text-muted-foreground font-bold uppercase mb-2 ml-2"
+                  >Prix estimé (XAF)</label
+                >
+                <input
+                  v-model.number="form.price_estimate"
+                  type="number"
+                  required
+                  placeholder="0"
+                  class="w-full px-5 py-4 bg-muted/20 border-none rounded-2xl text-sm font-bold focus:ring-2 focus:ring-secondary/20 outline-none transition-all text-foreground"
+                />
               </div>
             </div>
+          </section>
 
-            <!-- Previews -->
-            <div
-              v-if="previews.length"
-              class="grid grid-cols-4 sm:grid-cols-6 gap-3 mt-4"
-            >
+          <!-- Section 2 : Détails & Localisation -->
+          <section
+            v-if="currentStep === 2"
+            class="bg-card p-8 rounded-3xl shadow-sm border border-border hover:shadow-md transition-shadow duration-300"
+          >
+            <div class="flex items-center gap-3 mb-6">
               <div
-                v-for="(src, idx) in previews"
-                :key="idx"
-                class="relative aspect-square group"
+                class="w-8 h-8 rounded-full bg-secondary/10 text-secondary flex items-center justify-center font-bold text-sm"
               >
-                <div
-                  v-if="src.isPdf"
-                  class="w-full h-full bg-red-50 rounded-xl border border-red-100 flex items-center justify-center"
+                2
+              </div>
+              <h3
+                class="text-xs font-black text-foreground uppercase tracking-widest"
+              >
+                Détails & Localisation
+              </h3>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label
+                  class="block text-[10px] text-muted-foreground font-bold uppercase mb-2 ml-2"
+                  >Ville</label
                 >
-                  <i class="fas fa-file-pdf text-red-400 text-2xl"></i>
-                  <p
-                    class="absolute bottom-1 w-full text-center text-[8px] font-black text-red-500 truncate px-1"
+                <input
+                  v-model="form.city"
+                  type="text"
+                  required
+                  placeholder="Ex: Yaoundé"
+                  class="w-full px-5 py-4 bg-muted/20 border-none rounded-2xl text-sm font-medium focus:ring-2 focus:ring-secondary/20 outline-none transition-all text-foreground placeholder:text-muted-foreground"
+                />
+              </div>
+              <div>
+                <label
+                  class="block text-[10px] text-muted-foreground font-bold uppercase mb-2 ml-2"
+                  >Quartier / Adresse précise</label
+                >
+                <input
+                  v-model="form.location"
+                  type="text"
+                  required
+                  placeholder="Ex: Bastos, Rue de l'Ambassade"
+                  class="w-full px-5 py-4 bg-muted/20 border-none rounded-2xl text-sm font-medium focus:ring-2 focus:ring-secondary/20 outline-none transition-all text-foreground placeholder:text-muted-foreground"
+                />
+              </div>
+
+              <div class="col-span-1 md:col-span-2">
+                <label
+                  class="block text-[10px] text-muted-foreground font-bold uppercase mb-2 ml-2"
+                  >Description sommaire</label
+                >
+                <textarea
+                  v-model="form.description"
+                  rows="4"
+                  placeholder="Décrivez brièvement votre bien (nombre de pièces, état général...)"
+                  class="w-full px-5 py-4 bg-muted/20 border-none rounded-2xl text-sm font-medium focus:ring-2 focus:ring-secondary/20 outline-none transition-all text-foreground placeholder:text-muted-foreground"
+                ></textarea>
+              </div>
+            </div>
+          </section>
+
+          <!-- Section 3 : Documents d'audit -->
+          <section
+            v-if="currentStep === 3"
+            class="bg-card p-8 rounded-3xl shadow-sm border border-border hover:shadow-md transition-shadow duration-300"
+          >
+            <div class="flex items-center gap-3 mb-6">
+              <div
+                class="w-8 h-8 rounded-full bg-secondary/10 text-secondary flex items-center justify-center font-bold text-sm"
+              >
+                3
+              </div>
+              <h3
+                class="text-xs font-black text-foreground uppercase tracking-widest"
+              >
+                Documents de vérification
+              </h3>
+            </div>
+
+            <div class="mb-8">
+              <label
+                class="block text-[10px] text-muted-foreground font-bold uppercase mb-4"
+                >Documents (CNI, Titre foncier, Mandat...)</label
+              >
+              <div
+                @click="$refs.fileInput.click()"
+                class="border-2 border-dashed border-border rounded-3xl p-8 text-center group hover:border-secondary/50 hover:bg-secondary/5 transition-all cursor-pointer relative overflow-hidden"
+              >
+                <input
+                  ref="fileInput"
+                  type="file"
+                  multiple
+                  accept="application/pdf,image/*"
+                  class="hidden"
+                  @change="handleFileChange"
+                />
+                <div class="relative z-10">
+                  <div
+                    class="w-12 h-12 mx-auto bg-muted/20 rounded-full flex items-center justify-center mb-4 group-hover:bg-card transition-colors"
                   >
-                    {{ src.name }}
+                    <i
+                      class="fas fa-file-contract text-xl text-muted-foreground/50 group-hover:text-secondary"
+                    ></i>
+                  </div>
+                  <p
+                    class="text-[11px] font-bold text-muted-foreground group-hover:text-foreground"
+                  >
+                    Ajouter des justificatifs (PDF ou Images)
+                  </p>
+                  <p class="text-[9px] text-muted-foreground mt-2 font-bold uppercase">
+                    Max 10MB par fichier
                   </p>
                 </div>
-                <img
-                  v-else
-                  :src="src.url"
-                  class="w-full h-full object-cover rounded-xl border border-gray-100 shadow-sm"
-                />
-                <button
-                  @click.stop="removeFile(idx)"
-                  class="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-[10px] opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
+              </div>
+
+              <!-- Previews -->
+              <div
+                v-if="previews.length"
+                class="grid grid-cols-4 sm:grid-cols-6 gap-3 mt-4"
+              >
+                <div
+                  v-for="(src, idx) in previews"
+                  :key="idx"
+                  class="relative aspect-square group"
                 >
-                  <i class="fas fa-times"></i>
-                </button>
+                  <div
+                    v-if="src.isPdf"
+                    class="w-full h-full bg-red-50 dark:bg-red-950/30 rounded-xl border border-red-100 dark:border-red-800 flex items-center justify-center"
+                  >
+                    <i class="fas fa-file-pdf text-red-400 dark:text-red-500 text-2xl"></i>
+                    <p
+                      class="absolute bottom-1 w-full text-center text-[8px] font-black text-red-500 dark:text-red-400 truncate px-1"
+                    >
+                      {{ src.name }}
+                    </p>
+                  </div>
+                  <img
+                    v-else
+                    :src="src.url"
+                    class="w-full h-full object-cover rounded-xl border border-border shadow-sm"
+                  />
+                  <button
+                    @click.stop="removeFile(idx)"
+                    class="absolute -top-2 -right-2 w-6 h-6 bg-destructive text-destructive-foreground rounded-full flex items-center justify-center text-[10px] opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
+                  >
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
               </div>
             </div>
+          </section>
+
+          <!-- Navigation Buttons -->
+          <div class="flex gap-4 pt-4">
+            <button
+              v-if="currentStep > 1"
+              type="button"
+              @click="currentStep--"
+              class="flex-1 py-4 bg-card border border-border text-muted-foreground rounded-2xl font-black uppercase tracking-widest hover:bg-muted/20 transition-all text-xs"
+            >
+              Précédent
+            </button>
+
+            <button
+              v-if="currentStep < 3"
+              type="button"
+              @click="nextStep"
+              class="flex-1 py-4 bg-primary text-primary-foreground rounded-2xl font-black uppercase tracking-widest hover:bg-secondary hover:text-secondary-foreground transition-all text-xs shadow-lg"
+            >
+              Suivant
+            </button>
+
+            <button
+              v-else
+              type="submit"
+              :disabled="isSubmitting"
+              class="flex-2 py-4 bg-secondary text-secondary-foreground rounded-2xl font-black uppercase tracking-widest hover:bg-secondary/90 hover:shadow-lg hover:-translate-y-1 transition-all shadow-xl shadow-secondary/20 text-xs flex items-center justify-center gap-2"
+              style="flex: 2"
+            >
+              <i v-if="isSubmitting" class="fas fa-circle-notch fa-spin"></i>
+              <i v-else class="fas fa-paper-plane"></i>
+              {{ isSubmitting ? "Envoi de la demande..." : "Envoyer ma demande" }}
+            </button>
           </div>
-        </section>
-
-        <!-- Navigation Buttons -->
-        <div class="flex gap-4 pt-4">
-          <button
-            v-if="currentStep > 1"
-            type="button"
-            @click="currentStep--"
-            class="flex-1 py-4 bg-white border border-gray-200 text-gray-500 rounded-2xl font-black uppercase tracking-widest hover:bg-gray-50 transition-all text-xs"
-          >
-            Précédent
-          </button>
-
-          <button
-            v-if="currentStep < 3"
-            type="button"
-            @click="nextStep"
-            class="flex-1 py-4 bg-[#1B0B38] text-white rounded-2xl font-black uppercase tracking-widest hover:bg-[#E54801] transition-all text-xs shadow-lg"
-          >
-            Suivant
-          </button>
-
-          <button
-            v-else
-            type="submit"
-            :disabled="isSubmitting"
-            class="flex-2 py-4 bg-[#E54801] text-white rounded-2xl font-black uppercase tracking-widest hover:bg-[#913327] hover:shadow-lg hover:-translate-y-1 transition-all shadow-xl shadow-[#E54801]/20 text-xs flex items-center justify-center gap-2"
-            style="flex: 2"
-          >
-            <i v-if="isSubmitting" class="fas fa-circle-notch fa-spin"></i>
-            <i v-else class="fas fa-paper-plane"></i>
-            {{ isSubmitting ? "Envoi de la demande..." : "Envoyer ma demande" }}
-          </button>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
-  </div>
-</DashboardLayout>
-
+  </DashboardLayout>
 </template>
 
 <script setup>
@@ -332,6 +343,7 @@ import { ref, reactive } from "vue";
 import { RouterLink, useRouter } from "vue-router";
 import axios from "../../axios";
 import DashboardLayout from "../../layouts/DashboardLayout.vue";
+
 const router = useRouter();
 
 // Step Management
@@ -341,6 +353,7 @@ const stepTitles = [
   "Localisation & Description",
   "Pièces Justificatives",
 ];
+
 const nextStep = () => {
   if (currentStep.value === 1 && (!form.title || !form.price_estimate))
     return alert("Veuillez remplir les champs obligatoires.");
@@ -459,7 +472,7 @@ const submitForm = async () => {
 input:focus,
 select:focus,
 textarea:focus {
-  background-color: white;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+  background-color: hsl(var(--card));
+  box-shadow: 0 10px 15px -3px hsl(var(--foreground) / 0.05);
 }
 </style>

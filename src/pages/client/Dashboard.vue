@@ -1,8 +1,46 @@
 <template>
   <DashboardLayout title="Mon Espace Home Cameroon">
+<<<<<<< HEAD
+    <div class="max-w-[1600px] mx-auto w-full relative">
+      <!-- Hero Banner -->
+      <div
+        class="relative bg-primary rounded-[2.5rem] p-8 lg:p-12 text-primary-foreground overflow-hidden mb-12 shadow-2xl"
+      >
+        <div class="relative z-10 max-w-2xl">
+          <h1 class="text-3xl md:text-4xl lg:text-5xl font-black mb-4">
+            Bonjour,
+            <span class="text-secondary">{{ userName }}</span> !
+          </h1>
+          <p
+            class="text-primary-foreground/70 text-base md:text-lg font-medium leading-relaxed mb-8"
+          >
+            Votre espace personnel est prêt. Choisissez votre rôle pour
+            maximiser votre expérience immobilière.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a
+              href="#roles"
+              class="px-8 py-4 bg-secondary text-secondary-foreground rounded-2xl font-black hover:bg-secondary/90 transition shadow-lg text-center flex items-center justify-center gap-2"
+            >
+              <i class="fas fa-bolt"></i> Découvrir les rôles
+            </a>
+            <RouterLink
+              :to="{ name: 'Annonces', query: { search: '' } }"
+              class="px-8 py-4 bg-white/10 backdrop-blur-md rounded-2xl font-black hover:bg-white/20 transition text-center"
+            >
+              Explorer les biens
+            </RouterLink>
+          </div>
+        </div>
+        <i
+          class="fas fa-house-chimney absolute right-12 bottom-0 text-[200px] text-white/5 pointer-events-none transform translate-y-1/4"
+        ></i>
+      </div>
+=======
     <div class="max-w-[1600px] mx-auto w-full pb-12">
       <!-- Role Switcher -->
       <DashboardRoleSwitcher />
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
 
       <!-- HEADER: Greeting & Quick Stats -->
       <header class="mb-10">
@@ -17,6 +55,60 @@
           <!-- Stats Cards -->
           <div class="flex flex-wrap gap-4">
             <div
+<<<<<<< HEAD
+              class="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center text-white text-2xl backdrop-blur-sm flex-shrink-0 border border-white/30"
+            >
+              <i class="fas fa-route"></i>
+            </div>
+            <div>
+              <h3 class="text-xl font-black text-white mb-1">
+                Vous avez une procédure locative en cours !
+              </h3>
+              <p class="text-blue-100 text-sm font-medium">
+                Suivez l'avancement de vos visites, dossiers et paiements.
+              </p>
+            </div>
+          </div>
+          <RouterLink
+            to="/mon-suivi"
+            class="w-full md:w-auto px-8 py-4 bg-white text-blue-700 rounded-xl font-black hover:bg-gray-50 dark:hover:bg-gray-100 transition shadow-md whitespace-nowrap text-center"
+          >
+            Voir mon suivi <i class="fas fa-arrow-right ml-2"></i>
+          </RouterLink>
+        </div>
+      </div>
+
+      <!-- Section Rôles -->
+      <section id="roles" class="mb-16">
+        <div class="text-center max-w-3xl mx-auto mb-12">
+          <h2 class="text-2xl md:text-3xl font-black text-foreground mb-4">
+            Choisissez votre rôle
+            <span class="text-secondary">HomeCameroon</span>
+          </h2>
+          <p class="text-muted-foreground">
+            Rejoignez notre communauté et bénéficiez d'avantages exclusifs
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+          <div
+            v-for="role in roles"
+            :key="role.label"
+            class="bg-card rounded-3xl p-6 shadow-sm border hover:shadow-lg transition-all group cursor-pointer"
+            :class="role.border"
+          >
+            <div class="flex gap-5 mb-6">
+              <div
+                :class="`w-14 h-14 ${role.bg} ${role.color} rounded-2xl flex items-center justify-center text-xl flex-shrink-0`"
+              >
+                <i :class="`fas fa-${role.icon}`"></i>
+              </div>
+              <div>
+                <h3 class="text-lg font-bold text-foreground mb-2">
+                  {{ role.title }}
+                </h3>
+                <p class="text-sm text-muted-foreground">{{ role.desc }}</p>
+=======
               class="bg-white px-6 py-4 rounded-3xl shadow-sm border border-gray-100 flex items-center gap-4 min-w-[160px]">
               <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center text-xl">
                 <i class="fas fa-calendar-check"></i>
@@ -24,6 +116,7 @@
               <div>
                 <p class="text-2xl font-black text-[#1B0B38]">{{ stats.visits }}</p>
                 <p class="text-xs text-gray-400 font-bold uppercase">Visites</p>
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
               </div>
             </div>
 
@@ -121,6 +214,94 @@
             </div>
           </section>
 
+<<<<<<< HEAD
+        <!-- Bannière conseil -->
+        <div
+          class="bg-gradient-to-r from-secondary/10 to-secondary/20 rounded-3xl p-8 mb-12"
+        >
+          <div
+            class="flex flex-col md:flex-row items-center justify-between gap-4"
+          >
+            <div>
+              <h3 class="text-2xl font-black text-foreground mb-2">
+                Vous hésitez sur le rôle à choisir ?
+              </h3>
+              <p class="text-muted-foreground">
+                Nos conseillers sont à votre disposition
+              </p>
+            </div>
+            <RouterLink
+              :to="{ name: 'Assistance' }"
+              class="px-8 py-4 bg-secondary text-secondary-foreground rounded-2xl font-bold hover:bg-secondary/90 transition shadow-lg whitespace-nowrap flex items-center gap-2"
+            >
+              <i class="fas fa-comment-dots"></i> Parler à un conseiller
+            </RouterLink>
+          </div>
+        </div>
+      </section>
+
+      <!-- Grille principale -->
+      <div class="grid grid-cols-1 xl:grid-cols-3 gap-12">
+        <!-- Colonne principale -->
+        <div class="xl:col-span-2 space-y-12">
+          <!-- Annonces à la une -->
+          <section>
+            <div class="flex justify-between items-end mb-8">
+              <div>
+                <h2 class="text-2xl font-black text-foreground italic">
+                  Annonces à la une
+                </h2>
+                <p class="text-sm text-muted-foreground font-medium">
+                  Découvrez notre sélection exclusive
+                </p>
+              </div>
+              <RouterLink
+                :to="{ name: 'Annonces' }"
+                class="text-secondary font-black text-xs uppercase tracking-widest hover:underline"
+                >Tout voir</RouterLink
+              >
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div
+                v-for="listing in featuredListings"
+                :key="listing.title"
+                class="bg-card p-5 rounded-[2.5rem] shadow-sm border border-border hover:shadow-lg transition group"
+              >
+                <div
+                  class="relative h-56 rounded-[1.8rem] overflow-hidden mb-5"
+                >
+                  <img
+                    :src="listing.img"
+                    :alt="listing.title"
+                    class="w-full h-full object-cover group-hover:scale-110 transition duration-700"
+                  />
+                  <button
+                    class="absolute top-4 right-4 w-10 h-10 bg-card/90 backdrop-blur rounded-full text-secondary flex items-center justify-center shadow-md border border-border"
+                  >
+                    <i class="fas fa-heart"></i>
+                  </button>
+                </div>
+                <h3 class="font-bold text-foreground text-lg px-2">
+                  {{ listing.title }}
+                </h3>
+                <p
+                  class="text-xs text-muted-foreground font-bold uppercase tracking-wider mb-4 px-2"
+                >
+                  {{ listing.location }}
+                </p>
+                <div
+                  class="flex justify-between items-center p-4 border-t border-border"
+                >
+                  <span class="text-secondary font-black">{{
+                    listing.price
+                  }}</span>
+                  <RouterLink
+                    :to="{ name: 'DetailAnnonce', params: { id: 1 } }"
+                    class="w-10 h-10 rounded-xl bg-primary text-primary-foreground flex items-center justify-center hover:bg-secondary transition shadow-md"
+                  >
+                    <i class="fas fa-arrow-right"></i>
+                  </RouterLink>
+=======
           <!-- RECOMMENDED LISTINGS -->
           <section>
             <div class="flex items-center justify-between mb-6">
@@ -165,6 +346,7 @@
                       <i class="fas fa-chevron-right text-[10px]"></i>
                     </RouterLink>
                   </div>
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
                 </div>
               </div>
             </div>
@@ -174,6 +356,38 @@
           <section class="bg-gradient-to-r from-gray-900 to-[#1B0B38] rounded-[2.5rem] p-8 text-white">
             <div class="flex items-center justify-between mb-8">
               <div>
+<<<<<<< HEAD
+                <h2 class="text-2xl font-black text-foreground italic">
+                  Marketplace HMC
+                </h2>
+                <p class="text-sm text-muted-foreground font-medium">
+                  Équipez votre intérieur en un clic
+                </p>
+              </div>
+              <RouterLink
+                :to="{ name: 'MarketplaceIndex' }"
+                class="text-secondary font-black text-xs uppercase tracking-widest hover:underline"
+                >Accéder au market</RouterLink
+              >
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-6">
+              <div
+                v-for="item in marketItems"
+                :key="item.name"
+                class="bg-card p-4 rounded-3xl shadow-sm border border-border hover:border-secondary transition text-center group"
+              >
+                <div class="h-32 rounded-2xl overflow-hidden mb-4 bg-muted/20">
+                  <img
+                    :src="item.img"
+                    :alt="item.name"
+                    class="w-full h-full object-cover group-hover:scale-110 transition"
+                  />
+                </div>
+                <h4 class="font-bold text-sm text-foreground">
+                  {{ item.name }}
+                </h4>
+                <p class="text-secondary font-black mt-1">{{ item.price }}</p>
+=======
                 <h3 class="text-xl font-black italic">Marketplace Home Cameroon</h3>
                 <p class="text-white/50 text-sm">Meubles et décoration pour votre futur chez-vous</p>
               </div>
@@ -190,6 +404,7 @@
                 </div>
                 <p class="text-[11px] font-bold truncate opacity-80">{{ item.name }}</p>
                 <p class="text-xs font-black text-[#f09f84]">{{ item.price }}</p>
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
               </div>
             </div>
           </section>
@@ -201,9 +416,16 @@
 
           <!-- PROFILE CARD -->
           <section
+<<<<<<< HEAD
+            class="bg-card p-8 rounded-[2.5rem] shadow-sm border border-border"
+          >
+            <h3 class="text-xl font-black text-foreground italic mb-6">
+              Tendances Immo
+=======
             class="bg-white rounded-[2.5rem] p-8 border border-gray-100 shadow-sm transition-all hover:shadow-lg">
             <h3 class="text-lg font-black text-[#1B0B38] mb-6 flex items-center gap-3">
               <i class="fas fa-user-circle text-blue-500"></i> Mon Profil
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
             </h3>
 
             <div class="flex items-center gap-4 mb-6">
@@ -212,9 +434,21 @@
                   class="w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center text-3xl text-blue-600 font-black border-4 border-white shadow-xl">
                   {{ userName.charAt(0) }}
                 </div>
+<<<<<<< HEAD
+                <div>
+                  <p class="text-sm font-bold text-foreground">
+                    {{ trend.city }}
+                  </p>
+                  <p
+                    class="text-xs text-muted-foreground font-bold uppercase tracking-widest mt-1"
+                  >
+                    {{ trend.stat }}
+                  </p>
+=======
                 <div
                   class="absolute -bottom-2 -right-2 w-8 h-8 bg-green-500 border-4 border-white rounded-full flex items-center justify-center text-white text-[10px]">
                   <i class="fas fa-check"></i>
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
                 </div>
               </div>
               <div>
@@ -243,6 +477,30 @@
             </RouterLink>
           </section>
 
+<<<<<<< HEAD
+          <!-- CTA Pro -->
+          <section
+            class="bg-primary p-8 rounded-[2.5rem] text-primary-foreground relative overflow-hidden shadow-xl"
+          >
+            <div class="relative z-10">
+              <h3 class="text-xl font-black italic mb-3">🚀 Devenir Pro ?</h3>
+              <p class="text-primary-foreground/70 text-sm mb-6">
+                Maximisez vos revenus avec HomeCameroon
+              </p>
+              <div class="space-y-4">
+                <RouterLink
+                  :to="{ name: 'BailleurFormulaire' }"
+                  class="block w-full px-6 py-4 bg-secondary text-secondary-foreground text-center rounded-xl font-bold hover:bg-secondary/90 transition shadow-md flex items-center justify-center gap-3"
+                >
+                  <i class="fas fa-building"></i> Publier un bien
+                </RouterLink>
+                <RouterLink
+                  :to="{ name: 'AgentInscription' }"
+                  class="block w-full px-6 py-4 bg-white/20 backdrop-blur text-primary-foreground text-center rounded-xl font-bold hover:bg-white/30 transition flex items-center justify-center gap-3"
+                >
+                  <i class="fas fa-user-tie"></i> Rejoindre le réseau
+                </RouterLink>
+=======
           <!-- QUICK ACTIONS -->
           <section class="space-y-4">
             <h3 class="text-xs font-black text-gray-300 uppercase tracking-[0.2em] px-4">Actions Rapides</h3>
@@ -252,6 +510,7 @@
               <div
                 class="w-12 h-12 bg-orange-50 text-[#E54801] rounded-2xl flex items-center justify-center text-xl group-hover:bg-[#E54801] group-hover:text-white transition">
                 <i class="fas fa-search-plus"></i>
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
               </div>
               <div>
                 <p class="font-black text-[#1B0B38]">Rechercher un bien</p>
@@ -303,6 +562,15 @@ const stats = computed(() => ({
 }));
 
 const hasActiveProcedure = computed(() => {
+<<<<<<< HEAD
+  const hasVisits = rentalStore.visits.some((v) =>
+    ["pending", "confirmed", "completed"].includes(v.status),
+  );
+  const hasApps = rentalStore.applications.some((a) =>
+    ["pending", "validated", "under_review"].includes(a.status),
+  );
+  return hasVisits || hasApps;
+=======
   return rentalStore.visits.length > 0 || rentalStore.applications.length > 0;
 });
 
@@ -315,6 +583,7 @@ const procedureSteps = computed(() => {
     { label: "Étape 03", title: "Validation HMC", icon: "fas fa-stamp", status: currentStep === 3 ? 'active' : (currentStep > 3 ? 'completed' : 'pending') },
     { label: "Étape 04", title: "Paiement & Bail", icon: "fas fa-key", status: currentStep === 4 ? 'active' : 'pending' },
   ];
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
 });
 
 onMounted(() => {
@@ -322,6 +591,60 @@ onMounted(() => {
   rentalStore.fetchApplications();
 });
 
+<<<<<<< HEAD
+const roles = [
+  {
+    icon: "key",
+    title: "Louer un bien",
+    desc: "Trouvez votre logement idéal simplement",
+    badge: "Accès gratuit",
+    bg: "bg-blue-50 dark:bg-blue-950/30",
+    color: "text-blue-600 dark:text-blue-400",
+    textColor: "text-blue-600 dark:text-blue-400",
+    border: "border-blue-100 dark:border-blue-800/50",
+    link: { name: "Annonces", query: { search: "" } },
+    cta: "Explorer",
+  },
+  {
+    icon: "building",
+    title: "Publier un bien",
+    desc: "Générez des revenus avec vos biens",
+    badge: "+25% revenus",
+    bg: "bg-orange-50 dark:bg-secondary/10",
+    color: "text-secondary",
+    textColor: "text-secondary",
+    border: "border-orange-100 dark:border-secondary/20",
+    link: { name: "BailleurFormulaire" },
+    cta: "Commencer",
+  },
+  {
+    icon: "tools",
+    title: "Proposer un service",
+    desc: "Offrez vos services à notre communauté",
+    badge: "Nouveaux clients",
+    bg: "bg-purple-50 dark:bg-purple-950/30",
+    color: "text-purple-600 dark:text-purple-400",
+    textColor: "text-purple-600 dark:text-purple-400",
+    border: "border-purple-100 dark:border-purple-800/50",
+    link: { name: "PrestataireInscription" },
+    cta: "Proposer",
+  },
+  {
+    icon: "user-tie",
+    title: "Rejoindre le réseau",
+    desc: "Rejoignez notre réseau certifié d'agents",
+    badge: "Certifié HMC",
+    bg: "bg-green-50 dark:bg-green-950/30",
+    color: "text-green-600 dark:text-green-400",
+    textColor: "text-green-600 dark:text-green-400",
+    border: "border-green-100 dark:border-green-800/50",
+    link: { name: "AgentInscription" },
+    cta: "Postuler",
+  },
+];
+
+=======
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
 const featuredListings = [
   {
     title: "Appartement Grand Luxe",
@@ -357,15 +680,57 @@ const marketItems = [
     img: "https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?auto=format&fit=crop&w=300&q=80",
   },
   {
+<<<<<<< HEAD
+    city: "Yaoundé (Bastos)",
+    stat: "Prix : +5.2%",
+    bg: "bg-orange-50 dark:bg-secondary/10",
+    color: "text-secondary",
+  },
+  {
+    city: "Douala (Akwa)",
+    stat: "Demande élevée",
+    bg: "bg-blue-50 dark:bg-blue-950/30",
+    color: "text-blue-500 dark:text-blue-400",
+  },
+  {
+    city: "Douala (Bonapriso)",
+    stat: "Prix : +3.1%",
+    bg: "bg-green-50 dark:bg-green-950/30",
+    color: "text-green-500 dark:text-green-400",
+=======
     name: "Table Basse",
     price: "35 000 FCFA",
     img: "https://images.unsplash.com/photo-1533090481720-856c6e3c1fdc?auto=format&fit=crop&w=300&q=80",
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
   },
 ];
 </script>
 
 <style scoped>
+<<<<<<< HEAD
+.sidebar-link.active {
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  box-shadow: 0 4px 15px hsl(var(--primary) / 0.2);
+}
+.sidebar-link.active i {
+  color: hsl(var(--primary-foreground));
+}
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.3);
+  border-radius: 10px;
+=======
 .group:hover img {
   transform: scale(1.05);
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.5);
 }
 </style>
