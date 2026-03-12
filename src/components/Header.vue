@@ -18,7 +18,7 @@
       <div class="hidden lg:flex items-center flex-1 justify-center gap-6 px-2">
         <!-- Navigation Links -->
         <nav class="flex items-center gap-6 font-medium text-sm text-muted-foreground">
-          <RouterLink v-for="link in navLinks" :key="link.to" :to="link.to" active-class="text-primary font-bold"
+          <RouterLink v-for="link in navLinks" :key="link.to" :to="link.to" active-class="text-secondary font-bold"
             class="flex items-center gap-2 hover:text-primary transition-colors whitespace-nowrap">
             <i :class="link.icon" class="text-xs"></i> {{ link.label }}
           </RouterLink>
@@ -26,14 +26,15 @@
 
         <!-- Search Bar -->
         <div class="relative flex items-center">
-          <div class="flex items-center transition-all duration-500 ease-in-out" :class="searchExpanded ? 'w-[280px] lg:w-[350px] xl:w-[450px]' : 'w-10'">
+          <div class="flex items-center transition-all duration-500 ease-in-out"
+            :class="searchExpanded ? 'w-[280px] lg:w-[350px] xl:w-[450px]' : 'w-10'">
             <button @click="toggleSearch"
               class="absolute left-0 w-10 h-10 flex items-center justify-center rounded-full text-muted-foreground hover:text-primary transition-all z-10"
               :class="{ 'text-primary': searchExpanded }" :title="searchExpanded ? 'Fermer' : 'Rechercher'">
               <i class="fas" :class="searchExpanded ? 'fa-times' : 'fa-search'"></i>
             </button>
             <input ref="searchInput" v-model="searchQuery" type="text" placeholder="Rechercher un logement..."
-              class="w-full h-10 rounded-full border border-border bg-muted/20 pl-10 pr-4 text-sm placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20 focus:bg-card outline-none transition-all"
+              class="w-full h-10 rounded-full border border-border  pl-10 pr-4 text-sm placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20 focus:bg-card outline-none transition-all"
               :class="searchExpanded ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4 pointer-events-none'"
               @blur="handleBlur" @keyup.enter="handleSearch" />
           </div>
@@ -63,7 +64,7 @@
         <div class="hidden lg:flex items-center gap-4">
           <!-- Theme Toggle -->
           <ThemeToggle />
-          
+
           <!-- Panier -->
           <button @click="cartStore.toggleCart()"
             class="text-muted-foreground hover:text-primary transition-colors p-1 relative" title="Mon Panier">
@@ -86,14 +87,17 @@
 
           <!-- CONNECTÉ : Menu Utilisateur -->
           <div v-if="authStore.isAuthenticated" class="relative group">
-            <button class="flex items-center gap-2 text-sm font-semibold text-foreground hover:text-primary focus:outline-none">
+            <button
+              class="flex items-center gap-2 text-sm font-semibold text-foreground hover:text-primary focus:outline-none">
               <UserAvatar :user="authStore.user" size="sm" />
               <span class="max-w-25 truncate">{{ authStore.user?.name }}</span>
-              <i class="fas fa-chevron-down text-xs text-muted-foreground group-hover:text-primary transition-colors"></i>
+              <i
+                class="fas fa-chevron-down text-xs text-muted-foreground group-hover:text-primary transition-colors"></i>
             </button>
 
             <!-- Dropdown Menu -->
-            <div class="absolute right-0 mt-2 w-48 bg-card border border-border rounded-xl shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-right z-50">
+            <div
+              class="absolute right-0 mt-2 w-48 bg-card border border-border rounded-xl shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-right z-50">
               <div class="py-1">
                 <RouterLink :to="getDashboardLink()"
                   class="block px-4 py-2 text-sm text-foreground hover:bg-muted hover:text-primary">
@@ -107,7 +111,7 @@
                   class="block px-4 py-2 text-sm text-foreground hover:bg-muted hover:text-destructive">
                   <i class="far fa-heart mr-2 w-4"></i> Mes Favoris
                 </RouterLink>
-                
+
                 <!-- SWITCH ROLES SECTION -->
                 <div v-if="authStore.availableRoles && authStore.availableRoles.length > 1">
                   <div class="border-t border-border my-1"></div>
@@ -142,8 +146,10 @@
         </div>
 
         <!-- CTA: Publier une annonce (Visible sur Tablette+) -->
-        <RouterLink to="/publier-bien" class="text-secondary hover:text-secondary/80">
+        <RouterLink to="/publier-bien"
+          class="flex items-center gap-2 font-semibold text-secondary hover:text-secondary/80">
           <i class="fas fa-plus-circle text-xl"></i>
+          <span class="hidden md:inline">Publier</span>
         </RouterLink>
 
         <!-- Burger Button (Mobile) -->
@@ -156,11 +162,11 @@
     </div>
 
     <!-- Barre de navigation mobile du bas -->
-    <nav class="lg:hidden bg-card border-t border-border flex justify-between px-6 py-2 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] overflow-x-auto scrollbar-hide sticky bottom-0 z-50">
+    <nav
+      class="lg:hidden bg-card border-t border-border flex justify-between px-6 py-2 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] overflow-x-auto scrollbar-hide sticky bottom-0 z-50">
       <RouterLink v-for="link in mobileBottomLinks" :key="link.to" :to="link.to" custom v-slot="{ navigate, isActive }">
-        <div @click="navigate" role="button"
-          class="flex flex-col items-center gap-1 min-w-15 transition cursor-pointer"
-          :class="[ isActive ? 'text-primary scale-110' : 'text-muted-foreground hover:text-primary' ]">
+        <div @click="navigate" role="button" class="flex flex-col items-center gap-1 min-w-15 transition cursor-pointer"
+          :class="[isActive ? 'text-secondary scale-110' : 'text-muted-foreground hover:text-primary']">
           <i :class="isActive ? link.icon.replace('far ', 'fas ') : link.icon" class="text-lg"></i>
           <span class="text-[10px] font-bold">{{ link.label }}</span>
         </div>
@@ -170,7 +176,7 @@
     <!-- MENU MOBILE ÉTENDU (Overlay) -->
     <div v-show="mobileMenuOpen"
       class="lg:hidden absolute top-full left-0 w-full bg-card border-b border-border shadow-2xl p-4 flex flex-col gap-4 animate-in slide-in-from-top-2 z-60">
-      
+
       <!-- En-tête du menu mobile avec ThemeToggle -->
       <div class="flex items-center justify-between border-b border-border pb-2">
         <h3 class="text-sm font-bold text-foreground">Menu</h3>
@@ -184,7 +190,7 @@
         </RouterLink>
 
         <RouterLink to="/auth/connexion"
-          class="flex items-center justify-center gap-2 border border-border bg-muted/20 text-foreground py-2.5 rounded-lg font-medium hover:bg-muted transition">
+          class="flex items-center justify-center gap-2 border border-border  text-foreground py-2.5 rounded-lg font-medium hover:bg-muted transition">
           Se connecter
         </RouterLink>
       </div>
@@ -222,18 +228,20 @@
         </button>
       </div>
 
-      <div class="bg-muted/20 rounded-xl p-3">
+      <div class=" rounded-xl p-3">
         <h3 class="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-2">
           Navigation
         </h3>
         <ul class="space-y-2">
           <li v-for="link in navLinks" :key="'mobile-' + link.to">
-            <RouterLink :to="link.to" class="flex items-center gap-2 text-sm text-foreground/80 hover:text-primary py-1">
+            <RouterLink :to="link.to"
+              class="flex items-center gap-2 text-sm text-foreground/80 hover:text-primary py-1">
               <i :class="link.icon" class="w-5"></i> {{ link.label }}
             </RouterLink>
           </li>
           <li>
-            <RouterLink to="/assistance" class="flex items-center gap-2 text-sm text-foreground/80 hover:text-primary py-1">
+            <RouterLink to="/assistance"
+              class="flex items-center gap-2 text-sm text-foreground/80 hover:text-primary py-1">
               <i class="far fa-comments w-5"></i> Assistance / Messagerie
             </RouterLink>
           </li>
@@ -246,7 +254,7 @@
   <div v-show="searchExpanded" class="lg:hidden bg-card border-t border-border px-4 py-3 shadow-sm">
     <div class="relative max-w-7xl mx-auto">
       <input v-model="searchQuery" type="text" placeholder="Rechercher un logement..."
-        class="w-full h-11 rounded-full border border-border bg-muted/20 pl-4 pr-12 text-sm placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20 focus:bg-card outline-none"
+        class="w-full h-11 rounded-full border border-border  pl-4 pr-12 text-sm placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20 focus:bg-card outline-none"
         @keyup.enter="handleSearch" />
       <button @click="handleSearch" class="absolute right-3 top-1/2 -translate-y-1/2 text-primary">
         <i class="fas fa-search"></i>
@@ -327,6 +335,8 @@ const getDashboardLink = () => {
       return "/prestataire/dashboard";
     case "agent":
       return "/agent/dashboard";
+    case "client":
+      return "/client/dashboard";
     default:
       return "/client/dashboard";
   }
@@ -417,9 +427,11 @@ const navLinks = computed(() => {
       ];
     default:
       return [
+
         { to: "/", label: "Accueil", icon: "fas fa-home" },
         { to: "/annonces", label: "Annonces", icon: "fas fa-search-location" },
         { to: "/marketplace", label: "Marketplace", icon: "fas fa-store" },
+        { to: "/client/dashboard", label: "Dashboard", icon: "fas fa-user-shield" },
       ];
   }
 });
@@ -524,6 +536,8 @@ const mobileBottomLinks = computed(() => {
     default:
       return [
         ...base,
+        { to: getDashboardLink(), label: "Dashboard", icon: "fas fa-user-shield" },
+
         { to: "/annonces", label: "Annonces", icon: "fas fa-search-location" },
         { to: "/marketplace", label: "Market", icon: "fas fa-store" },
         {
@@ -574,6 +588,7 @@ const handleLogout = async () => {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);

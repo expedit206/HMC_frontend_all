@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <DashboardLayout title="Paramètres du compte">
     <div class="max-w-3xl mx-auto">
       <div class="mb-8 animate-fadeIn">
@@ -141,19 +142,15 @@
       </div>
     </div>
   </DashboardLayout>
+=======
+  <SharedParametresLayout title="Paramètres du compte" subtitle="Gérez vos préférences et sécurisez votre accès." />
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
 </template>
 
 <script setup>
-import { ref } from "vue";
-import DashboardLayout from "../../layouts/DashboardLayout.vue";
-
-const activeTab = ref("security");
-
-const tabs = [
-  { id: "security", label: "Sécurité" },
-  { id: "notifications", label: "Notifications" },
-];
+import SharedParametresLayout from "../../components/settings/SharedParametresLayout.vue";
 </script>
+<<<<<<< HEAD
 
 <style scoped>
 .animate-fadeIn {
@@ -188,3 +185,5 @@ const tabs = [
   }
 }
 </style>
+=======
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a

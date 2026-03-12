@@ -10,12 +10,12 @@
       </div>
       <div class="flex gap-3">
         <button @click="showMobileFilters = true"
-          class="flex-1 flex items-center justify-center gap-2 bg-background border border-border rounded-lg px-4 py-2 shadow-sm hover:bg-muted/20 transition-colors">
+          class="flex-1 flex items-center justify-center gap-2 bg-background border border-border rounded-lg px-4 py-2 shadow-sm hover: transition-colors">
           <i class="fas fa-filter text-primary"></i>
           <span class="font-semibold text-foreground">Filtres</span>
         </button>
         <button @click="showSortDropdown = !showSortDropdown"
-          class="flex-1 flex items-center justify-center gap-2 bg-background border border-border rounded-lg px-4 py-2 shadow-sm hover:bg-muted/20 transition-colors">
+          class="flex-1 flex items-center justify-center gap-2 bg-background border border-border rounded-lg px-4 py-2 shadow-sm hover: transition-colors">
           <i class="fas fa-sort-amount-down text-primary"></i>
           <span class="font-semibold text-foreground">Trier</span>
         </button>
@@ -835,6 +835,7 @@ const formatPrice = (price) => new Intl.NumberFormat("fr-FR").format(price);
   0% {
     background-position: -200% 0;
   }
+
   100% {
     background-position: 200% 0;
   }

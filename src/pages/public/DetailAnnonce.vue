@@ -55,10 +55,8 @@
       <p class="text-muted-foreground mb-6">
         Ce bien n'existe pas ou a été supprimé.
       </p>
-      <RouterLink
-        :to="{ name: 'Annonces' }"
-        class="inline-flex items-center gap-2 bg-secondary text-secondary-foreground px-6 py-3 rounded-xl font-semibold hover:bg-primary hover:text-primary-foreground transition-colors"
-      >
+      <RouterLink :to="{ name: 'Annonces' }"
+        class="inline-flex items-center gap-2 bg-secondary text-secondary-foreground px-6 py-3 rounded-xl font-semibold hover:bg-primary hover:text-primary-foreground transition-colors">
         <i class="fas fa-arrow-left"></i> Retour aux annonces
       </RouterLink>
     </div>
@@ -66,20 +64,10 @@
     <!-- ═══════════════════════════════ CONTENU ════════════════════════════════ -->
     <div v-else class="max-w-7xl mx-auto px-4 py-8">
       <!-- Fil d'Ariane -->
-      <nav
-        class="text-sm text-muted-foreground flex items-center gap-2 mb-6 flex-wrap"
-      >
-        <RouterLink
-          :to="{ name: 'Accueil' }"
-          class="hover:text-secondary transition-colors"
-          >Accueil</RouterLink
-        >
+      <nav class="text-sm text-muted-foreground flex items-center gap-2 mb-6 flex-wrap">
+        <RouterLink :to="{ name: 'Accueil' }" class="hover:text-secondary transition-colors">Accueil</RouterLink>
         <i class="fas fa-chevron-right text-xs text-muted-foreground/40"></i>
-        <RouterLink
-          :to="{ name: 'Annonces' }"
-          class="hover:text-secondary transition-colors"
-          >Annonces</RouterLink
-        >
+        <RouterLink :to="{ name: 'Annonces' }" class="hover:text-secondary transition-colors">Annonces</RouterLink>
         <i class="fas fa-chevron-right text-xs text-muted-foreground/40"></i>
         <span class="text-foreground font-medium line-clamp-1 max-w-xs">{{
           property.title
@@ -94,26 +82,18 @@
             <div class="flex flex-wrap items-start justify-between gap-4 mb-4">
               <div class="flex-1 min-w-0">
                 <div class="flex items-center flex-wrap gap-2 mb-3">
-                  <span
-                    class="px-4 py-1.5 bg-secondary text-secondary-foreground text-sm font-bold rounded-full"
-                  >
+                  <span class="px-4 py-1.5 bg-secondary text-secondary-foreground text-sm font-bold rounded-full">
                     {{ property.type === "rent" ? "À louer" : "À vendre" }}
                   </span>
-                  <span
-                    v-if="property.category"
-                    class="px-3 py-1.5 bg-primary/10 text-primary text-xs font-medium rounded-full"
-                    >{{ property.category }}</span
-                  >
-                  <span
-                    v-if="property.etat"
-                    class="px-3 py-1.5 bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 text-xs font-medium rounded-full flex items-center gap-1"
-                  >
+                  <span v-if="property.category"
+                    class="px-3 py-1.5 bg-primary/10 text-primary text-xs font-medium rounded-full">{{ property.category
+                    }}</span>
+                  <span v-if="property.etat"
+                    class="px-3 py-1.5 bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 text-xs font-medium rounded-full flex items-center gap-1">
                     <i class="fas fa-check-circle"></i> {{ property.etat }}
                   </span>
                 </div>
-                <h1
-                  class="text-2xl md:text-3xl font-bold text-primary mb-2 leading-tight"
-                >
+                <h1 class="text-2xl md:text-3xl font-bold text-primary mb-2 leading-tight">
                   {{ property.title }}
                 </h1>
                 <p class="text-muted-foreground flex items-center gap-2">
@@ -124,29 +104,18 @@
 
               <!-- Actions fav + partage -->
               <div class="flex items-center gap-3 shrink-0">
-                <button
-                  v-if="property"
-                  @click="toggleFavorite"
-                  :class="[
-                    'p-3 rounded-xl transition-all flex items-center gap-1.5',
-                    property.is_favorite
-                      ? 'bg-destructive text-destructive-foreground shadow-md'
-                      : 'text-muted-foreground hover:bg-destructive/10 hover:text-destructive',
-                  ]"
-                  title="Ajouter aux favoris"
-                >
-                  <i
-                    :class="
-                      property.is_favorite ? 'fas fa-heart' : 'far fa-heart'
-                    "
-                    class="text-lg"
-                  ></i>
+                <button v-if="property" @click="toggleFavorite" :class="[
+                  'p-3 rounded-xl transition-all flex items-center gap-1.5',
+                  property.is_favorite
+                    ? 'bg-destructive text-destructive-foreground shadow-md'
+                    : 'text-muted-foreground hover:bg-destructive/10 hover:text-destructive',
+                ]" title="Ajouter aux favoris">
+                  <i :class="property.is_favorite ? 'fas fa-heart' : 'far fa-heart'
+                    " class="text-lg"></i>
                 </button>
-                <button
-                  @click="shareProperty"
+                <button @click="shareProperty"
                   class="p-3 text-muted-foreground rounded-xl hover:bg-secondary/10 hover:text-secondary transition-all"
-                  title="Partager"
-                >
+                  title="Partager">
                   <i class="fas fa-share-alt text-lg"></i>
                 </button>
               </div>
@@ -154,8 +123,7 @@
 
             <!-- Stats rapides -->
             <div
-              class="flex flex-wrap items-center gap-4 md:gap-6 text-sm text-muted-foreground pt-4 border-t border-border"
-            >
+              class="flex flex-wrap items-center gap-4 md:gap-6 text-sm text-muted-foreground pt-4 border-t border-border">
               <span v-if="property.bedrooms">
                 <i class="fas fa-bed text-secondary mr-1.5"></i>
                 {{ property.bedrooms }} chambre{{
@@ -188,65 +156,43 @@
           <div class="bg-card rounded-2xl p-6 shadow-sm border border-border">
             <!-- Image principale -->
             <div class="relative rounded-xl overflow-hidden mb-4 group">
-              <img
-                :src="activeImage"
-                :alt="property.title"
-                class="w-full h-64 md:h-[420px] object-cover transition-all duration-500"
-              />
+              <img :src="activeImage" :alt="property.title"
+                class="w-full h-64 md:h-[420px] object-cover transition-all duration-500" />
               <!-- Badge photos -->
               <div
-                class="absolute top-4 right-4 px-3 py-1.5 bg-black/70 text-white text-sm rounded-full backdrop-blur-sm flex items-center gap-2"
-              >
+                class="absolute top-4 right-4 px-3 py-1.5 bg-black/70 text-white text-sm rounded-full backdrop-blur-sm flex items-center gap-2">
                 <i class="fas fa-camera"></i>
                 {{ galleryImages.length }} photo{{
                   galleryImages.length > 1 ? "s" : ""
                 }}
               </div>
               <!-- Nav fléchée -->
-              <button
-                v-if="galleryImages.length > 1"
-                @click="prevImage"
-                class="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-black/50 text-white rounded-full flex items-center justify-center hover:bg-black/80 transition-all opacity-0 group-hover:opacity-100"
-              >
+              <button v-if="galleryImages.length > 1" @click="prevImage"
+                class="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-black/50 text-white rounded-full flex items-center justify-center hover:bg-black/80 transition-all opacity-0 group-hover:opacity-100">
                 <i class="fas fa-chevron-left text-sm"></i>
               </button>
-              <button
-                v-if="galleryImages.length > 1"
-                @click="nextImage"
-                class="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-black/50 text-white rounded-full flex items-center justify-center hover:bg-black/80 transition-all opacity-0 group-hover:opacity-100"
-              >
+              <button v-if="galleryImages.length > 1" @click="nextImage"
+                class="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-black/50 text-white rounded-full flex items-center justify-center hover:bg-black/80 transition-all opacity-0 group-hover:opacity-100">
                 <i class="fas fa-chevron-right text-sm"></i>
               </button>
             </div>
             <!-- Miniatures -->
-            <div
-              v-if="galleryImages.length > 1"
-              class="grid grid-cols-4 sm:grid-cols-5 gap-2"
-            >
-              <img
-                v-for="(img, i) in galleryImages"
-                :key="i"
-                :src="img"
-                :alt="`Photo ${i + 1}`"
-                @click="
-                  activeImage = img;
-                  activeIndex = i;
-                "
-                :class="[
+            <div v-if="galleryImages.length > 1" class="grid grid-cols-4 sm:grid-cols-5 gap-2">
+              <img v-for="(img, i) in galleryImages" :key="i" :src="img" :alt="`Photo ${i + 1}`" @click="
+                activeImage = img;
+              activeIndex = i;
+              " :class="[
                   'w-full h-16 md:h-20 object-cover rounded-lg cursor-pointer transition-all duration-200 border-2',
                   activeImage === img
                     ? 'border-secondary scale-105'
                     : 'border-transparent opacity-70 hover:opacity-100 hover:scale-105',
-                ]"
-              />
+                ]" />
             </div>
           </div>
 
           <!-- ── Description ── -->
           <div class="bg-card rounded-2xl p-6 shadow-sm border border-border">
-            <h2
-              class="text-xl font-bold text-primary mb-4 flex items-center gap-2"
-            >
+            <h2 class="text-xl font-bold text-primary mb-4 flex items-center gap-2">
               <i class="fas fa-file-alt text-secondary"></i>
               Description
             </h2>
@@ -255,52 +201,35 @@
             </p>
 
             <!-- Caractéristiques de base -->
-            <div
-              class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 pt-6 border-t border-border"
-            >
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 pt-6 border-t border-border">
               <div class="p-4 rounded-xl bg-muted/10">
                 <h4 class="font-bold text-primary mb-3 flex items-center gap-2">
                   <i class="fas fa-list-ul text-secondary text-sm"></i>
                   Caractéristiques
                 </h4>
                 <ul class="space-y-2 text-sm">
-                  <li
-                    v-if="property.area"
-                    class="flex items-center gap-2 text-foreground/80"
-                  >
+                  <li v-if="property.area" class="flex items-center gap-2 text-foreground/80">
                     <i class="fas fa-check text-secondary text-xs"></i> Surface
                     : {{ property.area }} m²
                   </li>
-                  <li
-                    v-if="property.bedrooms"
-                    class="flex items-center gap-2 text-foreground/80"
-                  >
+                  <li v-if="property.bedrooms" class="flex items-center gap-2 text-foreground/80">
                     <i class="fas fa-check text-secondary text-xs"></i>
                     {{ property.bedrooms }} chambre{{
                       property.bedrooms > 1 ? "s" : ""
                     }}
                   </li>
-                  <li
-                    v-if="property.bathrooms"
-                    class="flex items-center gap-2 text-foreground/80"
-                  >
+                  <li v-if="property.bathrooms" class="flex items-center gap-2 text-foreground/80">
                     <i class="fas fa-check text-secondary text-xs"></i>
                     {{ property.bathrooms }} salle{{
                       property.bathrooms > 1 ? "s" : ""
                     }}
                     de bain
                   </li>
-                  <li
-                    v-if="property.construction_year"
-                    class="flex items-center gap-2 text-foreground/80"
-                  >
+                  <li v-if="property.construction_year" class="flex items-center gap-2 text-foreground/80">
                     <i class="fas fa-check text-secondary text-xs"></i> Année de
                     construction : {{ property.construction_year }}
                   </li>
-                  <li
-                    v-if="property.etat"
-                    class="flex items-center gap-2 text-foreground/80"
-                  >
+                  <li v-if="property.etat" class="flex items-center gap-2 text-foreground/80">
                     <i class="fas fa-check text-secondary text-xs"></i> État :
                     {{ property.etat }}
                   </li>
@@ -317,14 +246,8 @@
                   <i class="fas fa-star text-secondary text-sm"></i> Commodités
                 </h4>
                 <ul v-if="amenities.length" class="space-y-2 text-sm">
-                  <li
-                    v-for="a in amenities"
-                    :key="a"
-                    class="flex items-center gap-2 text-foreground/80"
-                  >
-                    <i
-                      :class="`fas ${amenityIcon(a)} text-secondary text-xs`"
-                    ></i>
+                  <li v-for="a in amenities" :key="a" class="flex items-center gap-2 text-foreground/80">
+                    <i :class="`fas ${amenityIcon(a)} text-secondary text-xs`"></i>
                     {{ a }}
                   </li>
                 </ul>
@@ -335,25 +258,16 @@
             </div>
 
             <!-- Grille icônes commodités -->
-            <div
-              v-if="amenities.length"
-              class="mt-6 pt-6 border-t border-border"
-            >
+            <div v-if="amenities.length" class="mt-6 pt-6 border-t border-border">
               <h3 class="text-lg font-bold text-primary mb-4">
                 Équipements inclus
               </h3>
               <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-                <div
-                  v-for="a in amenities"
-                  :key="a"
-                  class="p-3 bg-muted/20 rounded-xl text-center hover:-translate-y-1 hover:shadow-md transition-all duration-300 group cursor-default border border-border"
-                >
+                <div v-for="a in amenities" :key="a"
+                  class="p-3  rounded-xl text-center hover:-translate-y-1 hover:shadow-md transition-all duration-300 group cursor-default border border-border">
                   <i
-                    :class="`fas ${amenityIcon(a)} text-2xl text-secondary mb-2 group-hover:scale-110 transition-transform inline-block`"
-                  ></i>
-                  <p
-                    class="text-xs font-medium text-foreground/80 leading-tight"
-                  >
+                    :class="`fas ${amenityIcon(a)} text-2xl text-secondary mb-2 group-hover:scale-110 transition-transform inline-block`"></i>
+                  <p class="text-xs font-medium text-foreground/80 leading-tight">
                     {{ a }}
                   </p>
                 </div>
@@ -363,42 +277,25 @@
 
           <!-- ── Avis clients (fictifs mais réalistes) ── -->
           <div class="bg-card rounded-2xl p-6 shadow-sm border border-border">
-            <div
-              class="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-3"
-            >
-              <h2
-                class="text-xl font-bold text-primary flex items-center gap-2"
-              >
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-3">
+              <h2 class="text-xl font-bold text-primary flex items-center gap-2">
                 <i class="fas fa-star text-amber-500"></i>
                 Avis locataires
-                <span class="text-base font-normal text-muted-foreground"
-                  >({{ reviews.length }})</span
-                >
+                <span class="text-base font-normal text-muted-foreground">({{ reviews.length }})</span>
               </h2>
               <div class="flex items-center gap-1">
-                <i
-                  v-for="s in 5"
-                  :key="s"
-                  :class="s <= avgRating ? 'fas fa-star' : 'far fa-star'"
-                  class="text-amber-500 text-sm"
-                ></i>
-                <span class="ml-2 font-bold text-primary"
-                  >{{ avgRating }}/5</span
-                >
+                <i v-for="s in 5" :key="s" :class="s <= avgRating ? 'fas fa-star' : 'far fa-star'"
+                  class="text-amber-500 text-sm"></i>
+                <span class="ml-2 font-bold text-primary">{{ avgRating }}/5</span>
               </div>
             </div>
 
             <div class="space-y-5">
-              <div
-                v-for="r in reviews"
-                :key="r.id"
-                class="border-b border-border pb-5 last:border-0 last:pb-0"
-              >
+              <div v-for="r in reviews" :key="r.id" class="border-b border-border pb-5 last:border-0 last:pb-0">
                 <div class="flex items-start justify-between mb-2">
                   <div class="flex items-center gap-3">
                     <div
-                      class="w-10 h-10 bg-gradient-to-br from-secondary to-primary rounded-full flex items-center justify-center text-primary-foreground font-bold text-sm shrink-0"
-                    >
+                      class="w-10 h-10 bg-gradient-to-br from-secondary to-primary rounded-full flex items-center justify-center text-primary-foreground font-bold text-sm shrink-0">
                       {{ r.initials }}
                     </div>
                     <div>
@@ -406,19 +303,12 @@
                         {{ r.name }}
                       </h4>
                       <div class="flex items-center gap-0.5">
-                        <i
-                          v-for="s in 5"
-                          :key="s"
-                          :class="s <= r.rating ? 'fas fa-star' : 'far fa-star'"
-                          class="text-amber-400 text-xs"
-                        ></i>
+                        <i v-for="s in 5" :key="s" :class="s <= r.rating ? 'fas fa-star' : 'far fa-star'"
+                          class="text-amber-400 text-xs"></i>
                       </div>
                     </div>
                   </div>
-                  <span
-                    class="text-xs text-muted-foreground whitespace-nowrap"
-                    >{{ r.date }}</span
-                  >
+                  <span class="text-xs text-muted-foreground whitespace-nowrap">{{ r.date }}</span>
                 </div>
                 <p class="text-foreground/70 text-sm leading-relaxed pl-13">
                   {{ r.comment }}
@@ -440,17 +330,11 @@
                   }}</span>
                   <span class="text-muted-foreground text-sm">FCFA / mois</span>
                 </div>
-                <div
-                  class="text-sm text-muted-foreground bg-muted/20 rounded-lg p-3 space-y-1 border border-border"
-                >
+                <div class="text-sm text-muted-foreground  rounded-lg p-3 space-y-1 border border-border">
                   <div class="flex items-center gap-2">
                     <i class="fas fa-shield-alt text-secondary/60 w-4"></i>
-                    <span
-                      >Caution :
-                      <strong
-                        >{{ formatPrice(property.price * 2) }} FCFA</strong
-                      ></span
-                    >
+                    <span>Caution :
+                      <strong>{{ formatPrice(property.price * 2) }} FCFA</strong></span>
                   </div>
                   <div class="flex items-center gap-2">
                     <i class="fas fa-calendar-alt text-secondary/60 w-4"></i>
@@ -461,13 +345,10 @@
 
               <div class="space-y-3">
                 <!-- Bloc de Poursuite de la procédure locative (s'il y en a une en cours) -->
-                <div
-                  v-if="activeProcess"
-                  class="bg-orange-50 dark:bg-orange-950/30 border border-orange-200 dark:border-orange-800 p-4 rounded-xl shadow-sm text-center"
-                >
+                <div v-if="activeProcess"
+                  class="bg-orange-50 dark:bg-orange-950/30 border border-orange-200 dark:border-orange-800 p-4 rounded-xl shadow-sm text-center">
                   <p
-                    class="text-[10px] text-orange-600 dark:text-orange-400 font-black uppercase tracking-widest mb-1.5 flex items-center justify-center gap-1.5"
-                  >
+                    class="text-[10px] text-orange-600 dark:text-orange-400 font-black uppercase tracking-widest mb-1.5 flex items-center justify-center gap-1.5">
                     <i class="fas fa-spinner animate-spin"></i> Procédure en
                     cours
                   </p>
@@ -475,10 +356,8 @@
                     {{ activeProcess.label }}
                   </p>
 
-                  <RouterLink
-                    :to="`/mon-suivi?property_id=${property.id}`"
-                    class="w-full py-2.5 bg-orange-600 text-white rounded-lg font-bold hover:bg-orange-700 transition-all flex items-center justify-center gap-2 shadow-md hover:shadow-lg text-sm"
-                  >
+                  <RouterLink :to="`/mon-suivi?property_id=${property.id}`"
+                    class="w-full py-2.5 bg-orange-600 text-white rounded-lg font-bold hover:bg-orange-700 transition-all flex items-center justify-center gap-2 shadow-md hover:shadow-lg text-sm">
                     Suivre ma demande
                     <i class="fas fa-arrow-right ml-1"></i>
                   </RouterLink>
@@ -486,48 +365,32 @@
 
                 <!-- Boutons standards (si aucune procédure active) -->
                 <template v-else>
-                  <RouterLink
-                    v-if="property.type === 'rent'"
+                  <RouterLink v-if="property.type === 'rent'"
                     :to="`/locataire/formulaire-location?property_id=${property.id}`"
-                    class="w-full py-3 bg-primary text-primary-foreground rounded-xl font-bold hover:bg-primary/90 transition-all flex items-center justify-center gap-2 shadow-md hover:shadow-lg group"
-                  >
-                    <i
-                      class="fas fa-key group-hover:scale-110 transition-transform"
-                    ></i>
+                    class="w-full py-3 bg-primary text-primary-foreground rounded-xl font-bold hover:bg-primary/90 transition-all flex items-center justify-center gap-2 shadow-md hover:shadow-lg group">
+                    <i class="fas fa-key group-hover:scale-110 transition-transform"></i>
                     Louer ce bien
                   </RouterLink>
-                  <RouterLink
-                    :to="`/programmer-visite?property_id=${property.id}`"
-                    class="w-full py-3 bg-secondary text-secondary-foreground rounded-xl font-bold hover:bg-primary hover:text-primary-foreground transition-all flex items-center justify-center gap-2 shadow-md hover:shadow-lg group"
-                  >
-                    <i
-                      class="fas fa-calendar-check group-hover:scale-110 transition-transform"
-                    ></i>
+                  <RouterLink :to="`/programmer-visite?property_id=${property.id}`"
+                    class="w-full py-3 bg-secondary text-secondary-foreground rounded-xl font-bold hover:bg-primary hover:text-primary-foreground transition-all flex items-center justify-center gap-2 shadow-md hover:shadow-lg group">
+                    <i class="fas fa-calendar-check group-hover:scale-110 transition-transform"></i>
                     Programmer une visite
                   </RouterLink>
                 </template>
 
-                <a
-                  :href="`tel:${ownerPhone}`"
-                  v-if="ownerPhone"
-                  class="w-full py-3 bg-green-600 text-white rounded-xl font-bold hover:bg-green-700 transition-all flex items-center justify-center gap-2 shadow-sm"
-                >
+                <a :href="`tel:${ownerPhone}`" v-if="ownerPhone"
+                  class="w-full py-3 bg-green-600 text-white rounded-xl font-bold hover:bg-green-700 transition-all flex items-center justify-center gap-2 shadow-sm">
                   <i class="fas fa-phone"></i> Appeler le propriétaire
                 </a>
-                <RouterLink
-                  :to="{ name: 'Assistance' }"
-                  class="w-full py-3 border-2 border-secondary text-secondary rounded-xl font-bold hover:bg-secondary hover:text-primary transition-all flex items-center justify-center gap-2"
-                >
+                <RouterLink :to="{ name: 'Assistance' }"
+                  class="w-full py-3 border-2 border-secondary text-secondary rounded-xl font-bold hover:bg-secondary hover:text-primary transition-all flex items-center justify-center gap-2">
                   <i class="fas fa-headset"></i> Assistance
                 </RouterLink>
               </div>
 
               <div
-                class="mt-4 p-3 bg-blue-50 dark:bg-blue-950/30 border border-blue-100 dark:border-blue-900 rounded-xl"
-              >
-                <p
-                  class="text-sm text-blue-800 dark:text-blue-300 flex items-center gap-2"
-                >
+                class="mt-4 p-3 bg-blue-50 dark:bg-blue-950/30 border border-blue-100 dark:border-blue-900 rounded-xl">
+                <p class="text-sm text-blue-800 dark:text-blue-300 flex items-center gap-2">
                   <i class="fas fa-clock text-blue-600 dark:text-blue-400"></i>
                   Réponse moyenne : <strong>2 heures</strong>
                 </p>
@@ -536,20 +399,14 @@
 
             <!-- Propriétaire -->
             <div class="bg-card rounded-2xl p-6 shadow-sm border border-border">
-              <h3
-                class="text-base font-bold text-primary mb-4 flex items-center gap-2"
-              >
+              <h3 class="text-base font-bold text-primary mb-4 flex items-center gap-2">
                 <i class="fas fa-user-circle text-secondary"></i> Propriétaire
               </h3>
               <div class="flex items-center gap-4 mb-4">
                 <div
-                  class="w-14 h-14 bg-gradient-to-br from-secondary to-primary rounded-full flex items-center justify-center text-primary-foreground text-lg font-bold shrink-0 overflow-hidden"
-                >
-                  <img
-                    v-if="property.owner?.avatar_url"
-                    :src="property.owner.avatar_url"
-                    class="w-full h-full object-cover"
-                  />
+                  class="w-14 h-14 bg-gradient-to-br from-secondary to-primary rounded-full flex items-center justify-center text-primary-foreground text-lg font-bold shrink-0 overflow-hidden">
+                  <img v-if="property.owner?.avatar_url" :src="property.owner.avatar_url"
+                    class="w-full h-full object-cover" />
                   <span v-else>{{ ownerInitials }}</span>
                 </div>
                 <div>
@@ -564,8 +421,7 @@
                 <div class="flex items-center justify-between">
                   <span class="text-muted-foreground">Vérification</span>
                   <span
-                    class="px-2 py-0.5 bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 text-xs font-medium rounded-full flex items-center gap-1"
-                  >
+                    class="px-2 py-0.5 bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 text-xs font-medium rounded-full flex items-center gap-1">
                     <i class="fas fa-check-circle"></i> Vérifié
                   </span>
                 </div>
@@ -582,20 +438,16 @@
 
             <!-- Localisation -->
             <div class="bg-card rounded-2xl p-6 shadow-sm border border-border">
-              <h3
-                class="text-base font-bold text-primary mb-4 flex items-center gap-2"
-              >
+              <h3 class="text-base font-bold text-primary mb-4 flex items-center gap-2">
                 <i class="fas fa-map-marker-alt text-secondary"></i>
                 Localisation
               </h3>
               <!-- Mini carte placeholder stylisée -->
               <div
-                class="rounded-xl overflow-hidden mb-4 relative bg-gradient-to-br from-green-50 to-green-100 dark:from-green-950/30 dark:to-green-900/30 h-44 flex items-center justify-center border border-green-200/50 dark:border-green-800/30"
-              >
+                class="rounded-xl overflow-hidden mb-4 relative bg-gradient-to-br from-green-50 to-green-100 dark:from-green-950/30 dark:to-green-900/30 h-44 flex items-center justify-center border border-green-200/50 dark:border-green-800/30">
                 <div class="text-center">
                   <div
-                    class="w-12 h-12 bg-secondary rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg animate-bounce-slow"
-                  >
+                    class="w-12 h-12 bg-secondary rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg animate-bounce-slow">
                     <i class="fas fa-map-marker-alt text-secondary-foreground text-xl"></i>
                   </div>
                   <p class="text-sm font-semibold text-foreground">
@@ -622,70 +474,43 @@
             Biens similaires à
             <span class="text-secondary">{{ property.city }}</span>
           </h2>
-          <RouterLink
-            :to="{ name: 'Annonces' }"
-            class="text-secondary hover:text-primary font-medium flex items-center gap-2 transition-colors text-sm"
-          >
+          <RouterLink :to="{ name: 'Annonces' }"
+            class="text-secondary hover:text-primary font-medium flex items-center gap-2 transition-colors text-sm">
             Voir tout <i class="fas fa-arrow-right"></i>
           </RouterLink>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <RouterLink
-            v-for="s in similarProperties"
-            :key="s.id"
-            :to="`/annonces/${s.id}`"
-            class="bg-card rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 group border border-border hover:border-secondary"
-          >
+          <RouterLink v-for="s in similarProperties" :key="s.id" :to="`/annonces/${s.id}`"
+            class="bg-card rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 group border border-border hover:border-secondary">
             <div class="relative overflow-hidden">
-              <img
-                :src="s.image"
-                :alt="s.title"
-                class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500"
-              />
+              <img :src="s.image" :alt="s.title"
+                class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500" />
               <span
-                class="absolute top-3 left-3 px-3 py-1 bg-secondary text-secondary-foreground text-xs font-bold rounded-full"
-              >
+                class="absolute top-3 left-3 px-3 py-1 bg-secondary text-secondary-foreground text-xs font-bold rounded-full">
                 {{ formatPrice(s.price) }} F
               </span>
-              <span
-                class="absolute top-3 right-3 px-2 py-0.5 bg-black/60 text-white text-xs rounded-full"
-              >
+              <span class="absolute top-3 right-3 px-2 py-0.5 bg-black/60 text-white text-xs rounded-full">
                 {{ s.category }}
               </span>
             </div>
             <div class="p-4">
               <h3
-                class="font-bold text-foreground mb-1 line-clamp-1 group-hover:text-secondary transition-colors text-sm"
-              >
+                class="font-bold text-foreground mb-1 line-clamp-1 group-hover:text-secondary transition-colors text-sm">
                 {{ s.title }}
               </h3>
-              <p
-                class="text-xs text-muted-foreground mb-3 flex items-center gap-1.5"
-              >
+              <p class="text-xs text-muted-foreground mb-3 flex items-center gap-1.5">
                 <i class="fas fa-map-marker-alt text-secondary"></i>
                 {{ s.location }}
               </p>
-              <div
-                class="flex items-center justify-between text-xs text-muted-foreground"
-              >
+              <div class="flex items-center justify-between text-xs text-muted-foreground">
                 <div class="flex items-center gap-3">
-                  <span
-                    ><i class="fas fa-bed text-secondary mr-1"></i
-                    >{{ s.rooms }}</span
-                  >
-                  <span
-                    ><i class="fas fa-bath text-secondary mr-1"></i
-                    >{{ s.bathrooms }}</span
-                  >
-                  <span
-                    ><i class="fas fa-ruler-combined text-secondary mr-1"></i
-                    >{{ s.area }}m²</span
-                  >
+                  <span><i class="fas fa-bed text-secondary mr-1"></i>{{ s.rooms }}</span>
+                  <span><i class="fas fa-bath text-secondary mr-1"></i>{{ s.bathrooms }}</span>
+                  <span><i class="fas fa-ruler-combined text-secondary mr-1"></i>{{ s.area }}m²</span>
                 </div>
                 <span
-                  class="px-2.5 py-1 bg-secondary/10 text-secondary rounded-lg font-medium group-hover:bg-secondary group-hover:text-secondary-foreground transition-all"
-                >
+                  class="px-2.5 py-1 bg-secondary/10 text-secondary rounded-lg font-medium group-hover:bg-secondary group-hover:text-secondary-foreground transition-all">
                   Voir
                 </span>
               </div>
@@ -804,12 +629,12 @@ const amenityIconMap = {
 const amenityIcon = (name) => amenityIconMap[name] ?? "fa-check-circle";
 
 // ─── Fetch ───────────────────────────────────────────────────────────
-const fetchProperty = async (id) => {
+const fetchProperty = async (slug) => {
   isLoading.value = true;
   property.value = null;
   similarProperties.value = [];
   try {
-    const { data } = await axios.get(`/api/properties/${id}`);
+    const { data } = await axios.get(`/api/properties/${slug}`);
     if (data.success) {
       property.value = data.data;
       similarProperties.value = data.similar ?? [];
@@ -879,10 +704,10 @@ const shareProperty = () => {
 const formatPrice = (price) => new Intl.NumberFormat("fr-FR").format(price);
 
 // ─── Mount & watch route change ──────────────────────────────────────
-onMounted(() => fetchProperty(route.params.id));
+onMounted(() => fetchProperty(route.params.slug));
 
 watch(
-  () => route.params.id,
+  () => route.params.slug,
   (newId) => {
     if (newId) {
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -904,6 +729,7 @@ watch(
   0% {
     background-position: 200% 0;
   }
+
   100% {
     background-position: -200% 0;
   }
@@ -911,14 +737,17 @@ watch(
 
 /* Bounce lent pour le marker carte */
 @keyframes bounce-slow {
+
   0%,
   100% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-6px);
   }
 }
+
 .animate-bounce-slow {
   animation: bounce-slow 2.5s ease-in-out infinite;
 }

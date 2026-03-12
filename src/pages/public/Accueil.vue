@@ -60,7 +60,8 @@
                   <select v-model="searchFilters.city"
                     class="appearance-none w-full px-3 py-2 pr-8 text-xs bg-transparent outline-none text-foreground">
                     <option selected class="bg-card">Sélectionnez une ville</option>
-                    <option v-for="city in cities" :key="city" :value="city.toLowerCase()" class="bg-card">{{ city }}</option>
+                    <option v-for="city in cities" :key="city" :value="city.toLowerCase()" class="bg-card">{{ city }}
+                    </option>
                   </select>
                   <i class="fas fa-chevron-down absolute right-2 text-secondary text-[10px]"></i>
                 </div>
@@ -79,7 +80,8 @@
                   <select v-model="searchFilters.type"
                     class="appearance-none w-full px-3 py-2 pr-8 text-xs bg-transparent outline-none text-foreground">
                     <option selected class="bg-card">Sélectionnez un type</option>
-                    <option v-for="type in propertyTypes" :key="type" :value="type.toLowerCase()" class="bg-card">{{ type }}</option>
+                    <option v-for="type in propertyTypes" :key="type" :value="type.toLowerCase()" class="bg-card">{{
+                      type }}</option>
                   </select>
                   <i class="fas fa-chevron-down absolute right-2 text-secondary text-[10px]"></i>
                 </div>
@@ -108,7 +110,6 @@
         </div>
       </div>
     </section>
-
     <!-- CATÉGORIES en scroll horizontal -->
     <section class="py-6 md:py-4 bg-card border-b border-border">
       <div class="max-w-7xl mx-auto px-4">
@@ -146,7 +147,7 @@
       <div class="max-w-7xl mx-auto px-4">
         <!-- En-tête -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-6 md:mb-10">
-          <div class="text-center sm:text-left"> 
+          <div class="text-center sm:text-left">
             <h2 class="text-2xl md:text-3xl font-bold text-foreground">
               Nouveaux biens disponibles
             </h2>
@@ -168,7 +169,8 @@
             class="property-card bg-card rounded-[.45rem] overflow-hidden shadow-sm border border-border hover:shadow-lg">
             <div class="h-32 relative image-bg" :style="{ backgroundImage: `url('${property.image}')` }">
               <div class="absolute top-3 left-3">
-                <span class="bg-secondary text-secondary-foreground text-xs font-medium px-3 py-1 rounded-full">Nouveau</span>
+                <span
+                  class="bg-secondary text-secondary-foreground text-xs font-medium px-3 py-1 rounded-full">Nouveau</span>
               </div>
             </div>
             <div class="p-2">
@@ -192,7 +194,7 @@
                   <i class="fas fa-ruler text-primary"></i><span>{{ property.area }} m²</span>
                 </div>
               </div>
-              <RouterLink :to="`/annonces/${property.id}`"
+              <RouterLink :to="{ name: 'DetailAnnonce', params: { slug: property.slug } }"
                 class="text-sm block text-center w-full bg-secondary hover:bg-primary text-secondary-foreground hover:text-primary-foreground py-1 rounded-[.45rem] font-medium hover:shadow-lg transition-all border border-secondary">
                 Voir détails
               </RouterLink>
@@ -209,9 +211,8 @@
         </div>
       </div>
     </section>
-
     <!-- SECTION 2: AGENTS IMMOBILIERS -->
-    <section class="py-12 md:py-16 bg-muted/20">
+    <section class="py-12 md:py-16 ">
       <div class="max-w-7xl mx-auto px-4">
         <!-- En-tête -->
         <div class="text-center mb-10 md:mb-16">
@@ -246,11 +247,13 @@
 
               <!-- Contenu -->
               <div class="px-3 py-3 pb-2 md:p-3 flex flex-col flex-grow">
-                <h3 class="text-md md:text-lg font-bold text-foreground mb-1 group-hover:text-secondary transition-colors">
+                <h3
+                  class="text-md md:text-lg font-bold text-foreground mb-1 group-hover:text-secondary transition-colors">
                   {{ agent.name }}
                 </h3>
                 <div class="flex items-center gap-2 mb-3">
-                  <span class="inline-block px-2.5 py-1 bg-primary/10 text-secondary text-xs font-semibold rounded-full">
+                  <span
+                    class="inline-block px-2.5 py-1 bg-primary/10 text-secondary text-xs font-semibold rounded-full">
                     {{ agent.role }}
                   </span>
                   <span class="text-xs text-muted-foreground font-medium">{{
@@ -387,7 +390,7 @@
     </section>
 
     <!-- SECTION 4: MARKETPLACE -->
-    <section class="py-8 md:py-6 md:pt-12 bg-muted/20">
+    <section class="py-8 md:py-6 md:pt-12 ">
       <div class="max-w-7xl mx-auto px-4">
         <div class="text-center mb-10 md:mb-4">
           <h2 class="text-2xl md:text-4xl font-bold text-foreground mb-2 md:mb-4">
@@ -646,6 +649,7 @@ onMounted(() => {
   0% {
     transform: translateX(0);
   }
+
   100% {
     transform: translateX(-50%);
   }
@@ -676,11 +680,13 @@ onMounted(() => {
 /* Style pour l'input range */
 input[type=range] {
   -webkit-appearance: none;
+  appearance: none;
   background: transparent;
 }
 
 input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
+  appearance: none;
   height: 16px;
   width: 16px;
   border-radius: 50%;

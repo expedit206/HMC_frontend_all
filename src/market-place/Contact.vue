@@ -24,7 +24,7 @@
       </div>
     </div>
 
-    <div class="max-w-[1200px] mx-auto px-4 -mt-12 pb-24 relative z-20">
+    <div class="max-w-300 mx-auto px-4 -mt-12 pb-24 relative z-20">
       <div class="grid lg:grid-cols-3 gap-8">
         <!-- Contact Info Cards -->
         <div class="lg:col-span-1 space-y-6">

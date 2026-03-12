@@ -18,10 +18,15 @@
           >
             <i class="fas fa-bars text-xl"></i>
           </button>
+<<<<<<< HEAD
           <RouterLink
             :to="{ name: 'BailleurPublierBien' }"
             class="px-6 py-3 bg-secondary text-secondary-foreground rounded-xl text-sm font-bold hover:shadow-lg transition-all flex items-center gap-2"
           >
+=======
+          <RouterLink :to="{ name: 'PublierBien' }"
+            class="px-6 py-3 bg-[#E54801] text-white rounded-xl text-sm font-bold hover:shadow-lg transition-all flex items-center gap-2">
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
             <i class="fas fa-plus"></i>
             <span class="hidden sm:inline">Ajouter un Bien</span>
           </RouterLink>
@@ -39,6 +44,7 @@
         </template>
 
         <template v-else>
+<<<<<<< HEAD
           <div
             v-if="properties.length === 0"
             class="col-span-full py-20 text-center bg-card rounded-2xl border border-border shadow-sm"
@@ -49,6 +55,14 @@
               :to="{ name: 'BailleurPublierBien' }"
               class="text-secondary font-bold mt-2 inline-block hover:underline"
             >
+=======
+          <div v-if="properties.length === 0"
+            class="col-span-full py-20 text-center bg-white rounded-2xl border border-gray-100 shadow-sm">
+            <i class="fas fa-building text-5xl mb-4 text-gray-200"></i>
+            <p class="text-gray-500 font-bold">Vous n'avez pas encore publié de bien.</p>
+            <RouterLink :to="{ name: 'PublierBien' }"
+              class="text-[#E54801] font-bold mt-2 inline-block hover:underline">
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
               Publier mon premier bien
             </RouterLink>
           </div>

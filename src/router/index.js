@@ -46,7 +46,7 @@ const AgentPublierBien = () => import('../pages/agent/AgentPublierBien.vue')
 // Bailleur Pages
 const BailleurDashboard = () => import('../pages/bailleur/Dashboard.vue')
 const BailleurMesBiens = () => import('../pages/bailleur/MesBiens.vue')
-const BailleurPublierBien = () => import('../pages/bailleur/PublierBien.vue')
+const PublierBien = () => import('../pages/shared/PublishProperty.vue')
 const BailleurEditerBien = () => import('../pages/bailleur/EditerBien.vue')
 const BailleurMesLocataires = () => import('../pages/bailleur/MesLocataires.vue')
 const BailleurInterventions = () => import('../pages/bailleur/Interventions.vue')
@@ -56,7 +56,7 @@ const BailleurMonProfil = () => import('../pages/bailleur/MonProfil.vue')
 const BailleurAssistance = () => import('../pages/bailleur/Assistance.vue')
 const BailleurDevenirPrestataire = () => import('../pages/bailleur/DevenirPrestataire.vue')
 const BailleurFormulaire = () => import('../pages/bailleur/FormulaireBailleur.vue')
-const BailleurMesDemandes = () => import('../pages/bailleur/MesDemandes.vue')
+const MesDemandes = () => import('../pages/shared/MesDemandes.vue')
 
 // Client Pages
 const ClientDashboard = () => import('../pages/client/Dashboard.vue')
@@ -67,7 +67,7 @@ const ClientAssistance = () => import('../pages/client/Assistance.vue')
 // Locataire Pages
 const LocataireDashboard = () => import('../pages/locataire/Dashboard.vue')
 const LocataireMesLocations = () => import('../pages/locataire/MesLocations.vue')
-const LocataireMesFavoris = () => import('../pages/locataire/MesFavoris.vue')
+const MesFavoris = () => import('../pages/shared/MesFavoris.vue')
 const LocataireInterventions = () => import('../pages/locataire/Interventions.vue')
 const LocataireMesPaiements = () => import('../pages/locataire/MesPaiements.vue')
 const LocataireMonProfil = () => import('../pages/locataire/MonProfil.vue')
@@ -108,6 +108,8 @@ const authOnlyPaths = [
   '/prestataire/inscription',
   '/agent/inscription',
   '/publier-bien',
+  '/mes-demandes',
+  '/mes-favoris',
 ]
 
 const routes = [
@@ -118,7 +120,7 @@ const routes = [
     children: [
       { path: '/', name: 'Accueil', component: Accueil },
       { path: 'annonces', name: 'Annonces', component: Annonces },
-      { path: 'annonces/:id', name: 'DetailAnnonce', component: DetailAnnonce },
+      { path: 'annonces/:slug', name: 'DetailAnnonce', component: DetailAnnonce },
       { path: 'programmer-visite', name: 'ProgrammerVisite', component: ProgrammerVisite },
       { path: 'politique-confidentialite', name: 'PolitiqueConfidentialite', component: PolitiqueConfidentialite },
       { path: 'notifications', name: 'Notifications', component: Notifications },
@@ -128,8 +130,9 @@ const routes = [
       { path: 'payment', name: 'Payment', component: Payment },
       
       { path: 'dossier-location', name: 'DossierLocation', component: DossierLocation },
-      { path: '/publier-bien', name: 'BailleurPublierBien', component: BailleurPublierBien, meta: { hasSidebar: true } },
-      { path: 'mes-demandes', name: 'BailleurMesDemandes', component: BailleurMesDemandes, meta: { hasSidebar: true } },
+      { path: '/publier-bien', name: 'PublierBien', component: PublierBien, meta: { hasSidebar: true } },
+      { path: '/mes-demandes', name: 'PublicationRequests', component: MesDemandes, meta: { hasSidebar: true } },
+      { path: '/mes-favoris', name: 'MesFavoris', component: MesFavoris, meta: { hasSidebar: true } },
 
     
     ]
@@ -201,7 +204,6 @@ const routes = [
       { path: 'assistance', name: 'BailleurAssistance', component: BailleurAssistance },
       { path: 'devenir-prestataire', name: 'BailleurDevenirPrestataire', component: BailleurDevenirPrestataire, meta: { hasSidebar: false } },
       { path: 'formulaire', name: 'BailleurFormulaire', component: BailleurFormulaire, meta: { hasSidebar: false } }, // Exclu
-      { path: 'mes-demandes', name: 'BailleurMesDemandes', component: BailleurMesDemandes },
     ]
   },
 
@@ -226,7 +228,6 @@ const routes = [
     children: [
       { path: 'dashboard', name: 'LocataireDashboard', component: LocataireDashboard },
       { path: 'mes-locations', name: 'LocataireMesLocations', component: LocataireMesLocations },
-      { path: 'mes-favoris', name: 'LocataireMesFavoris', component: LocataireMesFavoris },
       { path: 'interventions', name: 'LocataireInterventions', component: LocataireInterventions },
       { path: 'mes-paiements', name: 'LocataireMesPaiements', component: LocataireMesPaiements },
       { path: 'mon-profil', name: 'LocataireMonProfil', component: LocataireMonProfil },

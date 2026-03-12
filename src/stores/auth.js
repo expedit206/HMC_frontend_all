@@ -127,6 +127,23 @@ export const useAuthStore = defineStore('auth', {
       }
     },
 
+    // --- ACQUERIR UN NOUVEAU RÔLE ---
+    async acquireRole(newRole) {
+      try {
+        const { data } = await axios.post('/api/roles/acquire', { role: newRole })
+        if (data.success) {
+          // Mettre à jour les rôles disponibles
+          this.availableRoles = data.data.available_roles
+          this.user = { ...this.user, roles: data.data.available_roles }
+          localStorage.setItem('availableRoles', JSON.stringify(this.availableRoles))
+          return { success: true, message: data.message }
+        }
+        return { success: false, message: data.message }
+      } catch (err) {
+        return { success: false, message: err.response?.data?.message || 'Erreur lors de l\'activation du rôle.' }
+      }
+    },
+
     // --- RECUPERER L'UTILISATEUR CONNECTE ---
     async fetchUser() {
       if (!this.token) return 
@@ -156,6 +173,35 @@ export const useAuthStore = defineStore('auth', {
         // Si le token est invalide ou expiré, déconnecter l'utilisateur
         console.error('Erreur lors de la récupération de l\'utilisateur', err)
         this.logout()
+      }
+    },
+
+    // --- MISE À JOUR DE L'AVATAR ---
+    async updateAvatar(file) {
+      this.loading = true
+      const formData = new FormData()
+      formData.append('avatar', file)
+
+      try {
+        const response = await axios.post('/api/profile/avatar', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+
+        if (response.data.success) {
+          this.user = response.data.user
+          return { success: true, message: response.data.message }
+        }
+        return { success: false, message: response.data.message }
+      } catch (err) {
+        console.error('Erreur upload avatar:', err)
+        return { 
+          success: false, 
+          message: err.response?.data?.message || 'Erreur lors de l\'upload de la photo.' 
+        }
+      } finally {
+        this.loading = false
       }
     }
   }
