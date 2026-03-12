@@ -1,246 +1,243 @@
 <template>
   <DashboardLayout>
-
-      <div class="max-w-7xl mx-auto">
-        <!-- Page Header -->
-        <div
-          class="bg-gradient-to-r from-[#E54801]/5 to-[#1B0B38]/5 rounded-2xl p-6 lg:p-8 mb-8 border border-[#E54801]/10"
+    <div class="max-w-7xl mx-auto">
+      <!-- Page Header -->
+      <div
+        class="bg-gradient-to-r from-secondary/5 to-primary/5 rounded-2xl p-6 lg:p-8 mb-8 border border-secondary/10"
+      >
+        <h1
+          class="text-2xl lg:text-3xl xl:text-4xl font-bold text-foreground mb-3"
         >
-          <h1
-            class="text-2xl lg:text-3xl xl:text-4xl font-bold text-[#1B0B38] mb-3"
-          >
-            Récapitulatif des Paiements
-          </h1>
-          <p class="text-gray-500 mb-6 lg:mb-8">
-            Consultez l'historique complet de tous vos paiements
-          </p>
+          Récapitulatif des Paiements
+        </h1>
+        <p class="text-muted-foreground mb-6 lg:mb-8">
+          Consultez l'historique complet de tous vos paiements
+        </p>
 
-          <!-- Stats Grid -->
-          <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <div
-              class="bg-white rounded-xl shadow-hc p-5 border-l-4 border-[#E54801]"
-            >
-              <div class="text-2xl lg:text-3xl font-bold text-[#1B0B38] mb-1">
-                328 450 FCFA
-              </div>
-              <div class="text-sm text-gray-500">Total ce mois</div>
-            </div>
-            <div
-              class="bg-white rounded-xl shadow-hc p-5 border-l-4 border-[#E54801]"
-            >
-              <div class="text-2xl lg:text-3xl font-bold text-[#1B0B38] mb-1">
-                42
-              </div>
-              <div class="text-sm text-gray-500">Paiements effectués</div>
-            </div>
-            <div
-              class="bg-white rounded-xl shadow-hc p-5 border-l-4 border-[#E54801]"
-            >
-              <div class="text-2xl lg:text-3xl font-bold text-[#1B0B38] mb-1">
-                38
-              </div>
-              <div class="text-sm text-gray-500">Paiements réussis</div>
-            </div>
-            <div
-              class="bg-white rounded-xl shadow-hc p-5 border-l-4 border-[#E54801]"
-            >
-              <div class="text-2xl lg:text-3xl font-bold text-[#1B0B38] mb-1">
-                4
-              </div>
-              <div class="text-sm text-gray-500">En attente</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Filter Section -->
-        <div class="bg-white rounded-2xl shadow-hc p-6 mb-8">
-          <!-- Search -->
-          <div class="relative mb-6">
-            <i
-              class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
-            ></i>
-            <input
-              type="text"
-              v-model="searchQuery"
-              class="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-[#E54801] focus:ring-3 focus:ring-[#E54801]/10 outline-none transition-all duration-300"
-              placeholder="Rechercher un paiement..."
-            />
-          </div>
-
-          <!-- Filter Tags -->
-          <div class="flex flex-wrap gap-3 mb-6">
-            <button
-              v-for="filter in filters"
-              :key="filter.value"
-              @click="activeFilter = filter.value"
-              :class="[
-                'px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2 transition-all duration-300',
-                activeFilter === filter.value
-                  ? 'bg-[#E54801] text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-[#E54801]/10 hover:text-[#E54801]',
-              ]"
-            >
-              <i :class="filter.icon"></i>
-              {{ filter.label }}
-            </button>
-          </div>
-
-          <!-- Date Filter -->
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
-            <div>
-              <label class="block text-[#1B0B38] font-semibold text-sm mb-2"
-                >Période :</label
-              >
-              <div class="grid grid-cols-2 gap-3">
-                <input
-                  type="date"
-                  v-model="startDate"
-                  class="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-[#E54801] focus:ring-2 focus:ring-[#E54801]/10 outline-none transition-all duration-300"
-                />
-                <input
-                  type="date"
-                  v-model="endDate"
-                  class="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-[#E54801] focus:ring-2 focus:ring-[#E54801]/10 outline-none transition-all duration-300"
-                />
-              </div>
-            </div>
-            <button
-              class="px-4 py-3 bg-[#E54801] text-white font-semibold rounded-lg hover:bg-[#913327] transition-all duration-300 flex items-center justify-center gap-2"
-            >
-              <i class="fas fa-filter"></i>
-              Appliquer
-            </button>
-          </div>
-        </div>
-
-        <!-- Payments List -->
-        <div class="space-y-6 mb-8">
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <div
-            v-if="filteredPayments.length === 0"
-            class="bg-white rounded-xl shadow-hc p-12 text-center"
+            class="bg-card rounded-xl shadow-hc p-5 border-l-4 border-secondary"
           >
-            <i class="fas fa-search text-4xl text-gray-300 mb-4 opacity-50"></i>
-            <h3 class="text-xl font-semibold text-[#1B0B38] mb-2">
-              Aucun paiement trouvé
-            </h3>
-            <p class="text-gray-500">
-              Essayez de modifier vos filtres de recherche.
-            </p>
+            <div class="text-2xl lg:text-3xl font-bold text-foreground mb-1">
+              328 450 FCFA
+            </div>
+            <div class="text-sm text-muted-foreground">Total ce mois</div>
           </div>
           <div
-            v-else
-            v-for="payment in filteredPayments"
-            :key="payment.id"
-            class="bg-white rounded-xl shadow-hc p-6 border-l-4 border-[#E54801]"
+            class="bg-card rounded-xl shadow-hc p-5 border-l-4 border-secondary"
           >
-            <div
-              class="flex flex-col md:flex-row md:items-center md:justify-between mb-6"
-            >
-              <div class="flex items-start gap-4 mb-4 md:mb-0">
-                <div
-                  :class="`w-14 h-14 rounded-xl bg-gradient-to-br ${getServiceColor(payment.type)} flex items-center justify-center text-white text-xl`"
-                >
-                  <i :class="`fas ${getServiceIcon(payment.type)}`"></i>
-                </div>
-                <div>
-                  <h3 class="font-bold text-[#1B0B38] text-lg">
-                    {{ payment.label }}
-                  </h3>
-                  <p class="text-gray-500 text-sm">{{ payment.date }}</p>
-                </div>
-              </div>
-              <div
-                :class="`px-3 py-1 text-sm font-semibold rounded-full inline-block w-fit ${getStatusClass(payment.status)}`"
-              >
-                {{ getStatusText(payment.status) }}
-              </div>
+            <div class="text-2xl lg:text-3xl font-bold text-foreground mb-1">
+              42
             </div>
-
-            <div
-              class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-6 border-t border-gray-100"
-            >
-              <div>
-                <div class="text-xs text-gray-400 mb-1">Montant</div>
-                <div class="font-bold text-[#1B0B38]">{{ payment.amount }}</div>
-              </div>
-              <div>
-                <div class="text-xs text-gray-400 mb-1">Méthode</div>
-                <div class="font-semibold text-[#1B0B38]">
-                  {{ payment.method }}
-                </div>
-              </div>
-              <div>
-                <div class="text-xs text-gray-400 mb-1">Référence</div>
-                <div class="font-semibold text-[#1B0B38]">
-                  {{ payment.reference }}
-                </div>
-              </div>
-              <div>
-                <div class="text-xs text-gray-400 mb-1">Description</div>
-                <div class="text-sm text-[#1B0B38]">
-                  {{ payment.description }}
-                </div>
-              </div>
+            <div class="text-sm text-muted-foreground">Paiements effectués</div>
+          </div>
+          <div
+            class="bg-card rounded-xl shadow-hc p-5 border-l-4 border-secondary"
+          >
+            <div class="text-2xl lg:text-3xl font-bold text-foreground mb-1">
+              38
             </div>
+            <div class="text-sm text-muted-foreground">Paiements réussis</div>
+          </div>
+          <div
+            class="bg-card rounded-xl shadow-hc p-5 border-l-4 border-secondary"
+          >
+            <div class="text-2xl lg:text-3xl font-bold text-foreground mb-1">
+              4
+            </div>
+            <div class="text-sm text-muted-foreground">En attente</div>
           </div>
         </div>
+      </div>
 
-        <!-- Pagination -->
-        <div class="flex justify-center items-center gap-2 mb-8">
+      <!-- Filter Section -->
+      <div class="bg-card rounded-2xl shadow-hc p-6 mb-8 border border-border">
+        <!-- Search -->
+        <div class="relative mb-6">
+          <i
+            class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground"
+          ></i>
+          <input
+            type="text"
+            v-model="searchQuery"
+            class="w-full pl-12 pr-4 py-3 border-2 border-border rounded-xl focus:border-secondary focus:ring-3 focus:ring-secondary/10 outline-none transition-all duration-300 bg-background text-foreground"
+            placeholder="Rechercher un paiement..."
+          />
+        </div>
+
+        <!-- Filter Tags -->
+        <div class="flex flex-wrap gap-3 mb-6">
           <button
-            class="w-10 h-10 rounded-lg bg-gray-100 text-gray-700 flex items-center justify-center hover:bg-[#E54801] hover:text-white transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-            disabled
+            v-for="filter in filters"
+            :key="filter.value"
+            @click="activeFilter = filter.value"
+            :class="[
+              'px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2 transition-all duration-300',
+              activeFilter === filter.value
+                ? 'bg-secondary text-secondary-foreground'
+                : 'bg-muted/20 text-muted-foreground hover:bg-secondary/10 hover:text-secondary',
+            ]"
           >
-            <i class="fas fa-chevron-left"></i>
-          </button>
-          <button
-            class="w-10 h-10 rounded-lg bg-[#E54801] text-white font-semibold"
-          >
-            1
-          </button>
-          <button
-            class="w-10 h-10 rounded-lg bg-gray-100 text-gray-700 font-semibold hover:bg-[#E54801] hover:text-white transition-all duration-300"
-          >
-            2
-          </button>
-          <button
-            class="w-10 h-10 rounded-lg bg-gray-100 text-gray-700 font-semibold hover:bg-[#E54801] hover:text-white transition-all duration-300"
-          >
-            3
-          </button>
-          <span class="px-2 text-gray-500">...</span>
-          <button
-            class="w-10 h-10 rounded-lg bg-gray-100 text-gray-700 font-semibold hover:bg-[#E54801] hover:text-white transition-all duration-300"
-          >
-            8
-          </button>
-          <button
-            class="w-10 h-10 rounded-lg bg-gray-100 text-gray-700 flex items-center justify-center hover:bg-[#E54801] hover:text-white transition-all duration-300"
-          >
-            <i class="fas fa-chevron-right"></i>
+            <i :class="filter.icon"></i>
+            {{ filter.label }}
           </button>
         </div>
 
-        <!-- Action Buttons -->
-        <div
-          class="grid grid-cols-1 md:grid-cols-2 lg:flex lg:justify-end gap-4"
-        >
+        <!-- Date Filter -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+          <div>
+            <label class="block text-foreground font-semibold text-sm mb-2"
+              >Période :</label
+            >
+            <div class="grid grid-cols-2 gap-3">
+              <input
+                type="date"
+                v-model="startDate"
+                class="w-full px-4 py-2 border-2 border-border rounded-lg focus:border-secondary focus:ring-2 focus:ring-secondary/10 outline-none transition-all duration-300 bg-background text-foreground"
+              />
+              <input
+                type="date"
+                v-model="endDate"
+                class="w-full px-4 py-2 border-2 border-border rounded-lg focus:border-secondary focus:ring-2 focus:ring-secondary/10 outline-none transition-all duration-300 bg-background text-foreground"
+              />
+            </div>
+          </div>
           <button
-            class="px-6 py-4 bg-white border-2 border-[#E54801] text-[#E54801] font-bold rounded-xl hover:bg-[#E54801]/5 transition-all duration-300 flex items-center justify-center gap-3"
+            class="px-4 py-3 bg-secondary text-secondary-foreground font-semibold rounded-lg hover:bg-secondary/90 transition-all duration-300 flex items-center justify-center gap-2"
           >
-            <i class="fas fa-file-export"></i>
-            Exporter en PDF
-          </button>
-          <button
-            class="px-6 py-4 bg-[#1B0B38] text-white font-bold rounded-xl hover:bg-[#1B0B38]/90 transition-all duration-300 flex items-center justify-center gap-3"
-          >
-            <i class="fas fa-print"></i>
-            Imprimer
+            <i class="fas fa-filter"></i>
+            Appliquer
           </button>
         </div>
       </div>
-    
 
+      <!-- Payments List -->
+      <div class="space-y-6 mb-8">
+        <div
+          v-if="filteredPayments.length === 0"
+          class="bg-card rounded-xl shadow-hc p-12 text-center border border-border"
+        >
+          <i class="fas fa-search text-4xl text-muted-foreground/30 mb-4"></i>
+          <h3 class="text-xl font-semibold text-foreground mb-2">
+            Aucun paiement trouvé
+          </h3>
+          <p class="text-muted-foreground">
+            Essayez de modifier vos filtres de recherche.
+          </p>
+        </div>
+        <div
+          v-else
+          v-for="payment in filteredPayments"
+          :key="payment.id"
+          class="bg-card rounded-xl shadow-hc p-6 border-l-4 border-secondary border border-border"
+        >
+          <div
+            class="flex flex-col md:flex-row md:items-center md:justify-between mb-6"
+          >
+            <div class="flex items-start gap-4 mb-4 md:mb-0">
+              <div
+                :class="`w-14 h-14 rounded-xl bg-gradient-to-br ${getServiceColor(payment.type)} flex items-center justify-center text-white text-xl`"
+              >
+                <i :class="`fas ${getServiceIcon(payment.type)}`"></i>
+              </div>
+              <div>
+                <h3 class="font-bold text-foreground text-lg">
+                  {{ payment.label }}
+                </h3>
+                <p class="text-muted-foreground text-sm">{{ payment.date }}</p>
+              </div>
+            </div>
+            <div
+              :class="`px-3 py-1 text-sm font-semibold rounded-full inline-block w-fit ${getStatusClass(payment.status)}`"
+            >
+              {{ getStatusText(payment.status) }}
+            </div>
+          </div>
+
+          <div
+            class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-6 border-t border-border"
+          >
+            <div>
+              <div class="text-xs text-muted-foreground mb-1">Montant</div>
+              <div class="font-bold text-foreground">{{ payment.amount }}</div>
+            </div>
+            <div>
+              <div class="text-xs text-muted-foreground mb-1">Méthode</div>
+              <div class="font-semibold text-foreground">
+                {{ payment.method }}
+              </div>
+            </div>
+            <div>
+              <div class="text-xs text-muted-foreground mb-1">Référence</div>
+              <div class="font-semibold text-foreground">
+                {{ payment.reference }}
+              </div>
+            </div>
+            <div>
+              <div class="text-xs text-muted-foreground mb-1">Description</div>
+              <div class="text-sm text-foreground">
+                {{ payment.description }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pagination -->
+      <div class="flex justify-center items-center gap-2 mb-8">
+        <button
+          class="w-10 h-10 rounded-lg bg-muted/20 text-muted-foreground flex items-center justify-center hover:bg-secondary hover:text-secondary-foreground transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          disabled
+        >
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <button
+          class="w-10 h-10 rounded-lg bg-secondary text-secondary-foreground font-semibold"
+        >
+          1
+        </button>
+        <button
+          class="w-10 h-10 rounded-lg bg-muted/20 text-muted-foreground font-semibold hover:bg-secondary hover:text-secondary-foreground transition-all duration-300"
+        >
+          2
+        </button>
+        <button
+          class="w-10 h-10 rounded-lg bg-muted/20 text-muted-foreground font-semibold hover:bg-secondary hover:text-secondary-foreground transition-all duration-300"
+        >
+          3
+        </button>
+        <span class="px-2 text-muted-foreground">...</span>
+        <button
+          class="w-10 h-10 rounded-lg bg-muted/20 text-muted-foreground font-semibold hover:bg-secondary hover:text-secondary-foreground transition-all duration-300"
+        >
+          8
+        </button>
+        <button
+          class="w-10 h-10 rounded-lg bg-muted/20 text-muted-foreground flex items-center justify-center hover:bg-secondary hover:text-secondary-foreground transition-all duration-300"
+        >
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+
+      <!-- Action Buttons -->
+      <div
+        class="grid grid-cols-1 md:grid-cols-2 lg:flex lg:justify-end gap-4"
+      >
+        <button
+          class="px-6 py-4 bg-card border-2 border-secondary text-secondary font-bold rounded-xl hover:bg-secondary/10 transition-all duration-300 flex items-center justify-center gap-3"
+        >
+          <i class="fas fa-file-export"></i>
+          Exporter en PDF
+        </button>
+        <button
+          class="px-6 py-4 bg-primary text-primary-foreground font-bold rounded-xl hover:bg-primary/90 transition-all duration-300 flex items-center justify-center gap-3"
+        >
+          <i class="fas fa-print"></i>
+          Imprimer
+        </button>
+      </div>
+    </div>
   </DashboardLayout>
 </template>
 
@@ -350,7 +347,7 @@ const filteredPayments = computed(() => {
 
 const getServiceColor = (type) => {
   const config = {
-    loyer: "from-[#E54801] to-[#913327]",
+    loyer: "from-secondary to-secondary/80",
     eneo: "from-orange-500 to-orange-700",
     camwater: "from-blue-500 to-blue-700",
     gaz: "from-yellow-500 to-yellow-700",
@@ -376,31 +373,30 @@ const getStatusText = (status) =>
   status === "paid" ? "Payé" : status === "pending" ? "En attente" : "Échoué";
 const getStatusClass = (status) =>
   status === "paid"
-    ? "bg-green-100 text-green-800"
+    ? "bg-green-100 dark:bg-green-950/30 text-green-800 dark:text-green-400"
     : status === "pending"
-      ? "bg-yellow-100 text-yellow-800"
-      : "bg-red-100 text-red-800";
+      ? "bg-yellow-100 dark:bg-yellow-950/30 text-yellow-800 dark:text-yellow-400"
+      : "bg-red-100 dark:bg-red-950/30 text-red-800 dark:text-red-400";
 </script>
 
 <style scoped>
 .sidebar-link.active {
-  background-color: #e54801;
-  color: white;
-  box-shadow: 0 4px 12px rgba(229, 72, 1, 0.2);
+  background-color: hsl(var(--secondary));
+  color: hsl(var(--secondary-foreground));
+  box-shadow: 0 4px 12px hsl(var(--secondary) / 0.2);
 }
 .custom-scrollbar::-webkit-scrollbar {
   width: 4px;
 }
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: hsl(var(--muted));
 }
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #e54801;
+  background: hsl(var(--secondary));
   border-radius: 10px;
 }
 
 .shadow-hc {
-  box-shadow: 0 4px 12px rgba(27, 11, 56, 0.1);
+  box-shadow: 0 4px 12px hsl(var(--primary) / 0.1);
 }
 </style>
-

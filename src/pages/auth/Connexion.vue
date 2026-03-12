@@ -1,18 +1,18 @@
 <template>
   <div
-    class="font-inter bg-[#FAF9F5] text-[#333333] min-h-screen flex flex-col"
+    class="font-inter bg-background text-foreground min-h-screen flex flex-col"
   >
     <!-- Hero Mobile -->
     <section class="lg:hidden gradient-bg relative overflow-hidden">
       <div class="absolute inset-0 overflow-hidden pointer-events-none">
         <div
-          class="absolute -top-20 -left-20 w-40 h-40 bg-[#E54801]/10 rounded-full blur-xl"
+          class="absolute -top-20 -left-20 w-40 h-40 bg-secondary/10 rounded-full blur-xl"
         ></div>
         <div
-          class="absolute -bottom-20 -right-20 w-60 h-60 bg-[#E54801]/5 rounded-full blur-xl"
+          class="absolute -bottom-20 -right-20 w-60 h-60 bg-secondary/5 rounded-full blur-xl"
         ></div>
         <div
-          class="absolute top-1/2 left-1/4 w-32 h-32 bg-[#1B0B38]/30 rounded-full blur-lg"
+          class="absolute top-1/2 left-1/4 w-32 h-32 bg-primary/30 rounded-full blur-lg"
         ></div>
       </div>
       <div class="relative z-10 py-12 px-6">
@@ -22,20 +22,24 @@
           <div class="w-24 h-24 mb-4 logo-glow animate-float">
             <div class="relative w-full h-full">
               <div
-                class="absolute inset-0 bg-gradient-to-br from-[#1B0B38] to-[#913327] rounded-2xl transform rotate-6"
+                class="absolute inset-0 bg-gradient-to-br from-primary to-secondary/80 rounded-2xl transform rotate-6"
               ></div>
               <div
-                class="absolute inset-2 bg-gradient-to-br from-white to-gray-100 rounded-xl flex items-center justify-center"
+                class="absolute inset-2 bg-gradient-to-br from-card to-muted rounded-xl flex items-center justify-center"
               >
+<<<<<<< HEAD
+                <i class="fas fa-home text-secondary text-3xl"></i>
+=======
               <img src="/images/logo/image.png" alt="">
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
               </div>
             </div>
           </div>
           <div class="text-center">
-            <div class="text-white text-4xl font-bold mb-2">
+            <div class="text-primary-foreground text-4xl font-bold mb-2">
               Home<span class="highlight-text">Cameroon</span>
             </div>
-            <p class="text-gray-300 text-sm font-medium">
+            <p class="text-primary-foreground/70 text-sm font-medium">
               vivre en paix, vivre heureux avec Home Cameroon
             </p>
           </div>
@@ -43,14 +47,14 @@
         <div class="flex justify-center mt-6">
           <div class="relative">
             <div
-              class="w-20 h-20 bg-gradient-to-br from-[#E54801] to-[#913327] rounded-2xl flex items-center justify-center pulse-glow"
+              class="w-20 h-20 bg-gradient-to-br from-secondary to-secondary/80 rounded-2xl flex items-center justify-center pulse-glow"
             >
-              <i class="fas fa-key text-white text-3xl"></i>
+              <i class="fas fa-key text-secondary-foreground text-3xl"></i>
             </div>
             <div
-              class="absolute -top-2 -right-2 w-8 h-8 bg-white rounded-full flex items-center justify-center"
+              class="absolute -top-2 -right-2 w-8 h-8 bg-card rounded-full flex items-center justify-center border border-border"
             >
-              <i class="fas fa-lock text-[#E54801] text-sm"></i>
+              <i class="fas fa-lock text-secondary text-sm"></i>
             </div>
           </div>
         </div>
@@ -64,49 +68,55 @@
         <!-- Décorations -->
         <div class="absolute inset-0 overflow-hidden pointer-events-none">
           <div
-            class="absolute top-10 left-10 w-64 h-64 bg-[#E54801]/10 rounded-full blur-3xl"
+            class="absolute top-10 left-10 w-64 h-64 bg-secondary/10 rounded-full blur-3xl"
           ></div>
           <div
-            class="absolute bottom-10 right-10 w-80 h-80 bg-[#1B0B38]/40 rounded-full blur-3xl"
+            class="absolute bottom-10 right-10 w-80 h-80 bg-primary/40 rounded-full blur-3xl"
           ></div>
           <div
-            class="absolute top-1/3 right-1/4 w-48 h-48 bg-[#E54801]/5 rounded-full blur-2xl"
+            class="absolute top-1/3 right-1/4 w-48 h-48 bg-secondary/5 rounded-full blur-2xl"
           ></div>
         </div>
         <!-- Motifs géométriques -->
         <div class="absolute inset-0 opacity-10 pointer-events-none">
           <div
-            class="absolute top-20 left-20 w-32 h-32 border-2 border-[#E54801] rounded-lg transform rotate-45"
+            class="absolute top-20 left-20 w-32 h-32 border-2 border-secondary rounded-lg transform rotate-45"
           ></div>
           <div
-            class="absolute bottom-40 right-32 w-24 h-24 border-2 border-white rounded-full"
+            class="absolute bottom-40 right-32 w-24 h-24 border-2 border-primary-foreground rounded-full"
           ></div>
           <div
-            class="absolute top-1/2 left-1/3 w-16 h-16 border-2 border-[#913327] transform -rotate-12"
+            class="absolute top-1/2 left-1/3 w-16 h-16 border-2 border-secondary/80 transform -rotate-12"
           ></div>
         </div>
 
         <div
-          class="relative z-10 p-12 flex flex-col justify-between text-white w-full"
+          class="relative z-10 p-12 flex flex-col justify-between text-primary-foreground w-full"
         >
           <!-- Logo -->
           <div class="flex items-center gap-6 mb-16 animate-fadeInUp">
             <div class="relative w-20 h-20 logo-glow">
               <div
-                class="absolute inset-0 bg-gradient-to-br from-[#1B0B38] to-[#913327] rounded-2xl transform rotate-3"
+                class="absolute inset-0 bg-gradient-to-br from-primary to-secondary/80 rounded-2xl transform rotate-3"
               ></div>
               <div
+<<<<<<< HEAD
+                class="absolute inset-2 bg-gradient-to-br from-card to-muted rounded-xl flex items-center justify-center"
+              >
+                <i class="fas fa-home text-secondary text-2xl"></i>
+=======
                 class="absolute inset-2 bg-gradient-to-br from-white to-gray-100 rounded-xl flex items-center justify-center p-1"
               >
               <img src="/images/logo/image.png" alt="">
                 <!-- <i class="fas fa-home text-[#E54801] text-2xl"></i> -->
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
               </div>
             </div>
             <div>
               <div class="text-4xl font-bold">
                 Home<span class="highlight-text">Cameroon</span>
               </div>
-              <p class="text-gray-300 text-sm font-medium mt-1">
+              <p class="text-primary-foreground/70 text-sm font-medium mt-1">
                 L'excellence immobilière camerounaise
               </p>
             </div>
@@ -118,7 +128,7 @@
               class="inline-block mb-6 px-6 py-3 bg-white/10 backdrop-blur-sm rounded-full border border-white/30 animate-fadeInUp"
               style="animation-delay: 0.2s"
             >
-              <span class="text-white font-bold"
+              <span class="text-primary-foreground font-bold"
                 ><i class="fas fa-star mr-2 text-yellow-300"></i>Bienvenue chez
                 vous !</span
               >
@@ -131,7 +141,7 @@
               <span class="highlight-text">espace privilégié</span>
             </h2>
             <p
-              class="text-gray-300 text-xl mb-12 leading-relaxed animate-fadeInUp"
+              class="text-primary-foreground/70 text-xl mb-12 leading-relaxed animate-fadeInUp"
               style="animation-delay: 0.4s"
             >
               Accédez à votre tableau de bord personnel, gérez vos réservations
@@ -154,7 +164,7 @@
                 </div>
                 <div>
                   <h3 class="text-xl font-bold mb-1">{{ item.title }}</h3>
-                  <p class="text-gray-300">{{ item.desc }}</p>
+                  <p class="text-primary-foreground/70">{{ item.desc }}</p>
                 </div>
               </div>
             </div>
@@ -166,16 +176,16 @@
             >
               <div class="flex items-center gap-4 mb-4">
                 <div
-                  class="w-12 h-12 rounded-full bg-gradient-to-br from-[#E54801] to-[#913327] flex items-center justify-center"
+                  class="w-12 h-12 rounded-full bg-gradient-to-br from-secondary to-secondary/80 flex items-center justify-center"
                 >
-                  <i class="fas fa-quote-left text-white"></i>
+                  <i class="fas fa-quote-left text-secondary-foreground"></i>
                 </div>
                 <div>
                   <div class="font-bold">Marie T.</div>
-                  <div class="text-gray-300 text-sm">Membre depuis 2022</div>
+                  <div class="text-primary-foreground/70 text-sm">Membre depuis 2022</div>
                 </div>
               </div>
-              <p class="text-gray-200 italic">
+              <p class="text-primary-foreground/80 italic">
                 "HomeCameroon a transformé mon expérience de location. La
                 connexion est fluide et l'interface me permet de tout gérer en
                 quelques clics !"
@@ -205,10 +215,10 @@
               <div class="flex gap-4">
                 <RouterLink
                   :to="{ name: 'PolitiqueConfidentialite' }"
-                  class="hover:text-[#E54801] transition-colors"
+                  class="hover:text-secondary transition-colors"
                   >Confidentialité</RouterLink
                 >
-                <a href="#" class="hover:text-[#E54801] transition-colors"
+                <a href="#" class="hover:text-secondary transition-colors"
                   >Conditions</a
                 >
               </div>
@@ -223,10 +233,10 @@
       >
         <div class="w-full max-w-md animate-fadeInUp">
           <div class="mb-10 text-center">
-            <h2 class="text-2xl sm:text-3xl font-bold text-[#1B0B38] mb-3">
+            <h2 class="text-2xl sm:text-3xl font-bold text-foreground mb-3">
               Connexion à votre compte
             </h2>
-            <div class="w-20 h-1 bg-[#E54801] mx-auto rounded-full"></div>
+            <div class="w-20 h-1 bg-secondary mx-auto rounded-full"></div>
           </div>
 
           <!-- Message erreur/succès -->
@@ -234,7 +244,7 @@
             v-if="message.text"
             :class="[
               'mb-6 px-6 py-4 rounded-xl text-white font-semibold text-center shadow-lg animate-fadeIn',
-              message.type === 'error' ? 'bg-red-500' : 'bg-green-500',
+              message.type === 'error' ? 'bg-destructive' : 'bg-green-600',
             ]"
           >
             {{ message.text }}
@@ -246,19 +256,19 @@
               class="space-y-2 animate-fadeInUp"
               style="animation-delay: 0.1s"
             >
-              <label class="block text-[#1B0B38] font-semibold text-sm"
+              <label class="block text-foreground font-semibold text-sm"
                 >Adresse email</label
               >
               <div class="relative">
                 <i
-                  class="fas fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-[#666666]"
+                  class="fas fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground"
                 ></i>
                 <input
                   v-model="form.email"
                   type="email"
                   placeholder="email@hmc.com"
                   required
-                  class="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-[#E54801] focus:ring-4 focus:ring-[#E54801]/10 outline-none transition-all duration-300"
+                  class="w-full pl-12 pr-4 py-3 border-2 border-border bg-background text-foreground placeholder:text-muted-foreground rounded-xl focus:border-secondary focus:ring-4 focus:ring-secondary/10 outline-none transition-all duration-300"
                 />
               </div>
             </div>
@@ -268,24 +278,24 @@
               class="space-y-2 animate-fadeInUp"
               style="animation-delay: 0.2s"
             >
-              <label class="block text-[#1B0B38] font-semibold text-sm"
+              <label class="block text-foreground font-semibold text-sm"
                 >Mot de passe</label
               >
               <div class="relative">
                 <i
-                  class="fas fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-[#666666]"
+                  class="fas fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground"
                 ></i>
                 <input
                   v-model="form.password"
                   :type="showPassword ? 'text' : 'password'"
                   placeholder="Votre mot de passe"
                   required
-                  class="w-full pl-12 pr-12 py-3 border-2 border-gray-200 rounded-xl focus:border-[#E54801] focus:ring-4 focus:ring-[#E54801]/10 outline-none transition-all duration-300"
+                  class="w-full pl-12 pr-12 py-3 border-2 border-border bg-background text-foreground placeholder:text-muted-foreground rounded-xl focus:border-secondary focus:ring-4 focus:ring-secondary/10 outline-none transition-all duration-300"
                 />
                 <button
                   type="button"
                   @click="showPassword = !showPassword"
-                  class="absolute right-4 top-1/2 -translate-y-1/2 text-[#666666] hover:text-[#E54801] transition-colors"
+                  class="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-secondary transition-colors"
                 >
                   <i
                     :class="`fas fa-${showPassword ? 'eye-slash' : 'eye'}`"
@@ -303,13 +313,13 @@
                 <input
                   v-model="form.remember"
                   type="checkbox"
-                  class="w-4 h-4 text-[#E54801] rounded focus:ring-[#E54801]"
+                  class="w-4 h-4 text-secondary rounded focus:ring-secondary bg-background border-border"
                 />
-                <span class="text-sm text-[#333333]">Se souvenir de moi</span>
+                <span class="text-sm text-foreground">Se souvenir de moi</span>
               </label>
               <RouterLink
                 :to="{ name: 'MotDePasseOublie' }"
-                class="text-sm text-[#E54801] font-semibold hover:text-[#913327] hover:underline transition-colors"
+                class="text-sm text-secondary font-semibold hover:text-secondary/80 hover:underline transition-colors"
               >
                 Mot de passe oublié ?
               </RouterLink>
@@ -319,7 +329,7 @@
             <button
               type="submit"
               :disabled="isLoading"
-              class="w-full bg-gradient-to-r from-[#E54801] to-[#913327] text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-3 animate-fadeInUp disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none"
+              class="w-full bg-gradient-to-r from-secondary to-secondary/80 text-secondary-foreground font-bold py-4 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-3 animate-fadeInUp disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none"
               style="animation-delay: 0.4s"
             >
               <span v-if="!isLoading"
@@ -336,15 +346,15 @@
               class="flex items-center my-8 animate-fadeInUp"
               style="animation-delay: 0.5s"
             >
-              <div class="flex-1 h-px bg-gray-200"></div>
-              <div class="px-4 text-sm text-[#666666]">ou continuer avec</div>
-              <div class="flex-1 h-px bg-gray-200"></div>
+              <div class="flex-1 h-px bg-border"></div>
+              <div class="px-4 text-sm text-muted-foreground">ou continuer avec</div>
+              <div class="flex-1 h-px bg-border"></div>
             </div>
 
             <!-- Google -->
             <button
               type="button"
-              class="w-full border-2 border-gray-200 hover:border-[#E54801] bg-white text-[#333333] font-semibold py-3 rounded-xl hover:shadow-md transition-all duration-300 flex items-center justify-center gap-3 animate-fadeInUp"
+              class="w-full border-2 border-border hover:border-secondary bg-card text-foreground font-semibold py-3 rounded-xl hover:shadow-md transition-all duration-300 flex items-center justify-center gap-3 animate-fadeInUp"
               style="animation-delay: 0.6s"
             >
               <i class="fab fa-google text-red-500"></i>
@@ -353,14 +363,14 @@
 
             <!-- Lien inscription -->
             <div
-              class="mt-8 p-6 bg-gray-50 rounded-xl text-center animate-fadeInUp"
+              class="mt-8 p-6 bg-muted/20 rounded-xl text-center animate-fadeInUp"
               style="animation-delay: 0.7s"
             >
-              <p class="text-[#333333]">
+              <p class="text-foreground">
                 Vous n'avez pas de compte ?
                 <RouterLink
                   :to="{ name: 'Inscription' }"
-                  class="text-[#E54801] font-bold hover:text-[#913327] hover:underline transition-colors ml-1"
+                  class="text-secondary font-bold hover:text-secondary/80 hover:underline transition-colors ml-1"
                 >
                   Créer un compte
                 </RouterLink>
@@ -369,8 +379,8 @@
           </form>
 
           <!-- Réseaux sociaux mobile -->
-          <div class="lg:hidden mt-12 pt-8 border-t border-gray-200">
-            <h3 class="text-center text-[#1B0B38] font-semibold mb-6">
+          <div class="lg:hidden mt-12 pt-8 border-t border-border">
+            <h3 class="text-center text-foreground font-semibold mb-6">
               Suivez-nous
             </h3>
             <div class="flex justify-center gap-4">
@@ -378,7 +388,7 @@
                 v-for="s in socials"
                 :key="s.icon"
                 href="#"
-                :class="`w-10 h-10 rounded-full bg-[#1B0B38] ${s.hover} flex items-center justify-center text-white transition-all duration-300 transform hover:-translate-y-1`"
+                :class="`w-10 h-10 rounded-full bg-primary ${s.hover} flex items-center justify-center text-primary-foreground transition-all duration-300 transform hover:-translate-y-1`"
               >
                 <i :class="`fab fa-${s.icon}`"></i>
               </a>
@@ -389,26 +399,26 @@
     </div>
 
     <!-- Footer mobile -->
-    <footer class="lg:hidden bg-[#1B0B38] text-gray-300 py-8 px-4 text-center">
+    <footer class="lg:hidden bg-primary text-muted-foreground py-8 px-4 text-center">
       <div class="text-sm mb-4">
         © 2025 Home Cameroon (HMC). Tous droits réservés.
       </div>
       <div class="flex flex-wrap justify-center gap-4">
         <a
           href="#"
-          class="text-gray-300 hover:text-[#E54801] text-sm transition-colors"
+          class="text-muted-foreground hover:text-secondary text-sm transition-colors"
           >Conditions d'utilisation</a
         >
-        <span class="text-gray-600">|</span>
+        <span class="text-border">|</span>
         <RouterLink
           :to="{ name: 'PolitiqueConfidentialite' }"
-          class="text-gray-300 hover:text-[#E54801] text-sm transition-colors"
+          class="text-muted-foreground hover:text-secondary text-sm transition-colors"
           >Politique de confidentialité</RouterLink
         >
-        <span class="text-gray-600">|</span>
+        <span class="text-border">|</span>
         <RouterLink
           :to="{ name: 'Assistance' }"
-          class="text-gray-300 hover:text-[#E54801] text-sm transition-colors"
+          class="text-muted-foreground hover:text-secondary text-sm transition-colors"
           >Aide</RouterLink
         >
       </div>
@@ -439,19 +449,19 @@ const features = [
     icon: "home",
     title: "Gestion simplifiée",
     desc: "Suivez et gérez tous vos logements en un seul endroit",
-    bg: "bg-gradient-to-br from-[#E54801] to-[#913327]",
+    bg: "bg-gradient-to-br from-secondary to-secondary/80",
   },
   {
     icon: "shield-alt",
     title: "Sécurité maximale",
     desc: "Paiements 100% sécurisés et données cryptées",
-    bg: "bg-gradient-to-br from-[#1B0B38] to-[#1B0B38]/80",
+    bg: "bg-gradient-to-br from-primary to-primary/80",
   },
   {
     icon: "headset",
     title: "Support premium",
     desc: "Notre équipe est disponible 24h/24 pour vous assister",
-    bg: "bg-gradient-to-br from-[#913327] to-[#E54801]",
+    bg: "bg-gradient-to-br from-secondary/80 to-secondary",
   },
 ];
 
@@ -520,13 +530,13 @@ const handleLogin = async () => {
 
 <style scoped>
 .gradient-bg {
-  background: linear-gradient(135deg, #1b0b38 0%, #2c1b3d 50%, #4a2c5d 100%);
+  background: linear-gradient(135deg, hsl(var(--primary)) 0%, #2c1b3d 50%, #4a2c5d 100%);
 }
 .logo-glow {
-  filter: drop-shadow(0 0 15px rgba(229, 72, 1, 0.4));
+  filter: drop-shadow(0 0 15px hsl(var(--secondary) / 0.4));
 }
 .highlight-text {
-  background: linear-gradient(90deg, #e54801, #ff7b4d);
+  background: linear-gradient(90deg, hsl(var(--secondary)), #ff7b4d);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -537,10 +547,10 @@ const handleLogin = async () => {
 @keyframes pulseGlow {
   0%,
   100% {
-    box-shadow: 0 0 20px rgba(229, 72, 1, 0.3);
+    box-shadow: 0 0 20px hsl(var(--secondary) / 0.3);
   }
   50% {
-    box-shadow: 0 0 30px rgba(229, 72, 1, 0.5);
+    box-shadow: 0 0 30px hsl(var(--secondary) / 0.5);
   }
 }
 .animate-float {

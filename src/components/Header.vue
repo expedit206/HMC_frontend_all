@@ -3,10 +3,10 @@
     <!-- BARRE PRINCIPALE -->
     <div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16 sm:h-20 gap-4">
       <!-- GAUCHE : Logo & Marque -->
-      <div class="flex items-center gap-1 flex-shrink-0">
+      <div class="flex items-center gap-1 shrink-0">
         <RouterLink to="/" class="flex items-center gap-1 group">
           <img src="/images/logo/image.png" alt="Home Cameroon"
-            class="w-10 h-10 sm:w-12 sm:h-12 object-contain transition-transform group-hover:scale-105" />
+            class="w-10 h-10 sm:w-12 sm:h-12 object-contain dark:bg-accent-foreground/25 dark:rounded transition-transform group-hover:scale-105" />
           <div class="flex sm:text-xl items-center leading-tight">
             <span class="font-bold text-primary tracking-tight">Home</span>
             <span class="font-bold text-secondary">Cameroon</span>
@@ -42,7 +42,7 @@
       </div>
 
       <!-- DROITE : Actions & Menu Mobile -->
-      <div class="flex items-center gap-1 sm:gap-4 flex-shrink-0">
+      <div class="flex items-center gap-1 sm:gap-4 shrink-0">
         <!-- Mobile Search Toggle -->
         <button @click="toggleSearch" class="lg:hidden text-muted-foreground hover:text-primary p-2">
           <i class="fas fa-search text-lg"></i>

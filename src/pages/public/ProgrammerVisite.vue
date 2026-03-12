@@ -1,30 +1,26 @@
 <template>
   <div class="min-h-screen bg-gradient-to-b from-gray-50 to-white py-8">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <!-- En-tête propriété enrichi avec vraies données -->
+      <!-- En-tête propriété (inchangé) -->
       <div class="bg-white rounded-3xl shadow-xl p-6 md:p-8 mb-8 border border-gray-100">
         <div class="flex flex-col md:flex-row items-start md:items-center gap-6">
-          <!-- Image principale -->
           <div v-if="property.image" class="w-full md:w-48 h-32 rounded-2xl overflow-hidden shadow-md flex-shrink-0">
             <img :src="property.image" :alt="property.title" class="w-full h-full object-cover">
           </div>
           <div class="flex-1">
             <div class="flex items-center gap-3 mb-2 flex-wrap">
-              <!-- Badge type (location/vente) -->
               <span :class="[
                 'text-xs font-semibold px-3 py-1 rounded-full',
                 property.type === 'rent' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'
               ]">
                 {{ property.type === 'rent' ? 'À louer' : 'À vendre' }}
               </span>
-              <!-- Badge catégorie / état -->
               <span v-if="property.category" class="bg-gray-100 text-gray-700 text-xs px-3 py-1 rounded-full">
                 {{ property.category }}
               </span>
               <span v-if="property.etat" class="bg-gray-100 text-gray-700 text-xs px-3 py-1 rounded-full">
                 {{ property.etat }}
               </span>
-              <!-- Référence basée sur le slug -->
               <span class="text-gray-400 text-xs">Réf: {{ property.slug?.substring(0, 8) || 'N/A' }}</span>
             </div>
             <h1 class="text-3xl md:text-4xl font-light text-gray-900 mb-2">{{ property.title }}</h1>
@@ -32,7 +28,6 @@
               <i class="fas fa-map-marker-alt text-amber-600 mr-2"></i>
               <span>{{ property.location }} · {{ property.city }}, {{ property.region }}</span>
             </div>
-            <!-- Caractéristiques rapides -->
             <div class="flex flex-wrap gap-4 text-sm text-gray-500 mb-3">
               <span v-if="property.bedrooms"><i class="fas fa-bed mr-1"></i>{{ property.bedrooms }} chambres</span>
               <span v-if="property.bathrooms"><i class="fas fa-bath mr-1"></i>{{ property.bathrooms }} sdb</span>
@@ -50,45 +45,14 @@
       </div>
 
       <div class="flex flex-col lg:flex-row gap-8">
-        <!-- ========== FORMULAIRE (inchangé) ========== -->
+        <!-- ========== FORMULAIRE SIMPLIFIÉ ========== -->
         <div class="lg:w-2/3">
           <div class="bg-white rounded-3xl shadow-xl p-6 md:p-8 border border-gray-100">
             <form @submit.prevent="submitForm" class="space-y-8">
-              <!-- Section 1 : Vos informations -->
+              <!-- Section unique : Choix de la date et créneau -->
               <div>
                 <h3 class="text-xl font-light text-gray-700 mb-6 flex items-center gap-3 border-b border-gray-100 pb-3">
                   <span class="w-8 h-8 bg-amber-100 rounded-full flex items-center justify-center text-amber-700 text-sm">1</span>
-                  <span class="font-medium">Vos coordonnées</span>
-                </h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label class="block text-xs uppercase tracking-wider text-gray-400 font-semibold mb-2">
-                      Nom <span class="text-amber-600">*</span>
-                    </label>
-                    <input v-model="form.lastName" type="text" required placeholder="Votre nom"
-                      class="w-full px-5 py-3 border border-gray-200 rounded-xl bg-gray-50/50 text-gray-700 focus:outline-none focus:ring-2 focus:ring-amber-300 focus:border-transparent transition-all" />
-                  </div>
-                  <div>
-                    <label class="block text-xs uppercase tracking-wider text-gray-400 font-semibold mb-2">
-                      Prénom <span class="text-amber-600">*</span>
-                    </label>
-                    <input v-model="form.firstName" type="text" required placeholder="Votre prénom"
-                      class="w-full px-5 py-3 border border-gray-200 rounded-xl bg-gray-50/50 text-gray-700 focus:outline-none focus:ring-2 focus:ring-amber-300 focus:border-transparent transition-all" />
-                  </div>
-                  <div class="md:col-span-2">
-                    <label class="block text-xs uppercase tracking-wider text-gray-400 font-semibold mb-2">
-                      Téléphone Mobile Money <span class="text-amber-600">*</span>
-                    </label>
-                    <input v-model="form.phone" type="tel" required placeholder="6XX XXX XXX"
-                      class="w-full px-5 py-3 border border-gray-200 rounded-xl bg-gray-50/50 text-gray-700 focus:outline-none focus:ring-2 focus:ring-amber-300 focus:border-transparent transition-all" />
-                  </div>
-                </div>
-              </div>
-
-              <!-- Section 2 : Date et créneau -->
-              <div>
-                <h3 class="text-xl font-light text-gray-700 mb-6 flex items-center gap-3 border-b border-gray-100 pb-3">
-                  <span class="w-8 h-8 bg-amber-100 rounded-full flex items-center justify-center text-amber-700 text-sm">2</span>
                   <span class="font-medium">Quand souhaitez-vous visiter ?</span>
                 </h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -118,10 +82,10 @@
                 </div>
               </div>
 
-              <!-- Section 3 : Paiement -->
+              <!-- Section Paiement (simplifiée, sans choix opérateur) -->
               <div class="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-6 border border-amber-100">
                 <h3 class="text-xl font-light text-gray-700 mb-6 flex items-center gap-3">
-                  <span class="w-8 h-8 bg-amber-600 rounded-full flex items-center justify-center text-white text-sm">3</span>
+                  <span class="w-8 h-8 bg-amber-600 rounded-full flex items-center justify-center text-white text-sm">2</span>
                   <span class="font-medium">Paiement sécurisé</span>
                 </h3>
 
@@ -135,37 +99,6 @@
                   <div class="flex justify-between items-center text-lg font-bold text-amber-800">
                     <span>Total à payer</span>
                     <span>10 FCFA</span>
-                  </div>
-                </div>
-
-                <!-- Choix du mode de paiement -->
-                <div class="mb-6">
-                  <label class="block text-xs uppercase tracking-wider text-gray-400 font-semibold mb-3">
-                    Choisissez votre opérateur
-                  </label>
-                  <div class="grid grid-cols-2 gap-4">
-                    <button type="button" @click="form.paymentMethod = 'orange'" :class="[
-                      'border-2 rounded-2xl py-4 flex flex-col items-center transition-all',
-                      form.paymentMethod === 'orange'
-                        ? 'border-amber-600 bg-amber-100/50 shadow-md'
-                        : 'border-gray-200 bg-white hover:border-amber-300',
-                    ]">
-                      <div class="w-12 h-12 rounded-full bg-orange-500 flex items-center justify-center mb-2">
-                        <i class="fas fa-mobile-alt text-white text-xl"></i>
-                      </div>
-                      <span class="font-medium text-gray-700">Orange Money</span>
-                    </button>
-                    <button type="button" @click="form.paymentMethod = 'mtn'" :class="[
-                      'border-2 rounded-2xl py-4 flex flex-col items-center transition-all',
-                      form.paymentMethod === 'mtn'
-                        ? 'border-amber-600 bg-amber-100/50 shadow-md'
-                        : 'border-gray-200 bg-white hover:border-amber-300',
-                    ]">
-                      <div class="w-12 h-12 rounded-full bg-yellow-400 flex items-center justify-center mb-2">
-                        <i class="fas fa-mobile-alt text-yellow-900 text-xl"></i>
-                      </div>
-                      <span class="font-medium text-gray-700">MTN MoMo</span>
-                    </button>
                   </div>
                 </div>
 
@@ -211,7 +144,7 @@
 
         <!-- ========== SIDEBAR AVEC DONNÉES RÉELLES ========== -->
         <div class="lg:w-1/3 space-y-6">
-          <!-- Bloc contact propriétaire/agent (si owner existe) -->
+          <!-- Bloc contact propriétaire/agent -->
           <div v-if="property.owner" class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
             <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
               <i class="fas fa-user-circle text-amber-600"></i>
@@ -231,43 +164,7 @@
             </a>
           </div>
 
-          <!-- Infos pratiques avec données du bien -->
-          <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
-              <i class="fas fa-info-circle text-amber-600"></i>
-              Infos pratiques
-            </h3>
-            <ul class="space-y-4 text-gray-600 text-sm">
-              <li class="flex items-start gap-3">
-                <span class="w-6 h-6 bg-amber-100 rounded-full flex items-center justify-center text-amber-700 flex-shrink-0">
-                  <i class="fas fa-clock text-xs"></i>
-                </span>
-                <span>Lun-Ven : 8h-18h<br>Sam : 9h-13h</span>
-              </li>
-              <li class="flex items-start gap-3">
-                <span class="w-6 h-6 bg-amber-100 rounded-full flex items-center justify-center text-amber-700 flex-shrink-0">
-                  <i class="fas fa-map-marker-alt text-xs"></i>
-                </span>
-                <span>{{ property.location }} · {{ property.city }}, {{ property.region }}</span>
-              </li>
-              <!-- Afficher les équipements principaux (max 3) -->
-              <li v-if="property.features?.length" class="flex items-start gap-3">
-                <span class="w-6 h-6 bg-amber-100 rounded-full flex items-center justify-center text-amber-700 flex-shrink-0">
-                  <i class="fas fa-home text-xs"></i>
-                </span>
-                <div>
-                  <span class="font-medium">Équipements :</span>
-                  <div class="flex flex-wrap gap-1 mt-1">
-                    <span v-for="(feat, idx) in property.features.slice(0, 3)" :key="idx" 
-                          class="bg-gray-100 text-gray-700 text-xs px-2 py-0.5 rounded-full">
-                      {{ feat }}
-                    </span>
-                    <span v-if="property.features.length > 3" class="text-xs text-gray-400">+{{ property.features.length - 3 }}</span>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div>
+   
 
           <!-- Déroulement -->
           <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
@@ -384,6 +281,8 @@ const property = ref({
   owner: null,
 });
 
+// Les coordonnées sont pré-remplies depuis le store, l'utilisateur ne les voit pas
+// Le mode de paiement est fixé à "orange" par défaut
 const form = ref({
   slug: route.query.slug || null,
   lastName: authStore.user?.name?.split(" ").slice(1).join(" ") || "",
@@ -437,8 +336,9 @@ const submitForm = async () => {
   error.value = "";
   success.value = "";
 
+  // Les champs lastName, firstName, phone sont pré-remplis, mais on peut les valider
   if (!form.value.lastName || !form.value.firstName || !form.value.phone) {
-    error.value = "Veuillez remplir toutes vos informations personnelles.";
+    error.value = "Informations utilisateur incomplètes. Veuillez vérifier votre profil.";
     return;
   }
   if (!form.value.date) {

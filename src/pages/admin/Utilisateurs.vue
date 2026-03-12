@@ -5,9 +5,9 @@
       class="flex flex-col items-center justify-center h-full min-h-[60vh]"
     >
       <div
-        class="w-16 h-16 border-4 border-[#E54801] border-t-transparent rounded-full animate-spin mb-4"
+        class="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mb-4"
       ></div>
-      <p class="text-gray-500 font-bold uppercase tracking-widest text-xs">
+      <p class="text-muted-foreground font-bold uppercase tracking-widest text-xs">
         Chargement de la base de données...
       </p>
     </div>
@@ -23,8 +23,8 @@
             :class="[
               'px-4 py-2 text-[10px] font-black uppercase tracking-widest rounded-lg transition-all',
               currentFilter === filter.value
-                ? 'bg-[#1B0B38] text-white'
-                : 'bg-white text-gray-400 border border-gray-100 hover:border-gray-300',
+                ? 'bg-primary text-primary-foreground'
+                : 'bg-card text-muted-foreground border border-border hover:border-border/80',
             ]"
           >
             {{ filter.label }}
@@ -32,25 +32,25 @@
         </div>
         <div class="relative">
           <i
-            class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-300"
+            class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground"
           ></i>
           <input
             v-model="searchQuery"
             @input="debounceSearch"
             type="text"
             placeholder="Rechercher par nom, email..."
-            class="pl-12 pr-6 py-3 bg-white border border-gray-100 rounded-xl text-sm w-full md:w-80 focus:ring-2 focus:ring-[#E54801]/10 focus:outline-none transition-all"
+            class="pl-12 pr-6 py-3 bg-card border border-border rounded-xl text-sm w-full md:w-80 text-foreground placeholder:text-muted-foreground focus:ring-2 focus:ring-primary/10 focus:outline-none transition-all"
           />
         </div>
       </div>
 
       <!-- Users Table -->
       <div
-        class="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden min-h-[400px]"
+        class="bg-card rounded-3xl border border-border shadow-sm overflow-hidden min-h-[400px]"
       >
         <table class="w-full text-left">
           <thead
-            class="bg-gray-50/50 text-[10px] font-black uppercase text-gray-400 border-b border-gray-50"
+            class="bg-muted/20 text-[10px] font-black uppercase text-muted-foreground border-b border-border"
           >
             <tr>
               <th class="px-6 py-5 tracking-widest">Utilisateur</th>
@@ -60,25 +60,25 @@
               <th class="px-6 py-5 tracking-widest text-right">Actions</th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-gray-50">
+          <tbody class="divide-y divide-border">
             <tr
               v-for="user in users"
               :key="user.id"
-              class="hover:bg-gray-50/50 transition-all group"
+              class="hover:bg-muted/5 transition-all group"
             >
               <td class="px-6 py-5">
                 <div class="flex items-center gap-4">
                   <div
-                    class="w-10 h-10 rounded-full bg-[#1B0B38] text-white flex items-center justify-center font-black text-xs shadow-md"
+                    class="w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-black text-xs shadow-md"
                   >
                     {{ user.name.charAt(0).toUpperCase() }}
                   </div>
                   <div class="flex flex-col">
-                    <span class="text-sm font-black text-[#1B0B38]">{{
+                    <span class="text-sm font-black text-foreground">{{
                       user.name
                     }}</span>
                     <span
-                      class="text-[10px] text-gray-400 font-bold tracking-tight"
+                      class="text-[10px] text-muted-foreground font-bold tracking-tight"
                       >{{ user.email }}</span
                     >
                   </div>
@@ -89,12 +89,12 @@
                   :class="[
                     'px-2 py-0.5 text-[8px] font-black uppercase rounded-md',
                     user.role === 'admin'
-                      ? 'bg-red-100 text-red-600'
+                      ? 'bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400'
                       : user.role === 'bailleur'
-                        ? 'bg-orange-100 text-[#E54801]'
+                        ? 'bg-orange-100 dark:bg-orange-900/30 text-secondary'
                         : user.role === 'agent'
-                          ? 'bg-green-100 text-green-600'
-                          : 'bg-blue-100 text-blue-600',
+                          ? 'bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400'
+                          : 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400',
                   ]"
                 >
                   {{ user.role }}
@@ -105,31 +105,35 @@
                   <select
                     @change="updateStatus(user, $event.target.value)"
                     :class="[
-                      'text-[10px] font-bold border-none bg-transparent focus:ring-0 cursor-pointer',
+                      'text-[10px] font-bold border-none bg-transparent focus:ring-0 cursor-pointer outline-none',
                       user.status === 'inactive'
-                        ? 'text-red-500'
-                        : 'text-green-500',
+                        ? 'text-destructive'
+                        : user.status === 'active'
+                          ? 'text-green-500'
+                          : 'text-orange-500',
                     ]"
                   >
-                    <option value="active" :selected="user.status === 'active'">
+                    <option value="active" :selected="user.status === 'active'" class="bg-card">
                       Actif
                     </option>
                     <option
                       value="inactive"
                       :selected="user.status === 'inactive'"
+                      class="bg-card"
                     >
                       Inactif
                     </option>
                     <option
                       value="pending"
                       :selected="user.status === 'pending'"
+                      class="bg-card"
                     >
                       En attente
                     </option>
                   </select>
                 </div>
               </td>
-              <td class="px-6 py-5 text-xs text-gray-400 font-medium">
+              <td class="px-6 py-5 text-xs text-muted-foreground font-medium">
                 {{ formatDate(user.created_at) }}
               </td>
               <td class="px-6 py-5 text-right">
@@ -137,7 +141,7 @@
                   class="flex gap-2 justify-end opacity-0 group-hover:opacity-100 transition-opacity"
                 >
                   <button
-                    class="w-9 h-9 rounded-xl bg-gray-50 text-gray-400 hover:text-[#E54801] hover:bg-white border border-transparent hover:border-gray-100 transition-all"
+                    class="w-9 h-9 rounded-xl bg-muted/20 text-muted-foreground hover:text-secondary hover:bg-card border border-transparent hover:border-border transition-all"
                   >
                     <i class="fas fa-eye text-xs"></i>
                   </button>
@@ -152,11 +156,11 @@
           class="p-20 text-center flex flex-col items-center gap-4"
         >
           <div
-            class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center text-gray-300 text-3xl"
+            class="w-20 h-20 bg-muted/20 rounded-full flex items-center justify-center text-muted-foreground/30 text-3xl"
           >
             <i class="fas fa-user-slash"></i>
           </div>
-          <p class="text-gray-400 font-bold uppercase tracking-widest text-sm">
+          <p class="text-muted-foreground font-bold uppercase tracking-widest text-sm">
             Aucun utilisateur trouvé
           </p>
         </div>
@@ -164,9 +168,9 @@
 
       <!-- Pagination simple -->
       <div
-        class="mt-8 flex justify-between items-center bg-white p-4 rounded-2xl border border-gray-100"
+        class="mt-8 flex justify-between items-center bg-card p-4 rounded-2xl border border-border"
       >
-        <span class="text-xs text-gray-400 font-bold"
+        <span class="text-xs text-muted-foreground font-bold"
           >Total: {{ totalUsers }} utilisateurs</span
         >
         <div class="flex gap-2">
@@ -176,14 +180,14 @@
             :class="[
               'w-8 h-8 rounded-lg flex items-center justify-center transition-all',
               currentPage === 1
-                ? 'text-gray-200'
-                : 'hover:bg-orange-50 text-[#E54801]',
+                ? 'text-muted-foreground/30'
+                : 'hover:bg-secondary/10 text-secondary',
             ]"
           >
             <i class="fas fa-chevron-left text-xs"></i>
           </button>
           <span
-            class="w-8 h-8 flex items-center justify-center text-xs font-black text-[#1B0B38]"
+            class="w-8 h-8 flex items-center justify-center text-xs font-black text-foreground"
           >
             {{ currentPage }}
           </span>
@@ -193,8 +197,8 @@
             :class="[
               'w-8 h-8 rounded-lg flex items-center justify-center transition-all',
               currentPage >= lastPage
-                ? 'text-gray-200'
-                : 'hover:bg-orange-50 text-[#E54801]',
+                ? 'text-muted-foreground/30'
+                : 'hover:bg-secondary/10 text-secondary',
             ]"
           >
             <i class="fas fa-chevron-right text-xs"></i>
@@ -310,7 +314,10 @@ onMounted(fetchUsers);
   background: transparent;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #e5e7eb;
+  background: hsl(var(--muted-foreground) / 0.3);
   border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.5);
 }
 </style>
