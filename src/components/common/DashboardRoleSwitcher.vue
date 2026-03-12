@@ -26,14 +26,7 @@
             <div v-if="allRoles.length > 0 && missingRoles.length > 0"
                 class="h-8 w-px bg-gray-100 hidden sm:block mx-1"></div>
 
-            <!-- Roles à acquérir (Join) -->
-            <div class="flex flex-wrap items-center gap-2">
-                <button v-for="r in missingRoles" :key="r" @click="handleAcquire(r)"
-                    class="px-4 py-2.5 bg-orange-50 text-[#E54801] border border-orange-100 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-[#E54801] hover:text-white transition-all flex items-center gap-2">
-                    <i class="fas fa-plus-circle"></i>
-                    <span>Devenir {{ getRoleName(r) }}</span>
-                </button>
-            </div>
+           
         </div>
     </div>
 </template>

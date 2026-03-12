@@ -299,19 +299,19 @@
                   <button @click="showSortDropdown = !showSortDropdown"
                     class="flex items-center gap-2 border border-border rounded-[.45rem] px-4 py-2.5 text-sm font-medium hover:border-secondary hover:text-secondary transition-colors bg-background text-foreground">
                     <i class="fas fa-sort-amount-down"></i>
-                    Trier par: {{ sortLabels[sortBy] }}
+                    Trier par: {{ sortLabels[filters.sortBy] }}
                     <i class="fas fa-chevron-down ml-1 text-xs"></i>
                   </button>
                   <div v-if="showSortDropdown"
                     class="absolute right-0 mt-1 w-48 bg-card border border-border rounded-[.45rem] shadow-lg z-10">
                     <div class="py-1">
                       <button v-for="opt in sortOptions" :key="opt.value" @click="
-                        sortBy = opt.value;
+                        filters.sortBy = opt.value;
                       showSortDropdown = false;
                       "
                         class="w-full text-left px-4 py-2 text-sm hover:bg-muted/50 text-foreground flex justify-between items-center">
                         {{ opt.label }}
-                        <i v-if="sortBy === opt.value" class="fas fa-check text-secondary"></i>
+                        <i v-if="filters.sortBy === opt.value" class="fas fa-check text-secondary"></i>
                       </button>
                     </div>
                   </div>
@@ -503,7 +503,7 @@
                           Charges incluses
                         </p>
                       </div>
-                      <RouterLink :to="`/annonces/${property.id}`"
+                      <RouterLink :to="`/annonces/${property.slug}`"
                         class="bg-secondary text-white px-6 py-3 rounded-[.45rem] font-semibold hover:bg-primary transition-colors shadow-md hover:shadow-lg">
                         Voir les détails
                       </RouterLink>
@@ -516,19 +516,21 @@
 
           <!-- Pagination -->
           <div v-if="totalPages > 1" class="flex items-center justify-center gap-2 mt-10">
-            <button @click="currentPage = Math.max(1, currentPage - 1)" :disabled="currentPage === 1"
+            <button @click="propertyStore.fetchProperties(Math.max(1, pagination.current_page - 1))"
+              :disabled="pagination.current_page === 1"
               class="w-10 h-10 rounded-[.45rem] border border-border flex items-center justify-center disabled:opacity-50 hover:bg-muted transition-colors bg-background text-foreground">
               <i class="fas fa-chevron-left text-muted-foreground"></i>
             </button>
-            <button v-for="page in pageNumbers" :key="page" @click="currentPage = page" :class="[
+            <button v-for="page in pageNumbers" :key="page" @click="propertyStore.fetchProperties(page)" :class="[
               'w-10 h-10 rounded-[.45rem] font-medium transition-colors',
-              currentPage === page
+              pagination.current_page === page
                 ? 'bg-primary text-primary-foreground shadow-md'
                 : 'bg-background border border-border hover:bg-muted text-foreground',
             ]">
               {{ page }}
             </button>
-            <button @click="currentPage = Math.min(totalPages, currentPage + 1)" :disabled="currentPage === totalPages"
+            <button @click="propertyStore.fetchProperties(Math.min(totalPages, pagination.current_page + 1))"
+              :disabled="pagination.current_page === totalPages"
               class="w-10 h-10 rounded-[.45rem] border border-border flex items-center justify-center disabled:opacity-50 hover:bg-muted transition-colors bg-background text-foreground">
               <i class="fas fa-chevron-right text-muted-foreground"></i>
             </button>
@@ -542,18 +544,19 @@
 <script setup>
 import { ref, computed, watch, onMounted } from "vue";
 import { RouterLink, useRoute, useRouter } from "vue-router";
+import { storeToRefs } from "pinia";
 import { useAuthStore } from "../../stores/auth";
+import { usePropertyStore } from "../../stores/properties";
 import axios from "../../axios";
 
 const route = useRoute();
 const router = useRouter();
 const authStore = useAuthStore();
-const isLoading = ref(true);
-const currentPage = ref(1);
-const sortBy = ref("recent");
+const propertyStore = usePropertyStore();
+
+// UI State
 const showMobileFilters = ref(false);
 const showSortDropdown = ref(false);
-
 const openSections = ref({
   types: true,
   cities: true,
@@ -564,27 +567,24 @@ const openSections = ref({
   commodites: true,
 });
 
-// ─── Données API ──────────────────────────────────────────────────
-const properties = ref([]);
-const pagination = ref({ total: 0, last_page: 1, current_page: 1 });
-const propertyTypes = ref([]);
-const cities = ref([]);
-const etats = ref([]);
-const amenitiesList = ref([]);
+// Store State & Getters
+const {
+  properties,
+  pagination,
+  aggregates,
+  filters,
+  isLoading,
+  activeFiltersCount,
+  totalPages,
+  pageNumbers
+} = storeToRefs(propertyStore);
 
-// ─── Filtres ──────────────────────────────────────────────────────
-const filters = ref({
-  search: "",
-  cities: [],
-  types: [],
-  minPrice: null,
-  maxPrice: null,
-  minRooms: 0,
-  etats: [],
-  amenities: [],
-});
+const propertyTypes = computed(() => aggregates.value.types || []);
+const cities = computed(() => aggregates.value.cities || []);
+const etats = computed(() => aggregates.value.etats || []);
+const amenitiesList = computed(() => aggregates.value.amenities || []);
 
-// ─── Options de tri ───────────────────────────────────────────────
+// Sorting options
 const sortOptions = [
   { label: "Pertinence", value: "recent" },
   { label: "Prix croissant", value: "price-asc" },
@@ -598,208 +598,58 @@ const sortLabels = {
   area: "Surface",
 };
 
-// ─── Fetch principal ──────────────────────────────────────────────
-const fetchProperties = async () => {
-  isLoading.value = true;
-  try {
-    const params = {
-      page: currentPage.value,
-      sort: sortBy.value,
-      search: filters.value.search || undefined,
-      min_price: filters.value.minPrice || undefined,
-      max_price: filters.value.maxPrice || undefined,
-      min_rooms:
-        filters.value.minRooms > 0 ? filters.value.minRooms : undefined,
-    };
-    if (filters.value.types.length > 0)
-      params.types = filters.value.types.join(",");
-    if (filters.value.cities.length > 0)
-      params.cities = filters.value.cities.join(",");
-    if (filters.value.etats.length > 0)
-      params.etats = filters.value.etats.join(",");
-    if (filters.value.amenities.length > 0)
-      params.amenities = filters.value.amenities.join(",");
-
-    const { data } = await axios.get("/api/properties", { params });
-
-    properties.value = data.data.data || [];
-    pagination.value = {
-      total: data.data.total || 0,
-      last_page: data.data.last_page || 1,
-      current_page: data.data.current_page || 1,
-    };
-
-    if (data.aggregates) {
-      propertyTypes.value = data.aggregates.types || [];
-      cities.value = data.aggregates.cities || [];
-      etats.value = data.aggregates.etats || [];
-      amenitiesList.value = data.aggregates.amenities || [];
-    }
-  } catch (err) {
-    console.error("Erreur chargement annonces:", err);
-  } finally {
-    isLoading.value = false;
-  }
-};
-
-// ─── Debounce universel ───────────────────────────────────────────
+// Debounce logic
 let filterTimer = null;
 const scheduleRefetch = (delay = 300) => {
   clearTimeout(filterTimer);
   filterTimer = setTimeout(() => {
-    currentPage.value = 1;
-    fetchProperties();
+    propertyStore.fetchProperties(1);
   }, delay);
 };
 
-// Recherche texte → debounce plus long
-watch(
-  () => filters.value.search,
-  () => scheduleRefetch(450),
-);
+// Watchers for filtering
+watch(() => filters.value.search, () => scheduleRefetch(450));
+watch(() => filters.value.types, () => scheduleRefetch(200), { deep: true });
+watch(() => filters.value.cities, () => scheduleRefetch(200), { deep: true });
+watch(() => filters.value.etats, () => scheduleRefetch(200), { deep: true });
+watch(() => filters.value.amenities, () => scheduleRefetch(200), { deep: true });
+watch(() => filters.value.minPrice, () => scheduleRefetch(450));
+watch(() => filters.value.maxPrice, () => scheduleRefetch(450));
+watch(() => filters.value.minRooms, () => scheduleRefetch(200));
+watch(() => filters.value.sortBy, () => propertyStore.fetchProperties(1));
 
-// Checkboxes → petit délai pour les sélections groupées
+// Watch route for header search
 watch(
-  () => filters.value.types,
-  () => scheduleRefetch(200),
-  { deep: true },
+  () => route.query.search,
+  (newSearch) => {
+    filters.value.search = newSearch || "";
+    propertyStore.fetchProperties(1);
+  }
 );
-watch(
-  () => filters.value.cities,
-  () => scheduleRefetch(200),
-  { deep: true },
-);
-watch(
-  () => filters.value.etats,
-  () => scheduleRefetch(200),
-  { deep: true },
-);
-watch(
-  () => filters.value.amenities,
-  () => scheduleRefetch(200),
-  { deep: true },
-);
-
-// Prix & chambres → debounce normal
-watch(
-  () => filters.value.minPrice,
-  () => scheduleRefetch(450),
-);
-watch(
-  () => filters.value.maxPrice,
-  () => scheduleRefetch(450),
-);
-watch(
-  () => filters.value.minRooms,
-  () => scheduleRefetch(200),
-);
-
-// Tri → immédiat
-watch(sortBy, () => {
-  currentPage.value = 1;
-  fetchProperties();
-});
-
-// Pagination → immédiat
-watch(currentPage, fetchProperties);
 
 onMounted(() => {
-  // Initialisation du filtre de recherche depuis l'URL si présent
-  if (route.query.search) {
-    filters.value.search = route.query.search;
-  }
-  // advanced search query parameters from home page
+  // Sync filters with URL
+  if (route.query.search) filters.value.search = route.query.search;
   if (route.query.neighborhood) {
-    // on l'ajoute à la recherche texte globale si elle était vide
     filters.value.search = filters.value.search
       ? filters.value.search + ' ' + route.query.neighborhood
       : route.query.neighborhood;
   }
-  if (route.query.city) {
-    filters.value.cities = [route.query.city];
-  }
-  if (route.query.type) {
-    filters.value.types = [route.query.type];
-  }
-  if (route.query.max_price) {
-    filters.value.maxPrice = Number(route.query.max_price);
-  }
+  if (route.query.city) filters.value.cities = [route.query.city];
+  if (route.query.type) filters.value.types = [route.query.type];
+  if (route.query.max_price) filters.value.maxPrice = Number(route.query.max_price);
 
-  fetchProperties();
+  propertyStore.fetchProperties();
 });
 
-// Observation des changements de recherche depuis le header
-watch(
-  () => route.query.search,
-  (newSearch) => {
-    if (newSearch !== undefined) {
-      filters.value.search = newSearch;
-      fetchProperties();
-    } else if (newSearch === undefined) {
-      filters.value.search = "";
-      fetchProperties();
-    }
-  },
-);
-
-// ─── Computed ─────────────────────────────────────────────────────
-const activeFiltersCount = computed(() => {
-  let c = 0;
-  if (filters.value.cities.length) c++;
-  if (filters.value.types.length) c++;
-  if (filters.value.etats.length) c++;
-  if (filters.value.amenities.length) c++;
-  if (filters.value.minPrice || filters.value.maxPrice) c++;
-  if (filters.value.minRooms && filters.value.minRooms !== 0) c++;
-  return c;
-});
-
-const totalPages = computed(() => pagination.value.last_page);
-const pageNumbers = computed(() => {
-  const pages = [];
-  for (let i = 1; i <= totalPages.value; i++) pages.push(i);
-  return pages;
-});
-
-// ─── Actions ──────────────────────────────────────────────────────
-const applyFilters = () => {
-  currentPage.value = 1;
-  fetchProperties();
-};
-
-const resetFilters = () => {
-  filters.value = {
-    search: "",
-    cities: [],
-    types: [],
-    minPrice: null,
-    maxPrice: null,
-    minRooms: 0,
-    etats: [],
-    amenities: [],
-  };
-  sortBy.value = "recent";
-  currentPage.value = 1;
-};
+const resetFilters = () => propertyStore.resetFilters();
 
 const toggleFavorite = async (id) => {
   if (!authStore.user) {
     router.push({ name: "Connexion" });
     return;
   }
-
-  try {
-    const { data } = await axios.post("/api/tenant/favorites/toggle", {
-      property_id: id,
-    });
-    if (data.success) {
-      // Mettre à jour localement l'état is_favorite de la propriété
-      const prop = properties.value.find((p) => p.id === id);
-      if (prop) prop.is_favorite = data.status === "added";
-    }
-  } catch (err) {
-    console.error("Erreur favoris:", err);
-  }
+  await propertyStore.toggleFavorite(id);
 };
 
 const isFavorite = (id) => {
@@ -807,7 +657,6 @@ const isFavorite = (id) => {
   return prop?.is_favorite || false;
 };
 
-// ─── Formatage ────────────────────────────────────────────────────
 const formatPrice = (price) => new Intl.NumberFormat("fr-FR").format(price);
 </script>
 

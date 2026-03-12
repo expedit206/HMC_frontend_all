@@ -33,7 +33,7 @@
         </div>
 
         <!-- Toggle Roles Switcher -->
-        <button v-if="expanded && allRoles.length > 1" @mouseover ="showRoleSwitcher = true" 
+        <button v-if="expanded && allRoles.length > 1" @mouseover="showRoleSwitcher = true"
           @click="showRoleSwitcher = !showRoleSwitcher"
           class="w-7 h-7 rounded-lg bg-gray-50 flex items-center justify-center text-gray-400 hover:text-[#1B0B38] hover:bg-gray-100 transition-colors shrink-0 outline-none">
           <i class="fas fa-right-left text-xs transition-transform" :class="{ '-rotate-90': showRoleSwitcher }"></i>
@@ -72,19 +72,25 @@
 
           <!-- Lien Normal -->
           <RouterLink v-else-if="!link.isLabel" @click="$emit('close-mobile')" :to="{ name: link.route }"
-            class="sidebar-link flex items-center gap-4 px-4 py-3.5 rounded-2xl text-sm font-medium transition-all group"
+            class="sidebar-link flex items-center gap-4 px-4 py-3.5 rounded-2xl text-sm font-medium transition-all group relative"
             active-class="active">
-            <i :class="[
-              link.icon,
-              'w-5 text-center group-hover:scale-110 transition-transform',
-            ]"></i>
+            <div class="relative shrink-0">
+              <i :class="[
+                link.icon,
+                'w-5 text-center group-hover:scale-110 transition-transform',
+              ]"></i>
+              <!-- Petit point si réduit -->
+              <span v-if="!expanded && link.badge"
+                class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-[#E54801] rounded-full border-2 border-white">
+              </span>
+            </div>
             <span v-if="expanded" class="truncate font-semibold">{{
               link.name
             }}</span>
 
-            <!-- Badge -->
+            <!-- Badge (Etendu) -->
             <span v-if="expanded && link.badge"
-              class="ml-auto bg-[#E54801] text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+              class="ml-auto bg-[#E54801] text-white text-[10px] font-bold px-2 py-0.5 rounded-full animate-bounce-subtle">
               {{ link.badge }}
             </span>
           </RouterLink>
@@ -104,19 +110,28 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted, watch } from "vue";
 import { useAuthStore } from "../../stores/auth";
+import { useSidebarStore } from "../../stores/sidebar";
 import { useRouter } from "vue-router";
-
 const props = defineProps({
   expanded: { type: Boolean, default: true },
   isOpen: { type: Boolean, default: false },
 });
 
 const authStore = useAuthStore();
+const sidebarStore = useSidebarStore();
 const router = useRouter();
 const role = computed(() => authStore.userRole);
-const allRoles = computed(() => authStore.allRoles);
+const allRoles = computed(() => {
+  const roles = authStore.allRoles || [];
+  const officialOrder = ["client", "locataire", "bailleur", "agent", "prestataire", "admin"];
+  return [...roles].sort((a, b) => {
+    const idxA = officialOrder.indexOf(a);
+    const idxB = officialOrder.indexOf(b);
+    return (idxA > -1 ? idxA : 99) - (idxB > -1 ? idxB : 99);
+  });
+});
 
 const emit = defineEmits(["close-mobile", "toggle-expand"]);
 const showRoleSwitcher = ref(false);
@@ -154,6 +169,8 @@ const handleSwitchRole = async (newRole) => {
   const res = await authStore.switchRole(newRole);
   if (res.success) {
     showRoleSwitcher.value = false;
+    // Refresh badges directly after role switch
+    sidebarStore.fetchBadges();
     // Redirection automatique vers le bon dashboard
     const dashboards = {
       client: "ClientDashboard",
@@ -172,6 +189,19 @@ const handleSwitchRole = async (newRole) => {
     alert(res.message);
   }
 };
+
+// --- BADGES LOGIC ---
+onMounted(() => {
+  sidebarStore.fetchBadges();
+  // Optionnel: refresh toutes les 5 mins
+  setInterval(() => {
+    sidebarStore.fetchBadges();
+  }, 5 * 60 * 1000);
+});
+
+watch(role, () => {
+  sidebarStore.fetchBadges();
+});
 
 const config = computed(() => {
   const roles = {
@@ -274,6 +304,12 @@ const allLinks = [
     icon: "fas fa-briefcase",
     roles: ["agent"],
   },
+  {
+    name: "Biens gérés",
+    route: "AgentBiens",
+    icon: "fas fa-briefcase",
+    roles: ["agent"],
+  },
 
   {
     name: "Agenda",
@@ -340,7 +376,7 @@ const allLinks = [
     name: "Mes Demandes",
     route: "PublicationRequests",
     icon: "fas fa-file-contract",
-    roles: ["bailleur", "client", "agent", "admin"],
+    roles: ["bailleur", "client", "admin"],
   },
   {
     name: "Suivi Location",
@@ -462,7 +498,12 @@ const allLinks = [
 ];
 
 const filteredLinks = computed(() => {
-  return allLinks.filter((l) => l.roles.includes(role.value));
+  return allLinks
+    .filter((l) => l.roles.includes(role.value))
+    .map((l) => ({
+      ...l,
+      badge: sidebarStore.badges[l.route] || null,
+    }));
 });
 
 const handleLogout = async () => {
@@ -519,5 +560,21 @@ const handleLogout = async () => {
 
 .animate-fadeIn {
   animation: fadeIn 0.2s ease-out forwards;
+}
+
+@keyframes bounce-subtle {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+.animate-bounce-subtle {
+  animation: bounce-subtle 2s infinite ease-in-out;
 }
 </style>

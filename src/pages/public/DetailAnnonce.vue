@@ -182,11 +182,11 @@
                 activeImage = img;
               activeIndex = i;
               " :class="[
-                  'w-full h-16 md:h-20 object-cover rounded-lg cursor-pointer transition-all duration-200 border-2',
-                  activeImage === img
-                    ? 'border-secondary scale-105'
-                    : 'border-transparent opacity-70 hover:opacity-100 hover:scale-105',
-                ]" />
+                'w-full h-16 md:h-20 object-cover rounded-lg cursor-pointer transition-all duration-200 border-2',
+                activeImage === img
+                  ? 'border-secondary scale-105'
+                  : 'border-transparent opacity-70 hover:opacity-100 hover:scale-105',
+              ]" />
             </div>
           </div>
 
@@ -371,7 +371,7 @@
                     <i class="fas fa-key group-hover:scale-110 transition-transform"></i>
                     Louer ce bien
                   </RouterLink>
-                  <RouterLink :to="`/programmer-visite?property_id=${property.id}`"
+                  <RouterLink :to="`/programmer-visite?slug=${property.slug}&property_id=${property.id}`"
                     class="w-full py-3 bg-secondary text-secondary-foreground rounded-xl font-bold hover:bg-primary hover:text-primary-foreground transition-all flex items-center justify-center gap-2 shadow-md hover:shadow-lg group">
                     <i class="fas fa-calendar-check group-hover:scale-110 transition-transform"></i>
                     Programmer une visite
@@ -528,12 +528,14 @@ import { ref, computed, onMounted, watch } from "vue";
 import { RouterLink, useRoute, useRouter } from "vue-router";
 import { useAuthStore } from "../../stores/auth";
 import { useRentalStore } from "../../stores/rental";
+import { usePropertyStore } from "../../stores/properties";
 import axios from "../../axios";
 
 const route = useRoute();
 const router = useRouter();
 const authStore = useAuthStore();
 const rentalStore = useRentalStore();
+const propertyStore = usePropertyStore();
 
 // ─── État ────────────────────────────────────────────────────────────
 const isLoading = ref(true);
@@ -634,14 +636,20 @@ const fetchProperty = async (slug) => {
   property.value = null;
   similarProperties.value = [];
   try {
-    const { data } = await axios.get(`/api/properties/${slug}`);
-    if (data.success) {
-      property.value = data.data;
-      similarProperties.value = data.similar ?? [];
-      const imgs = data.data.all_images;
-      activeImage.value = imgs?.length ? imgs[0] : (data.data.image ?? "");
+    // Note: On utilise le store pour bénéficier du cache
+    const data = await propertyStore.fetchPropertyDetails(slug);
+    if (data) {
+      property.value = data;
+      // On récupère aussi les similaires via un appel séparé ou via le retour (le backend semble les renvoyer dans 'similar')
+      // L'action du store ne renvoie que data.data, on va donc refaire un petit appel si besoin ou adapter le store.
+      // Pour garder la compatibilité avec la réponse qui incluait 'similar', on repasse par axios pour les similaires si non présents
+      const response = await axios.get(`/api/properties/${slug}`);
+      similarProperties.value = response.data.similar ?? [];
+
+      const imgs = data.all_images;
+      activeImage.value = imgs?.length ? imgs[0] : (data.image ?? "");
       activeIndex.value = 0;
-      document.title = `${data.data.title} | Home Cameroun`;
+      document.title = `${data.title} | Home Cameroun`;
 
       if (authStore.user) {
         await Promise.all([
@@ -677,18 +685,11 @@ const toggleFavorite = async () => {
     router.push({ name: "Connexion" });
     return;
   }
-
-  try {
-    const { data } = await axios.post("/api/tenant/favorites/toggle", {
-      property_id: property.value.id,
-    });
-    if (data.success) {
-      property.value.is_favorite = data.status === "added";
-    }
-  } catch (err) {
-    console.error("Erreur favoris:", err);
-  }
+  await propertyStore.toggleFavorite(property.value.id);
+  // Re-sync local state
+  property.value.is_favorite = propertyStore.propertyDetailsCache[property.value.slug]?.is_favorite;
 };
+
 const shareProperty = () => {
   if (navigator.share) {
     navigator.share({
@@ -720,7 +721,7 @@ watch(
 <style scoped>
 /* Skeleton shimmer */
 .bg-muted {
-  background: linear-gradient(90deg, hsl(var(--muted)) 25%, hsl(var(--muted)/0.5) 50%, hsl(var(--muted)) 75%);
+  background-color: rgba(233, 228, 222, 0.456);
   background-size: 200% 100%;
   animation: shimmer 1.6s ease-in-out infinite;
 }

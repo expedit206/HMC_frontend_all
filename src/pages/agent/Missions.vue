@@ -148,6 +148,18 @@
                     <i class="fas fa-calendar-alt text-gray-400 mr-1"></i>
                     Date prévue : {{ formatDate(v.scheduled_at) }}
                   </p>
+                  <!-- Badge Paiement -->
+                  <div class="mt-2 flex items-center gap-2">
+                    <span :class="[
+                      'px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider shadow-sm',
+                      v.fee_payment_status === 'paid' || v.fee_payment_status === 'waived'
+                        ? 'bg-green-100 text-green-700 border border-green-200'
+                        : 'bg-orange-100 text-orange-700 border border-orange-200'
+                    ]">
+                      <i :class="v.fee_payment_status === 'paid' ? 'fas fa-check-circle' : 'fas fa-clock'"></i>
+                      {{ v.fee_payment_status === 'paid' ? 'Frais de visite réglés' : 'Frais de visite en attente' }}
+                    </span>
+                  </div>
                 </div>
               </div>
               <div class="flex gap-2 w-full md:w-auto mt-2 md:mt-0">
@@ -155,9 +167,17 @@
                   class="flex-1 md:flex-none px-4 py-2 border border-red-200 text-red-600 rounded-lg hover:bg-red-50 text-sm font-bold transition-colors disabled:opacity-50">
                   Annuler
                 </button>
-                <button @click="confirmVisit(v.id)" :disabled="actionLoading"
-                  class="flex-1 md:flex-none px-4 py-2 bg-[#E54801] text-white rounded-lg hover:bg-[#c73d01] text-sm font-bold transition-colors disabled:opacity-50 shadow-md flex items-center justify-center gap-2">
-                  <i class="fas fa-check"></i> Confirmer la visite
+                <button @click="confirmVisit(v.id)"
+                  :disabled="actionLoading || (v.fee_payment_status !== 'paid' && v.fee_payment_status !== 'waived')"
+                  :class="[
+                    'flex-1 md:flex-none px-4 py-2 rounded-lg text-sm font-bold transition-colors shadow-md flex items-center justify-center gap-2',
+                    v.fee_payment_status === 'paid' || v.fee_payment_status === 'waived'
+                      ? 'bg-[#E54801] text-white hover:bg-[#c73d01]'
+                      : 'bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200 shadow-none'
+                  ]">
+                  <i class="fas fa-check"></i>
+                  {{ v.fee_payment_status === 'paid' || v.fee_payment_status === 'waived' ? 'Confirmer la visite' :
+                  'Attente paiement' }}
                 </button>
               </div>
             </div>
@@ -192,7 +212,7 @@
                     </h3>
                     <p class="text-xs text-gray-500 mb-1">
                       Bien :
-                      
+
                       <span class="font-bold text-[#333]">{{
                         app.property?.title
                       }}</span>
@@ -406,6 +426,26 @@
                     </span>
                   </div>
 
+                  <!-- Notification Report Bailleur -->
+                  <div v-if="mission.bailleur_declined_at"
+                    class="mt-3 bg-red-50 border border-red-100 p-3 rounded-xl flex items-center justify-between gap-4">
+                    <div class="flex items-center gap-3">
+                      <div class="w-8 h-8 bg-red-100 text-red-600 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-calendar-times"></i>
+                      </div>
+                      <div>
+                        <p class="text-[10px] font-black text-red-800 uppercase leading-none">Report demandé</p>
+                        <p v-if="mission.bailleur_suggested_at" class="text-xs font-bold text-red-600 mt-1">
+                          Suggère : {{ formatDate(mission.bailleur_suggested_at) }}
+                        </p>
+                      </div>
+                    </div>
+                    <p v-if="mission.bailleur_notes"
+                      class="hidden sm:block text-[10px] text-red-400 italic bg-white/50 px-2 py-1 rounded max-w-[200px] truncate">
+                      "{{ mission.bailleur_notes }}"
+                    </p>
+                  </div>
+
                   <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-3">
                     <div class="bg-gray-50 rounded-lg p-2">
                       <p class="text-[10px] text-gray-400 uppercase font-bold">
@@ -460,13 +500,14 @@
                   <button v-if="
                     mission.status === 'assigned' && (!mission.scheduled_at || mission.bailleur_declined_at)
                   " @click="openScheduleModal(mission)"
-                    class="px-4 py-2.5 bg-blue-600 text-white rounded-xl hover:bg-blue-700 text-sm font-bold transition-all shadow-md flex items-center gap-2">
+                    class="px-4 py-2.5 bg-blue-600/10 text-blue-700 rounded-xl hover:bg-blue-600 hover:text-white text-sm font-bold transition-all flex items-center gap-2">
                     <i class="fas fa-calendar-plus"></i>
                     Programmer l'audit
                   </button>
                   <div v-else-if="mission.scheduled_at" class="flex flex-col items-start gap-1">
                     <div
-                      class="px-4 py-2.5 bg-blue-50 text-blue-700 border border-blue-200 rounded-xl text-xs font-bold flex items-center gap-2">
+                      class="px-4 py-2.5 bg-blue-50 text-blue-700 border border-blue-200 rounded-xl text-xs font-bold flex items-center gap-2 cursor-pointer hover:bg-blue-100 transition-colors"
+                      @click="openScheduleModal(mission)">
                       <i class="fas fa-calendar-check"></i>
                       Audit : {{ formatDate(mission.scheduled_at) }}
                     </div>
@@ -478,8 +519,12 @@
                         <i class="fas fa-check-circle mr-1"></i> Confirmé par le bailleur
                       </div>
                       <div v-else-if="mission.bailleur_declined_at"
-                        class="text-[10px] font-black text-red-600 bg-red-50 px-2 py-0.5 rounded border border-red-200 uppercase">
-                        <i class="fas fa-history mr-1"></i> Bailleur demande report
+                        class="text-[10px] font-black text-red-600 bg-red-50 px-2 py-0.5 rounded border border-red-200 uppercase flex items-center gap-2">
+                        <span><i class="fas fa-history mr-1"></i> Report demandé</span>
+                        <span v-if="mission.bailleur_suggested_at"
+                          class="bg-red-600 text-white px-1.5 py-0.5 rounded ml-1 animate-pulse">
+                          Suggéré : {{ formatDate(mission.bailleur_suggested_at) }}
+                        </span>
                       </div>
                       <div v-else
                         class="text-[10px] font-black text-orange-600 bg-orange-50 px-2 py-0.5 rounded border border-orange-200 uppercase">
@@ -491,17 +536,6 @@
                       </div>
                     </div>
                   </div>
-
-                  <button @click="
-                    $router.push({
-                      name: 'AgentPublierBien',
-                      params: { id: mission.id },
-                    })
-                    "
-                    class="px-4 py-2.5 border border-purple-200 text-purple-700 rounded-xl hover:bg-purple-50 text-sm font-bold transition-colors flex items-center gap-2">
-                    <i class="fas fa-eye"></i>
-                    Détails
-                  </button>
                 </div>
                 <button @click="openAuditForm(mission)" :disabled="actionLoading"
                   class="px-5 py-2.5 bg-purple-600 text-white rounded-xl hover:bg-purple-700 text-sm font-bold transition-all shadow-md hover:-translate-y-0.5 disabled:opacity-50 disabled:transform-none flex items-center gap-2">
@@ -509,205 +543,194 @@
                   Publier
                 </button>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-              <!-- Formulaire de Programmation (Inline) -->
-              <div v-if="schedulingMissionId === mission.id"
-                class="border-t border-blue-100 bg-blue-50/30 p-5 animate-slide-down">
-                <h4 class="text-sm font-black text-blue-800 mb-4 flex items-center gap-2">
-                  <i class="fas fa-calendar-day"></i>
-                  Fixer un rendez-vous avec le bailleur
-                </h4>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label class="block text-xs font-bold text-gray-700 mb-1">Date et heure de l'audit *</label>
-                    <input v-model="scheduleForm.scheduled_at" type="datetime-local"
-                      class="w-full text-sm p-2.5 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-400/40" />
-                  </div>
-                  <div>
-                    <label class="block text-xs font-bold text-gray-700 mb-1">Notes pour le bailleur (optionnel)</label>
-                    <input v-model="scheduleForm.agent_notes" type="text"
-                      class="w-full text-sm p-2.5 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-400/40"
-                      placeholder="Ex: Confirmez-moi votre disponibilité..." />
-                  </div>
-                </div>
-                <div class="flex justify-end gap-3 mt-4">
-                  <button @click="schedulingMissionId = null"
-                    class="px-4 py-2 text-sm font-bold text-gray-500 hover:bg-gray-200 rounded-lg">
-                    Annuler
-                  </button>
-                  <button @click="submitSchedule(mission.id)" :disabled="!scheduleForm.scheduled_at || actionLoading"
-                    class="px-6 py-2 bg-blue-600 text-white text-sm font-bold rounded-lg shadow-lg hover:bg-blue-700 disabled:opacity-50 transition-all">
-                    <span v-if="actionLoading">Envoi...</span>
-                    <span v-else>Enregistrer le rendez-vous</span>
-                  </button>
-                </div>
+      <!-- MODAL : PROGRAMMER AUDIT -->
+      <Teleport to="body">
+        <div v-if="schedulingMissionId"
+          class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#1B0B38]/60 backdrop-blur-sm animate-fadeIn">
+          <div class="bg-white w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden animate-slideUp">
+            <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-blue-50/50">
+              <h3 class="text-lg font-black text-blue-900 flex items-center gap-2">
+                <i class="fas fa-calendar-day"></i>
+                Programmer l'audit terrain
+              </h3>
+              <button @click="schedulingMissionId = null" class="text-gray-400 hover:text-red-500">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+            <div class="p-6 space-y-4">
+              <div>
+                <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2">Date
+                  et heure de l'audit *</label>
+                <input v-model="scheduleForm.scheduled_at" type="datetime-local"
+                  class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-sm font-bold focus:ring-2 focus:ring-blue-500/20 outline-none" />
+                <p class="text-[10px] text-blue-500 mt-1 font-medium">Heure locale du Cameroun (GMT+1)</p>
               </div>
+              <div>
+                <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2">Notes
+                  pour le bailleur (optionnel)</label>
+                <textarea v-model="scheduleForm.agent_notes" rows="3"
+                  class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-sm font-medium focus:ring-2 focus:ring-blue-500/20 outline-none"
+                  placeholder="Ex: Confirmez-moi votre disponibilité..."></textarea>
+              </div>
+            </div>
+            <div class="p-6 bg-gray-50 flex justify-end gap-3">
+              <button @click="schedulingMissionId = null"
+                class="px-6 py-2.5 text-sm font-bold text-gray-500 hover:text-gray-700 transition-colors">
+                Annuler
+              </button>
+              <button @click="submitSchedule(schedulingMissionId)"
+                :disabled="!scheduleForm.scheduled_at || actionLoading"
+                class="px-8 py-2.5 bg-blue-600 text-white text-sm font-black uppercase tracking-widest rounded-xl shadow-lg shadow-blue-600/20 hover:bg-blue-700 disabled:opacity-50 transition-all">
+                <span v-if="actionLoading">Envoi...</span>
+                <span v-else>Enregistrer le RDV</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </Teleport>
 
-              <!-- Formulaire de publication inline -->
-              <div v-if="auditingMissionId === mission.id" class="border-t-2 border-purple-200 bg-purple-50/30 p-5">
-                <h4 class="text-sm font-black text-purple-800 mb-4 flex items-center gap-2">
-                  <i class="fas fa-clipboard-list"></i>
-                  Rapport de terrain — Publication du bien
-                </h4>
+      <!-- MODAL : RAPPORT D'AUDIT & PUBLICATION -->
+      <Teleport to="body">
+        <div v-if="auditingMissionId"
+          class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#1B0B38]/60 backdrop-blur-sm animate-fadeIn">
+          <div
+            class="bg-white w-full max-w-4xl rounded-3xl shadow-2xl overflow-hidden animate-slideUp max-h-[90vh] flex flex-col">
+            <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-purple-50/50 shrink-0">
+              <h3 class="text-lg font-black text-purple-900 flex items-center gap-2">
+                <i class="fas fa-camera-retro"></i>
+                Rapport de terrain & Publication
+              </h3>
+              <button @click="closeAuditForm" class="text-gray-400 hover:text-red-500">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <!-- Titre -->
-                  <div class="sm:col-span-2">
-                    <label class="block text-xs font-bold text-gray-700 mb-1">Titre du bien *</label>
+            <div class="p-8 overflow-y-auto custom-scrollbar space-y-8 flex-1">
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Photos -->
+                <div class="space-y-4">
+                  <label class="block text-xs font-black text-gray-400 uppercase tracking-widest">Photos
+                    terrain * (min. 1)</label>
+                  <div @click="triggerFileInput(auditingMissionId)"
+                    class="border-2 border-dashed border-purple-100 bg-purple-50/20 rounded-2xl p-8 text-center cursor-pointer hover:border-purple-300 transition-all">
+                    <i class="fas fa-cloud-upload-alt text-purple-200 text-3xl mb-3"></i>
+                    <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest">Cliquer pour
+                      uploader</p>
+                    <input :id="'audit-input-' + auditingMissionId" type="file" multiple
+                      accept="image/jpeg,image/png,image/webp" class="hidden" @change="onAuditImagesChange" />
+                  </div>
+                  <!-- Previews -->
+                  <div v-if="auditImagePreviews.length > 0" class="grid grid-cols-4 gap-2">
+                    <div v-for="(preview, idx) in auditImagePreviews" :key="idx"
+                      class="relative aspect-square rounded-xl overflow-hidden border border-gray-100 group">
+                      <img :src="preview" class="w-full h-full object-cover" />
+                      <button @click.stop="removeAuditImage(idx)"
+                        class="absolute top-1 right-1 w-5 h-5 bg-red-500 text-white rounded-full text-[10px] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <i class="fas fa-times"></i>
+                      </button>
+                      <span v-if="idx === 0"
+                        class="absolute bottom-0 inset-x-0 bg-purple-600 text-white text-[8px] font-black text-center py-0.5">COVER</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Infos Form -->
+                <div class="space-y-4">
+                  <div>
+                    <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2">Titre
+                      final de l'annonce *</label>
                     <input v-model="auditForm.title" type="text"
-                      class="w-full text-sm p-2.5 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400/40"
-                      placeholder="Ex: Appartement 3P lumineux, Bastos" />
+                      class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-sm font-bold focus:ring-2 focus:ring-purple-500/20 outline-none"
+                      placeholder="Ex: Appartement moderne Bastos" />
                   </div>
-
-                  <!-- Catégorie -->
-                  <div>
-                    <label class="block text-xs font-bold text-gray-700 mb-1">Catégorie *</label>
-                    <select v-model="auditForm.category"
-                      class="w-full text-sm p-2.5 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400/40 bg-white">
-                      <option value="">-- Choisir --</option>
-                      <option value="appartement">Appartement</option>
-                      <option value="villa">Villa</option>
-                      <option value="studio">Studio</option>
-                      <option value="duplex">Duplex</option>
-                      <option value="bureau">Bureau</option>
-                      <option value="commerce">Commerce</option>
-                      <option value="terrain">Terrain</option>
-                      <option value="autre">Autre</option>
-                    </select>
+                  <div class="grid grid-cols-2 gap-4">
+                    <div>
+                      <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2">Catégorie
+                        *</label>
+                      <select v-model="auditForm.category"
+                        class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-sm font-bold focus:ring-2 focus:ring-purple-500/20 outline-none">
+                        <option value="appartement">Appartement</option>
+                        <option value="villa">Villa</option>
+                        <option value="studio">Studio</option>
+                        <option value="duplex">Duplex</option>
+                        <option value="bureau">Bureau</option>
+                        <option value="commerce">Commerce</option>
+                        <option value="terrain">Terrain</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2">Prix
+                        (FCFA) *</label>
+                      <input v-model="auditForm.price" type="number"
+                        class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-sm font-bold focus:ring-2 focus:ring-purple-500/20 outline-none" />
+                    </div>
                   </div>
-
-                  <!-- Type -->
-                  <div>
-                    <label class="block text-xs font-bold text-gray-700 mb-1">Type *</label>
-                    <select v-model="auditForm.type"
-                      class="w-full text-sm p-2.5 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400/40 bg-white">
-                      <option value="rent">Location</option>
-                      <option value="sale">Vente</option>
-                    </select>
-                  </div>
-
-                  <!-- Prix -->
-                  <div>
-                    <label class="block text-xs font-bold text-gray-700 mb-1">Prix (FCFA) *</label>
-                    <input v-model="auditForm.price" type="number"
-                      class="w-full text-sm p-2.5 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400/40"
-                      placeholder="Ex: 150000" />
-                  </div>
-
-                  <!-- Ville -->
-                  <div>
-                    <label class="block text-xs font-bold text-gray-700 mb-1">Ville *</label>
-                    <input v-model="auditForm.city" type="text"
-                      class="w-full text-sm p-2.5 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400/40"
-                      placeholder="Ex: Yaoundé" />
-                  </div>
-
-                  <!-- Localisation -->
-                  <div class="sm:col-span-2">
-                    <label class="block text-xs font-bold text-gray-700 mb-1">Localisation précise *</label>
-                    <input v-model="auditForm.location" type="text"
-                      class="w-full text-sm p-2.5 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400/40"
-                      placeholder="Ex: Quartier Bastos, rue des Ministres, face à l'école" />
-                  </div>
-
-                  <!-- Chambres / Salles de bain / Surface -->
-                  <div>
-                    <label class="block text-xs font-bold text-gray-700 mb-1">Chambres</label>
-                    <input v-model="auditForm.bedrooms" type="number" min="0"
-                      class="w-full text-sm p-2.5 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400/40"
-                      placeholder="0" />
+                  <div class="grid grid-cols-3 gap-4">
+                    <div>
+                      <label
+                        class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2">Chambres</label>
+                      <input v-model="auditForm.bedrooms" type="number"
+                        class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-sm font-bold focus:ring-2 focus:ring-purple-500/20 outline-none" />
+                    </div>
+                    <div>
+                      <label
+                        class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2">Douches</label>
+                      <input v-model="auditForm.bathrooms" type="number"
+                        class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-sm font-bold focus:ring-2 focus:ring-purple-500/20 outline-none" />
+                    </div>
+                    <div>
+                      <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2">Surface
+                        (m²)</label>
+                      <input v-model="auditForm.area" type="number"
+                        class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-sm font-bold focus:ring-2 focus:ring-purple-500/20 outline-none" />
+                    </div>
                   </div>
                   <div>
-                    <label class="block text-xs font-bold text-gray-700 mb-1">Salles de bain</label>
-                    <input v-model="auditForm.bathrooms" type="number" min="0"
-                      class="w-full text-sm p-2.5 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400/40"
-                      placeholder="0" />
-                  </div>
-                  <div>
-                    <label class="block text-xs font-bold text-gray-700 mb-1">Surface (m²)</label>
-                    <input v-model="auditForm.area" type="number" min="0"
-                      class="w-full text-sm p-2.5 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400/40"
-                      placeholder="Ex: 80" />
-                  </div>
-
-                  <!-- État du bien -->
-                  <div>
-                    <label class="block text-xs font-bold text-gray-700 mb-1">État du bien *</label>
+                    <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2">État
+                      du bien *</label>
                     <select v-model="auditForm.etat"
-                      class="w-full text-sm p-2.5 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400/40 bg-white">
-                      <option value="">-- Choisir --</option>
+                      class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-sm font-bold focus:ring-2 focus:ring-purple-500/20 outline-none">
                       <option value="neuf">Neuf</option>
                       <option value="bon">Bon état</option>
                       <option value="moyen">État moyen</option>
                       <option value="a_renover">À rénover</option>
                     </select>
                   </div>
-
-                  <!-- Description -->
-                  <div class="sm:col-span-2">
-                    <label class="block text-xs font-bold text-gray-700 mb-1">Description *</label>
-                    <textarea v-model="auditForm.description" rows="3"
-                      class="w-full text-sm p-2.5 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400/40"
-                      placeholder="Décrivez le bien tel que vous l'avez constaté sur place..."></textarea>
-                  </div>
-
-                  <!-- Photos -->
-                  <div class="sm:col-span-2">
-                    <label class="block text-xs font-bold text-gray-700 mb-1">Photos terrain *
-                      <span class="text-gray-400 font-normal">(min. 1 photo, max 10)</span></label>
-                    <div
-                      class="border-2 border-dashed border-purple-200 rounded-xl p-4 text-center cursor-pointer hover:border-purple-400 transition-colors"
-                      @click="triggerFileInput(mission.id)">
-                      <i class="fas fa-cloud-upload-alt text-purple-300 text-3xl mb-2"></i>
-                      <p class="text-xs text-gray-500">
-                        Cliquer pour ajouter des photos JPEG / PNG / WebP (max 5
-                        Mo chacune)
-                      </p>
-                      <input :id="'audit-input-' + mission.id" type="file" multiple
-                        accept="image/jpeg,image/png,image/webp" class="hidden" @change="onAuditImagesChange" />
-                    </div>
-                    <!-- Prévisualisation -->
-                    <div v-if="auditImagePreviews.length > 0" class="mt-3 flex flex-wrap gap-2">
-                      <div v-for="(preview, idx) in auditImagePreviews" :key="idx"
-                        class="relative w-20 h-20 rounded-lg overflow-hidden border-2 border-purple-200">
-                        <img :src="preview" class="w-full h-full object-cover" />
-                        <button @click.stop="removeAuditImage(idx)"
-                          class="absolute top-0.5 right-0.5 w-5 h-5 bg-red-500 text-white rounded-full text-xs flex items-center justify-center hover:bg-red-600">
-                          <i class="fas fa-times"></i>
-                        </button>
-                        <span v-if="idx === 0"
-                          class="absolute bottom-0 left-0 right-0 text-center text-[8px] font-bold bg-purple-600 text-white py-0.5">Principale</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Erreur audit -->
-                <div v-if="auditError"
-                  class="mt-3 p-3 bg-red-50 text-red-700 rounded-lg text-xs flex items-center gap-2">
-                  <i class="fas fa-exclamation-triangle"></i>
-                  {{ auditError }}
-                </div>
-
-                <!-- Boutons -->
-                <div class="mt-4 flex justify-end gap-3">
-                  <button @click="closeAuditForm"
-                    class="px-4 py-2 text-sm font-bold text-gray-500 hover:bg-gray-100 rounded-lg transition-colors">
-                    Annuler
-                  </button>
-                  <button @click="submitAuditReport(mission.id)"
-                    :disabled="actionLoading || auditImageFiles.length === 0"
-                    class="px-6 py-2.5 bg-purple-600 text-white text-sm font-bold rounded-xl hover:bg-purple-700 transition-all disabled:opacity-50 shadow-md flex items-center gap-2">
-                    <i class="fas fa-paper-plane"></i>
-                    <span v-if="actionLoading">Publication en cours...</span>
-                    <span v-else>Publier le bien</span>
-                  </button>
                 </div>
               </div>
+
+              <div>
+                <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2">Description
+                  commerciale *</label>
+                <textarea v-model="auditForm.description" rows="5"
+                  class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-sm font-medium focus:ring-2 focus:ring-purple-500/20 outline-none"
+                  placeholder="Décrivez les points forts du bien..."></textarea>
+              </div>
+
+              <div v-if="auditError"
+                class="p-4 bg-red-50 text-red-700 rounded-2xl text-xs font-bold flex items-center gap-3">
+                <i class="fas fa-exclamation-triangle text-lg"></i>
+                {{ auditError }}
+              </div>
+            </div>
+
+            <div class="p-8 bg-gray-50 flex justify-end gap-3 shrink-0">
+              <button @click="closeAuditForm"
+                class="px-6 py-2.5 text-sm font-bold text-gray-500 hover:text-gray-700">Annuler</button>
+              <button @click="submitAuditReport(auditingMissionId)" :disabled="actionLoading"
+                class="px-10 py-3 bg-purple-600 text-white text-sm font-black uppercase tracking-widest rounded-xl shadow-xl shadow-purple-600/20 hover:bg-purple-700 disabled:opacity-50 transition-all flex items-center gap-2">
+                <i class="fas" :class="actionLoading ? 'fa-spinner fa-spin' : 'fa-paper-plane'"></i>
+                {{ actionLoading ? 'Publication...' : 'Publier le bien' }}
+              </button>
             </div>
           </div>
         </div>
-      </div>
+      </Teleport>
     </div>
   </DashboardLayout>
 </template>
@@ -1120,10 +1143,10 @@ const submitAuditReport = async (missionId) => {
 };
 
 // ── Utilitaires ──
-const formatPrice = (p) => new Intl.NumberFormat("fr-FR").format(p || 0);
+const formatPrice = (p) => new Intl.NumberFormat("fr-CM").format(p || 0);
 const formatDate = (d) => {
   if (!d) return "—";
-  return new Date(d).toLocaleDateString("fr-FR", {
+  return new Date(d).toLocaleDateString("fr-CM", {
     weekday: "long",
     day: "numeric",
     month: "long",
