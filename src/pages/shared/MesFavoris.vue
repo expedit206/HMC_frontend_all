@@ -11,11 +11,11 @@
             Retrouvez les annonces que vous avez sauvegardées pour plus tard.
           </p>
         </div>
-        <div class="flex gap-2" v-if="favorites.length > 0">
+        <div class="flex gap-2" v-if="favorites?.length > 0">
           <span class="px-5 py-2.5 bg-[#E54801]/10 text-[#E54801] rounded-xl text-xs font-bold uppercase">{{
-            favorites.length }}
+            favorites?.length }}
             {{
-              favorites.length > 1
+              favorites?.length > 1
                 ? "Favoris Enregistrés"
                 : "Favori Enregistré"
             }}</span>
@@ -29,7 +29,7 @@
         Chargement de vos favoris...
       </div>
 
-      <template v-else-if="favorites.length > 0">
+      <template v-else-if="favorites?.length > 0">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div v-for="fav in favorites" :key="fav.id"
             class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden group relative">
@@ -100,6 +100,7 @@
 </template>
 
 <script setup>
+import DashboardLayout from "../../layouts/DashboardLayout.vue";
 const logout = async () => {
   await authStore.logout();
   router.push("/auth/connexion");

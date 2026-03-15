@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <DashboardLayout>
     <div class="bg-background min-h-screen py-12 px-6">
       <div class="max-w-3xl mx-auto">
@@ -23,7 +23,6 @@
             :to="{ name: 'BailleurDashboard' }"
             class="group flex items-center gap-2 text-xs font-black text-muted-foreground hover:text-secondary transition-all uppercase tracking-widest"
           >
-<<<<<<< HEAD
             <span>Annuler</span>
             <div
               class="w-8 h-8 rounded-full bg-muted/20 flex items-center justify-center group-hover:bg-secondary group-hover:text-secondary-foreground transition-all"
@@ -31,18 +30,6 @@
               <i class="fas fa-times"></i>
             </div>
           </RouterLink>
-=======
-            Demander de publication
-            <span
-              class="absolute -bottom-2 left-0 w-20 h-1 bg-[#E54801]"
-            ></span>
-          </h1>
-          <p
-            class="text-gray-500 font-bold uppercase tracking-[0.2em] text-[11px] mt-4 italic"
-          >
-            Étape {{ currentStep }} sur 3 : {{ stepTitles[currentStep - 1] }}
-          </p>
->>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
         </div>
 
         <!-- Info Alert -->

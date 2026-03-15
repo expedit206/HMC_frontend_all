@@ -138,9 +138,10 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch } from "vue";
+import { ref, computed, onMounted, onUnmounted, watch } from "vue";
 import { useAuthStore } from "../../stores/auth";
 import { useSidebarStore } from "../../stores/sidebar";
+import { useNotificationStore } from "../../stores/notifications";
 import { useRouter } from "vue-router";
 const props = defineProps({
   expanded: { type: Boolean, default: true },
@@ -149,6 +150,7 @@ const props = defineProps({
 
 const authStore = useAuthStore();
 const sidebarStore = useSidebarStore();
+const notifStore = useNotificationStore();
 const router = useRouter();
 const role = computed(() => authStore.userRole);
 const allRoles = computed(() => {
@@ -221,10 +223,16 @@ const handleSwitchRole = async (newRole) => {
 // --- BADGES LOGIC ---
 onMounted(() => {
   sidebarStore.fetchBadges();
-  // Optionnel: refresh toutes les 5 mins
+  notifStore.fetchUnreadCount();
+  notifStore.startPolling();
+  // Refresh toutes les 5 mins
   setInterval(() => {
     sidebarStore.fetchBadges();
   }, 5 * 60 * 1000);
+});
+
+onUnmounted(() => {
+  notifStore.stopPolling();
 });
 
 watch(role, () => {
@@ -410,7 +418,7 @@ const allLinks = [
     name: "Suivi Location",
     route: "MonSuivi",
     icon: "fas fa-route",
-    roles: ["client", "locataire", "bailleur", "agent", "prestataire", "admin"],
+    roles: ["client", "locataire"],
   },
   {
     name: "Mes Favoris",
@@ -450,6 +458,14 @@ const allLinks = [
     name: "Gestion & Support",
     isLabel: true,
     roles: ["admin", "agent", "bailleur", "prestataire", "client", "locataire"],
+  },
+  // -- Notifications (tous les rôles) --
+  {
+    name: "Notifications",
+    route: "Notifications",
+    icon: "fas fa-bell",
+    roles: ["admin", "agent", "bailleur", "prestataire", "client", "locataire"],
+    isNotif: true,
   },
   {
     name: "Finances",
@@ -530,7 +546,9 @@ const filteredLinks = computed(() => {
     .filter((l) => l.roles.includes(role.value))
     .map((l) => ({
       ...l,
-      badge: sidebarStore.badges[l.route] || null,
+      badge: l.isNotif
+        ? (notifStore.unreadCount > 0 ? notifStore.unreadCount : null)
+        : (sidebarStore.badges[l.route] || null),
     }));
 });
 

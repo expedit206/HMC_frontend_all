@@ -25,13 +25,9 @@
                 class="absolute inset-0 bg-gradient-to-br from-primary to-secondary/80 rounded-2xl transform rotate-6"
               ></div>
               <div
-                class="absolute inset-2 bg-gradient-to-br from-card to-muted rounded-xl flex items-center justify-center"
+                class="absolute inset-2 bg-gradient-to-br from-white to-gray-100 dark:from-card dark:to-muted rounded-xl flex items-center justify-center p-1"
               >
-<<<<<<< HEAD
-                <i class="fas fa-home text-secondary text-3xl"></i>
-=======
-              <img src="/images/logo/image.png" alt="">
->>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+                <img src="/images/logo/image.png" alt="Home Cameroon Logo" class="max-h-full max-w-full object-contain">
               </div>
             </div>
           </div>
@@ -100,16 +96,9 @@
                 class="absolute inset-0 bg-gradient-to-br from-primary to-secondary/80 rounded-2xl transform rotate-3"
               ></div>
               <div
-<<<<<<< HEAD
-                class="absolute inset-2 bg-gradient-to-br from-card to-muted rounded-xl flex items-center justify-center"
+                class="absolute inset-2 bg-gradient-to-br from-white to-gray-100 dark:from-card dark:to-muted rounded-xl flex items-center justify-center p-2"
               >
-                <i class="fas fa-home text-secondary text-2xl"></i>
-=======
-                class="absolute inset-2 bg-gradient-to-br from-white to-gray-100 rounded-xl flex items-center justify-center p-1"
-              >
-              <img src="/images/logo/image.png" alt="">
-                <!-- <i class="fas fa-home text-[#E54801] text-2xl"></i> -->
->>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+                <img src="/images/logo/image.png" alt="Home Cameroon Logo" class="max-h-full max-w-full object-contain">
               </div>
             </div>
             <div>

@@ -12,15 +12,9 @@
         <div class="flex flex-col items-center justify-center mb-10 animate-fadeInUp">
           <div class="w-24 h-24 mb-4 logo-glow animate-float">
             <div class="relative w-full h-full">
-<<<<<<< HEAD
               <div class="absolute inset-0 bg-gradient-to-br from-primary to-secondary/80 rounded-2xl transform rotate-6"></div>
               <div class="absolute inset-2 bg-gradient-to-br from-card to-muted rounded-xl flex items-center justify-center">
                 <i class="fas fa-home text-secondary text-3xl"></i>
-=======
-              <div class="absolute inset-0 bg-gradient-to-br from-[#1B0B38] to-[#913327] rounded-2xl transform rotate-6"></div>
-              <div class="absolute inset-2 bg-gradient-to-br from-white to-gray-100 rounded-xl flex items-center justify-center">
-              <img src="/images/logo/image.png" alt="">
->>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
               </div>
             </div>
           </div>
@@ -62,17 +56,9 @@
           <!-- Logo -->
           <div class="flex items-center gap-6 mb-16 animate-fadeInUp">
             <div class="relative w-20 h-20 logo-glow">
-<<<<<<< HEAD
               <div class="absolute inset-0 bg-gradient-to-br from-primary to-secondary/80 rounded-2xl transform rotate-3"></div>
               <div class="absolute inset-2 bg-gradient-to-br from-card to-muted rounded-xl flex items-center justify-center">
                 <i class="fas fa-home text-secondary text-2xl"></i>
-=======
-              <div class="absolute inset-0 bg-gradient-to-br from-[#1B0B38] to-[#913327] rounded-2xl transform rotate-3"></div>
-              <div class="absolute inset-2 bg-gradient-to-br from-white to-gray-100 rounded-xl flex items-center justify-center">
-                <!-- <i class="fas fa-home text-[#E54801] text-2xl"></i> -->
-              <img src="/images/logo/image.png" alt="">
-
->>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
               </div>
             </div>
             <div>

@@ -337,10 +337,7 @@ const submitForm = async () => {
   success.value = "";
 
   // Les champs lastName, firstName, phone sont pré-remplis, mais on peut les valider
-  if (!form.value.lastName || !form.value.firstName || !form.value.phone) {
-    error.value = "Informations utilisateur incomplètes. Veuillez vérifier votre profil.";
-    return;
-  }
+ 
   if (!form.value.date) {
     error.value = "Veuillez sélectionner une date de visite.";
     return;
@@ -355,6 +352,7 @@ const submitForm = async () => {
     const scheduled_at = `${form.value.date} ${form.value.time}:00`;
 
     const payload = {
+    property_id  : route.query.property_id, 
       slug: form.value.slug,
       scheduled_at: scheduled_at,
       notes: `Mode paiement: ${form.value.paymentMethod}`,
