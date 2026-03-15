@@ -171,33 +171,23 @@
                   </select>
                 </td>
                 <td class="px-6 py-5 text-right">
-                  <select
-                    @change="assignAgent(prop, $event.target.value)"
-                    :class="[
-                      'text-[10px] font-black uppercase tracking-widest border border-border rounded-lg px-2 py-1.5 focus:outline-none focus:ring-2 focus:ring-primary/20 bg-card',
-                      prop.agent_id
-                        ? 'bg-secondary/10 text-secondary'
-                        : 'text-muted-foreground',
-                    ]"
+                  <div v-if="prop.agent" class="flex flex-col items-end gap-1 mb-2">
+                    <span class="text-xs font-bold text-foreground">{{ prop.agent.name }}</span>
+                  </div>
+                  <button
+                    @click="openAssignModal(prop.id)"
+                    class="text-[10px] font-black uppercase text-secondary hover:bg-secondary/10 px-3 py-1.5 rounded-lg border border-secondary transition-colors inline-flex items-center gap-2"
                   >
-                    <option value="" class="bg-card">Aucun Agent</option>
-                    <option
-                      v-for="agent in agents"
-                      :key="agent.id"
-                      :value="agent.id"
-                      :selected="prop.agent_id === agent.id"
-                      class="bg-card"
-                    >
-                      {{ agent.name }}
-                    </option>
-                  </select>
+                    <i class="fas" :class="prop.agent_id ? 'fa-exchange-alt' : 'fa-user-plus'"></i> 
+                    {{ prop.agent_id ? 'Changer' : 'Assigner' }}
+                  </button>
                 </td>
                 <td class="px-6 py-5 text-right">
                   <div
                     class="flex gap-2 justify-end opacity-0 group-hover:opacity-100 transition-opacity"
                   >
                     <RouterLink
-                      :to="`/annonces/${prop.id}`"
+                      :to="{ name: 'DetailAnnonce', params: { slug: prop.slug } }"
                       class="w-8 h-8 rounded-lg bg-muted/20 text-foreground hover:bg-secondary/10 hover:text-secondary flex items-center justify-center transition-all"
                     >
                       <i class="fas fa-eye text-xs"></i>
@@ -221,19 +211,19 @@
           class="p-6 border-t border-border bg-muted/10 flex justify-between items-center"
         >
           <span class="text-[10px] text-muted-foreground font-black uppercase"
-            >Page {{ currentPage }} / {{ lastPage }}</span
+            >Page {{ adminPagination.current_page }} / {{ adminPagination.last_page }}</span
           >
           <div class="flex gap-2">
             <button
               @click="prevPage"
-              :disabled="currentPage === 1"
+              :disabled="adminPagination.current_page === 1"
               class="px-3 py-1 bg-card border border-border rounded-lg text-xs disabled:opacity-30 text-foreground hover:bg-muted/20 transition-colors"
             >
               Précédent
             </button>
             <button
               @click="nextPage"
-              :disabled="currentPage >= lastPage"
+              :disabled="adminPagination.current_page >= adminPagination.last_page"
               class="px-3 py-1 bg-card border border-border rounded-lg text-xs disabled:opacity-30 text-foreground hover:bg-muted/20 transition-colors"
             >
               Suivant
@@ -242,61 +232,54 @@
         </div>
       </div>
     </div>
+
+    <AgentAssignModal 
+      :isOpen="isAgentModalOpen" 
+      :targetId="selectedPropertyId" 
+      targetType="property" 
+      @close="isAgentModalOpen = false" 
+      @assigned="handleAssigned" 
+    />
   </DashboardLayout>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from "vue";
 import DashboardLayout from "../../layouts/DashboardLayout.vue";
+import AgentAssignModal from "../../components/admin/AgentAssignModal.vue";
 import { RouterLink } from "vue-router";
 import axios from "../../axios";
+import { usePropertyStore } from "../../stores/properties";
+import { storeToRefs } from "pinia";
 
-const isLoading = ref(true);
-const properties = ref([]);
+const propertyStore = usePropertyStore();
+
+const { adminProperties: properties, adminPagination, isLoading } = storeToRefs(propertyStore);
+
 const totalProperties = ref(0);
 const pendingCount = ref(0);
 const activeCount = ref(0);
-const currentPage = ref(1);
-const lastPage = ref(1);
 const statusFilter = ref("");
-const agents = ref([]);
-
-const fetchAgents = async () => {
-  try {
-    const { data } = await axios.get("/api/admin/agents");
-    if (data.success) {
-      agents.value = data.data;
-    }
-  } catch (err) {
-    console.error("Erreur chargement agents:", err);
-  }
-};
+const isAgentModalOpen = ref(false);
+const selectedPropertyId = ref(null);
 
 const fetchProperties = async () => {
-  isLoading.value = true;
   try {
-    const params = {
-      page: currentPage.value,
+    await propertyStore.fetchAdminProperties(adminPagination.value.current_page || 1, {
       status: statusFilter.value,
-    };
-    const { data } = await axios.get("/api/admin/properties", { params });
-    if (data.success) {
-      properties.value = data.data.data;
-      totalProperties.value = data.data.total;
-      lastPage.value = data.data.last_page;
+    });
 
-      // Re-fetch counts for stats card if visible
-      const dashRes = await axios.get("/api/admin/dashboard");
-      if (dashRes.data.success) {
-        pendingCount.value = dashRes.data.data.stats.pending_properties;
-        activeCount.value = dashRes.data.data.stats.active_users; // Approximation or need specific property stats
-        totalProperties.value = dashRes.data.data.stats.total_properties;
-      }
+    totalProperties.value = adminPagination.value.total;
+
+    // Re-fetch counts for stats card if visible
+    const dashRes = await axios.get("/api/admin/dashboard");
+    if (dashRes.data.success) {
+      pendingCount.value = dashRes.data.data.stats.pending_properties;
+      activeCount.value = dashRes.data.data.stats.active_users; // Approximation or need specific property stats
+      totalProperties.value = dashRes.data.data.stats.total_properties;
     }
   } catch (err) {
-    console.error("Erreur chargement propriétés:", err);
-  } finally {
-    isLoading.value = false;
+    console.error("Erreur chargement:", err);
   }
 };
 
@@ -310,38 +293,30 @@ const updateStatus = async (prop, status) => {
       fetchProperties(); // Refresh to update counts
     }
   } catch (err) {
-    console.error("Erreur mise à jour statut bien:", err);
+    console.error("Erreur mise à jour:", err);
   }
 };
 
-const assignAgent = async (prop, agentId) => {
-  if (!agentId) return; // For now handle only assignment, maybe add unassign later
-  try {
-    const { data } = await axios.post(
-      `/api/admin/properties/${prop.id}/assign-agent`,
-      {
-        agent_id: agentId,
-      },
-    );
-    if (data.success) {
-      prop.agent_id = agentId;
-      // Show success notification or just let reactivity handle it
-    }
-  } catch (err) {
-    console.error("Erreur assignation agent:", err);
-  }
+const openAssignModal = (propertyId) => {
+  selectedPropertyId.value = propertyId;
+  isAgentModalOpen.value = true;
+};
+
+const handleAssigned = () => {
+  alert("Agent assigné avec succès !");
+  fetchProperties();
 };
 
 const prevPage = () => {
-  if (currentPage.value > 1) {
-    currentPage.value--;
+  if (adminPagination.value.current_page > 1) {
+    adminPagination.value.current_page--;
     fetchProperties();
   }
 };
 
 const nextPage = () => {
-  if (currentPage.value < lastPage.value) {
-    currentPage.value++;
+  if (adminPagination.value.current_page < adminPagination.value.last_page) {
+    adminPagination.value.current_page++;
     fetchProperties();
   }
 };
@@ -367,7 +342,6 @@ const getStatusClass = (status) => {
 
 onMounted(() => {
   fetchProperties();
-  fetchAgents();
 });
 </script>
 

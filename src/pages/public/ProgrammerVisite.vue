@@ -252,11 +252,13 @@
 import { ref, computed, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useAuthStore } from "../../stores/auth";
+import { usePropertyStore } from "../../stores/properties";
 import axios from "../../axios";
 
 const route = useRoute();
 const router = useRouter();
 const authStore = useAuthStore();
+const propertyStore = usePropertyStore();
 
 const isLoading = ref(false);
 const isLoadingProperty = ref(true);
@@ -301,9 +303,9 @@ const fetchProperty = async () => {
     return;
   }
   try {
-    const { data } = await axios.get(`/api/properties/${form.value.slug}`);
-    if (data.success) {
-      property.value = data.data;
+    const payload = await propertyStore.fetchPropertyDetails(form.value.slug);
+    if (payload && payload.success) {
+      property.value = payload.data;
     }
   } catch (err) {
     console.error("Erreur chargement propriété:", err);

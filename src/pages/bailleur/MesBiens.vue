@@ -43,7 +43,7 @@
           </div>
 
           <!-- Property Card (Loop) -->
-          <div v-for="property in properties" :key="property.id"
+          <div v-for="property in formattedProperties" :key="property.id"
             class="bg-card rounded-xl border border-border hover:shadow-sm transition-all group flex flex-col">
             <!-- IMAGE -->
             <div class="relative h-36 overflow-hidden rounded-t-xl">
@@ -215,15 +215,40 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, computed, onMounted } from "vue";
 import DashboardLayout from "../../layouts/DashboardLayout.vue";
 import { RouterLink, useRouter } from "vue-router";
 import axios from "../../axios";
+import { usePropertyStore } from "../../stores/properties";
+import { storeToRefs } from "pinia";
 
 const router = useRouter();
+const propertyStore = usePropertyStore();
 const mobileMenuOpen = ref(false);
-const properties = ref([]);
-const isLoading = ref(true);
+
+const { bailleurProperties, isLoading } = storeToRefs(propertyStore);
+
+// Computed property to format properties like before
+const formattedProperties = computed(() => {
+  return bailleurProperties.value.map((p) => {
+    let imageUrl = "/images/placeholder-property.jpg";
+    if (p.primary_image) {
+      imageUrl = p.primary_image.path.startsWith("http")
+        ? p.primary_image.path
+        : `/storage/${p.primary_image.path}`;
+    }
+    return {
+      ...p,
+      image: imageUrl,
+      status: p.rental_status === "available" ? "vacant" : "occupied",
+      tenant: p.tenant?.name || null,
+      visits: p.visits_count || 0,
+    };
+  });
+});
+
+// Alias for checking emptiness
+const properties = computed(() => formattedProperties.value);
 
 // ── Variables du Modal Tracking ──
 const trackingModal = ref(false);
@@ -231,32 +256,10 @@ const isTrackingLoading = ref(false);
 const trackingData = ref(null);
 
 const fetchProperties = async () => {
-  isLoading.value = true;
-  try {
-    const { data } = await axios.get("/api/bailleur/properties");
-    if (data.success) {
-      properties.value = data.data.data.map((p) => {
-        let imageUrl = "/images/placeholder-property.jpg";
-        if (p.primary_image) {
-          imageUrl = p.primary_image.path.startsWith("http")
-            ? p.primary_image.path
-            : `/storage/${p.primary_image.path}`;
-        }
-        return {
-          ...p,
-          image: imageUrl,
-          status: p.rental_status === "available" ? "vacant" : "occupied",
-          tenant: p.tenant?.name || null,
-          visits: p.visits_count || 0,
-        };
-      });
-    }
-  } catch (err) {
-    console.error("Erreur chargement biens bailleur:", err);
-  } finally {
-    isLoading.value = false;
-  }
+  await propertyStore.fetchBailleurProperties();
 };
+
+
 
 const handleDelete = async (id) => {
   if (!confirm("Êtes-vous sûr de vouloir supprimer ce bien ? Cette action est irréversible.")) return;

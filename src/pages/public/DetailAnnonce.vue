@@ -275,44 +275,169 @@
             </div>
           </div>
 
-          <!-- ── Avis clients (fictifs mais réalistes) ── -->
-          <div class="bg-card rounded-2xl p-6 shadow-sm border border-border">
+          <!-- ── Section Avis ── -->
+          <div class="bg-card rounded-2xl p-6 shadow-sm border border-border" id="avis">
+            <!-- En-tête avis -->
             <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-3">
               <h2 class="text-xl font-bold text-primary flex items-center gap-2">
                 <i class="fas fa-star text-amber-500"></i>
-                Avis locataires
-                <span class="text-base font-normal text-muted-foreground">({{ reviews.length }})</span>
+                Avis des visiteurs
+                <span class="text-base font-normal text-muted-foreground">({{ reviewStats?.total ?? 0 }})</span>
               </h2>
-              <div class="flex items-center gap-1">
-                <i v-for="s in 5" :key="s" :class="s <= avgRating ? 'fas fa-star' : 'far fa-star'"
-                  class="text-amber-500 text-sm"></i>
-                <span class="ml-2 font-bold text-primary">{{ avgRating }}/5</span>
+              <div v-if="reviewStats?.total" class="flex items-center gap-2">
+                <div class="flex items-center gap-0.5">
+                  <i v-for="s in 5" :key="s" :class="s <= Math.round(reviewStats.average) ? 'fas fa-star' : 'far fa-star'"
+                    class="text-amber-500 text-sm"></i>
+                </div>
+                <span class="font-bold text-primary text-lg">{{ reviewStats.average }}</span>
+                <span class="text-muted-foreground text-xs">/5</span>
               </div>
             </div>
 
-            <div class="space-y-5">
+            <!-- Barre de distribution des notes -->
+            <div v-if="reviewStats?.total" class="mb-6 space-y-1.5">
+              <div v-for="star in [5,4,3,2,1]" :key="star" class="flex items-center gap-2 text-xs">
+                <span class="w-3 text-right font-medium text-muted-foreground">{{ star }}</span>
+                <i class="fas fa-star text-amber-400 text-[10px]"></i>
+                <div class="flex-1 bg-muted/30 rounded-full h-2 overflow-hidden">
+                  <div class="h-2 bg-amber-400 rounded-full transition-all duration-500"
+                    :style="{ width: reviewStats.total ? ((reviewStats[['one','two','three','four','five'][star-1]] / reviewStats.total) * 100) + '%' : '0%' }"></div>
+                </div>
+                <span class="w-6 text-muted-foreground">{{ reviewStats[['one','two','three','four','five'][star-1]] }}</span>
+              </div>
+            </div>
+
+            <!-- Formulaire avis -->
+            <div v-if="authStore.user && !myReview && !showReviewForm"
+              class="mb-6 p-4 bg-muted/10 rounded-xl border border-dashed border-border">
+              <p class="text-sm text-muted-foreground mb-3">Vous avez visité ce bien ? Partagez votre expérience !</p>
+              <button @click="showReviewForm = true"
+                class="px-5 py-2 bg-secondary text-secondary-foreground rounded-xl text-xs font-bold hover:bg-primary hover:text-primary-foreground transition-colors">
+                <i class="fas fa-pen mr-2"></i> Écrire un avis
+              </button>
+            </div>
+
+            <!-- Formulaire complet -->
+            <div v-if="showReviewForm && !myReview"
+              class="mb-6 bg-muted/10 rounded-xl border border-secondary/30 p-5 animate-fadeIn">
+              <h3 class="text-sm font-bold text-foreground mb-4">Votre évaluation</h3>
+
+              <!-- Étoiles interactives -->
+              <div class="flex items-center gap-1 mb-4">
+                <button v-for="s in 5" :key="s"
+                  @click="newReview.rating = s"
+                  @mouseover="reviewHover = s"
+                  @mouseleave="reviewHover = 0"
+                  class="text-2xl transition-transform hover:scale-110 focus:outline-none">
+                  <i :class="s <= (reviewHover || newReview.rating) ? 'fas fa-star text-amber-400' : 'far fa-star text-muted-foreground'"></i>
+                </button>
+                <span class="ml-2 text-sm font-medium text-foreground">
+                  {{ ['','Médiocre','Passable','Bien','Très bien','Excellent'][newReview.rating] }}
+                </span>
+              </div>
+
+              <input v-model="newReview.title" type="text" placeholder="Titre de votre avis (optionnel)"
+                class="w-full px-4 py-2.5 bg-background border border-border rounded-xl text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-secondary/30 mb-3" />
+
+              <textarea v-model="newReview.comment" rows="4"
+                placeholder="Décrivez votre expérience avec ce bien... (min. 10 caractères)"
+                class="w-full px-4 py-2.5 bg-background border border-border rounded-xl text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-secondary/30 resize-none"></textarea>
+              <p v-if="newReview.comment.length > 0" class="text-right text-xs text-muted-foreground mt-1">{{ newReview.comment.length }}/1000</p>
+
+              <div class="flex gap-3 mt-4">
+                <button @click="submitReview" :disabled="isSubmittingReview || !newReview.rating || newReview.comment.length < 10"
+                  class="flex-1 py-2.5 bg-secondary text-secondary-foreground rounded-xl text-sm font-bold hover:bg-primary hover:text-primary-foreground transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                  <i v-if="isSubmittingReview" class="fas fa-circle-notch fa-spin mr-2"></i>
+                  {{ isSubmittingReview ? 'Publication...' : 'Publier mon avis' }}
+                </button>
+                <button @click="showReviewForm = false"
+                  class="px-5 py-2.5 border border-border text-muted-foreground rounded-xl text-sm hover:bg-muted/20 transition-colors">
+                  Annuler
+                </button>
+              </div>
+              <p v-if="reviewError" class="text-red-500 text-xs mt-2">{{ reviewError }}</p>
+            </div>
+
+            <!-- Mon avis existant -->
+            <div v-if="myReview" class="mb-6 p-4 bg-secondary/5 border border-secondary/20 rounded-xl">
+              <div class="flex items-center justify-between mb-2">
+                <p class="text-xs font-bold text-secondary uppercase tracking-wide">Votre avis</p>
+                <button @click="deleteMyReview" class="text-xs text-destructive hover:text-destructive/80 transition-colors">
+                  <i class="fas fa-trash mr-1"></i> Supprimer
+                </button>
+              </div>
+              <div class="flex items-center gap-0.5 mb-1">
+                <i v-for="s in 5" :key="s" :class="s <= myReview.rating ? 'fas fa-star' : 'far fa-star'"
+                  class="text-amber-400 text-xs"></i>
+              </div>
+              <p class="text-sm text-foreground/80">{{ myReview.comment }}</p>
+            </div>
+
+            <!-- Liste des avis -->
+            <div v-if="reviewsLoading" class="space-y-4">
+              <div v-for="n in 3" :key="n" class="animate-pulse">
+                <div class="flex gap-3">
+                  <div class="w-10 h-10 bg-muted rounded-full"></div>
+                  <div class="flex-1 space-y-2">
+                    <div class="h-3 w-28 bg-muted rounded"></div>
+                    <div class="h-3 w-full bg-muted rounded"></div>
+                    <div class="h-3 w-4/5 bg-muted rounded"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div v-else-if="reviews.length === 0 && !showReviewForm" class="py-10 text-center">
+              <i class="far fa-comment-dots text-4xl text-muted-foreground/30 mb-3"></i>
+              <p class="text-sm text-muted-foreground">Aucun avis pour le moment.</p>
+              <p v-if="!authStore.user" class="text-xs text-muted-foreground mt-1">
+                <RouterLink :to="{ name: 'Connexion' }" class="text-secondary hover:underline">Connectez-vous</RouterLink>
+                pour laisser votre avis.
+              </p>
+            </div>
+
+            <div v-else class="space-y-5">
               <div v-for="r in reviews" :key="r.id" class="border-b border-border pb-5 last:border-0 last:pb-0">
                 <div class="flex items-start justify-between mb-2">
                   <div class="flex items-center gap-3">
-                    <div
+                    <div v-if="r.user?.avatar"
+                      class="w-10 h-10 rounded-full overflow-hidden shrink-0">
+              <UserAvatar :user="r.user" size="sm" />
+                    
+                      <!-- <img :src="r.user.avatar" :alt="r.user.name" class="w-full h-full object-cover" /> -->
+                    </div>
+                    <div v-else
                       class="w-10 h-10 bg-gradient-to-br from-secondary to-primary rounded-full flex items-center justify-center text-primary-foreground font-bold text-sm shrink-0">
-                      {{ r.initials }}
+                      {{ r.user?.name?.split(' ').map(n => n[0]).join('').toUpperCase().slice(0,2) }}
                     </div>
                     <div>
-                      <h4 class="font-semibold text-foreground text-sm">
-                        {{ r.name }}
-                      </h4>
-                      <div class="flex items-center gap-0.5">
+                      <div class="flex items-center gap-2">
+                        <h4 class="font-semibold text-foreground text-sm">{{ r.user?.name }}</h4>
+                        <span v-if="r.is_verified_tenant"
+                          class="inline-flex items-center gap-1 px-2 py-0.5 bg-green-100 dark:bg-green-950/30 text-green-700 dark:text-green-400 text-[10px] font-bold rounded-full">
+                          <i class="fas fa-check-circle text-[10px]"></i> Locataire vérifié
+                        </span>
+                      </div>
+                      <div class="flex items-center gap-0.5 mt-0.5">
                         <i v-for="s in 5" :key="s" :class="s <= r.rating ? 'fas fa-star' : 'far fa-star'"
                           class="text-amber-400 text-xs"></i>
                       </div>
                     </div>
                   </div>
-                  <span class="text-xs text-muted-foreground whitespace-nowrap">{{ r.date }}</span>
+                  <span class="text-xs text-muted-foreground whitespace-nowrap">
+                    {{ new Date(r.created_at).toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' }) }}
+                  </span>
                 </div>
-                <p class="text-foreground/70 text-sm leading-relaxed pl-13">
-                  {{ r.comment }}
-                </p>
+                <p v-if="r.title" class="text-sm font-semibold text-foreground mb-1 pl-13">{{ r.title }}</p>
+                <p class="text-foreground/70 text-sm leading-relaxed pl-13">{{ r.comment }}</p>
+              </div>
+
+              <!-- Pagination -->
+              <div v-if="reviewPagination.last_page > 1" class="flex justify-center gap-2 pt-2">
+                <button v-for="p in reviewPagination.last_page" :key="p"
+                  @click="fetchReviews(p)"
+                  :class="p === reviewPagination.current_page ? 'bg-secondary text-secondary-foreground' : 'bg-muted/20 text-muted-foreground hover:bg-muted/40'"
+                  class="w-8 h-8 rounded-lg text-xs font-bold transition-colors">{{ p }}</button>
               </div>
             </div>
           </div>
@@ -405,8 +530,10 @@
               <div class="flex items-center gap-4 mb-4">
                 <div
                   class="w-14 h-14 bg-gradient-to-br from-secondary to-primary rounded-full flex items-center justify-center text-primary-foreground text-lg font-bold shrink-0 overflow-hidden">
-                  <img v-if="property.owner?.avatar_url" :src="property.owner.avatar_url"
-                    class="w-full h-full object-cover" />
+                  <!-- <img v-if="property.owner?.avatar_url" :src="property.owner.avatar_url"
+                    class="w-full h-full object-cover" /> -->
+              <UserAvatar v-if="property.owner" :user="property.owner" size="sm" />
+
                   <span v-else>{{ ownerInitials }}</span>
                 </div>
                 <div>
@@ -481,7 +608,7 @@
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <RouterLink v-for="s in similarProperties" :key="s.id" :to="`/annonces/${s.id}`"
+          <RouterLink v-for="s in similarProperties" :key="s.id" :to="`/annonces/${s.slug || s.id}`"
             class="bg-card rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 group border border-border hover:border-secondary">
             <div class="relative overflow-hidden">
               <img :src="s.image" :alt="s.title"
@@ -530,6 +657,7 @@ import { useAuthStore } from "../../stores/auth";
 import { useRentalStore } from "../../stores/rental";
 import { usePropertyStore } from "../../stores/properties";
 import axios from "../../axios";
+import UserAvatar from "../../components/common/UserAvatar.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -553,30 +681,74 @@ const activeProcess = computed(() => {
   return process;
 });
 
-// ─── Avis fictifs mais réalistes (camerounais) ───────────────────────
-const reviews = [
-  {
-    id: 1,
-    initials: "AM",
-    name: "Aline Mbozo",
-    rating: 5,
-    date: "Janvier 2026",
-    comment:
-      "Appartement impeccable, très bien entretenu. Le bailleur est réactif et arrangeant. Je recommande vivement !",
-  },
-  {
-    id: 2,
-    initials: "EK",
-    name: "Emmanuel Kamdem",
-    rating: 4,
-    date: "Décembre 2025",
-    comment:
-      "Bon rapport qualité-prix. Quartier calme et sécurisé. Eau et électricité stables. Quelques petites réparations à faire mais globalement satisfait.",
-  },
-];
-const avgRating = computed(() =>
-  Math.round(reviews.reduce((s, r) => s + r.rating, 0) / reviews.length),
-);
+// ─── Avis (reviews) — données réelles depuis l'API ────────────────────
+const reviews = ref([]);
+const reviewStats = ref(null);
+const reviewsLoading = ref(false);
+const myReview = ref(null);
+const showReviewForm = ref(false);
+const isSubmittingReview = ref(false);
+const reviewError = ref('');
+const reviewHover = ref(0);
+const reviewPagination = ref({ last_page: 1, current_page: 1 });
+const newReview = ref({ rating: 0, title: '', comment: '' });
+
+const fetchReviews = async (page = 1) => {
+  if (!property.value) return;
+  reviewsLoading.value = true;
+  try {
+    const { data } = await axios.get(`/api/properties/${property.value.slug}/reviews`, { params: { page } });
+    if (data.success) {
+      reviews.value = data.data.data;
+      reviewStats.value = data.stats;
+      reviewPagination.value = { last_page: data.data.last_page, current_page: data.data.current_page };
+    }
+  } catch (err) {
+    console.error('Erreur chargement avis:', err);
+  } finally {
+    reviewsLoading.value = false;
+  }
+};
+
+const fetchMyReview = async () => {
+  if (!authStore.user || !property.value) return;
+  try {
+    const { data } = await axios.get(`/api/properties/${property.value.slug}/reviews/my`);
+    if (data.success) myReview.value = data.data;
+  } catch { /* silence */ }
+};
+
+const submitReview = async () => {
+  reviewError.value = '';
+  if (!newReview.value.rating) { reviewError.value = 'Veuillez sélectionner une note.'; return; }
+  if (newReview.value.comment.length < 10) { reviewError.value = 'Le commentaire doit faire au moins 10 caractères.'; return; }
+  isSubmittingReview.value = true;
+  try {
+    const { data } = await axios.post(`/api/properties/${property.value.slug}/reviews`, newReview.value);
+    if (data.success) {
+      myReview.value = data.data;
+      showReviewForm.value = false;
+      newReview.value = { rating: 0, title: '', comment: '' };
+      await fetchReviews();
+    }
+  } catch (err) {
+    reviewError.value = err.response?.data?.message || 'Une erreur est survenue.';
+  } finally {
+    isSubmittingReview.value = false;
+  }
+};
+
+const deleteMyReview = async () => {
+  if (!myReview.value || !confirm('Supprimer votre avis ?')) return;
+  try {
+    await axios.delete(`/api/reviews/${myReview.value.id}`);
+    myReview.value = null;
+    await fetchReviews();
+  } catch {
+    alert('Erreur lors de la suppression.');
+  }
+};
+
 
 // ─── Données dérivées ────────────────────────────────────────────────
 const galleryImages = computed(() => {
@@ -637,29 +809,43 @@ const fetchProperty = async (slug) => {
   similarProperties.value = [];
   try {
     // Note: On utilise le store pour bénéficier du cache
-    const data = await propertyStore.fetchPropertyDetails(slug);
-    if (data) {
-      property.value = data;
-      // On récupère aussi les similaires via un appel séparé ou via le retour (le backend semble les renvoyer dans 'similar')
-      // L'action du store ne renvoie que data.data, on va donc refaire un petit appel si besoin ou adapter le store.
-      // Pour garder la compatibilité avec la réponse qui incluait 'similar', on repasse par axios pour les similaires si non présents
-      const response = await axios.get(`/api/properties/${slug}`);
-      similarProperties.value = response.data.similar ?? [];
+    const payload = await propertyStore.fetchPropertyDetails(slug);
 
-      const imgs = data.all_images;
-      activeImage.value = imgs?.length ? imgs[0] : (data.image ?? "");
-      activeIndex.value = 0;
-      document.title = `${data.title} | Home Cameroun`;
+    if (!payload) {
+      console.warn('[DetailAnnonce] fetchPropertyDetails returned nothing for slug:', slug);
+      return;
+    }
 
-      if (authStore.user) {
-        await Promise.all([
-          rentalStore.fetchVisits(),
-          rentalStore.fetchApplications(),
-        ]);
-      }
+    const propData = payload.data;
+    if (!propData) {
+      console.warn('[DetailAnnonce] payload.data est null. payload reçu:', payload);
+      return;
+    }
+
+    property.value = propData;
+    similarProperties.value = payload.similar ?? [];
+
+    const imgs = propData.all_images;
+    activeImage.value = imgs?.length ? imgs[0] : (propData.image ?? "");
+    activeIndex.value = 0;
+    document.title = `${propData.title} | Home Cameroun`;
+
+    // Charger les avis en parallèle (non bloquant)
+    fetchReviews();
+    fetchMyReview();
+
+    if (authStore.user) {
+      await Promise.all([
+        rentalStore.fetchVisits(),
+        rentalStore.fetchApplications(),
+      ]);
     }
   } catch (err) {
-    console.error("Erreur chargement annonce:", err);
+    if (err.message === 'PROPERTY_NOT_FOUND') {
+      console.warn('[DetailAnnonce] Bien introuvable:', slug);
+    } else {
+      console.error("Erreur chargement annonce:", err);
+    }
   } finally {
     isLoading.value = false;
   }
@@ -686,8 +872,13 @@ const toggleFavorite = async () => {
     return;
   }
   await propertyStore.toggleFavorite(property.value.id);
-  // Re-sync local state
-  property.value.is_favorite = propertyStore.propertyDetailsCache[property.value.slug]?.is_favorite;
+  // Re-sync local state from cache payload's data.is_favorite
+  const cachedPayload = propertyStore.propertyDetailsCache[property.value.slug];
+  if (cachedPayload && cachedPayload.data) {
+    property.value.is_favorite = cachedPayload.data.is_favorite;
+  } else {
+    property.value.is_favorite = !property.value.is_favorite;
+  }
 };
 
 const shareProperty = () => {

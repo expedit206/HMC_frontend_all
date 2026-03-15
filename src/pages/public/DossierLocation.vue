@@ -248,11 +248,13 @@
 import { ref, computed, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useRentalStore } from "../../stores/rental";
+import { usePropertyStore } from "../../stores/properties";
 import axios from "../../axios";
 
 const route = useRoute();
 const router = useRouter();
 const rentalStore = useRentalStore();
+const propertyStore = usePropertyStore();
 
 const visitId = ref(route.query.visit_id || null);
 const propertyId = ref(route.query.property_id || null);
@@ -331,8 +333,8 @@ const isFormValid = computed(() => {
 const fetchProperty = async () => {
   if (!propertyId.value) return;
   try {
-    const { data } = await axios.get(`/api/properties/${propertyId.value}`);
-    if (data.success) property.value = data.data;
+    const payload = await propertyStore.fetchPropertyDetails(propertyId.value.toString());
+    if (payload && payload.success) property.value = payload.data;
   } catch {}
 };
 

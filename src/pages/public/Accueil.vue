@@ -175,12 +175,12 @@
             </div>
             <div class="p-2">
               <div class="flex-col justify-between items-start mb-1">
-                <h3 class="text-sm font-semibold text-foreground">
+                <h3 class="text-sm font-semibold text-foreground  line-clamp-1">
                   {{ property.title }}
                 </h3>
                 <span class="text-sm font-bold text-secondary">{{ formatPrice(property.price) }} FCFA</span>
               </div>
-              <p class="text-muted-foreground text-sm mb-1">
+              <p class="text-muted-foreground text-sm mb-1 line-clamp-1">
                 Par {{ property.owner }} • {{ property.date }}
               </p>
               <div class="flex items-center gap-4 text-muted-foreground text-xs mb-1">

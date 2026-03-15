@@ -486,40 +486,10 @@ const allLinks = [
     roles: ["agent"],
   },
   {
-    name: "Mon Profil",
-    route: "BailleurMonProfil",
-    icon: "fas fa-user-gear",
-    roles: ["bailleur"],
-  },
-  {
-    name: "Mon Profil",
-    route: "LocataireMonProfil",
-    icon: "fas fa-user-gear",
-    roles: ["locataire"],
-  },
-  {
-    name: "Mon Profil",
-    route: "ClientProfil",
-    icon: "fas fa-user-gear",
-    roles: ["client"],
-  },
-  {
     name: "Paramètres",
-    route: "AdminParametres",
-    icon: "fas fa-sliders",
-    roles: ["admin"],
-  },
-  {
-    name: "Paramètres",
-    route: "AgentParametres",
-    icon: "fas fa-sliders",
-    roles: ["agent"],
-  },
-  {
-    name: "Paramètres",
-    route: "ClientParametres",
-    icon: "fas fa-sliders",
-    roles: ["client"],
+    route: "Parametres",
+    icon: "fas fa-user-gear",
+    roles: ["admin", "agent", "bailleur", "client", "locataire", "prestataire"],
   },
   {
     name: "Assistance",

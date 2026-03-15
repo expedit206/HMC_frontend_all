@@ -444,7 +444,7 @@
             </div>
 
             <RouterLink
-              :to="{ name: 'ClientProfil' }"
+              :to="{ name: 'Parametres' }"
               class="w-full flex items-center justify-center gap-3 py-4 bg-muted/20 text-foreground rounded-xl font-bold hover:bg-primary hover:text-primary-foreground transition group"
             >
               Éditer le profil

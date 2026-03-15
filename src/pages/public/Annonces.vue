@@ -377,18 +377,18 @@
               <div v-for="n in 4" :key="n"
                 class="bg-card rounded-[.45rem] shadow-lg overflow-hidden border border-border">
                 <div class="flex flex-col md:flex-row">
-                  <div class="md:w-2/5 h-56 md:h-48 bg-muted/50"></div>
+                  <div class="md:w-2/5 h-56 md:h-48 bg-gray-50"></div>
                   <div class="md:w-3/5 p-6 space-y-3">
-                    <div class="h-6 w-3/4 bg-muted rounded"></div>
-                    <div class="h-4 w-full bg-muted rounded"></div>
-                    <div class="h-4 w-4/5 bg-muted rounded"></div>
+                    <div class="h-6 w-3/4 bg-gray-100 rounded"></div>
+                    <div class="h-4 w-full bg-gray-100 rounded"></div>
+                    <div class="h-4 w-4/5 bg-gray-100 rounded"></div>
                     <div class="flex gap-4 pt-2">
-                      <div class="h-4 w-20 bg-muted rounded"></div>
-                      <div class="h-4 w-20 bg-muted rounded"></div>
-                      <div class="h-4 w-20 bg-muted rounded"></div>
+                      <div class="h-4 w-20 bg-gray-100 rounded"></div>
+                      <div class="h-4 w-20 bg-gray-100 rounded"></div>
+                      <div class="h-4 w-20 bg-gray-100 rounded"></div>
                     </div>
                     <div class="flex justify-end pt-2">
-                      <div class="h-10 w-36 bg-muted rounded-[.45rem]"></div>
+                      <div class="h-10 w-36 bg-gray-100 rounded-[.45rem]"></div>
                     </div>
                   </div>
                 </div>
@@ -427,6 +427,13 @@
                       {{ property.type === "rent" ? "À louer" : "À vendre" }}
                     </div>
                     <div
+                    <div v-if="property.avg_rating > 0"
+                      class="absolute top-3 left-3 bg-black/70 backdrop-blur-sm text-white px-2.5 py-1 rounded-full text-xs font-bold flex items-center gap-1">
+                      <i class="fas fa-star text-amber-400 text-[10px]"></i>
+                      {{ property.avg_rating }}
+                      <span class="text-white/60">({{ property.review_count }})</span>
+                    </div>
+                    <div
                       class="absolute bottom-3 right-3 bg-black/60 text-white px-3 py-1 rounded-full text-xs font-bold backdrop-blur-sm">
                       <i class="fas fa-camera mr-1"></i> Photos
                     </div>
@@ -437,7 +444,7 @@
                     <div>
                       <div class="flex justify-between items-start mb-2">
                         <h2
-                          class="text-xl md:text-2xl font-bold text-foreground group-hover:text-secondary transition-colors line-clamp-1">
+                          class="text-xl md:text-2xl   font-bold text-foreground group-hover:text-secondary transition-colors line-clamp-1">
                           {{ property.title }}
                         </h2>
                         <button @click.prevent="toggleFavorite(property.id)"
@@ -496,12 +503,18 @@
                     <div class="flex justify-between items-center mt-4">
                       <div>
                         <div class="text-secondary font-bold text-2xl">
-                          {{ formatPrice(property.price) }} F
-                          <span class="text-muted-foreground font-normal text-base">/ mois</span>
-                        </div>
-                        <p class="text-sm text-muted-foreground/70">
-                          Charges incluses
-                        </p>
+                        {{ formatPrice(property.price) }} F
+                        <span class="text-muted-foreground font-normal text-base">/ mois</span>
+                      </div>
+                      <div v-if="property.avg_rating > 0" class="flex items-center gap-1 mt-1">
+                        <i v-for="s in 5" :key="s"
+                          :class="s <= Math.round(property.avg_rating) ? 'fas fa-star text-amber-400' : 'far fa-star text-muted-foreground/40'"
+                          class="text-xs"></i>
+                        <span class="text-xs text-muted-foreground ml-1">{{ property.avg_rating }}/5</span>
+                      </div>
+                      <p class="text-sm text-muted-foreground/70">
+                        Charges incluses
+                      </p>
                       </div>
                       <RouterLink :to="`/annonces/${property.slug}`"
                         class="bg-secondary text-white px-6 py-3 rounded-[.45rem] font-semibold hover:bg-primary transition-colors shadow-md hover:shadow-lg">

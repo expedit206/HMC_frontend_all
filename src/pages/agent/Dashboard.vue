@@ -288,7 +288,7 @@
                 </div>
               </div>
               <RouterLink
-                :to="{ name: 'AgentParametres' }"
+                :to="{ name: 'Parametres' }"
                 class="w-full mt-6 py-2 bg-white/20 hover:bg-white/30 text-primary-foreground rounded-xl text-xs font-bold uppercase tracking-widest transition-colors backdrop-blur-sm block"
               >
                 Gérer profil

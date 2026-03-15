@@ -79,7 +79,7 @@
                     <p class="text-sm font-bold text-foreground truncate">{{ visit.property?.title }}</p>
                     <p class="text-xs text-muted-foreground mt-1">
                       <i class="fas fa-clock mr-1"></i> {{ getTime(visit.scheduled_at) }} • 
-                      <i class="fas fa-user ml-2 mr-1"></i> Client: {{ visit.user?.name || 'Inconnu' }}
+                      <i class="fas fa-user ml-2 mr-1"></i> Client: {{ visit.visitor?.name || 'Inconnu' }}
                     </p>
                   </div>
                 </div>

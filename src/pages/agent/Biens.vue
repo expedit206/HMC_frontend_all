@@ -349,7 +349,7 @@
               <!-- Actions -->
               <div class="px-4 pb-4 flex gap-2">
                 <router-link
-                  :to="{ name: 'DetailAnnonce', params: { id: property.id } }"
+                  :to="{ name: 'DetailAnnonce', params: { slug: property.slug } }"
                   class="flex-1 py-2 bg-muted/20 hover:bg-muted/30 text-foreground text-xs font-bold rounded-lg transition-colors border border-border text-center"
                 >
                   <i class="fas fa-external-link-alt mr-1"></i> Voir l'annonce

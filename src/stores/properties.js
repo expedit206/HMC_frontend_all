@@ -33,6 +33,18 @@ export const usePropertyStore = defineStore('properties', {
       last_page: 1,
       current_page: 1
     },
+    adminProperties: [],
+    adminPagination: {
+      total: 0,
+      last_page: 1,
+      current_page: 1
+    },
+    bailleurProperties: [],
+    bailleurPagination: {
+      total: 0,
+      last_page: 1,
+      current_page: 1
+    },
     favoriteProperties: [],
     isLoading: false,
     error: null,
@@ -120,6 +132,44 @@ export const usePropertyStore = defineStore('properties', {
       }
     },
 
+    async fetchAdminProperties(page = 1, params = {}) {
+      this.isLoading = true;
+      try {
+        const { data } = await axios.get("/api/admin/properties", { params: { page, ...params } });
+        if (data.success) {
+          this.adminProperties = data.data.data || [];
+          this.adminPagination = {
+            total: data.data.total || 0,
+            last_page: data.data.last_page || 1,
+            current_page: data.data.current_page || 1
+          };
+        }
+      } catch (err) {
+        console.error("Erreur biens admin:", err);
+      } finally {
+        this.isLoading = false;
+      }
+    },
+
+    async fetchBailleurProperties(page = 1) {
+      this.isLoading = true;
+      try {
+        const { data } = await axios.get("/api/bailleur/properties", { params: { page } });
+        if (data.success) {
+          this.bailleurProperties = data.data.data || [];
+          this.bailleurPagination = {
+            total: data.data.total || 0,
+            last_page: data.data.last_page || 1,
+            current_page: data.data.current_page || 1
+          };
+        }
+      } catch (err) {
+        console.error("Erreur biens bailleur:", err);
+      } finally {
+        this.isLoading = false;
+      }
+    },
+
     async fetchFavorites() {
       this.isLoading = true;
       try {
@@ -143,11 +193,19 @@ export const usePropertyStore = defineStore('properties', {
       this.isLoading = true;
       try {
         const { data } = await axios.get(`/api/properties/${slug}`);
-        if (data.success) {
-          this.propertyDetailsCache[slug] = data.data;
-          return data.data;
+        // Always cache and return the full payload (success or not)
+        // so the component can decide how to handle it
+        const payload = data.success ? data : { success: data.success ?? false, data: data.data ?? null, similar: data.similar ?? [] };
+        if (payload.data) {
+          this.propertyDetailsCache[slug] = payload;
         }
+        return payload;
       } catch (err) {
+        // 404 → throw a user-friendly error so the component can show "introuvable"
+        const status = err.response?.status;
+        if (status === 404) {
+          throw new Error('PROPERTY_NOT_FOUND');
+        }
         console.error("Erreur chargement détails propriété:", err);
         throw err;
       } finally {
@@ -189,8 +247,10 @@ export const usePropertyStore = defineStore('properties', {
           if (prop) prop.is_favorite = isAdded;
 
           // Update cache if present
-          Object.values(this.propertyDetailsCache).forEach(p => {
-            if (p.id === propertyId) p.is_favorite = isAdded;
+          Object.values(this.propertyDetailsCache).forEach(payload => {
+            if (payload && payload.data && payload.data.id === propertyId) {
+              payload.data.is_favorite = isAdded;
+            }
           });
 
           return data;

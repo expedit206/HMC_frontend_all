@@ -121,8 +121,10 @@
         </p>
         <div class="space-y-1">
           <RouterLink
-            :to="{ name: 'BailleurMonProfil' }"
-            class="sidebar-link flex items-center gap-4 px-4 py-3.5 rounded-2xl text-sm font-medium text-gray-400 hover:bg-gray-50 hover:text-[#E54801] transition-all group"
+            :to="{ name: 'Parametres' }"
+            :class="[
+              'sidebar-link flex items-center gap-4 px-4 py-3.5 rounded-2xl text-sm font-medium text-gray-400 hover:bg-gray-50 hover:text-[#E54801] transition-all group',
+            ]"
             active-class="bg-[#E54801] text-white shadow-md hover:bg-[#E54801] hover:text-white"
           >
             <i

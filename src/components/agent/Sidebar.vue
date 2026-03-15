@@ -104,8 +104,8 @@
             <span>Statistiques</span>
           </RouterLink>
           <RouterLink
-            :to="{ name: 'AgentParametres' }"
-            class="sidebar-link flex items-center gap-4 px-4 py-3.5 rounded-2xl text-sm font-medium text-gray-400 hover:bg-gray-50 hover:text-[#E54801] transition-all group"
+            :to="{ name: 'Parametres' }"
+            class="sidebar-link flex items-center gap-4 px-4 py-3.5 rounded-2xl text-[13px] font-medium transition-all group hover:bg-white/5 hover:text-white"
             active-class="active"
           >
             <i

@@ -238,8 +238,10 @@
 <script setup>
 import { ref, onMounted, watch } from "vue";
 import DashboardLayout from "../../layouts/DashboardLayout.vue";
+import { usePropertyStore } from "../../stores/properties";
 import axios from "../../axios";
 
+const propertyStore = usePropertyStore();
 const mobileMenuOpen = ref(false);
 const activeTab = ref("active");
 const isLoading = ref(true);
@@ -299,14 +301,11 @@ const submitNewBail = async () => {
 const fetchData = async () => {
     isLoading.value = true;
     try {
-        const [propRes, appRes] = await Promise.all([
-            axios.get("/api/bailleur/properties"),
-            axios.get("/api/bailleur/applications"),
-        ]);
+        await propertyStore.fetchBailleurProperties();
+        const appRes = await axios.get("/api/bailleur/applications");
 
-        if (propRes.data.success) {
-            const allProps = propRes.data.data.data;
-            vacantProperties.value = allProps.filter(p => p.status === 'active' || p.status === 'vacant');
+        const allProps = propertyStore.bailleurProperties;
+        vacantProperties.value = allProps.filter(p => p.status === 'active' || p.status === 'vacant');
 
             tenants.value = allProps
                 .filter((p) => p.rental_status === "occupied")
@@ -326,7 +325,7 @@ const fetchData = async () => {
             stats.value[0].value = tenants.value.length;
             stats.value[1].value = appRes.data.data.length;
             stats.value[3].value = allProps.length;
-        }
+
         if (appRes.data.success) {
             applications.value = appRes.data.data;
         }
