@@ -153,10 +153,12 @@
 <script setup>
 import { ref, reactive, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { usePropertyStore } from "../../stores/properties";
 import axios from "../../axios";
 
 const route = useRoute();
 const router = useRouter();
+const propertyStore = usePropertyStore();
 
 const isLoading = ref(true);
 const isSubmitting = ref(false);
@@ -177,9 +179,9 @@ const form = reactive({
 
 const fetchProperty = async () => {
     try {
-        const { data } = await axios.get(`/api/properties/${route.params.id}`);
-        if (data.success) {
-            const p = data.data;
+        const payload = await propertyStore.fetchPropertyDetails(route.params.id.toString());
+        if (payload && payload.success) {
+            const p = payload.data;
             form.title = p.title || "";
             form.type = p.type || "rent";
             form.category = p.category || "";

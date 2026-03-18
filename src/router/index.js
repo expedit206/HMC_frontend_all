@@ -25,7 +25,6 @@ const AdminUtilisateurs = () => import('../pages/admin/Utilisateurs.vue')
 const AdminBiensAnnonces = () => import('../pages/admin/BiensAnnonces.vue')
 const AdminFinances = () => import('../pages/admin/Finances.vue')
 const AdminServices = () => import('../pages/admin/Services.vue')
-const AdminParametres = () => import('../pages/admin/Parametres.vue')
 const AdminSupervisionLocation = () => import('../pages/admin/SupervisionLocation.vue')
 const AdminDemandesPublication = () => import('../pages/admin/DemandesPublication.vue')
 
@@ -40,7 +39,6 @@ const AgentClients = () => import('../pages/agent/Clients.vue')
 const AgentBiens = () => import('../pages/agent/Biens.vue')
 const AgentContrats = () => import('../pages/agent/Contrats.vue')
 const AgentStatistiques = () => import('../pages/agent/Statistiques.vue')
-const AgentParametres = () => import('../pages/agent/Parametres.vue')
 const AgentPublierBien = () => import('../pages/agent/AgentPublierBien.vue')
 
 // Bailleur Pages
@@ -52,16 +50,16 @@ const BailleurMesLocataires = () => import('../pages/bailleur/MesLocataires.vue'
 const BailleurInterventions = () => import('../pages/bailleur/Interventions.vue')
 const BailleurVisites = () => import('../pages/bailleur/Visites.vue')
 const BailleurFinances = () => import('../pages/bailleur/Finances.vue')
-const BailleurMonProfil = () => import('../pages/bailleur/MonProfil.vue')
 const BailleurAssistance = () => import('../pages/bailleur/Assistance.vue')
 const BailleurDevenirPrestataire = () => import('../pages/bailleur/DevenirPrestataire.vue')
 const BailleurFormulaire = () => import('../pages/bailleur/FormulaireBailleur.vue')
 const MesDemandes = () => import('../pages/shared/MesDemandes.vue')
 
+// Page Paramètres unifiée (tous rôles)
+const SharedParametres = () => import('../pages/shared/Parametres.vue')
+
 // Client Pages
 const ClientDashboard = () => import('../pages/client/Dashboard.vue')
-const ClientProfil = () => import('../pages/client/Profil.vue')
-const ClientParametres = () => import('../pages/client/Parametres.vue')
 const ClientAssistance = () => import('../pages/client/Assistance.vue')
 
 // Locataire Pages
@@ -70,7 +68,6 @@ const LocataireMesLocations = () => import('../pages/locataire/MesLocations.vue'
 const MesFavoris = () => import('../pages/shared/MesFavoris.vue')
 const LocataireInterventions = () => import('../pages/locataire/Interventions.vue')
 const LocataireMesPaiements = () => import('../pages/locataire/MesPaiements.vue')
-const LocataireMonProfil = () => import('../pages/locataire/MonProfil.vue')
 const LocataireDetailMonBien = () => import('../pages/locataire/DetailMonBien.vue')
 const LocataireFormulaireLocation = () => import('../pages/locataire/FormulaireLocation.vue')
 const LocataireInscription = () => import('../pages/locataire/Inscription.vue')
@@ -110,6 +107,7 @@ const authOnlyPaths = [
   '/publier-bien',
   '/mes-demandes',
   '/mes-favoris',
+  '/parametres',
 ]
 
 const routes = [
@@ -133,6 +131,8 @@ const routes = [
       { path: '/publier-bien', name: 'PublierBien', component: PublierBien, meta: { hasSidebar: true } },
       { path: '/mes-demandes', name: 'PublicationRequests', component: MesDemandes, meta: { hasSidebar: true } },
       { path: '/mes-favoris', name: 'MesFavoris', component: MesFavoris, meta: { hasSidebar: true } },
+      // Page Paramètres unifiée (tous rôles confondus)
+      { path: '/parametres', name: 'Parametres', component: SharedParametres, meta: { hasSidebar: true } },
 
     
     ]
@@ -160,7 +160,6 @@ const routes = [
       { path: 'biens-annonces',       name: 'AdminBiensAnnonces',        component: AdminBiensAnnonces },
       { path: 'finances',             name: 'AdminFinances',             component: AdminFinances },
       { path: 'services',             name: 'AdminServices',             component: AdminServices },
-      { path: 'parametres',           name: 'AdminParametres',           component: AdminParametres },
       { path: 'supervision-location', name: 'AdminSupervisionLocation',  component: AdminSupervisionLocation },
       { path: 'demandes-publication', name: 'AdminDemandesPublication',  component: AdminDemandesPublication },
     ]
@@ -176,13 +175,12 @@ const routes = [
       { path: 'agenda', name: 'AgentAgenda', component: AgentAgenda },
       { path: 'assistance', name: 'AgentAssistance', component: AgentAssistance },
       { path: 'formation', name: 'AgentFormation', component: AgentFormation },
-      { path: 'inscription', name: 'AgentInscription', component: AgentInscription, meta: { hasSidebar: false } }, // Exclu
+      { path: 'inscription', name: 'AgentInscription', component: AgentInscription, meta: { hasSidebar: false } },
       { path: 'missions', name: 'AgentMissions', component: AgentMissions },
       { path: 'clients', name: 'AgentClients', component: AgentClients },
       { path: 'biens', name: 'AgentBiens', component: AgentBiens },
       { path: 'contrats', name: 'AgentContrats', component: AgentContrats },
       { path: 'statistiques', name: 'AgentStatistiques', component: AgentStatistiques },
-      { path: 'parametres', name: 'AgentParametres', component: AgentParametres },
       { path: 'publication-missions/:id/audit', name: 'AgentPublierBien', component: AgentPublierBien },
     ]
   },
@@ -200,10 +198,9 @@ const routes = [
       { path: 'interventions', name: 'BailleurInterventions', component: BailleurInterventions },
       { path: 'visites', name: 'BailleurVisites', component: BailleurVisites },
       { path: 'finances', name: 'BailleurFinances', component: BailleurFinances },
-      { path: 'mon-profil', name: 'BailleurMonProfil', component: BailleurMonProfil },
       { path: 'assistance', name: 'BailleurAssistance', component: BailleurAssistance },
       { path: 'devenir-prestataire', name: 'BailleurDevenirPrestataire', component: BailleurDevenirPrestataire, meta: { hasSidebar: false } },
-      { path: 'formulaire', name: 'BailleurFormulaire', component: BailleurFormulaire, meta: { hasSidebar: false } }, // Exclu
+      { path: 'formulaire', name: 'BailleurFormulaire', component: BailleurFormulaire, meta: { hasSidebar: false } },
     ]
   },
 
@@ -214,8 +211,6 @@ const routes = [
     meta: { hasSidebar: true },
     children: [
       { path: 'dashboard', name: 'ClientDashboard', component: ClientDashboard },
-      { path: 'profil', name: 'ClientProfil', component: ClientProfil },
-      { path: 'parametres', name: 'ClientParametres', component: ClientParametres },
       { path: 'assistance', name: 'ClientAssistance', component: ClientAssistance },
     ]
   },
@@ -230,10 +225,9 @@ const routes = [
       { path: 'mes-locations', name: 'LocataireMesLocations', component: LocataireMesLocations },
       { path: 'interventions', name: 'LocataireInterventions', component: LocataireInterventions },
       { path: 'mes-paiements', name: 'LocataireMesPaiements', component: LocataireMesPaiements },
-      { path: 'mon-profil', name: 'LocataireMonProfil', component: LocataireMonProfil },
       { path: 'detail-mon-bien', name: 'LocataireDetailMonBien', component: LocataireDetailMonBien },
-      { path: 'formulaire-location', name: 'LocataireFormulaireLocation', component: LocataireFormulaireLocation, meta: { hasSidebar: false } }, // Exclu
-      { path: 'inscription', name: 'LocataireInscription', component: LocataireInscription, meta: { hasSidebar: false } }, // Exclu
+      { path: 'formulaire-location', name: 'LocataireFormulaireLocation', component: LocataireFormulaireLocation, meta: { hasSidebar: false } },
+      { path: 'inscription', name: 'LocataireInscription', component: LocataireInscription, meta: { hasSidebar: false } },
       { path: 'assistance', name: 'LocataireAssistance', component: LocataireAssistance },
       { path: 'paiement-facture', name: 'LocatairePaiementFacture', component: LocatairePaiementFacture },
       { path: 'recapitulatif-paiement', name: 'LocataireRecapitulatifPaiement', component: LocataireRecapitulatifPaiement },

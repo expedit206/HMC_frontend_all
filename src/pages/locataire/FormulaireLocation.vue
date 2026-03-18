@@ -673,11 +673,13 @@
 import { ref, computed, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useAuthStore } from "../../stores/auth";
+import { usePropertyStore } from "../../stores/properties";
 import axios from "../../axios";
 
 const router = useRouter();
 const route = useRoute();
 const authStore = useAuthStore();
+const propertyStore = usePropertyStore();
 
 // ── État général ─────────────────────────────────────────────────────────────
 const currentStep = ref(1);
@@ -784,10 +786,8 @@ const fetchProperty = async () => {
     return;
   }
   try {
-    const { data } = await axios.get(
-      `/api/properties/${form.value.property_id}`,
-    );
-    if (data.success) property.value = data.data;
+    const payload = await propertyStore.fetchPropertyDetails(form.value.property_id.toString());
+    if (payload && payload.success) property.value = payload.data;
   } catch {
     // property reste null
   } finally {

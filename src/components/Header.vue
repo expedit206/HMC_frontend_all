@@ -19,7 +19,7 @@
         <!-- Navigation Links -->
         <nav class="flex items-center gap-6 font-medium text-sm text-muted-foreground">
           <RouterLink v-for="link in navLinks" :key="link.to" :to="link.to" active-class="text-secondary font-bold"
-            class="flex items-center gap-2 hover:text-primary transition-colors whitespace-nowrap">
+            class="flex flex-col lg:flex-row  items-center gap-2 hover:text-primary transition-colors whitespace-nowrap">
             <i :class="link.icon" class="text-xs"></i> {{ link.label }}
           </RouterLink>
         </nav>
@@ -56,7 +56,7 @@
         </RouterLink>
 
         <!-- Mobile Assistance (Visible < lg) -->
-        <RouterLink to="/assistance" class="text-muted-foreground hover:text-primary p-2">
+        <RouterLink to="/assistance" class="text-muted-foreground hover:text-primary p-2 ">
           <i class="far fa-comments text-lg"></i>
         </RouterLink>
 
@@ -65,16 +65,7 @@
           <!-- Theme Toggle -->
           <ThemeToggle />
 
-          <!-- Panier -->
-          <button @click="cartStore.toggleCart()"
-            class="text-muted-foreground hover:text-primary transition-colors p-1 relative" title="Mon Panier">
-            <i class="fas fa-shopping-bag text-xl"></i>
-            <span v-if="cartStore.totalItems > 0"
-              class="absolute -top-1 -right-1 w-5 h-5 bg-primary text-primary-foreground text-[10px] flex items-center justify-center rounded-full border-2 border-card font-black">
-              {{ cartStore.totalItems }}
-            </span>
-          </button>
-
+   
           <!-- Notifications (Connecté) -->
           <RouterLink v-if="authStore.isAuthenticated" to="/notifications"
             class="text-muted-foreground hover:text-primary transition-colors p-1 relative" title="Notifications">
@@ -85,14 +76,21 @@
           <!-- Séparateur -->
           <div class="h-6 w-px bg-border"></div>
 
+
+               <!-- CTA: Publier une annonce (Visible sur Tablette+) -->
+        <RouterLink to="/publier-bien"
+          class="flex items-center gap-2 font-semibold text-secondary hover:text-secondary/80">
+          <i class="fas fa-plus-circle text-xl"></i>
+          <span class="hidden md:inline">Publier</span>
+        </RouterLink>
+
           <!-- CONNECTÉ : Menu Utilisateur -->
           <div v-if="authStore.isAuthenticated" class="relative group">
             <button
               class="flex items-center gap-2 text-sm font-semibold text-foreground hover:text-primary focus:outline-none">
               <UserAvatar :user="authStore.user" size="sm" />
-              <span class="max-w-25 truncate">{{ authStore.user?.name }}</span>
-              <i
-                class="fas fa-chevron-down text-xs text-muted-foreground group-hover:text-primary transition-colors"></i>
+              <!-- <span class="max-w-25 truncate hidden xl:block">{{ authStore.user?.name }}</span> -->
+          
             </button>
 
             <!-- Dropdown Menu -->
@@ -116,7 +114,7 @@
                 <div v-if="authStore.availableRoles && authStore.availableRoles.length > 1">
                   <div class="border-t border-border my-1"></div>
                   <div class="px-4 py-2 text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
-                    Changer de rôle
+                    Changer de profil
                   </div>
                   <template v-for="role in authStore.availableRoles" :key="role">
                     <button v-if="role !== authStore.userActiveRole" @click="handleRoleSwitch(role)"
@@ -145,13 +143,7 @@
           </div>
         </div>
 
-        <!-- CTA: Publier une annonce (Visible sur Tablette+) -->
-        <RouterLink to="/publier-bien"
-          class="flex items-center gap-2 font-semibold text-secondary hover:text-secondary/80">
-          <i class="fas fa-plus-circle text-xl"></i>
-          <span class="hidden md:inline">Publier</span>
-        </RouterLink>
-
+   
         <!-- Burger Button (Mobile) -->
         <button @click="mobileMenuOpen = !mobileMenuOpen"
           class="lg:hidden p-2 text-foreground hover:text-primary focus:outline-none">
@@ -459,7 +451,7 @@ const mobileBottomLinks = computed(() => {
         { to: "/agent/missions", label: "Missions", icon: "fas fa-tasks" },
         { to: "/agent/agenda", label: "Agenda", icon: "fas fa-calendar-alt" },
         { to: "/agent/biens", label: "Biens", icon: "fas fa-building" },
-        { to: "/agent/dashboard", label: "Profil", icon: "far fa-user-circle" },
+        { to: "/agent/dashboard", label: "Dashboard", icon: "far fa-user-circle" },
       ];
     case "bailleur":
       return [
@@ -477,7 +469,7 @@ const mobileBottomLinks = computed(() => {
         { to: "/bailleur/finances", label: "Revenus", icon: "fas fa-wallet" },
         {
           to: "/bailleur/dashboard",
-          label: "Profil",
+          label: "Dashboard",
           icon: "far fa-user-circle",
         },
       ];
@@ -493,7 +485,7 @@ const mobileBottomLinks = computed(() => {
         },
         {
           to: "/locataire/dashboard",
-          label: "Profil",
+          label: "Dashboard",
           icon: "far fa-user-circle",
         },
       ];
@@ -517,7 +509,7 @@ const mobileBottomLinks = computed(() => {
         },
         {
           to: "/prestataire/dashboard",
-          label: "Profil",
+          label: "Dashboard",
           icon: "far fa-user-circle",
         },
       ];
@@ -531,7 +523,7 @@ const mobileBottomLinks = computed(() => {
           icon: "fas fa-building",
         },
         { to: "/admin/utilisateurs", label: "Users", icon: "fas fa-users" },
-        { to: "/admin/dashboard", label: "Profil", icon: "far fa-user-circle" },
+        { to: "/admin/dashboard", label: "Dashboard", icon: "far fa-user-circle" },
       ];
     default:
       return [
@@ -539,31 +531,18 @@ const mobileBottomLinks = computed(() => {
         { to: getDashboardLink(), label: "Dashboard", icon: "fas fa-user-shield" },
 
         { to: "/annonces", label: "Annonces", icon: "fas fa-search-location" },
-        { to: "/marketplace", label: "Market", icon: "fas fa-store" },
         {
           to: "/locataire/mes-favoris",
           label: "Favoris",
           icon: "far fa-heart",
         },
-        { to: getDashboardLink(), label: "Profil", icon: "far fa-user-circle" },
+        { to: getDashboardLink(), label: "Dashboard", icon: "far fa-user-circle" },
       ];
   }
 });
 
 const getProfileLink = () => {
-  const role = authStore.userActiveRole;
-  switch (role) {
-    case "bailleur":
-      return "/bailleur/mon-profil";
-    case "locataire":
-      return "/locataire/mon-profil";
-    case "agent":
-      return "/agent/profil";
-    case "prestataire":
-      return "/prestataire/profil";
-    default:
-      return "/";
-  }
+  return "/parametres";
 };
 
 const handleRoleSwitch = async (newRole) => {

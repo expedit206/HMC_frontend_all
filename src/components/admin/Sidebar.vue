@@ -94,8 +94,8 @@
       </p>
 
       <RouterLink
-        :to="{ name: 'AdminParametres' }"
-        class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all group hover:bg-gray-50 text-gray-600 hover:text-[#E54801]"
+        :to="{ name: 'Parametres' }"
+        class="flex items-center gap-3 text-sm px-6 py-3.5 mb-2 hover:bg-gray-100 hover:text-black border-l-[3px] border-transparent transition-all group hover:bg-gray-50 text-gray-600 hover:text-[#E54801]"
         active-class="active"
       >
         <i class="fas fa-cog w-5 text-center"></i>

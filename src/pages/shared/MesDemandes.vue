@@ -177,8 +177,11 @@
                     <i class="fas fa-check-circle mr-1"></i> Vous avez confirmé
                   </span>
                   <span v-else-if="req.bailleur_declined_at"
-                    class="text-[8px] font-black text-red-600 bg-red-50 px-2 py-0.5 rounded border border-red-200 uppercase">
-                    <i class="fas fa-history mr-1"></i> Report demandé
+                    class="text-[8px] font-black text-red-600 bg-red-50 px-2 py-0.5 rounded border border-red-200 uppercase flex flex-col gap-1">
+                    <span><i class="fas fa-history mr-1"></i> Report demandé</span>
+                    <span v-if="req.bailleur_suggested_at" class="font-bold text-[7px] lowercase italic opacity-80">
+                      (Proposition : {{ formatDate(req.bailleur_suggested_at) }} GMT+1)
+                    </span>
                   </span>
                   <span v-else
                     class="text-[8px] font-black text-orange-600 bg-orange-50 px-2 py-0.5 rounded border border-orange-200 animate-pulse uppercase">
@@ -188,15 +191,36 @@
 
                 <!-- Boutons d'action si pas encore confirmé/décliné -->
                 <div v-if="!req.bailleur_confirmed_at && !req.bailleur_declined_at"
-                  class="flex gap-2 justify-end mt-3 border-t border-blue-100 pt-3">
-                  <button @click="handleDeclineAudit(req)"
-                    class="px-2 py-1.5 bg-white text-red-600 border border-red-200 rounded-lg text-[8px] font-black uppercase hover:bg-red-50 transition-all flex items-center gap-1">
-                    <i class="fas fa-times"></i> Reporter
-                  </button>
-                  <button @click="handleConfirmAudit(req)"
-                    class="px-3 py-1.5 bg-blue-600 text-white rounded-lg text-[8px] font-black uppercase hover:bg-blue-700 transition-all flex items-center gap-1">
-                    <i class="fas fa-check"></i> Confirmer
-                  </button>
+                  class="mt-3 border-t border-blue-100 pt-3">
+
+                  <div v-if="rescheduleMissionId === req.id" class="animate-fadeIn">
+                    <label class="block text-[8px] font-black text-gray-400 uppercase mb-1">Nouvelle date suggérée
+                      *</label>
+                    <input v-model="rescheduleForm.suggested_at" type="datetime-local"
+                      class="w-full text-[10px] p-2 rounded-lg border border-red-100 mb-2 focus:ring-1 focus:ring-red-400 outline-none" />
+                    <textarea v-model="rescheduleForm.notes" placeholder="Message pour l'agent..."
+                      class="w-full text-[10px] p-2 rounded-lg border border-red-100 mb-2 focus:ring-1 focus:ring-red-400 outline-none"
+                      rows="2"></textarea>
+
+                    <div class="flex gap-2 justify-end">
+                      <button @click="rescheduleMissionId = null"
+                        class="px-2 py-1 bg-gray-100 text-gray-500 rounded text-[8px] font-black uppercase">Annuler</button>
+                      <button @click="submitReschedule(req)"
+                        :disabled="!rescheduleForm.suggested_at || isProcessingAudit"
+                        class="px-3 py-1 bg-red-600 text-white rounded text-[8px] font-black uppercase disabled:opacity-50">Envoyer</button>
+                    </div>
+                  </div>
+
+                  <div v-else class="flex gap-2 justify-end">
+                    <button @click="rescheduleMissionId = req.id"
+                      class="px-2 py-1.5 bg-white text-red-600 border border-red-200 rounded-lg text-[8px] font-black uppercase hover:bg-red-50 transition-all flex items-center gap-1">
+                      <i class="fas fa-times"></i> Reporter
+                    </button>
+                    <button @click="handleConfirmAudit(req)"
+                      class="px-3 py-1.5 bg-blue-600 text-white rounded-lg text-[8px] font-black uppercase hover:bg-blue-700 transition-all flex items-center gap-1">
+                      <i class="fas fa-check"></i> Confirmer
+                    </button>
+                  </div>
                 </div>
 
                 <p v-if="req.agent_notes"
@@ -394,7 +418,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { ref, reactive, computed, onMounted } from "vue";
 import DashboardLayout from "../../layouts/DashboardLayout.vue";
 import { RouterLink, useRouter } from "vue-router";
 import axios from "../../axios";
@@ -452,6 +476,40 @@ const handleConfirmAudit = async (req) => {
   } catch (err) {
     console.error("Erreur confirmation audit:", err);
     alert("Une erreur est survenue lors de la confirmation.");
+  } finally {
+    isProcessingAudit.value = false;
+  }
+};
+
+const rescheduleMissionId = ref(null);
+const rescheduleForm = reactive({
+  suggested_at: "",
+  notes: ""
+});
+
+const submitReschedule = async (req) => {
+  if (isProcessingAudit.value) return;
+  isProcessingAudit.value = true;
+  try {
+    const { data } = await axios.post(`/api/bailleur/publication-requests/${req.id}/decline-audit`, {
+      suggested_at: rescheduleForm.suggested_at,
+      notes: rescheduleForm.notes
+    });
+    if (data.success) {
+      alert(data.message);
+      rescheduleMissionId.value = null;
+      // Reset form
+      rescheduleForm.suggested_at = "";
+      rescheduleForm.notes = "";
+
+      const idx = requests.value.findIndex(r => r.id === req.id);
+      if (idx !== -1) {
+        requests.value[idx] = data.data;
+      }
+    }
+  } catch (err) {
+    console.error("Erreur report audit:", err);
+    alert(err.response?.data?.message || "Une erreur est survenue.");
   } finally {
     isProcessingAudit.value = false;
   }
@@ -543,7 +601,7 @@ const publishedCount = computed(
 );
 
 // ── Formatters ──
-const formatPrice = (p) => new Intl.NumberFormat("fr-FR").format(p || 0);
+const formatPrice = (p) => new Intl.NumberFormat("fr-CM").format(p || 0);
 // const formatDate = (d) =>
 //   d
 //     ? new Date(d).toLocaleDateString("fr-FR", {
@@ -562,7 +620,7 @@ const formatPrice = (p) => new Intl.NumberFormat("fr-FR").format(p || 0);
 
 const formatDate = (d) => {
   if (!d) return "—";
-  return new Date(d).toLocaleDateString("fr-FR", {
+  return new Date(d).toLocaleDateString("fr-CM", {
     weekday: "long",
     day: "numeric",
     month: "long",
