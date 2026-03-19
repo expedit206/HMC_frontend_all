@@ -167,7 +167,7 @@
                 <label class="block text-foreground font-semibold text-sm">Nom</label>
                 <div class="relative">
                   <i class="fas fa-user absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground"></i>
-                  <input v-model="form.lastName" type="text" placeholder="Etienne Dee" required class="w-full pl-12 pr-4 py-3 border-2 border-border bg-background text-foreground placeholder:text-muted-foreground rounded-xl focus:border-secondary focus:ring-4 focus:ring-secondary/10 outline-none transition-all duration-300" />
+                  <input v-model="form.lastName" type="text" placeholder="Votre Nom" required class="w-full pl-12 pr-4 py-3 border-2 border-border bg-background text-foreground placeholder:text-muted-foreground rounded-xl focus:border-secondary focus:ring-4 focus:ring-secondary/10 outline-none transition-all duration-300" />
                 </div>
               </div>
               <div class="space-y-2">
