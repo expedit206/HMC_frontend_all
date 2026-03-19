@@ -7,7 +7,7 @@
         "></div>
       <div class="absolute inset-0 bg-black/50"></div>
 
-      <div class="relative max-w-7xl mx-auto px-4 py-6 lg:py-8">
+      <div class="relative  mx-auto px-4 py-6 lg:py-8">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-10 items-center">
           <!-- Texte -->
           <div class="lg:col-span-2">
@@ -23,20 +23,17 @@
 
             <!-- Stats réduites -->
             <div class="flex flex-wrap gap-4 mt-8">
-              <div
-                class="bg-card/10 backdrop-blur-sm rounded-[.45rem] p-3 min-w-25 text-center border border-white/20">
+              <div class="bg-card/10 backdrop-blur-sm rounded-[.45rem] p-3 min-w-25 text-center border border-white/20">
                 <div class="text-lg font-semibold text-ring">1 200+</div>
                 <div class="text-xs text-white/80">Biens</div>
               </div>
 
-              <div
-                class="bg-card/10 backdrop-blur-sm rounded-[.45rem] p-3 min-w-25 text-center border border-white/20">
+              <div class="bg-card/10 backdrop-blur-sm rounded-[.45rem] p-3 min-w-25 text-center border border-white/20">
                 <div class="text-lg font-semibold text-ring">300+</div>
                 <div class="text-xs text-white/80">Propriétaires</div>
               </div>
 
-              <div
-                class="bg-card/10 backdrop-blur-sm rounded-[.45rem] p-3 min-w-25 text-center border border-white/20">
+              <div class="bg-card/10 backdrop-blur-sm rounded-[.45rem] p-3 min-w-25 text-center border border-white/20">
                 <div class="text-lg font-semibold text-ring">10</div>
                 <div class="text-xs text-white/80">Régions</div>
               </div>
@@ -112,7 +109,7 @@
     </section>
     <!-- CATÉGORIES en scroll horizontal -->
     <section class="py-6 md:py-4 bg-card border-b border-border">
-      <div class="max-w-7xl mx-auto px-4">
+      <div class=" mx-auto px-4">
         <!-- Squelettes catégories -->
         <div v-if="isLoading" class="flex gap-4 py-2 overflow-hidden">
           <SkeletonLoader v-for="n in 6" :key="n" type="category" />
@@ -144,7 +141,7 @@
 
     <!-- PROPRIÉTÉS POPULAIRES - Nouveaux biens disponibles -->
     <section class="py-8 md:py-12 bg-background">
-      <div class="max-w-7xl mx-auto px-4">
+      <div class=" mx-auto px-4">
         <!-- En-tête -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-6 md:mb-10">
           <div class="text-center sm:text-left">
@@ -213,13 +210,13 @@
     </section>
     <!-- SECTION 2: AGENTS IMMOBILIERS -->
     <section class="py-12 md:py-16 ">
-      <div class="max-w-7xl mx-auto px-4">
+      <div class=" mx-auto px-4">
         <!-- En-tête -->
-        <div class="text-center mb-10 md:mb-16">
+        <div class=" mb-10 md:mb-16">
           <h2 class="text-2xl md:text-4xl font-bold text-foreground mb-2 md:mb-4">
             Nos agents immobiliers
           </h2>
-          <p class="text-muted-foreground max-w-2xl mx-auto text-base md:text-lg">
+          <p class="text-muted-foreground max-w-2xl  text-base md:text-lg">
             Découvrez les professionnels qui gèrent les meilleures propriétés
           </p>
         </div>
@@ -311,16 +308,16 @@
 
     <!-- SECTION PRESTATAIRES DE SERVICES -->
     <section class="py-12 md:py-16 bg-background">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <div class=" mx-auto px-4 sm:px-6">
         <!-- En-tête -->
-        <div class="text-center mb-10 md:mb-12">
+        <div class=" mb-10 md:mb-12">
           <span class="inline-block px-3 py-1 bg-secondary/10 text-secondary text-xs font-semibold rounded-full mb-3">
             Experts à votre service
           </span>
           <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-3">
             Nos prestataires de services
           </h2>
-          <p class="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto">
+          <p class="text-sm sm:text-base text-muted-foreground max-w-2xl ">
             Des professionnels qualifiés pour entretenir, rénover et améliorer
             votre logement.
           </p>
@@ -391,12 +388,12 @@
 
     <!-- SECTION 4: MARKETPLACE -->
     <section class="py-8 md:py-6 md:pt-12 ">
-      <div class="max-w-7xl mx-auto px-4">
-        <div class="text-center mb-10 md:mb-4">
+      <div class=" mx-auto px-4">
+        <div class=" mb-10 md:mb-4">
           <h2 class="text-2xl md:text-4xl font-bold text-foreground mb-2 md:mb-4">
             Marketplace - Articles pour votre maison
           </h2>
-          <p class="text-muted-foreground max-w-2xl mx-auto text-base md:text-lg">
+          <p class="text-muted-foreground max-w-2xl text-base md:text-lg">
             Équipez et rénovez votre logement avec nos sélections
           </p>
         </div>
@@ -453,12 +450,12 @@
 
     <!-- SECTION AVANTAGES & CONFIANCE -->
     <section class="py-12 md:py-8 bg-card">
-      <div class="max-w-7xl mx-auto px-4">
-        <div class="text-center mb-10 md:mb-2">
+      <div class=" mx-auto px-4">
+        <div class=" mb-10 md:mb-2">
           <h2 class="text-2xl md:text-4xl font-bold text-foreground mb-2 md:mb-4">
             Pourquoi choisir Home Cameroon ?
           </h2>
-          <p class="text-muted-foreground max-w-2xl mx-auto text-base md:text-lg">
+          <p class="text-muted-foreground max-w-2xl text-base md:text-lg">
             Une plateforme fiable, sécurisée et pensée pour vous
           </p>
         </div>

@@ -1,5 +1,5 @@
 <template>
-  <div class="font-inter bg-background text-foreground min-h-screen flex flex-col">
+  <div class="font-inter bg-background text-foreground min-h-screen flex flex-col relative">
 
     <!-- Hero Mobile -->
     <section class="lg:hidden gradient-bg relative overflow-hidden">
@@ -13,9 +13,9 @@
           <div class="w-24 h-24 mb-4 logo-glow animate-float">
             <div class="relative w-full h-full">
               <div class="absolute inset-0 bg-gradient-to-br from-primary to-secondary/80 rounded-2xl transform rotate-6"></div>
-              <div class="absolute inset-2 bg-gradient-to-br from-card to-muted rounded-xl flex items-center justify-center">
-                <i class="fas fa-home text-secondary text-3xl"></i>
-              </div>
+              <RouterLink to="/" class="absolute inset-2 bg-gradient-to-br from-card to-muted rounded-xl flex items-center justify-center p-1 hover:scale-105 transition-transform">
+                <AppLogo class="max-h-full max-w-full object-contain" />
+              </RouterLink>
             </div>
           </div>
           <div class="text-center">
@@ -57,9 +57,9 @@
           <div class="flex items-center gap-6 mb-16 animate-fadeInUp">
             <div class="relative w-20 h-20 logo-glow">
               <div class="absolute inset-0 bg-gradient-to-br from-primary to-secondary/80 rounded-2xl transform rotate-3"></div>
-              <div class="absolute inset-2 bg-gradient-to-br from-card to-muted rounded-xl flex items-center justify-center">
-                <i class="fas fa-home text-secondary text-2xl"></i>
-              </div>
+              <RouterLink to="/" class="absolute inset-2 bg-gradient-to-br from-card to-muted rounded-xl flex items-center justify-center p-2 hover:scale-105 transition-transform">
+                <AppLogo class="max-h-full max-w-full object-contain" />
+              </RouterLink>
             </div>
             <div>
               <div class="text-4xl font-bold">Home<span class="highlight-text">Cameroon</span></div>
@@ -135,8 +135,19 @@
       </div>
 
       <!-- Panneau droit — Formulaire -->
-      <div class="lg:w-1/2 flex items-center justify-center p-4 sm:p-6 lg:p-12 xl:p-16 overflow-y-auto">
-        <div class="w-full max-w-md animate-fadeInUp">
+      <div class="lg:w-1/2 flex items-center justify-center p-4 sm:p-6 lg:p-12 xl:p-16 overflow-y-auto relative">
+        <div class="absolute top-4 left-4 z-50 flex items-center gap-3">
+          <button @click="router.back()" class="w-10 h-10 bg-black/20 hover:bg-black/40 backdrop-blur-md rounded-full flex items-center justify-center text-white shadow-lg transition-all" title="Retour à la page précédente">
+            <i class="fas fa-arrow-left"></i> 
+          </button>
+          <span class="text-primary font-semibold">Retour</span>
+        </div>
+
+        <div class="absolute top-4 right-4 z-50">
+          <ThemeToggle />
+        </div>
+
+        <div class="w-full max-w-md animate-fadeInUp mt-12 sm:mt-0">
 
           <div class="mb-10 text-center">
             <h2 class="text-2xl sm:text-3xl font-bold text-foreground mb-3">Créer votre compte</h2>
@@ -332,6 +343,8 @@
 import { ref, reactive, computed } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
 import { useAuthStore } from '../../stores/auth'
+import AppLogo from '../../components/common/AppLogo.vue'
+import ThemeToggle from '../../components/ThemeToggle.vue'
 
 const router = useRouter()
 const authStore = useAuthStore()

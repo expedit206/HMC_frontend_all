@@ -4,13 +4,8 @@
     <div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16 sm:h-20 gap-4">
       <!-- GAUCHE : Logo & Marque -->
       <div class="flex items-center gap-1 shrink-0">
-        <RouterLink to="/" class="flex items-center gap-1 group">
-          <img src="/images/logo/image.png" alt="Home Cameroon"
-            class="w-10 h-10 sm:w-12 sm:h-12 object-contain dark:bg-accent-foreground/25 dark:rounded transition-transform group-hover:scale-105" />
-          <div class="flex sm:text-xl items-center leading-tight">
-            <span class="font-bold text-primary tracking-tight">Home</span>
-            <span class="font-bold text-secondary">Cameroon</span>
-          </div>
+        <RouterLink to="/">
+          <AppLogo withText />
         </RouterLink>
       </div>
 
@@ -165,9 +160,13 @@
       </RouterLink>
     </nav>
 
+    <!-- OVERLAY POUR MENU MOBILE -->
+    <div v-if="mobileMenuOpen" @click="mobileMenuOpen = false"
+      class="lg:hidden fixed inset-0 top-[64px] sm:top-[80px] bg-black/50 backdrop-blur-sm z-40 transition-opacity duration-300"></div>
+
     <!-- MENU MOBILE ÉTENDU (Overlay) -->
     <div v-show="mobileMenuOpen"
-      class="lg:hidden absolute top-full left-0 w-full bg-card border-b border-border shadow-2xl p-4 flex flex-col gap-4 animate-in slide-in-from-top-2 z-60">
+      class="lg:hidden absolute top-12 left-0 w-full bg-card border-b border-border shadow-2xl p-4 flex flex-col gap-4 animate-in slide-in-from-top-2 z-50">
 
       <!-- En-tête du menu mobile avec ThemeToggle -->
       <div class="flex items-center justify-between border-b border-border pb-2">
@@ -270,6 +269,7 @@ import { useAuthStore } from "../stores/auth";
 import { useCartStore } from "../stores/cart";
 import UserAvatar from "./common/UserAvatar.vue";
 import ThemeToggle from "./ThemeToggle.vue";
+import AppLogo from "./common/AppLogo.vue";
 
 const mobileMenuOpen = ref(false);
 const searchExpanded = ref(false);
