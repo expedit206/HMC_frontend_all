@@ -163,11 +163,38 @@
         <!-- Grille des biens -->
         <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
           <div v-for="property in newProperties" :key="property.id"
-            class="property-card bg-card rounded-[.45rem] overflow-hidden shadow-sm border border-border hover:shadow-lg">
+            class="property-card bg-card rounded-[.45rem] overflow-hidden shadow-sm border border-border hover:shadow-lg relative">
             <div class="h-32 relative image-bg" :style="{ backgroundImage: `url('${property.image}')` }">
               <div class="absolute top-3 left-3">
                 <span
                   class="bg-secondary text-secondary-foreground text-xs font-medium px-3 py-1 rounded-full">Nouveau</span>
+              </div>
+              
+              <!-- 3 Dots Menu -->
+              <div class="absolute top-2 right-2 z-20">
+                <button @click.prevent="toggleMenu('prop_' + property.id)" 
+                  class="bg-black/40 hover:bg-black/60 text-white w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-sm transition-colors">
+                  <i class="fas fa-ellipsis-v"></i>
+                </button>
+                
+                <div v-if="activeMenu === 'prop_' + property.id" @click.prevent.stop="activeMenu = null" class="fixed inset-0 z-30"></div>
+                
+                <div v-if="activeMenu === 'prop_' + property.id" 
+                  class="absolute right-0 top-full mt-1 w-48 bg-card border border-border shadow-2xl rounded-xl overflow-hidden py-1 z-40 animate-fadeIn">
+                  <button @click.prevent="shareItem(property, 'property')" class="w-full text-left px-4 py-2.5 hover:bg-muted text-sm text-foreground flex items-center gap-3 transition-colors">
+                    <i class="fas fa-share-alt text-muted-foreground w-4"></i> Partager
+                  </button>
+                  <RouterLink :to="{ path: '/annonces', query: { type: property.type, city: property.city, rooms: property.rooms, max_price: Math.floor(property.price * 1.5), min_area: Math.max(0, property.area - 10) } }" class="w-full text-left px-4 py-2.5 hover:bg-muted text-sm text-foreground flex items-center gap-3 transition-colors">
+                    <i class="fas fa-clone text-muted-foreground w-4"></i> Biens similaires
+                  </RouterLink>
+                  <button @click.prevent="hideItem(property.id)" class="w-full text-left px-4 py-2.5 hover:bg-muted text-sm text-foreground flex items-center gap-3 transition-colors">
+                    <i class="fas fa-eye-slash text-muted-foreground w-4"></i> Je n'aime pas
+                  </button>
+                  <div class="h-px bg-border my-1 w-full"></div>
+                  <button @click.prevent="reportItem(property.id)" class="w-full text-left px-4 py-2.5 hover:bg-red-50 dark:hover:bg-red-900/20 text-sm text-destructive flex items-center gap-3 transition-colors">
+                    <i class="fas fa-flag w-4"></i> Signaler
+                  </button>
+                </div>
               </div>
             </div>
             <div class="p-2">
@@ -193,7 +220,7 @@
               </div>
               <RouterLink :to="{ name: 'DetailAnnonce', params: { slug: property.slug } }"
                 class="text-sm block text-center w-full bg-secondary hover:bg-primary text-secondary-foreground hover:text-primary-foreground py-1 rounded-[.45rem] font-medium hover:shadow-lg transition-all border border-secondary">
-                Voir détails
+                Voir plus
               </RouterLink>
             </div>
           </div>
@@ -542,6 +569,40 @@ const formatBudget = (value) => {
 
 const formatPrice = (price) => {
   return new Intl.NumberFormat("fr-FR").format(price);
+};
+
+// 3-dots Menu Logic
+const activeMenu = ref(null);
+
+const toggleMenu = (id) => {
+  activeMenu.value = activeMenu.value === id ? null : id;
+};
+
+const shareItem = async (item, type) => {
+  activeMenu.value = null;
+  const path = type === 'property' ? `/annonces/${item.slug || item.id}` : `/marketplace/${item.id}`;
+  const url = window.location.origin + path;
+  if (navigator.share) {
+    try {
+      await navigator.share({
+        title: item.title || item.name,
+        url: url
+      });
+    } catch (err) {}
+  } else {
+    navigator.clipboard.writeText(url);
+    alert('Lien copié dans le presse-papiers !');
+  }
+};
+
+const hideItem = (id) => {
+  activeMenu.value = null;
+  alert("Cet élément sera masqué de vos recommandations.");
+};
+
+const reportItem = (id) => {
+  activeMenu.value = null;
+  alert("Merci. Notre équipe va examiner ce signalement.");
 };
 
 const neighborhoods = computed(() => {

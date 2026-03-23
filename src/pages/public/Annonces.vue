@@ -145,9 +145,9 @@
                 </button>
                 <div v-show="openSections.surface">
                   <div class="flex space-x-3 mb-3">
-                    <input type="number" placeholder="Min"
+                    <input v-model.number="filters.minSurface" type="number" placeholder="Min"
                       class="w-full bg-background border border-input rounded-[.45rem] px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent" />
-                    <input type="number" placeholder="Max"
+                    <input v-model.number="filters.maxSurface" type="number" placeholder="Max"
                       class="w-full bg-background border border-input rounded-[.45rem] px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent" />
                   </div>
                   <div class="mb-2">
@@ -442,23 +442,56 @@
                   <!-- Content Section -->
                   <div class="md:w-3/5 p-6 flex flex-col justify-between">
                     <div>
-                      <div class="flex justify-between items-start mb-2">
+                      <div class="flex justify-between items-start mb-2 relative">
                         <h2
-                          class="text-xl md:text-2xl   font-bold text-foreground group-hover:text-secondary transition-colors line-clamp-1">
+                          class="text-xl md:text-2xl font-bold text-foreground group-hover:text-secondary transition-colors line-clamp-1 pr-6">
                           {{ property.title }}
                         </h2>
-                        <button @click.prevent="toggleFavorite(property.id)"
-                          class="text-muted-foreground hover:text-destructive transition-colors">
-                          <i :class="[
-                            isFavorite(property.id)
-                              ? 'fas text-destructive'
-                              : 'far',
-                            'fa-heart text-xl',
-                          ]"></i>
-                        </button>
+                        
+                        <!-- Actions Container (Heart + 3-dots) -->
+                        <div class="flex items-center gap-2 absolute right-0 top-0">
+                          <button @click.prevent="toggleFavorite(property.id)"
+                            class="text-muted-foreground hover:text-destructive transition-colors relative z-10 p-1">
+                            <i :class="[
+                              isFavorite(property.id)
+                                ? 'fas text-destructive'
+                                : 'far',
+                              'fa-heart text-xl',
+                            ]"></i>
+                          </button>
+
+                          <!-- 3 Dots Menu -->
+                          <div class="relative z-20">
+                            <button @click.prevent="togglePropertyMenu(property.id)" 
+                              class="text-muted-foreground hover:text-foreground transition-colors p-1">
+                              <i class="fas fa-ellipsis-v text-xl px-1"></i>
+                            </button>
+                            
+                            <!-- Invisible Backdrop for click away -->
+                            <div v-if="activeMenu === property.id" @click.prevent.stop="activeMenu = null" class="fixed inset-0 z-30"></div>
+                            
+                            <!-- Dropdown -->
+                            <div v-if="activeMenu === property.id" 
+                              class="absolute right-0 top-full mt-1 w-48 bg-card border border-border shadow-2xl rounded-xl overflow-hidden py-1 z-40 animate-fadeIn">
+                              <button @click.prevent="shareProperty(property)" class="w-full text-left px-4 py-2.5 hover:bg-muted text-sm text-foreground flex items-center gap-3 transition-colors">
+                                <i class="fas fa-share-alt text-muted-foreground w-4"></i> Partager
+                              </button>
+                              <RouterLink :to="{ path: '/annonces', query: { type: property.type, city: property.city, rooms: property.rooms, max_price: Math.floor(property.price * 1.5), min_area: Math.max(0, property.area - 10) } }" class="w-full text-left px-4 py-2.5 hover:bg-muted text-sm text-foreground flex items-center gap-3 transition-colors">
+                                <i class="fas fa-clone text-muted-foreground w-4"></i> Biens similaires
+                              </RouterLink>
+                              <button @click.prevent="hideProperty(property.id)" class="w-full text-left px-4 py-2.5 hover:bg-muted text-sm text-foreground flex items-center gap-3 transition-colors">
+                                <i class="fas fa-eye-slash text-muted-foreground w-4"></i> Je n'aime pas
+                              </button>
+                              <div class="h-px bg-border my-1 w-full"></div>
+                              <button @click.prevent="reportProperty(property.id)" class="w-full text-left px-4 py-2.5 hover:bg-red-50 dark:hover:bg-red-900/20 text-sm text-destructive flex items-center gap-3 transition-colors">
+                                <i class="fas fa-flag w-4"></i> Signaler
+                              </button>
+                            </div>
+                          </div>
+                        </div>
                       </div>
 
-                      <p class="text-foreground/80 mb-4 line-clamp-2 text-sm md:text-base">
+                      <p class="text-foreground/80 mb-4 line-clamp-2 text-sm md:text-base mt-2">
                         {{ property.description }}
                       </p>
 
@@ -597,6 +630,42 @@ const cities = computed(() => aggregates.value.cities || []);
 const etats = computed(() => aggregates.value.etats || []);
 const amenitiesList = computed(() => aggregates.value.amenities || []);
 
+// 3-dots Menu State
+const activeMenu = ref(null);
+
+const togglePropertyMenu = (id) => {
+  activeMenu.value = activeMenu.value === id ? null : id;
+};
+
+const shareProperty = async (property) => {
+  activeMenu.value = null;
+  const url = window.location.origin + '/annonces/' + property.slug;
+  if (navigator.share) {
+    try {
+      await navigator.share({
+        title: property.title,
+        text: 'Découvrez ce bien sur Home Cameroon!',
+        url: url
+      });
+    } catch (err) {
+      console.log('Erreur de partage:', err);
+    }
+  } else {
+    navigator.clipboard.writeText(url);
+    alert('Lien copié dans le presse-papiers !');
+  }
+};
+
+const hideProperty = (id) => {
+  activeMenu.value = null;
+  alert("Ce bien sera moins recommandé dans vos résultats.");
+};
+
+const reportProperty = (id) => {
+  activeMenu.value = null;
+  alert("Merci de votre signalement. Notre équipe va examiner ce bien.");
+};
+
 // Sorting options
 const sortOptions = [
   { label: "Pertinence", value: "recent" },
@@ -628,6 +697,8 @@ watch(() => filters.value.etats, () => scheduleRefetch(200), { deep: true });
 watch(() => filters.value.amenities, () => scheduleRefetch(200), { deep: true });
 watch(() => filters.value.minPrice, () => scheduleRefetch(450));
 watch(() => filters.value.maxPrice, () => scheduleRefetch(450));
+watch(() => filters.value.minSurface, () => scheduleRefetch(450));
+watch(() => filters.value.maxSurface, () => scheduleRefetch(450));
 watch(() => filters.value.minRooms, () => scheduleRefetch(200));
 watch(() => filters.value.sortBy, () => propertyStore.fetchProperties(1));
 
@@ -651,6 +722,9 @@ onMounted(() => {
   if (route.query.city) filters.value.cities = [route.query.city];
   if (route.query.type) filters.value.types = [route.query.type];
   if (route.query.max_price) filters.value.maxPrice = Number(route.query.max_price);
+  if (route.query.rooms) filters.value.minRooms = Number(route.query.rooms);
+  if (route.query.min_area) filters.value.minSurface = Number(route.query.min_area);
+  if (route.query.max_area) filters.value.maxSurface = Number(route.query.max_area);
 
   propertyStore.fetchProperties();
 });

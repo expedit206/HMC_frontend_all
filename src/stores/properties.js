@@ -23,6 +23,8 @@ export const usePropertyStore = defineStore('properties', {
       minPrice: null,
       maxPrice: null,
       minRooms: 0,
+      minSurface: null,
+      maxSurface: null,
       etats: [],
       amenities: [],
       sortBy: "recent"
@@ -61,6 +63,7 @@ export const usePropertyStore = defineStore('properties', {
       if (state.filters.amenities.length) c++;
       if (state.filters.minPrice || state.filters.maxPrice) c++;
       if (state.filters.minRooms && state.filters.minRooms !== 0) c++;
+      if (state.filters.minSurface || state.filters.maxSurface) c++;
       return c;
     },
     totalPages: (state) => state.pagination.last_page,
@@ -85,6 +88,8 @@ export const usePropertyStore = defineStore('properties', {
           min_price: this.filters.minPrice || undefined,
           max_price: this.filters.maxPrice || undefined,
           min_rooms: this.filters.minRooms > 0 ? this.filters.minRooms : undefined,
+          min_area: this.filters.minSurface || undefined,
+          max_area: this.filters.maxSurface || undefined,
         };
 
         if (this.filters.types.length > 0) params.types = this.filters.types.join(",");
@@ -226,6 +231,8 @@ export const usePropertyStore = defineStore('properties', {
         minPrice: null,
         maxPrice: null,
         minRooms: 0,
+        minSurface: null,
+        maxSurface: null,
         etats: [],
         amenities: [],
         sortBy: "recent"

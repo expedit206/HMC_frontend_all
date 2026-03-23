@@ -342,7 +342,7 @@ const navLinks = computed(() => {
     return [
       { to: "/", label: "Accueil", icon: "fas fa-home" },
       { to: "/annonces", label: "Annonces", icon: "fas fa-search-location" },
-      { to: "/marketplace", label: "Marketplace", icon: "fas fa-store" },
+      { to: "/marketplace", label: "Shop", icon: "fas fa-store" },
     ];
   }
 
@@ -373,14 +373,14 @@ const navLinks = computed(() => {
           icon: "fas fa-building",
         },
         { to: "/bailleur/finances", label: "Revenus", icon: "fas fa-wallet" },
-        { to: "/marketplace", label: "Marketplace", icon: "fas fa-store" },
+        { to: "/marketplace", label: "Shop", icon: "fas fa-store" },
       ];
     case "locataire":
       return [
         { to: "/", label: "Accueil", icon: "fas fa-home" },
         { to: "/annonces", label: "Annonces", icon: "fas fa-search-location" },
         { to: "/mon-suivi", label: "Mon Suivi", icon: "fas fa-clipboard-list" },
-        { to: "/marketplace", label: "Marketplace", icon: "fas fa-store" },
+        { to: "/marketplace", label: "Shop", icon: "fas fa-store" },
       ];
     case "prestataire":
       return [
@@ -400,7 +400,7 @@ const navLinks = computed(() => {
           label: "Agenda",
           icon: "fas fa-calendar-alt",
         },
-        { to: "/marketplace", label: "Marketplace", icon: "fas fa-store" },
+        { to: "/marketplace", label: "Shop", icon: "fas fa-store" },
       ];
     case "admin":
       return [
@@ -422,7 +422,7 @@ const navLinks = computed(() => {
 
         { to: "/", label: "Accueil", icon: "fas fa-home" },
         { to: "/annonces", label: "Annonces", icon: "fas fa-search-location" },
-        { to: "/marketplace", label: "Marketplace", icon: "fas fa-store" },
+        { to: "/marketplace", label: "Shop", icon: "fas fa-store" },
         { to: "/client/dashboard", label: "Dashboard", icon: "fas fa-user-shield" },
       ];
   }
