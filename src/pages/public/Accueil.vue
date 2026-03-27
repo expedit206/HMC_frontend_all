@@ -164,38 +164,54 @@
         <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
           <div v-for="property in newProperties" :key="property.id"
             class="property-card bg-card rounded-[.45rem] overflow-hidden shadow-sm border border-border hover:shadow-lg relative">
-            <div class="h-32 relative image-bg" :style="{ backgroundImage: `url('${property.image}')` }">
-              <div class="absolute top-3 left-3">
-                <span
-                  class="bg-secondary text-secondary-foreground text-xs font-medium px-3 py-1 rounded-full">Nouveau</span>
-              </div>
-              
-              <!-- 3 Dots Menu -->
-              <div class="absolute top-2 right-2 z-20">
-                <button @click.prevent="toggleMenu('prop_' + property.id)" 
-                  class="bg-black/40 hover:bg-black/60 text-white w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-sm transition-colors">
-                  <i class="fas fa-ellipsis-v"></i>
-                </button>
-                
-                <div v-if="activeMenu === 'prop_' + property.id" @click.prevent.stop="activeMenu = null" class="fixed inset-0 z-30"></div>
-                
-                <div v-if="activeMenu === 'prop_' + property.id" 
-                  class="absolute right-0 top-full mt-1 w-48 bg-card border border-border shadow-2xl rounded-xl overflow-hidden py-1 z-40 animate-fadeIn">
-                  <button @click.prevent="shareItem(property, 'property')" class="w-full text-left px-4 py-2.5 hover:bg-muted text-sm text-foreground flex items-center gap-3 transition-colors">
-                    <i class="fas fa-share-alt text-muted-foreground w-4"></i> Partager
-                  </button>
-                  <RouterLink :to="{ path: '/annonces', query: { type: property.type, city: property.city, rooms: property.rooms, max_price: Math.floor(property.price * 1.5), min_area: Math.max(0, property.area - 10) } }" class="w-full text-left px-4 py-2.5 hover:bg-muted text-sm text-foreground flex items-center gap-3 transition-colors">
-                    <i class="fas fa-clone text-muted-foreground w-4"></i> Biens similaires
-                  </RouterLink>
-                  <button @click.prevent="hideItem(property.id)" class="w-full text-left px-4 py-2.5 hover:bg-muted text-sm text-foreground flex items-center gap-3 transition-colors">
-                    <i class="fas fa-eye-slash text-muted-foreground w-4"></i> Je n'aime pas
-                  </button>
-                  <div class="h-px bg-border my-1 w-full"></div>
-                  <button @click.prevent="reportItem(property.id)" class="w-full text-left px-4 py-2.5 hover:bg-red-50 dark:hover:bg-red-900/20 text-sm text-destructive flex items-center gap-3 transition-colors">
-                    <i class="fas fa-flag w-4"></i> Signaler
-                  </button>
+            <!-- Image Container with Slider -->
+            <div class="h-36 relative overflow-hidden group/image">
+              <!-- Slider Images -->
+              <div class="absolute inset-0 flex transition-transform duration-500 ease-in-out"
+                :style="{ transform: `translateX(-${(property.currentImageIndex || 0) * 100}%)` }">
+                <div v-for="(img, idx) in (property.all_images?.length ? property.all_images : [property.image])" :key="idx"
+                  class="min-w-full h-full bg-cover bg-center"
+                  :style="{ backgroundImage: `url('${prepareImageUrl(img)}')` }">
                 </div>
               </div>
+
+              <!-- Gradient overlay -->
+              <!-- <div class="absolute inset-0 bg-gradient-to-t from-black/10 via-black/20 to-transparent pointer-events-none"></div> -->
+              
+              <!-- Badge Nouveau -->
+              <div class="absolute top-2 left-2 pointer-events-none">
+                <span class="bg-secondary text-secondary-foreground text-[10px] font-semibold px-2 py-0.5 rounded-full">Nouveau</span>
+              </div>
+
+              <!-- Navigation Arrows (only if multi images) -->
+              <template v-if="property.all_images && property.all_images.length > 1">
+                <button @click.prevent="prevPropertyImage(property)"
+                  class="absolute left-8 top-1/2 -translate-y-1/2 w-6 h-6 bg-black/30 hover:bg-black/60 text-white rounded-full flex items-center justify-center transition-all  group-hover/image:opacity-100 z-30">
+                  <i class="fas fa-chevron-left text-[10px]"></i>
+                </button>
+                <button @click.prevent="nextPropertyImage(property)"
+                  class="absolute right-8 top-1/2 -translate-y-1/2 w-6 h-6 bg-black/30 hover:bg-black/60 text-white rounded-full flex items-center justify-center transition-all  group-hover/image:opacity-100 z-30">
+                  <i class="fas fa-chevron-right text-[10px]"></i>
+                </button>
+
+                <!-- Pagination Dots -->
+                <div class="absolute bottom-1 left-1/2 -translate-x-1/2 flex gap-1 z-30 pointer-events-none">
+                  <div v-for="(_, idx) in property.all_images" :key="idx"
+                    class="w-1 h-1 rounded-full transition-all"
+                    :class="idx === (property.currentImageIndex || 0) ? 'bg-secondary w-2' : 'bg-white/50'">
+                  </div>
+                </div>
+              </template>
+
+              <!-- Barre d'actions TikTok via composant réutilisable -->
+              <PropertyActionBar
+                :property="property"
+                :is-fav="favoritesAccueil.has(property.id)"
+                btn-size="sm"
+                position="absolute right-2 bottom-1.5"
+                @toggle-favorite="toggleFavoriteAccueil"
+                @share="(p) => shareItem(p, 'property')"
+              />
             </div>
             <div class="p-2">
               <div class="flex-col justify-between items-start mb-1">
@@ -512,6 +528,7 @@ import { ref, onMounted, computed } from "vue";
 import { RouterLink, useRouter } from "vue-router";
 import axios from "../../axios";
 import SkeletonLoader from "../../components/SkeletonLoader.vue";
+import PropertyActionBar from "../../components/PropertyActionBar.vue";
 
 const router = useRouter();
 
@@ -574,21 +591,62 @@ const formatPrice = (price) => {
 // 3-dots Menu Logic
 const activeMenu = ref(null);
 
+// Local favorites state for Accueil (without auth store dependency)
+const favoritesAccueil = ref(new Set());
+
+// ─── Image Slider Helpers ───────────────────────────────────────────
+const nextPropertyImage = (property) => {
+  if (!property.all_images) return;
+  const count = property.all_images.length;
+  property.currentImageIndex = ((property.currentImageIndex || 0) + 1) % count;
+};
+
+const prevPropertyImage = (property) => {
+  if (!property.all_images) return;
+  const count = property.all_images.length;
+  property.currentImageIndex = ((property.currentImageIndex || 0) - 1 + count) % count;
+};
+
+const prepareImageUrl = (path) => {
+  if (!path) return '/images/categoriebien/appart.jfif';
+  if (path.startsWith('http')) return path;
+  return `/storage/${path}`;
+};
+
+const toggleFavoriteAccueil = async (propertyId) => {
+  if (favoritesAccueil.value.has(propertyId)) {
+    favoritesAccueil.value.delete(propertyId);
+  } else {
+    favoritesAccueil.value.add(propertyId);
+  }
+  // Force reactivity
+  favoritesAccueil.value = new Set(favoritesAccueil.value);
+};
+
 const toggleMenu = (id) => {
   activeMenu.value = activeMenu.value === id ? null : id;
 };
 
 const shareItem = async (item, type) => {
   activeMenu.value = null;
-  const path = type === 'property' ? `/annonces/${item.slug || item.id}` : `/marketplace/${item.id}`;
-  const url = window.location.origin + path;
+  const baseUrl = window.location.origin;
+  const url = type === 'property' ? `${baseUrl}/annonces/${item.slug}` : `${baseUrl}/marketplace/items/${item.id}`;
+  
+  // Track share in backend if it's a property
+  if (type === 'property') {
+    await propertyStore.shareProperty(item.id);
+  }
+
   if (navigator.share) {
     try {
       await navigator.share({
         title: item.title || item.name,
+        text: 'Découvrez ceci sur Home Cameroon!',
         url: url
       });
-    } catch (err) {}
+    } catch (err) {
+      console.log('Erreur de partage:', err);
+    }
   } else {
     navigator.clipboard.writeText(url);
     alert('Lien copié dans le presse-papiers !');

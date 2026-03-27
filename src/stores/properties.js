@@ -266,6 +266,27 @@ export const usePropertyStore = defineStore('properties', {
         console.error("Erreur favoris:", err);
         throw err;
       }
+    },
+
+    async shareProperty(propertyId) {
+      try {
+        const { data } = await axios.post(`/api/properties/${propertyId}/share`);
+        if (data.success) {
+          // Update in listings
+          const prop = this.properties.find(p => p.id === propertyId);
+          if (prop) prop.shares_count = data.shares_count;
+
+          // Update in cache
+          Object.values(this.propertyDetailsCache).forEach(payload => {
+            if (payload?.data?.id === propertyId) {
+              payload.data.shares_count = data.shares_count;
+            }
+          });
+          return data;
+        }
+      } catch (err) {
+        console.error("Erreur increment partage:", err);
+      }
     }
   }
 });

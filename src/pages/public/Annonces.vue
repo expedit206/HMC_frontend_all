@@ -417,26 +417,59 @@
                 class="bg-card rounded-[.45rem] shadow-lg overflow-hidden border border-border hover:border-secondary transition-all group property-card">
                 <div class="flex flex-col md:flex-row">
                   <!-- Image Section -->
-                  <div class="md:w-2/5 relative h-56 md:h-auto md:self-stretch overflow-hidden">
-                    <img :src="property.image" :alt="property.title"
-                      class="w-full h-full md:absolute md:inset-0 object-cover transition-transform duration-500 group-hover:scale-110" />
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent md:bg-gradient-to-r">
-                    </div>
+                    <!-- Image Container with Slider -->
+                    <div class="md:w-2/5 relative h-64 md:h-auto md:self-stretch overflow-hidden group/image">
+                      <!-- Slider Images -->
+                      <div class="absolute inset-0 flex transition-transform duration-500 ease-in-out"
+                        :style="{ transform: `translateX(-${(property.currentImageIndex || 0) * 100}%)` }">
+                        <div v-for="(img, idx) in (property.all_images?.length ? property.all_images : [property.image])" :key="idx"
+                          class="min-w-full h-full bg-cover bg-center"
+                          :style="{ backgroundImage: `url('${prepareImageUrl(img)}')` }">
+                        </div>
+                      </div>
+
+                      <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent md:bg-gradient-to-r pointer-events-none">
+                      </div>
+
+                      <!-- Navigation Arrows (only if multi images) -->
+                      <template v-if="property.all_images && property.all_images.length > 1">
+                        <button @click.prevent="prevPropertyImage(property)"
+                          class="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-black/30 hover:bg-black/60 text-white rounded-full flex items-center justify-center transition-all opacity-0 group-hover/image:opacity-100 z-30">
+                          <i class="fas fa-chevron-left text-xs"></i>
+                        </button>
+                        <button @click.prevent="nextPropertyImage(property)"
+                          class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-black/30 hover:bg-black/60 text-white rounded-full flex items-center justify-center transition-all opacity-0 group-hover/image:opacity-100 z-30">
+                          <i class="fas fa-chevron-right text-xs"></i>
+                        </button>
+
+                        <!-- Pagination Dots -->
+                        <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5 z-30 pointer-events-none">
+                          <div v-for="(_, idx) in property.all_images" :key="idx"
+                            class="w-1.5 h-1.5 rounded-full transition-all"
+                            :class="idx === (property.currentImageIndex || 0) ? 'bg-secondary w-3' : 'bg-white/50'">
+                          </div>
+                        </div>
+                      </template>
                     <div
                       class="absolute top-3 right-3 bg-secondary text-white px-3 py-1 rounded-full text-sm font-semibold shadow-sm">
                       {{ property.type === "rent" ? "À louer" : "À vendre" }}
                     </div>
-                    <div
+                    
                     <div v-if="property.avg_rating > 0"
                       class="absolute top-3 left-3 bg-black/70 backdrop-blur-sm text-white px-2.5 py-1 rounded-full text-xs font-bold flex items-center gap-1">
                       <i class="fas fa-star text-amber-400 text-[10px]"></i>
                       {{ property.avg_rating }}
-                      <span class="text-white/60">({{ property.review_count }})</span>
                     </div>
-                    <div
-                      class="absolute bottom-3 right-3 bg-black/60 text-white px-3 py-1 rounded-full text-xs font-bold backdrop-blur-sm">
-                      <i class="fas fa-camera mr-1"></i> Photos
-                    </div>
+
+                    <!-- Barre d'actions TikTok via composant réutilisable -->
+                    <PropertyActionBar
+                      :property="property"
+                      :is-fav="isFavorite(property.id)"
+                      btn-size="md"
+                      position="absolute right-3 bottom-4"
+                      @toggle-favorite="toggleFavorite"
+                      @share="shareProperty"
+                    />
                   </div>
 
                   <!-- Content Section -->
@@ -447,50 +480,7 @@
                           class="text-xl md:text-2xl font-bold text-foreground group-hover:text-secondary transition-colors line-clamp-1 pr-6">
                           {{ property.title }}
                         </h2>
-                        
-                        <!-- Actions Container (Heart + 3-dots) -->
-                        <div class="flex items-center gap-2 absolute right-0 top-0">
-                          <button @click.prevent="toggleFavorite(property.id)"
-                            class="text-muted-foreground hover:text-destructive transition-colors relative z-10 p-1">
-                            <i :class="[
-                              isFavorite(property.id)
-                                ? 'fas text-destructive'
-                                : 'far',
-                              'fa-heart text-xl',
-                            ]"></i>
-                          </button>
-
-                          <!-- 3 Dots Menu -->
-                          <div class="relative z-20">
-                            <button @click.prevent="togglePropertyMenu(property.id)" 
-                              class="text-muted-foreground hover:text-foreground transition-colors p-1">
-                              <i class="fas fa-ellipsis-v text-xl px-1"></i>
-                            </button>
-                            
-                            <!-- Invisible Backdrop for click away -->
-                            <div v-if="activeMenu === property.id" @click.prevent.stop="activeMenu = null" class="fixed inset-0 z-30"></div>
-                            
-                            <!-- Dropdown -->
-                            <div v-if="activeMenu === property.id" 
-                              class="absolute right-0 top-full mt-1 w-48 bg-card border border-border shadow-2xl rounded-xl overflow-hidden py-1 z-40 animate-fadeIn">
-                              <button @click.prevent="shareProperty(property)" class="w-full text-left px-4 py-2.5 hover:bg-muted text-sm text-foreground flex items-center gap-3 transition-colors">
-                                <i class="fas fa-share-alt text-muted-foreground w-4"></i> Partager
-                              </button>
-                              <RouterLink :to="{ path: '/annonces', query: { type: property.type, city: property.city, rooms: property.rooms, max_price: Math.floor(property.price * 1.5), min_area: Math.max(0, property.area - 10) } }" class="w-full text-left px-4 py-2.5 hover:bg-muted text-sm text-foreground flex items-center gap-3 transition-colors">
-                                <i class="fas fa-clone text-muted-foreground w-4"></i> Biens similaires
-                              </RouterLink>
-                              <button @click.prevent="hideProperty(property.id)" class="w-full text-left px-4 py-2.5 hover:bg-muted text-sm text-foreground flex items-center gap-3 transition-colors">
-                                <i class="fas fa-eye-slash text-muted-foreground w-4"></i> Je n'aime pas
-                              </button>
-                              <div class="h-px bg-border my-1 w-full"></div>
-                              <button @click.prevent="reportProperty(property.id)" class="w-full text-left px-4 py-2.5 hover:bg-red-50 dark:hover:bg-red-900/20 text-sm text-destructive flex items-center gap-3 transition-colors">
-                                <i class="fas fa-flag w-4"></i> Signaler
-                              </button>
-                            </div>
-                          </div>
-                        </div>
                       </div>
-
                       <p class="text-foreground/80 mb-4 line-clamp-2 text-sm md:text-base mt-2">
                         {{ property.description }}
                       </p>
@@ -592,6 +582,7 @@ import { ref, computed, watch, onMounted } from "vue";
 import { RouterLink, useRoute, useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import { useAuthStore } from "../../stores/auth";
+import PropertyActionBar from "../../components/PropertyActionBar.vue";
 import { usePropertyStore } from "../../stores/properties";
 import axios from "../../axios";
 
@@ -640,6 +631,10 @@ const togglePropertyMenu = (id) => {
 const shareProperty = async (property) => {
   activeMenu.value = null;
   const url = window.location.origin + '/annonces/' + property.slug;
+  
+  // Track share in backend
+  await propertyStore.shareProperty(property.id);
+
   if (navigator.share) {
     try {
       await navigator.share({
@@ -673,6 +668,25 @@ const sortOptions = [
   { label: "Prix décroissant", value: "price-desc" },
   { label: "Surface", value: "area" },
 ];
+
+// ─── Image Slider Helpers ───────────────────────────────────────────
+const nextPropertyImage = (property) => {
+  if (!property.all_images) return;
+  const count = property.all_images.length;
+  property.currentImageIndex = ((property.currentImageIndex || 0) + 1) % count;
+};
+
+const prevPropertyImage = (property) => {
+  if (!property.all_images) return;
+  const count = property.all_images.length;
+  property.currentImageIndex = ((property.currentImageIndex || 0) - 1 + count) % count;
+};
+
+const prepareImageUrl = (path) => {
+  if (!path) return '/images/categoriebien/appart.jfif';
+  if (path.startsWith('http')) return path;
+  return `/storage/${path}`;
+};
 const sortLabels = {
   recent: "Pertinence",
   "price-asc": "Prix croissant",
