@@ -181,7 +181,7 @@
                 :property="property"
                 :is-fav="property.is_favorite"
                 btn-size="md"
-                position="absolute right-0   bottom-2  md:bottom-2"
+                position="absolute right-2   bottom-2  md:bottom-2"
                 @toggle-favorite="toggleFavorite"
                 @share="shareProperty"
               />

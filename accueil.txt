@@ -1,167 +1,109 @@
 <template>
   <div class="accueil-page bg-background">
-    <!-- ═══════════════════════════════════════════════════════════
-         HERO SECTION — Cinematic Multi-Role Slider
-    ═══════════════════════════════════════════════════════════ -->
-    <section class="hero-root relative overflow-hidden">
+    <!-- HERO SECTION avec image de fond -->
+    <section class="relative overflow-hidden">
+      <div class="absolute inset-0 image-bg" style="
+          background-image: url(&quot;/images/categoriebien/villj.jfif&quot;);
+        "></div>
+      <div class="absolute inset-0 bg-black/50"></div>
 
-      <!-- ── Ambient Particles ── -->
-      <div class="particles-layer" aria-hidden="true">
-        <span v-for="n in 18" :key="n" :class="`hpt-particle hpt-${n}`"></span>
-      </div>
+      <div class="relative  mx-auto px-4 py-6 lg:py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-10 items-center">
+          <!-- Texte -->
+          <div class="lg:col-span-2">
+            <h1 class="text-lg md:text-2xl lg:text-3xl font-semibold text-white mb-4 leading-snug">
+              Trouvez votre logement
+              <span class="text-secondary">au cœur du Cameroun</span>
+            </h1>
 
-      <!-- ── Background slides (crossfade images) ── -->
-      <transition-group name="hero-bg" tag="div" class="absolute inset-0">
-        <div
-          v-for="(slide, i) in heroSlides"
-          v-show="currentSlide === i"
-          :key="slide.role"
-          class="absolute inset-0 hero-bg-item"
-          :style="{ backgroundImage: `url(${slide.bg})` }"
-        ></div>
-      </transition-group>
+            <p class="text-sm md:text-base text-white/85 mb-6 max-w-xl">
+              Une plateforme immobilière locale pour rechercher, louer et gérer
+              facilement vos biens.
+            </p>
 
-      <!-- ── Multi-layer overlay ── -->
-      <div class="hero-overlay"></div>
-
-      <!-- ── Main Content ── -->
-      <div class="relative z-10  px-4 sm:px-6 lg:px-8 pt-8 pb-6 lg:pt-12 lg:pb-8">
-
-        <!-- Layout: content left + card right -->
-        <div class="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-8 items-center">
-
-          <!-- ───────────── LEFT: Slide Content ───────────── -->
-          <div class="lg:col-span-3">
-
-            <!-- Role badge -->
-            <transition name="badge-pop" mode="out-in">
-              <div :key="currentSlide" class="inline-flex items-center gap-2 mb-4">
-                <span
-                  class="role-badge px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest flex items-center gap-2"
-                  :style="{ background: heroSlides[currentSlide].accentBg, color: heroSlides[currentSlide].accentText, borderColor: heroSlides[currentSlide].accentBorder }"
-                >
-                  <i :class="'fas fa-' + heroSlides[currentSlide].icon"></i>
-                  {{ heroSlides[currentSlide].role }}
-                </span>
-                <span class="h-px w-8 bg-white/30"></span>
-                <span class="text-white/50 text-[10px] uppercase tracking-widest">HomeCameroon</span>
+            <!-- Stats réduites -->
+            <div class="flex flex-wrap gap-4 mt-8">
+              <div class="bg-card/10 backdrop-blur-sm rounded-[.45rem] p-3 min-w-25 text-center border border-white/20">
+                <div class="text-lg font-semibold text-ring">1 200+</div>
+                <div class="text-xs text-white/80">Biens</div>
               </div>
-            </transition>
 
-            <!-- Main headline -->
-            <transition name="slide-up" mode="out-in">
-              <h1 :key="'h-' + currentSlide" class="hero-headline text-white">
-                {{ heroSlides[currentSlide].headline }}
-                <span :style="{ color: heroSlides[currentSlide].accentText }" class="headline-accent">
-                  {{ heroSlides[currentSlide].headlineAccent }}
-                </span>
-              </h1>
-            </transition>
-
-            <!-- Subtitle -->
-            <transition name="slide-up-delay" mode="out-in">
-              <p :key="'p-' + currentSlide" class="hero-subtitle text-white/80 mt-3 mb-6 max-w-lg">
-                {{ heroSlides[currentSlide].subtitle }}
-              </p>
-            </transition>
-
-            
-            <!-- ── Floating Stat Chips ── -->
-            <transition name="slide-up-delay3" mode="out-in">
-              <div :key="'stats-' + currentSlide" class="flex flex-wrap gap-3">
-                <div
-                  v-for="stat in heroSlides[currentSlide].stats"
-                  :key="stat.label"
-                  class="stat-chip flex items-center gap-2"
-                >
-                  <div class="stat-chip-icon" :style="{ background: heroSlides[currentSlide].accentBg }">
-                    <i :class="'fas fa-' + stat.icon" :style="{ color: heroSlides[currentSlide].accentText }"></i>
-                  </div>
-                  <div>
-                    <div class="text-white font-bold text-sm leading-none">{{ stat.value }}</div>
-                    <div class="text-white/55 text-[10px] leading-none mt-0.5">{{ stat.label }}</div>
-                  </div>
-                </div>
+              <div class="bg-card/10 backdrop-blur-sm rounded-[.45rem] p-3 min-w-25 text-center border border-white/20">
+                <div class="text-lg font-semibold text-ring">300+</div>
+                <div class="text-xs text-white/80">Propriétaires</div>
               </div>
-            </transition>
+
+              <div class="bg-card/10 backdrop-blur-sm rounded-[.45rem] p-3 min-w-25 text-center border border-white/20">
+                <div class="text-lg font-semibold text-ring">10</div>
+                <div class="text-xs text-white/80">Régions</div>
+              </div>
+            </div>
           </div>
 
-          <!-- ───────────── RIGHT: Search Card ───────────── -->
-          <div class="lg:col-span-2">
-            <div class="hero-search-card">
-              <div class="flex items-center gap-2 mb-4">
-                <div class="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center">
-                  <i class="fas fa-search text-primary text-xs"></i>
-                </div>
-                <h3 class="text-sm font-bold text-foreground">Trouver un bien</h3>
+          <!-- Carte filtre -->
+          <div class="lg:col-span-1 rounded-[.45rem]">
+            <div class="bg-card/95 backdrop-blur-sm rounded-[.45rem] p-4 shadow-xl border border-white/30">
+              <div class="text-center mb-2">
+                <h3 class="text-sm font-semibold text-primary">
+                  <i class="fas fa-search text-secondary mr-1"></i>
+                  Recherche avancée
+                </h3>
               </div>
 
               <div class="space-y-3">
-                <div class="hero-field">
-                  <i class="fas fa-map-marker-alt text-muted-foreground text-xs w-4"></i>
-                  <select v-model="searchFilters.city" class="hero-select">
-                    <option value="" class="bg-card">Toutes les villes</option>
-                    <option v-for="city in cities" :key="city" :value="city.toLowerCase()" class="bg-card">{{ city }}</option>
+                <!-- Selects plus fins -->
+                <div class="relative group flex items-center bg-background rounded-[.45rem] px-2 border border-border">
+                  <i class="fas fa-map-marker-alt text-secondary text-sm"></i>
+                  <select v-model="searchFilters.city"
+                    class="appearance-none w-full px-3 py-2 pr-8 text-xs bg-transparent outline-none text-foreground">
+                    <option selected class="bg-card">Sélectionnez une ville</option>
+                    <option v-for="city in cities" :key="city" :value="city.toLowerCase()" class="bg-card">{{ city }}
+                    </option>
                   </select>
-                  <i class="fas fa-chevron-down text-muted-foreground/50 text-[10px]"></i>
+                  <i class="fas fa-chevron-down absolute right-2 text-secondary text-[10px]"></i>
                 </div>
 
-                <div class="hero-field">
-                  <i class="fas fa-home text-muted-foreground text-xs w-4"></i>
-                  <select v-model="searchFilters.type" class="hero-select">
-                    <option value="" class="bg-card">Type de bien</option>
-                    <option v-for="type in propertyTypes" :key="type" :value="type.toLowerCase()" class="bg-card">{{ type }}</option>
-                  </select>
-                  <i class="fas fa-chevron-down text-muted-foreground/50 text-[10px]"></i>
-                </div>
-
-                <div class="hero-field">
-                  <i class="fas fa-street-view text-muted-foreground text-xs w-4"></i>
-                  <input v-model="searchFilters.neighborhood" list="quartiers-hero" placeholder="Quartier..."
-                    class="hero-select" />
-                  <datalist id="quartiers-hero">
-                    <option v-for="q in neighborhoods" :key="q" :value="q" />
+                <div class="relative group flex items-center bg-background rounded-[.45rem] px-2 border border-border">
+                  <i class="fas fa-street-view text-secondary text-sm"></i>
+                  <input v-model="searchFilters.neighborhood" list="quartiers" placeholder="Tous les quartiers"
+                    class="w-full px-3 py-2 text-xs bg-transparent outline-none text-foreground placeholder:text-muted-foreground" />
+                  <datalist id="quartiers">
+                    <option v-for="quartier in neighborhoods" :key="quartier" :value="quartier" />
                   </datalist>
                 </div>
 
-                <div>
-                  <div class="flex justify-between mb-1.5">
-                    <span class="text-muted-foreground text-[11px]">Budget max</span>
-                    <span class="text-foreground text-[11px] font-semibold">{{ formatBudget(searchFilters.budget) }} FCFA</span>
-                  </div>
-                  <input v-model="searchFilters.budget" type="range" min="15000" max="500000" step="5000"
-                    class="hero-range w-full" />
+                <div class="relative group flex items-center bg-background rounded-[.45rem] px-2 border border-border">
+                  <i class="fas fa-home text-secondary text-sm"></i>
+                  <select v-model="searchFilters.type"
+                    class="appearance-none w-full px-3 py-2 pr-8 text-xs bg-transparent outline-none text-foreground">
+                    <option selected class="bg-card">Sélectionnez un type</option>
+                    <option v-for="type in propertyTypes" :key="type" :value="type.toLowerCase()" class="bg-card">{{
+                      type }}</option>
+                  </select>
+                  <i class="fas fa-chevron-down absolute right-2 text-secondary text-[10px]"></i>
                 </div>
 
-                <button @click="handleSearch" class="hero-search-btn w-full">
-                  <i class="fas fa-search text-xs"></i>
-                  Rechercher
-                  <i class="fas fa-arrow-right text-xs ml-auto"></i>
+                <!-- Budget plus compact -->
+                <div>
+                  <label class="block text-xs text-primary mb-1">
+                    Budget
+                  </label>
+                  <input ref="budgetSlider" v-model="searchFilters.budget" type="range" min="15000" max="500000"
+                    step="5000" class="w-full h-1 bg-secondary rounded-lg appearance-none cursor-pointer" />
+                  <div class="text-center text-xs text-secondary mt-1">
+                    {{ formatBudget(searchFilters.budget) }} FCFA
+                  </div>
+                </div>
+
+                <!-- Bouton léger -->
+                <button @click="handleSearch"
+                  class="w-full bg-primary text-primary-foreground text-xs py-2 rounded-[.45rem] flex items-center justify-center gap-2 hover:bg-primary/90 transition font-bold">
+                  Trouver
+                  <i class="fas fa-arrow-right text-secondary text-[12px]"></i>
                 </button>
               </div>
             </div>
           </div>
-        </div>
-
-        <!-- ══ Role Navigator Tabs (bottom) ══ -->
-        <div class="role-nav-bar mt-8">
-          <button
-            v-for="(slide, i) in heroSlides"
-            :key="slide.role"
-            @click="goToSlide(i)"
-            :class="['role-nav-btn', { active: currentSlide === i }]"
-            :style="currentSlide === i ? { borderColor: slide.accentText, color: slide.accentText } : {}"
-          >
-            <span class="role-nav-icon" :style="currentSlide === i ? { background: slide.accentBg } : {}">
-              <i :class="'fas fa-' + slide.icon"
-                :style="currentSlide === i ? { color: slide.accentText } : {}"></i>
-            </span>
-            <span class="hidden sm:inline text-xs font-semibold text-white">{{ slide.role }}</span>
-            <!-- Active progress bar -->
-            <span v-if="currentSlide === i" class="role-nav-progress"
-              :style="{ background: slide.accentText, animationDuration: slideDuration + 'ms' }"
-            ></span>
-          </button>
         </div>
       </div>
     </section>
@@ -582,7 +524,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount, computed } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { RouterLink, useRouter } from "vue-router";
 import axios from "../../axios";
 import SkeletonLoader from "../../components/SkeletonLoader.vue";
@@ -600,102 +542,6 @@ const searchFilters = ref({
   budget: 500000,
   neighborhood: "",
 });
-
-// ═══════════════════════════════════════════════
-// HERO SLIDER
-// ═══════════════════════════════════════════════
-const currentSlide = ref(0);
-const slideDuration = 6000;
-let sliderInterval = null;
-
-const heroSlides = [
-  {
-    role: "Locataire",
-    icon: "user",
-    bg: "/images/categoriebien/appart.jfif",
-    headline: "Trouvez votre",
-    headlineAccent: "appartement idéal",
-    subtitle: "Des milliers de biens vérifiés à Douala, Yaoundé et partout au Cameroun. Visitez, postulez et emménagez en toute sérénité.",
-    accentBg: "hsl(var(--secondary) / 0.2)",
-    accentText: "hsl(var(--secondary))",
-    accentBorder: "hsl(var(--secondary) / 0.4)",
-    ctaPrimary: { label: "Parcourir les biens", icon: "th-large", link: "/annonces" },
-    ctaSecondary: { label: "Comment ça marche", icon: "play-circle", link: "/comment-ca-marche" },
-    stats: [
-      { value: "1 200+", label: "Biens disponibles", icon: "building" },
-      { value: "98%", label: "Locataires satisfaits", icon: "smile" },
-      { value: "48h", label: "Délai moyen de réponse", icon: "clock" },
-    ],
-  },
-  {
-    role: "Bailleur",
-    icon: "key",
-    bg: "/images/categoriebien/villj.jfif",
-    headline: "Gérez et rentabilisez",
-    headlineAccent: "vos propriétés",
-    subtitle: "Publiez vos annonces gratuitement, suivez vos locations et encaissez vos loyers — tout depuis un tableau de bord centralisé.",
-    accentBg: "hsl(var(--secondary) / 0.2)",
-    accentText: "hsl(var(--secondary))",
-    accentBorder: "hsl(var(--secondary) / 0.4)",
-    ctaPrimary: { label: "Publier une annonce", icon: "plus-circle", link: "/bailleur/dashboard" },
-    ctaSecondary: { label: "Estimez votre loyer", icon: "chart-line", link: "/annonces" },
-    stats: [
-      { value: "300+", label: "Propriétaires actifs", icon: "users" },
-      { value: "0 FCFA", label: "Publication gratuite", icon: "tag" },
-      { value: "95%", label: "Taux d'occupation", icon: "percentage" },
-    ],
-  },
-  {
-    role: "Prestataire",
-    icon: "tools",
-    bg: "/images/categoriebien/studio.jfif",
-    headline: "Développez votre",
-    headlineAccent: "activité de services",
-    subtitle: "Plombiers, électriciens, peintres, agents de nettoyage — rejoignez notre réseau et connectez-vous à des clients qualifiés.",
-    accentBg: "hsl(var(--secondary) / 0.2)",
-    accentText: "hsl(var(--secondary))",
-    accentBorder: "hsl(var(--secondary) / 0.4)",
-    ctaPrimary: { label: "Rejoindre le réseau", icon: "handshake", link: "/marketplace" },
-    ctaSecondary: { label: "Voir les services", icon: "list", link: "/marketplace" },
-    stats: [
-      { value: "150+", label: "Prestataires certifiés", icon: "certificate" },
-      { value: "20+", label: "Catégories de service", icon: "th", },
-      { value: "4.8★", label: "Note moyenne", icon: "star" },
-    ],
-  },
-  {
-    role: "Agent immobilier",
-    icon: "briefcase",
-    bg: "/images/categoriebien/dupp.jfif",
-    headline: "Boostez vos",
-    headlineAccent: "commissions & transactions",
-    subtitle: "Un espace professionnel dédié pour gérer vos mandats, planifier vos visites et suivre chaque dossier locatif de A à Z.",
-    accentBg: "hsl(var(--secondary) / 0.2)",
-    accentText: "hsl(var(--secondary))",
-    accentBorder: "hsl(var(--secondary) / 0.4)",
-    ctaPrimary: { label: "Mon espace agent", icon: "tachometer-alt", link: "/agent/dashboard" },
-    ctaSecondary: { label: "Voir les missions", icon: "map-marked-alt", link: "/annonces" },
-    stats: [
-      { value: "80+", label: "Agents certifiés HMC", icon: "id-badge" },
-      { value: "500+", label: "Transactions réussies", icon: "handshake" },
-      { value: "10", label: "Régions couvertes", icon: "map" },
-    ],
-  },
-];
-
-const goToSlide = (i) => {
-  currentSlide.value = i;
-  resetSliderTimer();
-};
-
-const nextSlide = () => {
-  currentSlide.value = (currentSlide.value + 1) % heroSlides.length;
-};
-
-const resetSliderTimer = () => {
-  if (sliderInterval) clearInterval(sliderInterval);
-  sliderInterval = setInterval(nextSlide, slideDuration);
-};
 
 // Mock data for selects
 const cities = ["Douala", "Yaoundé", "Bafoussam", "Bamenda", "Garoua", "Maroua", "Ngaoundéré", "Bertoua", "Limbe", "Kribi"];
@@ -785,6 +631,11 @@ const shareItem = async (item, type) => {
   activeMenu.value = null;
   const baseUrl = window.location.origin;
   const url = type === 'property' ? `${baseUrl}/annonces/${item.slug}` : `${baseUrl}/marketplace/items/${item.id}`;
+  
+  // Track share in backend if it's a property
+  if (type === 'property') {
+    await propertyStore.shareProperty(item.id);
+  }
 
   if (navigator.share) {
     try {
@@ -887,355 +738,10 @@ const fetchData = async () => {
 
 onMounted(() => {
   fetchData();
-  resetSliderTimer();
-});
-
-onBeforeUnmount(() => {
-  if (sliderInterval) clearInterval(sliderInterval);
 });
 </script>
 
 <style scoped>
-/* ══════════════════════════════════════════════════════
-   HERO ROOT
-══════════════════════════════════════════════════════ */
-.hero-root {
-  min-height: 92vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  position: relative;
-}
-
-@media (max-width: 768px) {
-  .hero-root { min-height: 100svh; }
-}
-
-/* ── Background slides ── */
-.hero-bg-item {
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.hero-bg-enter-active,
-.hero-bg-leave-active {
-  transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.hero-bg-enter-from { opacity: 0; }
-.hero-bg-leave-to   { opacity: 0; }
-
-/* ── Overlay ── */
-.hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(0,0,0,0.78) 0%,
-    rgba(0,0,0,0.55) 40%,
-    rgba(0,0,0,0.35) 70%,
-    rgba(0,0,0,0.65) 100%
-  );
-  z-index: 1;
-}
-
-/* ══════════════════════════════════════════════════════
-   PARTICLES
-══════════════════════════════════════════════════════ */
-.particles-layer {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-.hpt-particle {
-  position: absolute;
-  border-radius: 50%;
-  opacity: 0;
-  animation: particle-float linear infinite;
-}
-
-/* Hero particles — prefixed hpt- to avoid clashing with Tailwind p-* padding utilities */
-.hpt-1  { width:4px;  height:4px;  left:5%;   bottom:-10px; animation-duration:18s; animation-delay:0s;   background:hsl(var(--secondary) / 0.6); }
-.hpt-2  { width:6px;  height:6px;  left:12%;  bottom:-10px; animation-duration:22s; animation-delay:2s;   background:hsl(var(--chart-1) / 0.5); }
-.hpt-3  { width:3px;  height:3px;  left:20%;  bottom:-10px; animation-duration:15s; animation-delay:5s;   background:hsl(var(--foreground) / 0.2); }
-.hpt-4  { width:5px;  height:5px;  left:30%;  bottom:-10px; animation-duration:20s; animation-delay:1s;   background:hsl(var(--chart-4) / 0.5); }
-.hpt-5  { width:4px;  height:4px;  left:38%;  bottom:-10px; animation-duration:17s; animation-delay:8s;   background:hsl(var(--chart-5) / 0.5); }
-.hpt-6  { width:7px;  height:7px;  left:45%;  bottom:-10px; animation-duration:25s; animation-delay:3s;   background:hsl(var(--secondary) / 0.4); }
-.hpt-7  { width:3px;  height:3px;  left:55%;  bottom:-10px; animation-duration:19s; animation-delay:6s;   background:hsl(var(--foreground) / 0.15); }
-.hpt-8  { width:5px;  height:5px;  left:62%;  bottom:-10px; animation-duration:23s; animation-delay:0.5s; background:hsl(var(--chart-1) / 0.4); }
-.hpt-9  { width:4px;  height:4px;  left:70%;  bottom:-10px; animation-duration:16s; animation-delay:4s;   background:hsl(var(--chart-4) / 0.6); }
-.hpt-10 { width:6px;  height:6px;  left:78%;  bottom:-10px; animation-duration:21s; animation-delay:9s;   background:hsl(var(--secondary) / 0.5); }
-.hpt-11 { width:3px;  height:3px;  left:85%;  bottom:-10px; animation-duration:14s; animation-delay:2.5s; background:hsl(var(--chart-5) / 0.4); }
-.hpt-12 { width:5px;  height:5px;  left:92%;  bottom:-10px; animation-duration:28s; animation-delay:7s;   background:hsl(var(--foreground) / 0.3); }
-.hpt-13 { width:4px;  height:4px;  left:8%;   bottom:-10px; animation-duration:20s; animation-delay:11s;  background:hsl(var(--chart-1) / 0.6); }
-.hpt-14 { width:6px;  height:6px;  left:25%;  bottom:-10px; animation-duration:24s; animation-delay:1.5s; background:hsl(var(--secondary) / 0.3); }
-.hpt-15 { width:3px;  height:3px;  left:48%;  bottom:-10px; animation-duration:17s; animation-delay:10s;  background:hsl(var(--chart-4) / 0.4); }
-.hpt-16 { width:5px;  height:5px;  left:65%;  bottom:-10px; animation-duration:22s; animation-delay:3.5s; background:hsl(var(--chart-5) / 0.6); }
-.hpt-17 { width:4px;  height:4px;  left:82%;  bottom:-10px; animation-duration:19s; animation-delay:6.5s; background:hsl(var(--foreground) / 0.2); }
-.hpt-18 { width:7px;  height:7px;  left:95%;  bottom:-10px; animation-duration:26s; animation-delay:13s;  background:hsl(var(--secondary) / 0.5); }
-
-@keyframes particle-float {
-  0%   { transform: translateY(0) rotate(0deg);   opacity: 0; }
-  10%  { opacity: 0.8; }
-  90%  { opacity: 0.3; }
-  100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
-}
-
-/* ══════════════════════════════════════════════════════
-   TYPOGRAPHY
-══════════════════════════════════════════════════════ */
-.hero-headline {
-  font-size: clamp(1.75rem, 4vw, 3rem);
-  font-weight: 800;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-}
-
-.headline-accent {
-  display: block;
-  font-size: clamp(2rem, 5vw, 3.75rem);
-  font-weight: 900;
-  line-height: 1;
-  text-shadow: 0 0 60px currentColor;
-}
-
-.hero-subtitle {
-  font-size: clamp(0.85rem, 1.5vw, 1rem);
-  line-height: 1.65;
-}
-
-/* ══════════════════════════════════════════════════════
-   ROLE BADGE
-══════════════════════════════════════════════════════ */
-.role-badge {
-  border: 1px solid;
-  border-radius: 999px;
-  backdrop-filter: blur(8px);
-  letter-spacing: 0.12em;
-}
-
-/* ══════════════════════════════════════════════════════
-   STAT CHIPS
-══════════════════════════════════════════════════════ */
-.stat-chip {
-  background: rgba(255,255,255,0.07);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 0.75rem;
-  padding: 0.5rem 0.875rem;
-}
-
-.stat-chip-icon {
-  width: 2rem;
-  height: 2rem;
-  border-radius: 0.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.75rem;
-  flex-shrink: 0;
-}
-
-/* ══════════════════════════════════════════════════════
-   BUTTONS
-══════════════════════════════════════════════════════ */
-.hero-btn-primary {
-  transition: transform 0.2s, box-shadow 0.2s;
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255,255,255,0.15);
-  box-shadow: 0 4px 24px rgba(0,0,0,0.3);
-}
-.hero-btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-}
-
-.hero-btn-secondary {
-  background: rgba(255,255,255,0.1);
-  backdrop-filter: blur(8px);
-  color: white;
-  border: 1px solid rgba(255,255,255,0.2);
-  transition: all 0.2s;
-}
-.hero-btn-secondary:hover {
-  background: rgba(255,255,255,0.2);
-  transform: translateY(-2px);
-}
-
-/* ══════════════════════════════════════════════════════
-   SEARCH CARD
-══════════════════════════════════════════════════════ */
-.hero-search-card {
-  background: hsl(var(--card) / 0.82);
-  backdrop-filter: blur(28px);
-  -webkit-backdrop-filter: blur(28px);
-  border: 1px solid hsl(var(--border) / 0.25);
-  border-radius: 1.25rem;
-  padding: 1.25rem;
-  box-shadow: 
-    0 20px 50px -10px rgba(0,0,0,0.5),
-    0 4px 12px hsl(var(--foreground) / 0.05);
-  transition: all 0.3s ease;
-}
-
-.hero-field {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: hsl(var(--background) / 0.7);
-  border: 1px solid hsl(var(--border) / 0.6);
-  border-radius: 0.65rem;
-  padding: 0.45rem 0.75rem;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.hero-field:focus-within {
-  border-color: hsl(var(--ring));
-  background: hsl(var(--background));
-  box-shadow: 0 0 0 4px hsl(var(--ring) / 0.1);
-}
-
-.hero-select {
-  flex: 1;
-  background: transparent;
-  border: none;
-  outline: none;
-  color: hsl(var(--foreground));
-  font-size: 0.8rem;
-  padding: 0.25rem 0;
-  min-width: 0;
-}
-.hero-select option { background: hsl(var(--card)); color: hsl(var(--foreground)); }
-.hero-select::placeholder { 
-  color: hsl(var(--muted-foreground)); 
-}
-
-.hero-range {
-  -webkit-appearance: none;
-  appearance: none;
-  height: 4px;
-  border-radius: 2px;
-  background: hsl(var(--secondary) / 0.3);
-  cursor: pointer;
-}
-.hero-range::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 16px; height: 16px;
-  border-radius: 50%;
-  background: hsl(var(--secondary));
-  border: 2px solid hsl(var(--background));
-  cursor: pointer;
-  box-shadow: 0 0 8px hsl(var(--secondary) / 0.4);
-}
-
-.hero-search-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.8));
-  color: hsl(var(--primary-foreground));
-  font-size: 0.85rem;
-  font-weight: 700;
-  padding: 0.65rem 1rem;
-  border-radius: 0.65rem;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-}
-.hero-search-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 8px 28px rgba(0,0,0,0.4);
-}
-
-/* ══════════════════════════════════════════════════════
-   ROLE NAV BAR
-══════════════════════════════════════════════════════ */
-.role-nav-bar {
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-}
-
-.role-nav-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: hsl(var(--card) / 0.15);
-  backdrop-filter: blur(8px);
-  border: 1px solid hsl(var(--border) / 0.2);
-  color: hsl(var(--foreground) / 0.6);
-  border-radius: 0.65rem;
-  padding: 0.5rem 0.875rem;
-  font-size: 0.75rem;
-  cursor: pointer;
-  transition: all 0.3s;
-  position: relative;
-  overflow: hidden;
-}
-.role-nav-btn:hover {
-  background: hsl(var(--card) / 0.25);
-  color: hsl(var(--foreground));
-}
-.role-nav-btn.active {
-  background: hsl(var(--background) / 0.4);
-  color: hsl(var(--foreground));
-}
-
-.role-nav-icon {
-  width: 1.75rem;
-  height: 1.75rem;
-  border-radius: 0.4rem;
-  background: hsl(var(--foreground) / 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.7rem;
-  transition: background 0.3s;
-  color: hsl(var(--foreground) / 0.7);
-}
-.role-nav-btn.active .role-nav-icon { color: hsl(var(--foreground)); }
-
-.role-nav-progress {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 2px;
-  width: 0;
-  border-radius: 1px;
-  animation: progress-fill linear forwards;
-}
-@keyframes progress-fill {
-  from { width: 0; }
-  to   { width: 100%; }
-}
-
-/* ══════════════════════════════════════════════════════
-   SLIDE TRANSITIONS
-══════════════════════════════════════════════════════ */
-.badge-pop-enter-active { animation: badge-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
-.badge-pop-leave-active { animation: badge-out 0.25s ease-in; }
-@keyframes badge-in  { from { opacity:0; transform:scale(0.7) translateY(10px); } to { opacity:1; transform:scale(1) translateY(0); } }
-@keyframes badge-out { from { opacity:1; } to { opacity:0; transform:translateY(-8px); } }
-
-.slide-up-enter-active { animation: slide-in 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
-.slide-up-leave-active { animation: slide-out 0.3s ease-in; }
-@keyframes slide-in  { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
-@keyframes slide-out { from { opacity:1; } to { opacity:0; transform:translateY(-16px); } }
-
-.slide-up-delay-enter-active  { animation: slide-in  0.55s 0.08s cubic-bezier(0.22,1,0.36,1) both; }
-.slide-up-delay-leave-active  { animation: slide-out 0.25s ease-in; }
-.slide-up-delay2-enter-active { animation: slide-in  0.6s  0.15s cubic-bezier(0.22,1,0.36,1) both; }
-.slide-up-delay2-leave-active { animation: slide-out 0.25s ease-in; }
-.slide-up-delay3-enter-active { animation: slide-in  0.65s 0.22s cubic-bezier(0.22,1,0.36,1) both; }
-.slide-up-delay3-leave-active { animation: slide-out 0.25s ease-in; }
-
-/* ══════════════════════════════════════════════════════
-   CARRIED OVER STYLES
-══════════════════════════════════════════════════════ */
 .image-bg {
   background-position: center;
   background-size: cover;
@@ -1287,17 +793,45 @@ onBeforeUnmount(() => {
   scroll-snap-align: start;
 }
 
-/* ── Range slider : HERO ONLY (scoped to .hero-range) ── */
-.hero-range::-webkit-slider-runnable-track {
-  width: 100%;
-  height: 4px;
-  border-radius: 2px;
-  background: rgba(255,255,255,0.2);
+/* Style pour l'input range */
+input[type=range] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
 }
-.hero-range::-moz-range-track {
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: hsl(var(--secondary));
+  cursor: pointer;
+  margin-top: -6px;
+  border: 2px solid hsl(var(--background));
+}
+
+input[type=range]::-moz-range-thumb {
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: hsl(var(--secondary));
+  cursor: pointer;
+  border: 2px solid hsl(var(--background));
+}
+
+input[type=range]::-webkit-slider-runnable-track {
   width: 100%;
   height: 4px;
+  background: hsl(var(--secondary) / 0.3);
   border-radius: 2px;
-  background: rgba(255,255,255,0.2);
+}
+
+input[type=range]::-moz-range-track {
+  width: 100%;
+  height: 4px;
+  background: hsl(var(--secondary) / 0.3);
+  border-radius: 2px;
 }
 </style>

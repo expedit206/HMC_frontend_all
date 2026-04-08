@@ -58,7 +58,7 @@
         <RouterLink
           :to="{ path: '/annonces', query: similarQuery }"
           @click="menuOpen = false"
-          class="w-full text-left px-2 py-[1rem] hover:bg-muted text-xs text-foreground flex items-center gap-2 transition-colors">
+          class="w-full text-left px-2 py-1 hover:bg-muted text-xs text-foreground flex items-center gap-2 transition-colors">
           <i class="fas fa-clone text-muted-foreground w-3"></i>
           Biens similaires
         </RouterLink>
@@ -66,7 +66,7 @@
 
         <!-- Masquer -->
         <button @click.prevent="handleHide"
-          class="w-full text-left px-2 py-[1rem] hover:bg-muted text-xs text-foreground flex items-center gap-2 transition-colors">
+          class="w-full text-left px-2 py-1 hover:bg-muted text-xs text-foreground flex items-center gap-2 transition-colors">
           <i class="fas fa-eye-slash text-muted-foreground w-3"></i>
           je n'aime pas
           
@@ -74,7 +74,7 @@
 
         <!-- Signaler -->
         <button @click.prevent="handleReport"
-          class="w-full text-left px-2 py-[1rem] hover:bg-red-50 dark:hover:bg-red-900/20 text-xs text-destructive flex items-center gap-2 transition-colors">
+          class="w-full text-left px-2 py-1 hover:bg-red-50 dark:hover:bg-red-900/20 text-xs text-destructive flex items-center gap-2 transition-colors">
           <i class="fas fa-flag w-3"></i>
           Signaler l'arnaque
         </button>

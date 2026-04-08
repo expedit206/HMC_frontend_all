@@ -32,15 +32,15 @@
           <div
             class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start pt-4 opacity-0 animate-fade-in-up delay-300"
           >
-            <button
+            <button @click="router.push('/marketplace/prestataires')"
               class="px-8 py-4 bg-white text-primary rounded-full font-bold shadow-xl hover:bg-gray-100 transition-all hover:scale-105 flex items-center gap-2"
             >
-              <i class="fas fa-shopping-bag"></i> Commencer vos achats
+              <i class="fas fa-user-tools"></i> Trouver un Pro
             </button>
-            <button
+            <button @click="router.push('/marketplace/demandes')"
               class="px-8 py-4 bg-white/10 backdrop-blur-md border border-white/30 text-white rounded-full font-bold hover:bg-white/20 transition-all flex items-center gap-2"
             >
-              <i class="fas fa-tags"></i> Voir les promotions
+              <i class="fas fa-clipboard-list"></i> Demandes de services
             </button>
           </div>
         </div>
@@ -206,7 +206,25 @@
           </div>
         </div>
 
-        <!-- Promo Banner -->
+        <!-- Promo Banner 1: Demandes -->
+        <div
+          class="bg-primary rounded-2xl p-6 text-white text-center relative overflow-hidden mb-6"
+        >
+          <div
+            class="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"
+          ></div>
+          <h4 class="font-bold text-xl mb-2">Besoin d'un Pro ?</h4>
+          <p class="text-xs text-white/80 mb-4">
+            Postez votre besoin et recevez des offres de nos experts vérifiés.
+          </p>
+          <button @click="router.push('/marketplace/demandes')"
+            class="w-full py-2.5 bg-white text-primary font-bold rounded-xl shadow-lg hover:bg-gray-100 transition-all"
+          >
+            Voir les demandes
+          </button>
+        </div>
+
+        <!-- Promo Banner 2 -->
         <div
           class="bg-secondary rounded-2xl p-6 text-white text-center relative overflow-hidden"
         >

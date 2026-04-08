@@ -13,10 +13,35 @@
       <div class="hidden lg:flex items-center flex-1 justify-center gap-6 px-2">
         <!-- Navigation Links -->
         <nav class="flex items-center gap-6 font-medium text-sm text-muted-foreground">
-          <RouterLink v-for="link in navLinks" :key="link.to" :to="link.to" active-class="text-secondary font-bold"
-            class="flex flex-col lg:flex-row  items-center gap-2 hover:text-primary transition-colors whitespace-nowrap">
-            <i :class="link.icon" class="text-xs"></i> {{ link.label }}
-          </RouterLink>
+          <template v-for="link in navLinks" :key="link.label">
+            <!-- Simple Link -->
+            <RouterLink v-if="!link.children" :to="link.to" active-class="text-secondary font-bold"
+              class="flex flex-col lg:flex-row items-center gap-2 hover:text-primary transition-colors whitespace-nowrap">
+              <i :class="link.icon" class="text-xs"></i> {{ link.label }}
+            </RouterLink>
+
+            <!-- Dropdown Link -->
+            <div v-else class="relative group h-full flex items-center">
+              <button class="flex items-center gap-2 hover:text-primary transition-colors whitespace-nowrap py-4">
+                <i :class="link.icon" class="text-xs"></i> {{ link.label }}
+                <i class="fas fa-chevron-down text-[10px] opacity-50 group-hover:rotate-180 transition-transform"></i>
+              </button>
+
+              <!-- Dropdown Content -->
+              <div
+                class="absolute top-full left-0 w-56 bg-card border border-border rounded-2xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top -translate-y-2 group-hover:translate-y-0 z-50 overflow-hidden">
+                <div class="p-2 space-y-1">
+                  <RouterLink v-for="sub in link.children" :key="sub.to" :to="sub.to"
+                    class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/10 hover:text-primary transition-all text-foreground font-medium">
+                    <div class="w-8 h-8 rounded-lg bg-primary/5 flex items-center justify-center text-primary">
+                      <i :class="sub.icon"></i>
+                    </div>
+                    <span>{{ sub.label }}</span>
+                  </RouterLink>
+                </div>
+              </div>
+            </div>
+          </template>
         </nav>
 
         <!-- Search Bar -->
@@ -60,7 +85,7 @@
           <!-- Theme Toggle -->
           <ThemeToggle />
 
-   
+
           <!-- Notifications (Connecté) -->
           <RouterLink v-if="authStore.isAuthenticated" to="/notifications"
             class="text-muted-foreground hover:text-primary transition-colors p-1 relative" title="Notifications">
@@ -72,12 +97,12 @@
           <div class="h-6 w-px bg-border"></div>
 
 
-               <!-- CTA: Publier une annonce (Visible sur Tablette+) -->
-        <RouterLink to="/publier-bien"
-          class="flex items-center gap-2 font-semibold text-secondary hover:text-secondary/80">
-          <i class="fas fa-plus-circle text-xl"></i>
-          <span class="hidden md:inline">Publier</span>
-        </RouterLink>
+          <!-- CTA: Publier une annonce (Visible sur Tablette+) -->
+          <RouterLink to="/publier-bien"
+            class="flex items-center gap-2 font-semibold text-secondary hover:text-secondary/80">
+            <i class="fas fa-plus-circle text-xl"></i>
+            <span class="hidden md:inline">Publier</span>
+          </RouterLink>
 
           <!-- CONNECTÉ : Menu Utilisateur -->
           <div v-if="authStore.isAuthenticated" class="relative group">
@@ -85,7 +110,7 @@
               class="flex items-center gap-2 text-sm font-semibold text-foreground hover:text-primary focus:outline-none">
               <UserAvatar :user="authStore.user" size="sm" />
               <!-- <span class="max-w-25 truncate hidden xl:block">{{ authStore.user?.name }}</span> -->
-          
+
             </button>
 
             <!-- Dropdown Menu -->
@@ -138,7 +163,7 @@
           </div>
         </div>
 
-   
+
         <!-- Burger Button (Mobile) -->
         <button @click="mobileMenuOpen = !mobileMenuOpen"
           class="lg:hidden p-2 text-foreground hover:text-primary focus:outline-none">
@@ -162,7 +187,8 @@
 
     <!-- OVERLAY POUR MENU MOBILE -->
     <div v-if="mobileMenuOpen" @click="mobileMenuOpen = false"
-      class="lg:hidden fixed inset-0 top-[64px] sm:top-[80px] bg-black/50 backdrop-blur-sm z-40 transition-opacity duration-300"></div>
+      class="lg:hidden fixed inset-0 top-[64px] sm:top-[80px] bg-black/50 backdrop-blur-sm z-40 transition-opacity duration-300">
+    </div>
 
     <!-- MENU MOBILE ÉTENDU (Overlay) -->
     <div v-show="mobileMenuOpen"
@@ -224,12 +250,25 @@
           Navigation
         </h3>
         <ul class="space-y-2">
-          <li v-for="link in navLinks" :key="'mobile-' + link.to">
-            <RouterLink :to="link.to"
-              class="flex items-center gap-2 text-sm text-foreground/80 hover:text-primary py-1">
-              <i :class="link.icon" class="w-5"></i> {{ link.label }}
-            </RouterLink>
-          </li>
+          <template v-for="link in navLinks" :key="'mobile-' + (link.to || link.label)">
+            <li v-if="!link.children">
+              <RouterLink :to="link.to"
+                class="flex items-center gap-2 text-sm text-foreground/80 hover:text-primary py-1">
+                <i :class="link.icon" class="w-5"></i> {{ link.label }}
+              </RouterLink>
+            </li>
+            <!-- Submenu for Prestataires in mobile -->
+            <li v-else class="space-y-1 mt-2 mb-4">
+              <div
+                class="flex items-center gap-2 text-xs font-black text-muted-foreground uppercase tracking-widest mb-2 px-1">
+                <i :class="link.icon" class="w-4"></i> {{ link.label }}
+              </div>
+              <RouterLink v-for="sub in link.children" :key="'mob-sub-' + sub.to" :to="sub.to"
+                class="flex items-center gap-3 p-3 bg-muted/30 rounded-xl text-foreground text-sm font-bold">
+                <i :class="sub.icon" class="text-primary"></i> {{ sub.label }}
+              </RouterLink>
+            </li>
+          </template>
           <li>
             <RouterLink to="/assistance"
               class="flex items-center gap-2 text-sm text-foreground/80 hover:text-primary py-1">
@@ -338,90 +377,72 @@ const navLinks = computed(() => {
   const role = authStore.userActiveRole;
   const isAuthenticated = authStore.isAuthenticated;
 
+  // Prestataires Dropdown (Common to all roles)
+  const prestatairesMenu = {
+    label: "Prestataires",
+    icon: "fas fa-user-tie",
+    children: [
+      { to: "/marketplace/demandes", label: "Demandes de services", icon: "fas fa-clipboard-list" },
+      { to: "/marketplace/prestataires", label: "Trouver un prestataire", icon: "fas fa-user-cog" }
+    ]
+  };
+
   if (!isAuthenticated) {
     return [
       { to: "/", label: "Accueil", icon: "fas fa-home" },
       { to: "/annonces", label: "Annonces", icon: "fas fa-search-location" },
+      prestatairesMenu,
       { to: "/marketplace", label: "Shop", icon: "fas fa-store" },
     ];
   }
 
+  const baseLinks = [{ to: "/", label: "Accueil", icon: "fas fa-home" }];
+
   switch (role) {
     case "agent":
       return [
-        { to: "/", label: "Accueil", icon: "fas fa-home" },
-        {
-          to: "/agent/dashboard",
-          label: "Dashboard",
-          icon: "fas fa-tachometer-alt",
-        },
+        ...baseLinks,
+        { to: "/agent/dashboard", label: "Dashboard", icon: "fas fa-tachometer-alt" },
         { to: "/agent/missions", label: "Missions", icon: "fas fa-tasks" },
         { to: "/agent/agenda", label: "Agenda", icon: "fas fa-calendar-alt" },
-        { to: "/agent/clients", label: "Clients", icon: "fas fa-users" },
+        prestatairesMenu,
       ];
     case "bailleur":
       return [
-        { to: "/", label: "Accueil", icon: "fas fa-home" },
-        {
-          to: "/bailleur/dashboard",
-          label: "Dashboard",
-          icon: "fas fa-tachometer-alt",
-        },
-        {
-          to: "/bailleur/mes-biens",
-          label: "Mes Biens",
-          icon: "fas fa-building",
-        },
-        { to: "/bailleur/finances", label: "Revenus", icon: "fas fa-wallet" },
+        ...baseLinks,
+        { to: "/bailleur/dashboard", label: "Dashboard", icon: "fas fa-tachometer-alt" },
+        { to: "/bailleur/mes-biens", label: "Mes Biens", icon: "fas fa-building" },
+        prestatairesMenu,
         { to: "/marketplace", label: "Shop", icon: "fas fa-store" },
       ];
     case "locataire":
       return [
-        { to: "/", label: "Accueil", icon: "fas fa-home" },
+        ...baseLinks,
         { to: "/annonces", label: "Annonces", icon: "fas fa-search-location" },
         { to: "/mon-suivi", label: "Mon Suivi", icon: "fas fa-clipboard-list" },
+        prestatairesMenu,
         { to: "/marketplace", label: "Shop", icon: "fas fa-store" },
       ];
     case "prestataire":
       return [
-        { to: "/", label: "Accueil", icon: "fas fa-home" },
-        {
-          to: "/prestataire/dashboard",
-          label: "Dashboard",
-          icon: "fas fa-tachometer-alt",
-        },
-        {
-          to: "/prestataire/interventions",
-          label: "Interventions",
-          icon: "fas fa-tools",
-        },
-        {
-          to: "/prestataire/agenda",
-          label: "Agenda",
-          icon: "fas fa-calendar-alt",
-        },
+        ...baseLinks,
+        { to: "/prestataire/dashboard", label: "Dashboard", icon: "fas fa-tachometer-alt" },
+        { to: "/prestataire/interventions", label: "Interventions", icon: "fas fa-tools" },
+        prestatairesMenu,
         { to: "/marketplace", label: "Shop", icon: "fas fa-store" },
       ];
     case "admin":
       return [
-        { to: "/", label: "Accueil", icon: "fas fa-home" },
+        ...baseLinks,
         { to: "/admin/dashboard", label: "Admin", icon: "fas fa-user-shield" },
-        {
-          to: "/admin/utilisateurs",
-          label: "Utilisateurs",
-          icon: "fas fa-users",
-        },
-        {
-          to: "/admin/biens-annonces",
-          label: "Gestion Biens",
-          icon: "fas fa-building",
-        },
+        { to: "/admin/utilisateurs", label: "Utilisateurs", icon: "fas fa-users" },
+        prestatairesMenu,
       ];
     default:
       return [
-
-        { to: "/", label: "Accueil", icon: "fas fa-home" },
+        ...baseLinks,
         { to: "/annonces", label: "Annonces", icon: "fas fa-search-location" },
+        prestatairesMenu,
         { to: "/marketplace", label: "Shop", icon: "fas fa-store" },
         { to: "/client/dashboard", label: "Dashboard", icon: "fas fa-user-shield" },
       ];
@@ -432,11 +453,11 @@ const mobileBottomLinks = computed(() => {
   const role = authStore.userActiveRole;
   const isAuthenticated = authStore.isAuthenticated;
 
-  // Essential links for bottom bar (max 5)
   if (!isAuthenticated) {
     return [
       { to: "/", label: "Accueil", icon: "fas fa-home" },
       { to: "/annonces", label: "Annonces", icon: "fas fa-search-location" },
+      { to: "/marketplace/prestataires", label: "Services", icon: "fas fa-tools" },
       { to: "/marketplace", label: "Shop", icon: "fas fa-store" },
       { to: "/auth/connexion", label: "Profil", icon: "far fa-user-circle" },
     ];
@@ -450,92 +471,43 @@ const mobileBottomLinks = computed(() => {
         ...base,
         { to: "/agent/missions", label: "Missions", icon: "fas fa-tasks" },
         { to: "/agent/agenda", label: "Agenda", icon: "fas fa-calendar-alt" },
-        { to: "/agent/biens", label: "Biens", icon: "fas fa-building" },
         { to: "/agent/dashboard", label: "Dashboard", icon: "far fa-user-circle" },
       ];
     case "bailleur":
       return [
         ...base,
-        {
-          to: "/bailleur/mes-biens",
-          label: "Mes Biens",
-          icon: "fas fa-building",
-        },
-        {
-          to: "/bailleur/visites",
-          label: "Visites",
-          icon: "fas fa-calendar-check",
-        },
-        { to: "/bailleur/finances", label: "Revenus", icon: "fas fa-wallet" },
-        {
-          to: "/bailleur/dashboard",
-          label: "Dashboard",
-          icon: "far fa-user-circle",
-        },
+        { to: "/bailleur/mes-biens", label: "Mes Biens", icon: "fas fa-building" },
+        { to: "/marketplace/prestataires", label: "Prestataires", icon: "fas fa-tools" },
+        { to: "/bailleur/dashboard", label: "Dashboard", icon: "far fa-user-circle" },
       ];
     case "locataire":
       return [
         ...base,
         { to: "/annonces", label: "Annonces", icon: "fas fa-search-location" },
+        { to: "/marketplace/prestataires", label: "Prestataires", icon: "fas fa-tools" },
         { to: "/mon-suivi", label: "Suivi", icon: "fas fa-clipboard-list" },
-        {
-          to: "/locataire/mes-favoris",
-          label: "Favoris",
-          icon: "far fa-heart",
-        },
-        {
-          to: "/locataire/dashboard",
-          label: "Dashboard",
-          icon: "far fa-user-circle",
-        },
+        { to: "/locataire/dashboard", label: "Dashboard", icon: "far fa-user-circle" },
       ];
     case "prestataire":
       return [
         ...base,
-        {
-          to: "/prestataire/interventions",
-          label: "Tâches",
-          icon: "fas fa-tools",
-        },
-        {
-          to: "/prestataire/agenda",
-          label: "Agenda",
-          icon: "fas fa-calendar-alt",
-        },
-        {
-          to: "/prestataire/finances",
-          label: "Revenus",
-          icon: "fas fa-wallet",
-        },
-        {
-          to: "/prestataire/dashboard",
-          label: "Dashboard",
-          icon: "far fa-user-circle",
-        },
+        { to: "/prestataire/interventions", label: "Tâches", icon: "fas fa-tools" },
+        { to: "/prestataire/agenda", label: "Agenda", icon: "fas fa-calendar-alt" },
+        { to: "/prestataire/dashboard", label: "Dashboard", icon: "far fa-user-circle" },
       ];
     case "admin":
       return [
         ...base,
         { to: "/admin/dashboard", label: "Admin", icon: "fas fa-user-shield" },
-        {
-          to: "/admin/biens-annonces",
-          label: "Biens",
-          icon: "fas fa-building",
-        },
         { to: "/admin/utilisateurs", label: "Users", icon: "fas fa-users" },
         { to: "/admin/dashboard", label: "Dashboard", icon: "far fa-user-circle" },
       ];
     default:
       return [
         ...base,
-        { to: getDashboardLink(), label: "Dashboard", icon: "fas fa-user-shield" },
-
         { to: "/annonces", label: "Annonces", icon: "fas fa-search-location" },
-        {
-          to: "/locataire/mes-favoris",
-          label: "Favoris",
-          icon: "far fa-heart",
-        },
+        { to: "/marketplace/prestataires", label: "Services", icon: "fas fa-tools" },
+        { to: "/marketplace", label: "Shop", icon: "fas fa-store" },
         { to: getDashboardLink(), label: "Dashboard", icon: "far fa-user-circle" },
       ];
   }
