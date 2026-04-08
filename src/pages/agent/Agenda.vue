@@ -25,9 +25,15 @@
           <div class="flex items-center justify-between">
             <div>
               <p class="text-sm text-muted-foreground mb-1">
+<<<<<<< HEAD
                 Rendez-vous cette semaine
               </p>
               <p class="text-3xl font-bold text-secondary">5</p>
+=======
+                Rendez-vous à venir
+              </p>
+              <p class="text-3xl font-bold text-secondary">{{ upcomingVisitsCount }}</p>
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
             </div>
             <i class="fas fa-calendar-check text-4xl text-secondary/20"></i>
           </div>
@@ -37,19 +43,32 @@
           <div class="flex items-center justify-between">
             <div>
               <p class="text-sm text-muted-foreground mb-1">
+<<<<<<< HEAD
                 Heures libres cette semaine
               </p>
               <p class="text-3xl font-bold text-green-500 dark:text-green-400">12h30</p>
             </div>
             <i class="fas fa-hourglass-half text-4xl text-green-500/20"></i>
+=======
+                Visites Réalisées
+              </p>
+              <p class="text-3xl font-bold text-green-500 dark:text-green-400">{{ completedVisitsCount }}</p>
+            </div>
+            <i class="fas fa-check-double text-4xl text-green-500/20"></i>
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
           </div>
         </div>
 
         <div class="bg-card rounded-xl shadow-sm border border-border p-6">
           <div class="flex items-center justify-between">
             <div>
+<<<<<<< HEAD
               <p class="text-sm text-muted-foreground mb-1">Visites programmées</p>
               <p class="text-3xl font-bold text-blue-500 dark:text-blue-400">8</p>
+=======
+              <p class="text-sm text-muted-foreground mb-1">Total Confirmées</p>
+              <p class="text-3xl font-bold text-blue-500 dark:text-blue-400">{{ confirmedVisitsCount }}</p>
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
             </div>
             <i class="fas fa-map-marker-alt text-4xl text-blue-500/20"></i>
           </div>
@@ -58,10 +77,17 @@
         <div class="bg-card rounded-xl shadow-sm border border-border p-6">
           <div class="flex items-center justify-between">
             <div>
+<<<<<<< HEAD
               <p class="text-sm text-muted-foreground mb-1">Taux d'occupation</p>
               <p class="text-3xl font-bold text-purple-500 dark:text-purple-400">65%</p>
             </div>
             <i class="fas fa-chart-pie text-4xl text-purple-500/20"></i>
+=======
+              <p class="text-sm text-muted-foreground mb-1">En attente / planifiées</p>
+              <p class="text-3xl font-bold text-orange-500 dark:text-orange-400">{{ pendingVisitsCount }}</p>
+            </div>
+            <i class="fas fa-clock text-4xl text-orange-500/20"></i>
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
           </div>
         </div>
       </div>
@@ -163,6 +189,7 @@
               <p class="text-xs font-semibold text-muted-foreground mb-3">LÉGENDE</p>
               <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-sm">
                 <div class="flex items-center gap-2">
+<<<<<<< HEAD
                   <div
                     class="w-4 h-4 rounded bg-green-100 dark:bg-green-900/30 border border-green-300 dark:border-green-700"
                   ></div>
@@ -177,6 +204,18 @@
                 <div class="flex items-center gap-2">
                   <div class="w-4 h-4 rounded bg-muted"></div>
                   <span class="text-foreground/80">Occupé</span>
+=======
+                  <div class="w-4 h-4 rounded bg-orange-100 dark:bg-orange-900/30 border border-orange-300 dark:border-orange-700"></div>
+                  <span class="text-foreground/80">En attente</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <div class="w-4 h-4 rounded bg-gradient-to-br from-secondary to-secondary/80 border border-secondary/50"></div>
+                  <span class="text-foreground/80">Confirmé</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <div class="w-4 h-4 rounded bg-green-100 dark:bg-green-900/30 border border-green-300 dark:border-green-700"></div>
+                  <span class="text-foreground/80">Terminée</span>
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
                 </div>
               </div>
             </div>
@@ -220,6 +259,7 @@
                     })
                   }}
                 </p>
+<<<<<<< HEAD
                 <p class="text-xs text-muted-foreground">
                   <i class="fas fa-user text-secondary mr-2"></i>
                   {{ event.visitor?.name }}
@@ -227,6 +267,18 @@
                 <div class="mt-3">
                   <span
                     class="inline-block px-2 py-1 rounded text-[10px] font-bold bg-secondary/10 text-secondary border border-secondary/20"
+=======
+                <p class="text-xs text-muted-foreground mt-1">
+                  <i class="fas fa-user text-secondary mr-2"></i>
+                  Client: {{ event.visitor?.name || 'Non assigné' }}
+                </p>
+                <div class="mt-3">
+                  <span
+                    :class="[
+                      'inline-block px-2 py-1 rounded text-[10px] font-bold border',
+                      getEventClass(event.type)
+                    ]"
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
                   >{{ event.status }}</span>
                 </div>
               </div>
@@ -237,6 +289,7 @@
 
       <!-- AVAILABILITY SETTINGS -->
       <div
+<<<<<<< HEAD
         class="bg-card rounded-2xl shadow-sm border border-border p-6 animate-slide-up"
         style="animation-delay: 0.2s"
       >
@@ -304,11 +357,79 @@
                   />
                   <span class="text-sm text-muted-foreground">Fermé</span>
                 </label>
+=======
+        class="bg-card rounded-2xl shadow-sm border border-border p-6 animate-slide-up mb-10"
+        style="animation-delay: 0.2s"
+      >
+        <div class="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4 border-b border-border pb-4">
+          <h3 class="text-xl font-bold text-foreground flex items-center gap-2">
+            <i class="fas fa-clock text-secondary"></i> Horaires de travail réguliers
+          </h3>
+          <button
+            @click="saveAvailabilities"
+            :disabled="isSaving"
+            class="px-5 py-2.5 bg-secondary text-secondary-foreground rounded-xl font-bold hover:shadow-lg hover:bg-secondary/90 transition-all flex items-center gap-2 text-sm"
+          >
+            <i v-if="isSaving" class="fas fa-circle-notch fa-spin"></i>
+            <i v-else class="fas fa-save"></i> 
+            {{ isSaving ? 'Sauvegarde...' : 'Enregistrer les horaires' }}
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <!-- LEFT: 7 DAYS -->
+          <div class="lg:col-span-2 space-y-3">
+            <div
+              v-for="day in daysConfig"
+              :key="day.key"
+              class="flex flex-col sm:flex-row sm:items-center justify-between p-3.5 bg-muted/10 border border-border rounded-xl transition-all"
+              :class="availabilities[day.key].off ? 'opacity-60 grayscale' : 'hover:border-secondary/30 bg-muted/20'"
+            >
+              <!-- Day Toggle -->
+              <div class="flex items-center gap-3 w-40 shrink-0 mb-3 sm:mb-0">
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input
+                    type="checkbox"
+                    :checked="!availabilities[day.key].off"
+                    @change="availabilities[day.key].off = !$event.target.checked"
+                    class="sr-only peer"
+                  >
+                  <div class="w-9 h-5 bg-muted-foreground/30 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-secondary"></div>
+                </label>
+                <span class="font-bold text-foreground capitalize">{{ day.label }}</span>
+              </div>
+              
+              <!-- Time Inputs -->
+              <div v-if="!availabilities[day.key].off" class="flex items-center gap-3 flex-1 sm:justify-end">
+                <div class="flex items-center bg-background border border-border rounded-lg px-2 overflow-hidden focus-within:border-secondary transition-colors">
+                  <span class="text-[10px] font-black uppercase text-muted-foreground pr-1">De</span>
+                  <input
+                    v-model="availabilities[day.key].start"
+                    type="time"
+                    class="py-1.5 bg-transparent text-foreground text-sm font-bold outline-none border-none w-24"
+                  />
+                </div>
+                <!-- <span class="text-muted-foreground text-xs uppercase font-bold px-1">—</span> -->
+                <div class="flex items-center bg-background border border-border rounded-lg px-2 overflow-hidden focus-within:border-secondary transition-colors">
+                  <span class="text-[10px] font-black uppercase text-muted-foreground pr-1">À</span>
+                  <input
+                    v-model="availabilities[day.key].end"
+                    type="time"
+                    class="py-1.5 bg-transparent text-foreground text-sm font-bold outline-none border-none w-24"
+                  />
+                </div>
+              </div>
+              
+              <!-- Closed State Text -->
+              <div v-else class="flex-1 sm:text-right text-xs font-bold text-muted-foreground uppercase tracking-widest py-1.5 flex items-center sm:justify-end gap-2">
+                <i class="fas fa-bed"></i> Repos
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
               </div>
             </div>
           </div>
 
           <!-- RIGHT: QUICK ACTIONS -->
+<<<<<<< HEAD
           <div>
             <h4 class="font-bold text-foreground mb-4">Actions rapides</h4>
 
@@ -358,6 +479,50 @@
             <i class="fas fa-save mr-2"></i> Enregistrer les modifications
           </button>
         </div>
+=======
+          <div class="space-y-4">
+             <div class="bg-muted/10 border border-border rounded-xl p-5 sticky top-24">
+               <h4 class="font-black text-foreground mb-4 text-sm uppercase tracking-wider">
+                 Actions rapides
+               </h4>
+               <div class="space-y-2">
+                  <button
+                    @click="setWeekdaysOpen"
+                    class="w-full flex items-center justify-between p-3.5 bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-800 rounded-lg hover:bg-green-100 dark:hover:bg-green-900/40 transition group"
+                  >
+                    <span class="font-medium text-green-700 dark:text-green-400 text-left text-sm">
+                      <i class="fas fa-briefcase mr-2"></i> Lundi - Vendredi
+                    </span>
+                    <i class="fas fa-arrow-right text-green-600 dark:text-green-400 group-hover:translate-x-1 transition-transform text-xs"></i>
+                  </button>
+
+                  <button
+                    @click="setAllClosed"
+                    class="w-full flex items-center justify-between p-3.5 bg-muted/20 border border-border rounded-lg hover:bg-muted/30 transition group"
+                  >
+                    <span class="font-medium text-foreground text-left text-sm">
+                      <i class="fas fa-lock mr-2"></i> Marquer tout fermé
+                    </span>
+                    <i class="fas fa-arrow-right text-muted-foreground group-hover:translate-x-1 transition-transform text-xs"></i>
+                  </button>
+
+                  <button
+                    @click="setAllDaysOpen"
+                    class="w-full flex items-center justify-between p-3.5 bg-secondary/10 border border-secondary/20 rounded-lg hover:bg-secondary/20 transition group"
+                  >
+                    <span class="font-medium text-secondary text-left text-sm">
+                      <i class="fas fa-calendar-check mr-2"></i> Tous les jours
+                    </span>
+                    <i class="fas fa-arrow-right text-secondary group-hover:translate-x-1 transition-transform text-xs"></i>
+                  </button>
+               </div>
+               <p class="text-xs text-muted-foreground mt-4 leading-relaxed">
+                 Configurez vos heures de travail. Les clients ne pourront réserver des visites qu'en fonction de ces créneaux à l'avenir. 
+               </p>
+             </div>
+          </div>
+        </div>
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
       </div>
     </div>
   </DashboardLayout>
@@ -473,11 +638,19 @@ const getEventsForDate = (date) => {
 const getEventClass = (type) => {
   switch (type) {
     case "available":
+<<<<<<< HEAD
       return "bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 border border-green-200 dark:border-green-800";
     case "booked":
       return "bg-secondary/10 text-secondary border border-secondary/20";
     case "busy":
       return "bg-muted/20 text-muted-foreground border border-border";
+=======
+      return "bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 border-orange-200 dark:border-orange-800";
+    case "booked":
+      return "bg-secondary/10 text-secondary border-secondary/20";
+    case "busy":
+      return "bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 border-green-200 dark:border-green-800";
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
     default:
       return "bg-muted/20 text-muted-foreground";
   }

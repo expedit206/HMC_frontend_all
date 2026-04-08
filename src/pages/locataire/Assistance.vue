@@ -1,42 +1,4 @@
 <template>
-<<<<<<< HEAD
-  <DashboardLayout>
-    <div class="max-w-6xl mx-auto">
-      <!-- Hero Section -->
-      <div class="mb-12 text-center">
-        <h1
-          class="text-4xl md:text-5xl font-black text-foreground leading-tight mb-4"
-        >
-          Votre <span class="text-secondary">Compagnon</span> Locatif
-        </h1>
-        <p
-          class="text-muted-foreground text-lg md:text-xl mt-3 font-medium max-w-3xl mx-auto"
-        >
-          Assurance, caution, assistance juridique et bien plus pour vivre
-          serein
-        </p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mb-12">
-        <!-- Assurance Garantie Loyer -->
-        <div
-          class="bg-gradient-to-br from-blue-50 dark:from-blue-950/30 to-card rounded-3xl p-6 border border-blue-100 dark:border-blue-800/50 shadow-sm hover:shadow-lg transition-all group cursor-pointer"
-        >
-          <div class="flex gap-5">
-            <div
-              class="w-14 h-14 bg-blue-100 dark:bg-blue-900/50 text-secondary rounded-2xl flex items-center justify-center text-xl mb-6 group-hover:scale-110 transition-transform"
-            >
-              <i class="fas fa-shield-alt"></i>
-            </div>
-            <div>
-              <h3 class="text-lg font-bold text-foreground mb-3">
-                Assurance Garantie Loyer
-              </h3>
-              <p class="text-sm text-muted-foreground mb-6">
-                Protégez vos revenus en cas d'impayés
-              </p>
-            </div>
-=======
   <SharedAssistanceLayout title="Votre Compagnon Locatif"
     subtitle="Assurance, caution, assistance juridique et bien plus pour vivre serein"
     headerIcon="fa-hand-holding-heart" :faqs="faqs" :showContactParams="false"
@@ -71,6 +33,7 @@
             <i class="fas fa-lock"></i>
           </div>
           <div>
+<<<<<<< HEAD
             <h3 class="text-lg font-bold text-[#1B0B38] mb-3">Caution Digitale</h3>
             <p class="text-sm text-gray-500 mb-6">Évitez le blocage de votre capital</p>
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
@@ -83,6 +46,10 @@
             <i
               class="fas fa-arrow-right text-secondary group-hover:translate-x-1 transition-transform"
             ></i>
+=======
+            <h3 class="text-lg font-bold text-foreground mb-3">Caution Digitale</h3>
+            <p class="text-sm text-muted-foreground mb-6">Évitez le blocage de votre capital</p>
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
           </div>
         </div>
         <div class="flex items-center justify-between">
@@ -91,153 +58,6 @@
         </div>
       </div>
 
-<<<<<<< HEAD
-        <!-- Caution Digitale -->
-        <div
-          class="bg-gradient-to-br from-purple-50 dark:from-purple-950/30 to-card rounded-3xl p-6 border border-purple-100 dark:border-purple-800/50 shadow-sm hover:shadow-lg transition-all group cursor-pointer"
-        >
-          <div class="flex gap-5">
-            <div
-              class="w-14 h-14 bg-purple-100 dark:bg-purple-900/50 text-secondary rounded-2xl flex items-center justify-center text-xl mb-6 group-hover:scale-110 transition-transform"
-            >
-              <i class="fas fa-lock"></i>
-            </div>
-            <div>
-              <h3 class="text-lg font-bold text-foreground mb-3">
-                Caution Digitale
-              </h3>
-              <p class="text-sm text-muted-foreground mb-6">
-                Évitez le blocage de votre capital
-              </p>
-            </div>
-          </div>
-          <div class="flex items-center justify-between">
-            <span
-              class="text-xs font-bold text-secondary bg-purple-50 dark:bg-purple-950/50 px-3 py-1 rounded-full"
-              >2,5% du loyer annuel</span
-            >
-            <i
-              class="fas fa-arrow-right text-secondary group-hover:translate-x-1 transition-transform"
-            ></i>
-          </div>
-        </div>
-
-        <!-- Assistance Juridique -->
-        <div
-          class="bg-gradient-to-br from-green-50 dark:from-green-950/30 to-card rounded-3xl p-6 border border-green-100 dark:border-green-800/50 shadow-sm hover:shadow-lg transition-all group cursor-pointer"
-        >
-          <div class="flex gap-5">
-            <div
-              class="w-14 h-14 bg-green-100 dark:bg-green-900/50 text-secondary rounded-2xl flex items-center justify-center text-xl mb-6 group-hover:scale-110 transition-transform"
-            >
-              <i class="fas fa-balance-scale"></i>
-            </div>
-            <div>
-              <h3 class="text-lg font-bold text-foreground mb-3">
-                Assistance Juridique
-              </h3>
-              <p class="text-sm text-muted-foreground mb-6">
-                Conseils et défense pour vos litiges
-              </p>
-            </div>
-          </div>
-          <div class="flex items-center justify-between">
-            <span
-              class="text-xs font-bold text-secondary bg-green-50 dark:bg-green-950/50 px-3 py-1 rounded-full"
-              >Premium</span
-            >
-            <i
-              class="fas fa-arrow-right text-secondary group-hover:translate-x-1 transition-transform"
-            ></i>
-          </div>
-        </div>
-
-        <!-- Support 24/7 -->
-        <div
-          class="bg-gradient-to-br from-orange-50 dark:from-secondary/10 to-card rounded-3xl p-6 border border-orange-100 dark:border-secondary/20 shadow-sm hover:shadow-lg transition-all group cursor-pointer"
-        >
-          <div class="flex gap-5">
-            <div
-              class="w-14 h-14 bg-orange-100 dark:bg-secondary/20 text-secondary rounded-2xl flex items-center justify-center text-xl mb-6 group-hover:scale-110 transition-transform"
-            >
-              <i class="fas fa-headset"></i>
-            </div>
-            <div>
-              <h3 class="text-lg font-bold text-foreground mb-3">
-                Support Urgence 24/7
-              </h3>
-              <p class="text-sm text-muted-foreground mb-6">
-                Urgences, dépannage, assistance
-              </p>
-            </div>
-          </div>
-          <div class="flex items-center justify-between">
-            <span
-              class="text-xs font-bold text-secondary bg-orange-50 dark:bg-secondary/10 px-3 py-1 rounded-full"
-              >Inclus Premium</span
-            >
-            <i
-              class="fas fa-arrow-right text-secondary group-hover:translate-x-1 transition-transform"
-            ></i>
-          </div>
-        </div>
-      </div>
-
-      <!-- Main Assistance Cards -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
-        <!-- Contact Direct -->
-        <div
-          class="lg:col-span-2 bg-card rounded-3xl p-8 border border-border shadow-sm"
-        >
-          <div
-            class="flex flex-col md:flex-row md:items-center justify-between mb-8"
-          >
-            <div>
-              <h3 class="text-2xl font-bold text-foreground mb-2">
-                Contactez notre équipe
-              </h3>
-              <p class="text-muted-foreground">
-                Nos experts sont disponibles pour vous aider
-              </p>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-muted/20 rounded-2xl p-6 border border-border">
-              <div
-                class="w-12 h-12 bg-secondary text-secondary-foreground rounded-xl flex items-center justify-center text-lg mb-4"
-              >
-                <i class="fas fa-comments"></i>
-              </div>
-              <h4 class="font-bold text-foreground mb-2">Chat en direct</h4>
-              <p class="text-sm text-muted-foreground mb-4">
-                Réponse immédiate pour vos questions simples
-              </p>
-              <button
-                class="w-full py-3 bg-secondary text-secondary-foreground rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-secondary/90 transition-all"
-              >
-                Démarrer un chat
-              </button>
-            </div>
-
-            <div class="bg-muted/20 rounded-2xl p-6 border border-border">
-              <div
-                class="w-12 h-12 bg-primary text-primary-foreground rounded-xl flex items-center justify-center text-lg mb-4"
-              >
-                <i class="fas fa-phone"></i>
-              </div>
-              <h4 class="font-bold text-foreground mb-2">Appel téléphonique</h4>
-              <p class="text-sm text-muted-foreground mb-4">
-                Pour les urgences et questions complexes
-              </p>
-              <a
-                href="tel:+237600000000"
-                class="block w-full py-3 bg-primary text-primary-foreground text-center rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-secondary hover:text-secondary-foreground transition-all"
-              >
-                Appeler maintenant
-              </a>
-            </div>
-=======
       <!-- Assistance Juridique -->
       <div
         class="bg-gradient-to-br from-green-50 to-white rounded-3xl p-6 border border-green-100 shadow-sm hover:shadow-lg transition-all group cursor-pointer">
@@ -247,9 +67,14 @@
             <i class="fas fa-balance-scale"></i>
           </div>
           <div>
+<<<<<<< HEAD
             <h3 class="text-lg font-bold text-[#1B0B38] mb-3">Assistance Juridique</h3>
             <p class="text-sm text-gray-500 mb-6">Conseils et défense pour vos litiges</p>
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+            <h3 class="text-lg font-bold text-foreground mb-3">Assistance Juridique</h3>
+            <p class="text-sm text-muted-foreground mb-6">Conseils et défense pour vos litiges</p>
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
           </div>
         </div>
         <div class="flex items-center justify-between">
@@ -258,101 +83,6 @@
         </div>
       </div>
 
-<<<<<<< HEAD
-        <!-- Stats & Info -->
-        <div class="bg-primary text-primary-foreground rounded-3xl p-8 shadow-xl">
-          <h3 class="text-2xl font-bold mb-8">Nos chiffres</h3>
-          <div class="space-y-6">
-            <div>
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-primary-foreground/70 text-sm">Tickets résolus</span>
-                <span class="text-2xl font-bold">98%</span>
-              </div>
-              <div class="w-full bg-primary-foreground/20 rounded-full h-2">
-                <div
-                  class="bg-green-500 h-2 rounded-full"
-                  style="width: 98%"
-                ></div>
-              </div>
-            </div>
-            <div>
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-primary-foreground/70 text-sm">Temps moyen réponse</span>
-                <span class="text-2xl font-bold">2h</span>
-              </div>
-              <div class="w-full bg-primary-foreground/20 rounded-full h-2">
-                <div
-                  class="bg-blue-500 h-2 rounded-full"
-                  style="width: 90%"
-                ></div>
-              </div>
-            </div>
-            <div>
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-primary-foreground/70 text-sm"
-                  >Satisfaction clients</span
-                >
-                <span class="text-2xl font-bold">4.8/5</span>
-              </div>
-              <div class="w-full bg-primary-foreground/20 rounded-full h-2">
-                <div
-                  class="bg-yellow-500 h-2 rounded-full"
-                  style="width: 96%"
-                ></div>
-              </div>
-            </div>
-          </div>
-          <div class="mt-8 pt-6 border-t border-primary-foreground/10">
-            <p class="text-primary-foreground/70 text-sm">
-              <i class="fas fa-clock mr-2"></i>
-              Disponible 7j/7 de 8h à 22h
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <!-- FAQ Section with Toggle -->
-      <div
-        class="bg-card rounded-3xl p-8 border border-border shadow-sm mb-12"
-      >
-        <div class="text-center mb-10">
-          <h3 class="text-2xl font-bold text-foreground mb-3">
-            Questions Fréquentes
-          </h3>
-          <p class="text-muted-foreground">
-            Trouvez rapidement des réponses à vos interrogations
-          </p>
-        </div>
-
-        <div class="space-y-4 max-w-4xl mx-auto">
-          <div
-            v-for="(faq, index) in faqs"
-            :key="index"
-            class="faq-item border border-border rounded-2xl p-6 cursor-pointer hover:border-secondary transition-all"
-            @click="toggleFaq(index)"
-          >
-            <div class="flex justify-between items-center">
-              <div class="flex items-center gap-4">
-                <div
-                  :class="`w-10 h-10 ${faq.bgColor} ${faq.textColor} rounded-xl flex items-center justify-center`"
-                >
-                  <i :class="`fas ${faq.icon}`"></i>
-                </div>
-                <h4 class="font-bold text-foreground">{{ faq.question }}</h4>
-              </div>
-              <i
-                :class="`fas fa-chevron-down text-muted-foreground transition-transform ${faq.open ? 'rotate-180' : ''}`"
-              ></i>
-            </div>
-            <div v-show="faq.open" class="faq-answer mt-4 ml-14">
-              <p class="text-muted-foreground text-sm" v-html="faq.answer"></p>
-              <div v-if="faq.tag" class="mt-4">
-                <span
-                  class="inline-block px-3 py-1 bg-blue-50 dark:bg-blue-950/30 text-blue-600 dark:text-blue-400 text-xs font-bold rounded-full"
-                  >{{ faq.tag }}</span
-                >
-              </div>
-=======
       <!-- Support 24/7 -->
       <div
         class="bg-gradient-to-br from-orange-50 to-white rounded-3xl p-6 border border-orange-100 shadow-sm hover:shadow-lg transition-all group cursor-pointer">
@@ -386,7 +116,6 @@
           <div class="bg-gray-50 rounded-2xl p-6">
             <div class="w-12 h-12 bg-[#E54801] text-white rounded-xl flex items-center justify-center text-lg mb-4">
               <i class="fas fa-comments"></i>
->>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
             </div>
             <h4 class="font-bold text-gray-800 mb-2">Chat en direct</h4>
             <p class="text-sm text-gray-500 mb-4">Réponse immédiate pour vos questions simples</p>
@@ -410,6 +139,7 @@
       </div>
 
       <!-- CTA Section -->
+<<<<<<< HEAD
 <<<<<<< HEAD
       <div class="text-center">
         <div
@@ -441,6 +171,9 @@
   </DashboardLayout>
 =======
       <div class="bg-gradient-to-r from-[#E54801] to-[#913327] rounded-3xl p-12 text-white shadow-xl text-center">
+=======
+      <div class="bg-gradient-to-r from-secondary to-secondary/80 rounded-3xl p-12 text-secondary-foreground shadow-xl text-center">
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
         <h3 class="text-3xl font-bold mb-4">Besoin d'une solution sur mesure ?</h3>
         <p class="text-white/80 text-lg mb-8 max-w-2xl mx-auto">
           Notre équipe d'experts peut vous proposer un package personnalisé selon vos besoins spécifiques.
@@ -500,35 +233,32 @@
       </div>
     </template>
   </SharedAssistanceLayout>
->>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
 </template>
 
 <script setup>
 import { ref } from "vue";
-<<<<<<< HEAD
-import DashboardLayout from "../../layouts/DashboardLayout.vue";
-=======
 import SharedAssistanceLayout from "../../components/support/SharedAssistanceLayout.vue";
->>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
 
 const faqs = ref([
   {
     question: "Comment fonctionne la caution digitale ?",
+    answer: "La caution digitale remplace votre dépôt de garantie traditionnel. Pour un montant équivalent à 2,5% du loyer annuel, nous garantissons votre bailleur contre les impayés. Vous conservez votre capital et gagnez en flexibilité.",
 <<<<<<< HEAD
-    answer:
-      "La caution digitale remplace votre dépôt de garantie traditionnel. Pour un montant équivalent à 2,5% du loyer annuel, nous garantissons votre bailleur contre les impayés. Vous conservez votre capital et gagnez en flexibilité.",
+>>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
     tag: "Sans engagement",
     icon: "fa-file-contract",
     bgColor: "bg-blue-50 dark:bg-blue-950/30",
     textColor: "text-blue-600 dark:text-blue-400",
-=======
-    answer: "La caution digitale remplace votre dépôt de garantie traditionnel. Pour un montant équivalent à 2,5% du loyer annuel, nous garantissons votre bailleur contre les impayés. Vous conservez votre capital et gagnez en flexibilité.",
->>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
     open: false,
   },
   {
     question: "Que couvre l'assurance garantie loyer ?",
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
     answer: `Cette assurance protège votre bailleur contre les impayés de loyer pendant 18 mois maximum. Elle inclut également :
         <ul class="mt-3 space-y-2 text-sm text-muted-foreground">
             <li class="flex items-center gap-2"><i class="fas fa-check text-green-500"></i> Garantie des dégâts locatifs</li>
@@ -538,14 +268,20 @@ const faqs = ref([
     icon: "fa-shield-alt",
     bgColor: "bg-green-50 dark:bg-green-950/30",
     textColor: "text-green-600 dark:text-green-400",
+<<<<<<< HEAD
 =======
     answer: "Cette assurance protège votre bailleur contre les impayés de loyer pendant 18 mois maximum. Elle inclut également la garantie des dégâts locatifs, la protection juridique et une assistance.",
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
     open: false,
   },
   {
     question: "Comment bénéficier de l'assistance juridique ?",
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
     answer: `Notre assistance juridique est disponible pour tous les locataires premium. Elle comprend :
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
             <div class="bg-muted/20 p-4 rounded-xl border border-border">
@@ -562,17 +298,26 @@ const faqs = ref([
     icon: "fa-gavel",
     bgColor: "bg-purple-50 dark:bg-purple-950/30",
     textColor: "text-purple-600 dark:text-purple-400",
+<<<<<<< HEAD
 =======
     answer: "Notre assistance juridique est disponible pour tous les locataires premium. Elle comprend des conseils téléphoniques et de l'aide à la rédaction de courriers.",
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
     open: false,
   },
   {
     question: "Que faire en cas d'urgence dans mon logement ?",
 <<<<<<< HEAD
+<<<<<<< HEAD
     answer: `Pour les urgences (fuite d'eau, panne électrique, serrure bloquée) :
         <ol class="mt-3 space-y-2 text-sm text-muted-foreground list-decimal list-inside">
             <li>Appelez le <strong class="text-foreground">+237 600 000 000</strong> (urgence 24/7)</li>
+=======
+    answer: `Pour les urgences (fuite d'eau, panne électrique, serrure bloquée) :
+        <ol class="mt-3 space-y-2 text-sm text-muted-foreground list-decimal list-inside">
+            <li>Appelez le <strong class="text-foreground">+237 678 51 46 45</strong> (urgence 24/7)</li>
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
             <li>Décrivez précisément le problème</li>
             <li>Un professionnel est dépêché dans les 2 heures</li>
             <li>Nous contactons votre bailleur pour autorisation</li>
@@ -586,31 +331,13 @@ const faqs = ref([
     icon: "fa-tools",
     bgColor: "bg-orange-50 dark:bg-secondary/10",
     textColor: "text-orange-600 dark:text-secondary",
+<<<<<<< HEAD
 =======
     answer: "Pour les urgences, appelez le +237 600 000 000. Un professionnel est dépêché dans les 2 heures.",
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
     open: false,
   },
 ]);
 </script>
-<<<<<<< HEAD
-
-<style scoped>
-.sidebar-link.active {
-  background-color: hsl(var(--secondary));
-  color: hsl(var(--secondary-foreground));
-  box-shadow: 0 4px 12px hsl(var(--secondary) / 0.2);
-}
-.custom-scrollbar::-webkit-scrollbar {
-  width: 4px;
-}
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: hsl(var(--muted));
-}
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: hsl(var(--secondary));
-  border-radius: 10px;
-}
-</style>
-=======
->>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a

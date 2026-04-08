@@ -171,6 +171,7 @@
                   </select>
                 </td>
                 <td class="px-6 py-5 text-right">
+<<<<<<< HEAD
                   <select
                     @change="assignAgent(prop, $event.target.value)"
                     :class="[
@@ -191,13 +192,29 @@
                       {{ agent.name }}
                     </option>
                   </select>
+=======
+                  <div v-if="prop.agent" class="flex flex-col items-end gap-1 mb-2">
+                    <span class="text-xs font-bold text-foreground">{{ prop.agent.name }}</span>
+                  </div>
+                  <button
+                    @click="openAssignModal(prop.id)"
+                    class="text-[10px] font-black uppercase text-secondary hover:bg-secondary/10 px-3 py-1.5 rounded-lg border border-secondary transition-colors inline-flex items-center gap-2"
+                  >
+                    <i class="fas" :class="prop.agent_id ? 'fa-exchange-alt' : 'fa-user-plus'"></i> 
+                    {{ prop.agent_id ? 'Changer' : 'Assigner' }}
+                  </button>
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
                 </td>
                 <td class="px-6 py-5 text-right">
                   <div
                     class="flex gap-2 justify-end opacity-0 group-hover:opacity-100 transition-opacity"
                   >
                     <RouterLink
+<<<<<<< HEAD
                       :to="`/annonces/${prop.id}`"
+=======
+                      :to="{ name: 'DetailAnnonce', params: { slug: prop.slug } }"
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
                       class="w-8 h-8 rounded-lg bg-muted/20 text-foreground hover:bg-secondary/10 hover:text-secondary flex items-center justify-center transition-all"
                     >
                       <i class="fas fa-eye text-xs"></i>
@@ -221,19 +238,31 @@
           class="p-6 border-t border-border bg-muted/10 flex justify-between items-center"
         >
           <span class="text-[10px] text-muted-foreground font-black uppercase"
+<<<<<<< HEAD
             >Page {{ currentPage }} / {{ lastPage }}</span
+=======
+            >Page {{ adminPagination.current_page }} / {{ adminPagination.last_page }}</span
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
           >
           <div class="flex gap-2">
             <button
               @click="prevPage"
+<<<<<<< HEAD
               :disabled="currentPage === 1"
+=======
+              :disabled="adminPagination.current_page === 1"
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
               class="px-3 py-1 bg-card border border-border rounded-lg text-xs disabled:opacity-30 text-foreground hover:bg-muted/20 transition-colors"
             >
               Précédent
             </button>
             <button
               @click="nextPage"
+<<<<<<< HEAD
               :disabled="currentPage >= lastPage"
+=======
+              :disabled="adminPagination.current_page >= adminPagination.last_page"
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
               class="px-3 py-1 bg-card border border-border rounded-lg text-xs disabled:opacity-30 text-foreground hover:bg-muted/20 transition-colors"
             >
               Suivant
@@ -242,6 +271,17 @@
         </div>
       </div>
     </div>
+<<<<<<< HEAD
+=======
+
+    <AgentAssignModal 
+      :isOpen="isAgentModalOpen" 
+      :targetId="selectedPropertyId" 
+      targetType="property" 
+      @close="isAgentModalOpen = false" 
+      @assigned="handleAssigned" 
+    />
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
   </DashboardLayout>
 </template>
 
@@ -250,9 +290,19 @@ import { ref, computed, onMounted } from "vue";
 import DashboardLayout from "../../layouts/DashboardLayout.vue";
 import { RouterLink } from "vue-router";
 import axios from "../../axios";
+<<<<<<< HEAD
 
 const isLoading = ref(true);
 const properties = ref([]);
+=======
+import { usePropertyStore } from "../../stores/properties";
+import { storeToRefs } from "pinia";
+
+const propertyStore = usePropertyStore();
+
+const { adminProperties: properties, adminPagination, isLoading } = storeToRefs(propertyStore);
+
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
 const totalProperties = ref(0);
 const pendingCount = ref(0);
 const activeCount = ref(0);

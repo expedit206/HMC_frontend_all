@@ -1,5 +1,8 @@
 <template>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
   <DashboardLayout>
     <div class="max-w-7xl mx-auto h-full">
       <!-- HERO SECTION -->
@@ -59,6 +62,7 @@
           >
             <i class="fas fa-file-pdf mr-2"></i> Demander une attestation
           </button>
+<<<<<<< HEAD
 =======
   <SharedAssistanceLayout title="Assistance et Support 24/7"
     subtitle="Nous vous accompagnons à chaque étape de votre carrière avec des outils, des formations et une assistance personnalisée."
@@ -87,6 +91,86 @@
         <div
           class="w-[60px] h-[60px] flex items-center justify-center rounded-2xl bg-[#E54801]/10 text-[#E54801] text-2xl mb-6">
           <i class="fas fa-shield-alt"></i>
+=======
+        </div>
+
+        <!-- SERVICE 2: EXPERTISE JURIDIQUE -->
+        <div
+          class="bg-card rounded-2xl shadow-sm border border-border p-6 sm:p-8 flex flex-col hover:-translate-y-2 hover:shadow-lg transition-all duration-300"
+        >
+          <div
+            class="w-[60px] h-[60px] flex items-center justify-center rounded-2xl bg-blue-50 dark:bg-blue-950/30 text-blue-600 dark:text-blue-400 text-2xl mb-6"
+          >
+            <i class="fas fa-gavel"></i>
+          </div>
+          <h3 class="text-xl font-bold text-foreground mb-3">
+            Expertise Juridique
+          </h3>
+          <p class="text-muted-foreground mb-6 flex-grow">
+            Consultez nos juristes spécialisés en immobilier pour des conseils
+            sur vos contrats, mandats et litiges.
+          </p>
+          <div class="bg-muted/20 rounded-lg p-4 mb-6">
+            <ul class="space-y-2 text-sm">
+              <li class="flex items-center gap-2">
+                <i class="fas fa-check text-green-500 dark:text-green-400"></i>
+                <span class="text-foreground/80">Consultations gratuites</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <i class="fas fa-check text-green-500 dark:text-green-400"></i>
+                <span class="text-foreground/80">Modèles de contrats</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <i class="fas fa-check text-green-500 dark:text-green-400"></i>
+                <span class="text-foreground/80">Récours en cas de litige</span>
+              </li>
+            </ul>
+          </div>
+          <button
+            class="w-full py-3 bg-secondary text-secondary-foreground rounded-lg font-semibold hover:bg-secondary/90 transition"
+          >
+            <i class="fas fa-video mr-2"></i> Contacter un juriste
+          </button>
+        </div>
+
+        <!-- SERVICE 3: FORMATIONS CONTINUES -->
+        <div
+          class="bg-card rounded-2xl shadow-sm border border-border p-6 sm:p-8 flex flex-col hover:-translate-y-2 hover:shadow-lg transition-all duration-300"
+        >
+          <div
+            class="w-[60px] h-[60px] flex items-center justify-center rounded-2xl bg-purple-50 dark:bg-purple-950/30 text-purple-600 dark:text-purple-400 text-2xl mb-6"
+          >
+            <i class="fas fa-graduation-cap"></i>
+          </div>
+          <h3 class="text-xl font-bold text-foreground mb-3">
+            Formations Continues
+          </h3>
+          <p class="text-muted-foreground mb-6 flex-grow">
+            Restez à jour avec nos webinaires mensuels sur les nouvelles
+            tendances et techniques immobilières.
+          </p>
+          <div class="bg-muted/20 rounded-lg p-4 mb-6">
+            <ul class="space-y-2 text-sm">
+              <li class="flex items-center gap-2">
+                <i class="fas fa-check text-green-500 dark:text-green-400"></i>
+                <span class="text-foreground/80">Webinaires mensuels</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <i class="fas fa-check text-green-500 dark:text-green-400"></i>
+                <span class="text-foreground/80">Actualités immobilières</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <i class="fas fa-check text-green-500 dark:text-green-400"></i>
+                <span class="text-foreground/80">Ressources téléchargeables</span>
+              </li>
+            </ul>
+          </div>
+          <button
+            class="w-full py-3 bg-secondary text-secondary-foreground rounded-lg font-semibold hover:bg-secondary/90 transition"
+          >
+            <i class="fas fa-calendar-check mr-2"></i> Voir les formations
+          </button>
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
         </div>
         <h3 class="text-xl font-bold text-[#1B0B38] mb-3">Garantie Financière</h3>
         <p class="text-gray-600 mb-6 flex-grow">
@@ -98,6 +182,7 @@
         </button>
       </div>
 
+<<<<<<< HEAD
       <!-- SERVICE 2: EXPERTISE JURIDIQUE -->
       <div
         class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8 flex flex-col hover:-translate-y-2 hover:shadow-lg transition-all duration-300">
@@ -195,6 +280,8 @@
         </div>
       </div>
 
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
       <!-- SECONDARY SERVICES -->
       <div
         class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-14 animate-slide-up"
@@ -326,6 +413,7 @@
             </button>
             <div v-show="faq.isOpen" class="px-6 pb-4 text-muted-foreground text-sm">
               <p>{{ faq.answer }}</p>
+<<<<<<< HEAD
 =======
       <!-- SERVICE 3: FORMATIONS CONTINUES -->
       <div
@@ -371,11 +459,13 @@
               <i class="fas fa-bullhorn"></i>
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
             </div>
+=======
+            </div>
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
           </div>
         </div>
       </div>
 
-<<<<<<< HEAD
       <!-- CHAT SUPPORT PREVIEW -->
       <div
         class="bg-card rounded-2xl shadow-sm border border-border overflow-hidden animate-slide-up"
@@ -431,6 +521,7 @@
             <button
               class="px-6 py-3 bg-secondary text-secondary-foreground rounded-lg font-semibold hover:bg-secondary/90 transition"
             >
+<<<<<<< HEAD
 =======
       <!-- PERSONALIZED SUPPORT SECTION -->
       <div
@@ -478,12 +569,17 @@
               class="flex-1 px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E54801]" />
             <button class="px-6 py-3 bg-[#E54801] text-white rounded-lg font-semibold hover:bg-[#913327]">
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
               <i class="fas fa-paper-plane"></i>
             </button>
           </div>
         </div>
       </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
     </div>
   </DashboardLayout>
 </template>
@@ -491,6 +587,7 @@
 <script setup>
 import { ref, reactive } from "vue";
 import DashboardLayout from "../../layouts/DashboardLayout.vue";
+<<<<<<< HEAD
 =======
     </template>
   </SharedAssistanceLayout>
@@ -500,6 +597,8 @@ import DashboardLayout from "../../layouts/DashboardLayout.vue";
 import { reactive } from "vue";
 import SharedAssistanceLayout from "../../components/support/SharedAssistanceLayout.vue";
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
 
 const faqs = reactive([
   {
@@ -530,6 +629,9 @@ const faqs = reactive([
 ]);
 </script>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
 
 <style scoped>
 .animate-fadeIn {
@@ -561,5 +663,8 @@ const faqs = reactive([
   }
 }
 </style>
+<<<<<<< HEAD
 =======
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9

@@ -15,12 +15,12 @@
       </div>
 
       <!-- Canaux de contact -->
-      <div class="grid grid-cols-2 md:grid-cols-3 gap-6 mb-10">
+      <div class="flex flex-wrap gap-6 mb-10 w-full">
         <a
           v-for="channel in contactChannels"
           :key="channel.label"
           :href="channel.href"
-          class="bg-card rounded-2xl p-6 border border-border shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 group text-center"
+          class=" flex-1 bg-card min-w-[200px] rounded-2xl p-6 border border-border shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 group text-center "
         >
           <div
             :class="`w-14 h-14 ${channel.bg} rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform`"
@@ -111,7 +111,7 @@
                 class="p-4 bg-green-50 border border-green-200 text-green-700 rounded-xl text-sm flex items-center gap-2"
               >
                 <i class="fas fa-check-circle"></i>
-                Message envoyé ! Nous vous répondrons dans les 24h.
+                Message envoyé ! Nous vous répondrons dans les prochaines heures.
               </div>
 
               <button

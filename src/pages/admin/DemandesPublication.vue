@@ -8,6 +8,7 @@
         class="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mb-4"
       ></div>
       <p class="text-muted-foreground font-bold uppercase tracking-widest text-xs">
+<<<<<<< HEAD
         Chargement des demandes d'audit...
       </p>
     </div>
@@ -31,6 +32,8 @@
     <div v-if="isLoading" class="flex flex-col items-center justify-center h-full">
       <div class="w-16 h-16 border-4 border-[#E54801] border-t-transparent rounded-full animate-spin mb-4"></div>
       <p class="text-gray-500 font-bold uppercase tracking-widest text-xs">
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
         Chargement des demandes d'audit...
       </p>
     </div>
@@ -129,6 +132,7 @@
       </div>
     </div>
 
+<<<<<<< HEAD
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
 
         <div class="overflow-x-auto">
@@ -243,6 +247,15 @@
         </div>
       </div>
     </div>
+=======
+    <AgentAssignModal 
+      :isOpen="isAgentModalOpen" 
+      :targetId="selectedRequestId" 
+      targetType="request" 
+      @close="isAgentModalOpen = false" 
+      @assigned="handleAssigned" 
+    />
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
   </DashboardLayout>
 </template>
 
@@ -315,9 +328,15 @@ const getStatusClass = (status) => {
 onMounted(fetchData);
 </script>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
 
 <style scoped>
 /* Scoped styles */
 </style>
+<<<<<<< HEAD
 =======
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9

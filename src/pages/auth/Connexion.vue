@@ -1,7 +1,9 @@
 <template>
   <div
-    class="font-inter bg-background text-foreground min-h-screen flex flex-col"
+    class="font-inter bg-background text-foreground min-h-screen flex flex-col relative"
   >
+    <!-- Bouton Retour -->
+ 
     <!-- Hero Mobile -->
     <section class="lg:hidden gradient-bg relative overflow-hidden">
       <div class="absolute inset-0 overflow-hidden pointer-events-none">
@@ -24,6 +26,7 @@
               <div
                 class="absolute inset-0 bg-gradient-to-br from-primary to-secondary/80 rounded-2xl transform rotate-6"
               ></div>
+<<<<<<< HEAD
               <div
                 class="absolute inset-2 bg-gradient-to-br from-card to-muted rounded-xl flex items-center justify-center"
               >
@@ -33,6 +36,13 @@
               <img src="/images/logo/image.png" alt="">
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
               </div>
+=======
+              <RouterLink to="/"
+                class="absolute inset-2 bg-gradient-to-br from-white to-gray-100 dark:from-card dark:to-muted rounded-xl flex items-center justify-center p-1 hover:scale-105 transition-transform"
+              >
+                <AppLogo class="max-h-full max-w-full object-contain" />
+              </RouterLink>
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
             </div>
           </div>
           <div class="text-center">
@@ -99,6 +109,7 @@
               <div
                 class="absolute inset-0 bg-gradient-to-br from-primary to-secondary/80 rounded-2xl transform rotate-3"
               ></div>
+<<<<<<< HEAD
               <div
 <<<<<<< HEAD
                 class="absolute inset-2 bg-gradient-to-br from-card to-muted rounded-xl flex items-center justify-center"
@@ -111,6 +122,13 @@
                 <!-- <i class="fas fa-home text-[#E54801] text-2xl"></i> -->
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
               </div>
+=======
+              <RouterLink to="/"
+                class="absolute inset-2 bg-gradient-to-br from-white to-gray-100 dark:from-card dark:to-muted rounded-xl flex items-center justify-center p-2 hover:scale-105 transition-transform"
+              >
+                <AppLogo class="max-h-full max-w-full object-contain" />
+              </RouterLink>
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
             </div>
             <div>
               <div class="text-4xl font-bold">
@@ -229,9 +247,21 @@
 
       <!-- Panneau droit — Formulaire -->
       <div
-        class="lg:w-1/2 flex items-center justify-center p-4 sm:p-6 lg:p-12 xl:p-16"
+        class="lg:w-1/2 flex items-center justify-center p-4 sm:p-6 lg:p-12 xl:p-16 relative"
       >
-        <div class="w-full max-w-md animate-fadeInUp">
+<div class="absolute top-4 left-4 z-50 flex items-center gap-3">
+
+         <button @click="router.back()" class=" w-10 h-10 bg-black/20 hover:bg-black/40 backdrop-blur-md rounded-full flex items-center justify-center text-white shadow-lg transition-all" title="Retour à la page précédente">
+      <i class="fas fa-arrow-left"></i> 
+    </button>
+    <span class="text-primary font-semibold">Retour</span>
+</div>
+
+<div class="absolute top-4 right-4 z-50">
+  <ThemeToggle />
+</div>
+
+        <div class="w-full max-w-md animate-fadeInUp mt-12">
           <div class="mb-10 text-center">
             <h2 class="text-2xl sm:text-3xl font-bold text-foreground mb-3">
               Connexion à votre compte
@@ -430,6 +460,8 @@
 import { ref, reactive } from "vue";
 import { RouterLink, useRouter } from "vue-router";
 import { useAuthStore } from "../../stores/auth";
+import AppLogo from "../../components/common/AppLogo.vue";
+import ThemeToggle from "../../components/ThemeToggle.vue";
 
 const router = useRouter();
 const authStore = useAuthStore();

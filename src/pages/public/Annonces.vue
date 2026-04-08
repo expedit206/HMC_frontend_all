@@ -145,9 +145,9 @@
                 </button>
                 <div v-show="openSections.surface">
                   <div class="flex space-x-3 mb-3">
-                    <input type="number" placeholder="Min"
+                    <input v-model.number="filters.minSurface" type="number" placeholder="Min"
                       class="w-full bg-background border border-input rounded-[.45rem] px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent" />
-                    <input type="number" placeholder="Max"
+                    <input v-model.number="filters.maxSurface" type="number" placeholder="Max"
                       class="w-full bg-background border border-input rounded-[.45rem] px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent" />
                   </div>
                   <div class="mb-2">
@@ -417,48 +417,71 @@
                 class="bg-card rounded-[.45rem] shadow-lg overflow-hidden border border-border hover:border-secondary transition-all group property-card">
                 <div class="flex flex-col md:flex-row">
                   <!-- Image Section -->
-                  <div class="md:w-2/5 relative h-56 md:h-auto md:self-stretch overflow-hidden">
-                    <img :src="property.image" :alt="property.title"
-                      class="w-full h-full md:absolute md:inset-0 object-cover transition-transform duration-500 group-hover:scale-110" />
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent md:bg-gradient-to-r">
-                    </div>
+                    <!-- Image Container with Slider -->
+                    <div class="md:w-2/5 relative h-64 md:h-auto md:self-stretch overflow-hidden group/image">
+                      <!-- Slider Images -->
+                      <div class="absolute inset-0 flex transition-transform duration-500 ease-in-out"
+                        :style="{ transform: `translateX(-${(property.currentImageIndex || 0) * 100}%)` }">
+                        <div v-for="(img, idx) in (property.all_images?.length ? property.all_images : [property.image])" :key="idx"
+                          class="min-w-full h-full bg-cover bg-center"
+                          :style="{ backgroundImage: `url('${prepareImageUrl(img)}')` }">
+                        </div>
+                      </div>
+
+                      <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent md:bg-gradient-to-r pointer-events-none">
+                      </div>
+
+                      <!-- Navigation Arrows (only if multi images) -->
+                      <template v-if="property.all_images && property.all_images.length > 1">
+                        <button @click.prevent="prevPropertyImage(property)"
+                          class="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-black/30 hover:bg-black/60 text-white rounded-full flex items-center justify-center transition-all opacity-0 group-hover/image:opacity-100 z-30">
+                          <i class="fas fa-chevron-left text-xs"></i>
+                        </button>
+                        <button @click.prevent="nextPropertyImage(property)"
+                          class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-black/30 hover:bg-black/60 text-white rounded-full flex items-center justify-center transition-all opacity-0 group-hover/image:opacity-100 z-30">
+                          <i class="fas fa-chevron-right text-xs"></i>
+                        </button>
+
+                        <!-- Pagination Dots -->
+                        <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5 z-30 pointer-events-none">
+                          <div v-for="(_, idx) in property.all_images" :key="idx"
+                            class="w-1.5 h-1.5 rounded-full transition-all"
+                            :class="idx === (property.currentImageIndex || 0) ? 'bg-secondary w-3' : 'bg-white/50'">
+                          </div>
+                        </div>
+                      </template>
                     <div
                       class="absolute top-3 right-3 bg-secondary text-white px-3 py-1 rounded-full text-sm font-semibold shadow-sm">
                       {{ property.type === "rent" ? "À louer" : "À vendre" }}
                     </div>
-                    <div
+                    
                     <div v-if="property.avg_rating > 0"
                       class="absolute top-3 left-3 bg-black/70 backdrop-blur-sm text-white px-2.5 py-1 rounded-full text-xs font-bold flex items-center gap-1">
                       <i class="fas fa-star text-amber-400 text-[10px]"></i>
                       {{ property.avg_rating }}
-                      <span class="text-white/60">({{ property.review_count }})</span>
                     </div>
-                    <div
-                      class="absolute bottom-3 right-3 bg-black/60 text-white px-3 py-1 rounded-full text-xs font-bold backdrop-blur-sm">
-                      <i class="fas fa-camera mr-1"></i> Photos
-                    </div>
+
+                    <!-- Barre d'actions TikTok via composant réutilisable -->
+                    <PropertyActionBar
+                      :property="property"
+                      :is-fav="isFavorite(property.id)"
+                      btn-size="md"
+                      position="absolute right-3 bottom-4"
+                      @toggle-favorite="toggleFavorite"
+                      @share="shareProperty"
+                    />
                   </div>
 
                   <!-- Content Section -->
                   <div class="md:w-3/5 p-6 flex flex-col justify-between">
                     <div>
-                      <div class="flex justify-between items-start mb-2">
+                      <div class="flex justify-between items-start mb-2 relative">
                         <h2
-                          class="text-xl md:text-2xl   font-bold text-foreground group-hover:text-secondary transition-colors line-clamp-1">
+                          class="text-xl md:text-2xl font-bold text-foreground group-hover:text-secondary transition-colors line-clamp-1 pr-6">
                           {{ property.title }}
                         </h2>
-                        <button @click.prevent="toggleFavorite(property.id)"
-                          class="text-muted-foreground hover:text-destructive transition-colors">
-                          <i :class="[
-                            isFavorite(property.id)
-                              ? 'fas text-destructive'
-                              : 'far',
-                            'fa-heart text-xl',
-                          ]"></i>
-                        </button>
                       </div>
-
-                      <p class="text-foreground/80 mb-4 line-clamp-2 text-sm md:text-base">
+                      <p class="text-foreground/80 mb-4 line-clamp-2 text-sm md:text-base mt-2">
                         {{ property.description }}
                       </p>
 
@@ -559,6 +582,7 @@ import { ref, computed, watch, onMounted } from "vue";
 import { RouterLink, useRoute, useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import { useAuthStore } from "../../stores/auth";
+import PropertyActionBar from "../../components/PropertyActionBar.vue";
 import { usePropertyStore } from "../../stores/properties";
 import axios from "../../axios";
 
@@ -597,6 +621,46 @@ const cities = computed(() => aggregates.value.cities || []);
 const etats = computed(() => aggregates.value.etats || []);
 const amenitiesList = computed(() => aggregates.value.amenities || []);
 
+// 3-dots Menu State
+const activeMenu = ref(null);
+
+const togglePropertyMenu = (id) => {
+  activeMenu.value = activeMenu.value === id ? null : id;
+};
+
+const shareProperty = async (property) => {
+  activeMenu.value = null;
+  const url = window.location.origin + '/annonces/' + property.slug;
+  
+  // Track share in backend
+  await propertyStore.shareProperty(property.id);
+
+  if (navigator.share) {
+    try {
+      await navigator.share({
+        title: property.title,
+        text: 'Découvrez ce bien sur Home Cameroon!',
+        url: url
+      });
+    } catch (err) {
+      console.log('Erreur de partage:', err);
+    }
+  } else {
+    navigator.clipboard.writeText(url);
+    alert('Lien copié dans le presse-papiers !');
+  }
+};
+
+const hideProperty = (id) => {
+  activeMenu.value = null;
+  alert("Ce bien sera moins recommandé dans vos résultats.");
+};
+
+const reportProperty = (id) => {
+  activeMenu.value = null;
+  alert("Merci de votre signalement. Notre équipe va examiner ce bien.");
+};
+
 // Sorting options
 const sortOptions = [
   { label: "Pertinence", value: "recent" },
@@ -604,6 +668,25 @@ const sortOptions = [
   { label: "Prix décroissant", value: "price-desc" },
   { label: "Surface", value: "area" },
 ];
+
+// ─── Image Slider Helpers ───────────────────────────────────────────
+const nextPropertyImage = (property) => {
+  if (!property.all_images) return;
+  const count = property.all_images.length;
+  property.currentImageIndex = ((property.currentImageIndex || 0) + 1) % count;
+};
+
+const prevPropertyImage = (property) => {
+  if (!property.all_images) return;
+  const count = property.all_images.length;
+  property.currentImageIndex = ((property.currentImageIndex || 0) - 1 + count) % count;
+};
+
+const prepareImageUrl = (path) => {
+  if (!path) return '/images/categoriebien/appart.jfif';
+  if (path.startsWith('http')) return path;
+  return `/storage/${path}`;
+};
 const sortLabels = {
   recent: "Pertinence",
   "price-asc": "Prix croissant",
@@ -628,6 +711,8 @@ watch(() => filters.value.etats, () => scheduleRefetch(200), { deep: true });
 watch(() => filters.value.amenities, () => scheduleRefetch(200), { deep: true });
 watch(() => filters.value.minPrice, () => scheduleRefetch(450));
 watch(() => filters.value.maxPrice, () => scheduleRefetch(450));
+watch(() => filters.value.minSurface, () => scheduleRefetch(450));
+watch(() => filters.value.maxSurface, () => scheduleRefetch(450));
 watch(() => filters.value.minRooms, () => scheduleRefetch(200));
 watch(() => filters.value.sortBy, () => propertyStore.fetchProperties(1));
 
@@ -651,6 +736,9 @@ onMounted(() => {
   if (route.query.city) filters.value.cities = [route.query.city];
   if (route.query.type) filters.value.types = [route.query.type];
   if (route.query.max_price) filters.value.maxPrice = Number(route.query.max_price);
+  if (route.query.rooms) filters.value.minRooms = Number(route.query.rooms);
+  if (route.query.min_area) filters.value.minSurface = Number(route.query.min_area);
+  if (route.query.max_area) filters.value.maxSurface = Number(route.query.max_area);
 
   propertyStore.fetchProperties();
 });

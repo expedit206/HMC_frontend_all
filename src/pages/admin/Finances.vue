@@ -178,6 +178,7 @@
             >Pagination disponible</span
           >
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
             <div
               class="p-6 border-b border-gray-50 flex justify-between items-center bg-gray-50/20"
@@ -289,6 +290,8 @@
          
           </div>
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
         </div>
       </div>
     </div>

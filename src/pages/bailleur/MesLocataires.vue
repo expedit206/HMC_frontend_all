@@ -240,6 +240,10 @@ import { ref, onMounted, watch } from "vue";
 import DashboardLayout from "../../layouts/DashboardLayout.vue";
 import axios from "../../axios";
 
+<<<<<<< HEAD
+=======
+const propertyStore = usePropertyStore();
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
 const mobileMenuOpen = ref(false);
 const activeTab = ref("active");
 const isLoading = ref(true);

@@ -159,9 +159,13 @@
                       {{ m.title }}
                     </h3>
                   </div>
+<<<<<<< HEAD
                   <span
                     class="text-[10px] font-black bg-white/20 px-2 py-0.5 rounded-full whitespace-nowrap"
                   >
+=======
+                  <span class="text-[10px] font-black bg-white/20 px-2 py-0.5 rounded-full whitespace-nowrap">
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
                     {{
                       m.status === "assigned"
                         ? "À visiter"
@@ -199,6 +203,7 @@
                     </p>
                   </div>
                 </div>
+<<<<<<< HEAD
                 <p
                   v-if="m.price_estimate"
                   class="text-xs font-bold text-purple-700 dark:text-purple-400 mb-3"
@@ -210,6 +215,14 @@
                   :to="{ name: 'AgentPublierBien', params: { id: m.id } }"
                   class="w-full py-2 bg-purple-600 text-white text-xs font-bold rounded-xl flex items-center justify-center gap-2 hover:bg-purple-700 transition-colors shadow-sm"
                 >
+=======
+                <p v-if="m.price_estimate" class="text-xs font-bold text-purple-700 dark:text-purple-400 mb-3">
+                  <i class="fas fa-tag mr-1"></i>
+                  Prix estimé : {{ formatPrice(m.price_estimate) }} FCFA
+                </p>
+                <router-link :to="{ name: 'AgentPublierBien', params: { id: m.id } }"
+                  class="w-full py-2 bg-purple-600 text-white text-xs font-bold rounded-xl flex items-center justify-center gap-2 hover:bg-purple-700 transition-colors shadow-sm">
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
                   <i class="fas fa-eye"></i> Voir les détails &amp; Publier
                 </router-link>
               </div>
@@ -278,7 +291,11 @@
               <!-- Image -->
               <div class="relative h-44 bg-muted/20">
                 <img
+<<<<<<< HEAD
                   :src="property.imageUrl"
+=======
+                  :src="imgUrl(property)"
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
                   :alt="property.title"
                   class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
@@ -356,7 +373,11 @@
               <!-- Actions -->
               <div class="px-4 pb-4 flex gap-2">
                 <router-link
+<<<<<<< HEAD
                   :to="{ name: 'DetailAnnonce', params: { id: property.id } }"
+=======
+                  :to="{ name: 'DetailAnnonce', params: { slug: property.slug } }"
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
                   class="flex-1 py-2 bg-muted/20 hover:bg-muted/30 text-foreground text-xs font-bold rounded-lg transition-colors border border-border text-center"
                 >
                   <i class="fas fa-external-link-alt mr-1"></i> Voir l'annonce
@@ -397,8 +418,19 @@ import { useRouter } from "vue-router";
 import axios from "../../axios";
 
 const router = useRouter();
+<<<<<<< HEAD
 const activeTab = ref("all");
 const isLoading = ref(true);
+=======
+const propertyStore = usePropertyStore();
+
+const activeTab = ref("all");
+const { 
+  agentProperties: properties, 
+  agentPagination: pagination, 
+  isLoading 
+} = storeToRefs(propertyStore);
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
 
 const properties = ref([]);
 const auditMissions = ref([]);
@@ -517,4 +549,8 @@ const filteredProperties = computed(() => {
     opacity: 1;
   }
 }
+<<<<<<< HEAD
 </style>
+=======
+</style>
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9

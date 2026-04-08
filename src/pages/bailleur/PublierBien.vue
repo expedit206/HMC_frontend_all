@@ -24,6 +24,9 @@
             class="group flex items-center gap-2 text-xs font-black text-muted-foreground hover:text-secondary transition-all uppercase tracking-widest"
           >
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
             <span>Annuler</span>
             <div
               class="w-8 h-8 rounded-full bg-muted/20 flex items-center justify-center group-hover:bg-secondary group-hover:text-secondary-foreground transition-all"
@@ -31,6 +34,7 @@
               <i class="fas fa-times"></i>
             </div>
           </RouterLink>
+<<<<<<< HEAD
 =======
             Demander de publication
             <span
@@ -43,6 +47,8 @@
             Étape {{ currentStep }} sur 3 : {{ stepTitles[currentStep - 1] }}
           </p>
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
         </div>
 
         <!-- Info Alert -->

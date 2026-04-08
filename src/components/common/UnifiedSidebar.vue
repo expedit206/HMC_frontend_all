@@ -1,5 +1,8 @@
 <template>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
   <aside
     :class="[
       'fixed inset-y-0 left-0 z-50 bg-card border-r border-border transition-all duration-300 lg:static lg:h-auto shadow-2xl lg:shadow-none',
@@ -21,6 +24,7 @@
           class="w-9 h-9 rounded-xl bg-muted/20 hover:bg-destructive/10 flex items-center justify-center text-muted-foreground hover:text-destructive transition-all active:scale-90"
           aria-label="Fermer le menu"
         >
+<<<<<<< HEAD
 =======
   <aside :class="[
     'fixed inset-y-0 left-0 z-50 bg-white border-r border-gray-100 transition-all duration-300 lg:static lg:h-auto shadow-2xl lg:shadow-none',
@@ -36,6 +40,8 @@
           class="w-9 h-9 rounded-xl bg-gray-100 hover:bg-red-50 flex items-center justify-center text-gray-400 hover:text-red-500 transition-all active:scale-90"
           aria-label="Fermer le menu">
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
           <i class="fas fa-xmark text-lg"></i>
         </button>
       </div>
@@ -51,12 +57,18 @@
               {{ config.headerTitle }}
             </h2>
 <<<<<<< HEAD
+<<<<<<< HEAD
             <p
               class="text-[10px] text-muted-foreground uppercase tracking-widest font-black truncate"
             >
 =======
             <p class="text-[10px] text-gray-400 uppercase tracking-widest font-black truncate">
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+            <p
+              class="text-[10px] text-muted-foreground uppercase tracking-widest font-black truncate"
+            >
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
               {{ config.headerSubtitle }}
             </p>
           </div>
@@ -66,6 +78,9 @@
         <button v-if="expanded && allRoles.length > 1" @mouseover ="showRoleSwitcher = true" 
           @click="showRoleSwitcher = !showRoleSwitcher"
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
           class="w-7 h-7 rounded-lg bg-muted/20 flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-muted/30 transition-colors shrink-0 outline-none"
         >
           <i
@@ -82,6 +97,7 @@
           <p
             class="text-[9px] font-black text-muted-foreground uppercase tracking-widest pl-2 mb-2"
           >
+<<<<<<< HEAD
 =======
           class="w-7 h-7 rounded-lg bg-gray-50 flex items-center justify-center text-gray-400 hover:text-[#1B0B38] hover:bg-gray-100 transition-colors shrink-0 outline-none">
           <i class="fas fa-right-left text-xs transition-transform" :class="{ '-rotate-90': showRoleSwitcher }"></i>
@@ -92,11 +108,16 @@
           class="absolute top-12 left-2 right-2 bg-white rounded-xl shadow-xl border border-gray-100 p-2 z-50 animate-fadeIn">
           <p class="text-[9px] font-black text-gray-400 uppercase tracking-widest pl-2 mb-2">
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
             Changer d'espace
           </p>
           <button v-for="r in allRoles" :key="r" @click="handleSwitchRole(r)"
             class="w-full text-left px-3 py-2 rounded-lg text-xs font-bold transition-colors flex items-center gap-2"
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
             :class="
               r === role
                 ? 'bg-primary text-primary-foreground'
@@ -109,6 +130,7 @@
                 r === role ? 'text-primary-foreground' : 'text-muted-foreground w-4 text-center',
               ]"
             ></i>
+<<<<<<< HEAD
 =======
             :class="r === role
               ? 'bg-[#1B0B38] text-white'
@@ -119,6 +141,8 @@
               r === role ? 'text-white' : 'text-gray-400 w-4 text-center',
             ]"></i>
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
             <span class="capitalize">{{ getRoleName(r) }}</span>
             <i v-if="r === role" class="fas fa-check ml-auto text-xs opacity-70"></i>
           </button>
@@ -130,14 +154,20 @@
         <template v-for="(link, index) in filteredLinks" :key="index">
           <!-- Label de Section -->
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
           <p
             v-if="link.isLabel && expanded"
             class="px-4 text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] mt-8 mb-3"
           >
+<<<<<<< HEAD
 =======
           <p v-if="link.isLabel && expanded"
             class="px-4 text-[10px] font-black text-gray-300 uppercase tracking-[0.2em] mt-8 mb-3">
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
             {{ link.name }}
           </p>
 
@@ -154,15 +184,8 @@
             }}</span>
 
             <!-- Badge -->
-<<<<<<< HEAD
-            <span
-              v-if="expanded && link.badge"
-              class="ml-auto bg-secondary text-secondary-foreground text-[10px] font-bold px-2 py-0.5 rounded-full"
-            >
-=======
             <span v-if="expanded && link.badge"
               class="ml-auto bg-[#E54801] text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
->>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
               {{ link.badge }}
             </span>
           </RouterLink>
@@ -171,6 +194,9 @@
 
       <!-- Footer Sidebar / Logout -->
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
       <div class="mt-auto pt-6 border-t border-border">
         <button
           @click="handleLogout"
@@ -179,12 +205,15 @@
           <i
             class="fas fa-power-off w-5 text-center group-hover:rotate-12 transition-transform"
           ></i>
+<<<<<<< HEAD
 =======
       <div class="mt-auto pt-6 border-t border-gray-50">
         <button @click="handleLogout"
           class="w-full text-xs font-black text-red-500 hover:bg-red-50 py-4 rounded-2xl transition-all uppercase tracking-widest flex items-center justify-center gap-4 group">
           <i class="fas fa-power-off w-5 text-center group-hover:rotate-12 transition-transform"></i>
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
           <span v-if="expanded">Déconnexion</span>
         </button>
       </div>
@@ -571,10 +600,13 @@ const handleLogout = async () => {
   box-shadow: 0 10px 15px -3px hsl(var(--primary) / 0.2);
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 /* For agent and bailleur we might want to stick to E54801 or keep 1B0B38 for unity */
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
 .sidebar-link.active i {
   color: hsl(var(--primary-foreground));
 }
@@ -592,11 +624,17 @@ const handleLogout = async () => {
   border-radius: 10px;
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: hsl(var(--muted-foreground) / 0.5);
 }
 =======
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.5);
+}
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
 
 .sidebar-link:hover:not(.active) {
   background-color: hsl(var(--muted) / 0.2);
@@ -618,4 +656,23 @@ const handleLogout = async () => {
 .animate-fadeIn {
   animation: fadeIn 0.2s ease-out forwards;
 }
+<<<<<<< HEAD
+=======
+
+@keyframes bounce-subtle {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+.animate-bounce-subtle {
+  animation: bounce-subtle 2s infinite ease-in-out;
+}
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
 </style>

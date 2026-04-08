@@ -168,13 +168,23 @@
               </div>
               <!-- Nav fléchée -->
               <button v-if="galleryImages.length > 1" @click="prevImage"
-                class="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-black/50 text-white rounded-full flex items-center justify-center hover:bg-black/80 transition-all opacity-0 group-hover:opacity-100">
+                class="absolute left-8 md:left-12 top-1/2 -translate-y-1/2 w-7 h-7 bg-black/50 text-white rounded-full flex items-center justify-center hover:bg-black/80 transition-all group-hover:opacity-100">
                 <i class="fas fa-chevron-left text-sm"></i>
               </button>
               <button v-if="galleryImages.length > 1" @click="nextImage"
-                class="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-black/50 text-white rounded-full flex items-center justify-center hover:bg-black/80 transition-all opacity-0 group-hover:opacity-100">
+                class="absolute  right-8 md:right-12 top-1/2 -translate-y-1/2 w-7 h-7 bg-black/50 text-white rounded-full flex items-center justify-center hover:bg-black/80 transition-all group-hover:opacity-100">
                 <i class="fas fa-chevron-right text-sm"></i>
               </button>
+
+              <!-- Barre d'actions TikTok sur l'image principale -->
+              <PropertyActionBar
+                :property="property"
+                :is-fav="property.is_favorite"
+                btn-size="md"
+                position="absolute right-2   bottom-2  md:bottom-2"
+                @toggle-favorite="toggleFavorite"
+                @share="shareProperty"
+              />
             </div>
             <!-- Miniatures -->
             <div v-if="galleryImages.length > 1" class="grid grid-cols-4 sm:grid-cols-5 gap-2">
@@ -608,24 +618,36 @@
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <RouterLink v-for="s in similarProperties" :key="s.id" :to="`/annonces/${s.slug || s.id}`"
-            class="bg-card rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 group border border-border hover:border-secondary">
-            <div class="relative overflow-hidden">
-              <img :src="s.image" :alt="s.title"
-                class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500" />
+          <div v-for="s in similarProperties" :key="s.id"
+            class="bg-card rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 group border border-border hover:border-secondary relative">
+            <div class="relative overflow-hidden h-48">
+              <RouterLink :to="`/annonces/${s.slug || s.id}`">
+                <img :src="s.image" :alt="s.title"
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              </RouterLink>
+              
               <span
                 class="absolute top-3 left-3 px-3 py-1 bg-secondary text-secondary-foreground text-xs font-bold rounded-full">
                 {{ formatPrice(s.price) }} F
               </span>
-              <span class="absolute top-3 right-3 px-2 py-0.5 bg-black/60 text-white text-xs rounded-full">
-                {{ s.category }}
-              </span>
+              
+              <!-- Barre d'actions TikTok sur les biens similaires -->
+              <PropertyActionBar
+                :property="s"
+                :is-fav="s.is_favorite"
+                btn-size="sm"
+                position="absolute right-2 bottom-2"
+                @toggle-favorite="(id) => toggleFavorite(s)"
+                @share="(p) => shareProperty(p)"
+              />
             </div>
             <div class="p-4">
-              <h3
-                class="font-bold text-foreground mb-1 line-clamp-1 group-hover:text-secondary transition-colors text-sm">
-                {{ s.title }}
-              </h3>
+              <RouterLink :to="`/annonces/${s.slug || s.id}`">
+                <h3
+                  class="font-bold text-foreground mb-1 line-clamp-1 group-hover:text-secondary transition-colors text-sm">
+                  {{ s.title }}
+                </h3>
+              </RouterLink>
               <p class="text-xs text-muted-foreground mb-3 flex items-center gap-1.5">
                 <i class="fas fa-map-marker-alt text-secondary"></i>
                 {{ s.location }}
@@ -636,13 +658,9 @@
                   <span><i class="fas fa-bath text-secondary mr-1"></i>{{ s.bathrooms }}</span>
                   <span><i class="fas fa-ruler-combined text-secondary mr-1"></i>{{ s.area }}m²</span>
                 </div>
-                <span
-                  class="px-2.5 py-1 bg-secondary/10 text-secondary rounded-lg font-medium group-hover:bg-secondary group-hover:text-secondary-foreground transition-all">
-                  Voir
-                </span>
               </div>
             </div>
-          </RouterLink>
+          </div>
         </div>
       </div>
     </div>
@@ -657,6 +675,7 @@ import { useAuthStore } from "../../stores/auth";
 import { useRentalStore } from "../../stores/rental";
 import { usePropertyStore } from "../../stores/properties";
 import axios from "../../axios";
+import PropertyActionBar from "../../components/PropertyActionBar.vue";
 import UserAvatar from "../../components/common/UserAvatar.vue";
 
 const route = useRoute();
@@ -866,29 +885,48 @@ const nextImage = () => {
 };
 
 // ─── Actions ─────────────────────────────────────────────────────────
-const toggleFavorite = async () => {
+const toggleFavorite = async (p = null) => {
+  const target = p || property.value;
+  if (!target) return;
+
   if (!authStore.user) {
     router.push({ name: "Connexion" });
     return;
   }
-  await propertyStore.toggleFavorite(property.value.id);
-  // Re-sync local state from cache payload's data.is_favorite
-  const cachedPayload = propertyStore.propertyDetailsCache[property.value.slug];
-  if (cachedPayload && cachedPayload.data) {
-    property.value.is_favorite = cachedPayload.data.is_favorite;
+  await propertyStore.toggleFavorite(target.id);
+
+  // If main property, sync with cache
+  if (!p) {
+    const cachedPayload = propertyStore.propertyDetailsCache[target.slug];
+    if (cachedPayload && cachedPayload.data) {
+      target.is_favorite = cachedPayload.data.is_favorite;
+    } else {
+      target.is_favorite = !target.is_favorite;
+    }
   } else {
-    property.value.is_favorite = !property.value.is_favorite;
+    // If similar property, just toggle boolean
+    target.is_favorite = !target.is_favorite;
   }
 };
 
-const shareProperty = () => {
+const shareProperty = async (p = null) => {
+  const target = p || property.value;
+  if (!target) return;
+
+  // Track share in backend
+  await propertyStore.shareProperty(target.id);
+
+  const url = p ? `${window.location.origin}/annonces/${p.slug || p.id}` : window.location.href;
+  const title = target.title;
+
   if (navigator.share) {
-    navigator.share({
-      title: property.value?.title,
-      url: window.location.href,
-    });
+    try {
+      await navigator.share({ title, url });
+    } catch (err) {
+      console.log('Erreur de partage:', err);
+    }
   } else {
-    navigator.clipboard.writeText(window.location.href);
+    navigator.clipboard.writeText(url);
     alert("Lien copié dans le presse-papiers !");
   }
 };

@@ -89,6 +89,8 @@ const MarketplaceIndex = () => import('../market-place/Index.vue')
 const MarketplaceDetail = () => import('../market-place/DetailProduit.vue')
 const MarketplaceAide = () => import('../market-place/Aide.vue')
 const MarketplaceContact = () => import('../market-place/Contact.vue')
+const DemandesServices = () => import('../market-place/DemandesServices.vue')
+const Prestataires = () => import('../market-place/Prestataires.vue')
 
 // Nouvelles pages du processus locatif
 const MonSuivi = () => import('../pages/public/MonSuivi.vue')
@@ -133,6 +135,7 @@ const routes = [
       { path: '/mes-favoris', name: 'MesFavoris', component: MesFavoris, meta: { hasSidebar: true } },
       // Page Paramètres unifiée (tous rôles confondus)
       { path: '/parametres', name: 'Parametres', component: SharedParametres, meta: { hasSidebar: true } },
+      { path: '/messages', name: 'Messages', component: () => import('../pages/shared/Messages.vue'), meta: { hasSidebar: true } },
 
     
     ]
@@ -256,6 +259,9 @@ const routes = [
     component: DefaultLayout,
     children: [
       { path: '', name: 'MarketplaceIndex', component: MarketplaceIndex },
+      { path: 'demandes', name: 'MarketplaceDemandes', component: DemandesServices },
+      { path: 'prestataires', name: 'MarketplacePrestataires', component: Prestataires },
+      { path: 'demandes/:id', name: 'ServicePostDetail', component: () => import('../market-place/ServicePostDetail.vue') },
       { path: ':id', name: 'MarketplaceDetail', component: MarketplaceDetail },
       { path: 'aide', name: 'MarketplaceAide', component: MarketplaceAide },
       { path: 'contact', name: 'MarketplaceContact', component: MarketplaceContact },

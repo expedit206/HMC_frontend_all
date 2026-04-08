@@ -1,6 +1,9 @@
 <template>
   <DashboardLayout>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
     <div class="bg-background min-h-screen py-12 px-6">
       <div class="max-w-4xl mx-auto">
         <header class="mb-10 flex justify-between items-end">
@@ -14,6 +17,7 @@
             <p
               class="text-muted-foreground text-[10px] font-black uppercase tracking-widest mt-4"
             >
+<<<<<<< HEAD
 =======
 
     <div class="bg-[#FAF9F5] min-h-screen py-12 px-6">
@@ -26,40 +30,57 @@
             </h1>
             <p class="text-gray-400 text-[10px] font-black uppercase tracking-widest mt-4">
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
               Mission ID: #{{ route.params.id }} | Bailleur:
               {{ propRequest?.bailleur?.name }}
             </p>
           </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
           <button
             @click="router.back()"
             class="text-xs font-black text-muted-foreground uppercase tracking-widest hover:text-secondary transition-colors"
           >
+<<<<<<< HEAD
 =======
           <button @click="router.back()"
             class="text-xs font-black text-gray-400 uppercase tracking-widest hover:text-[#E54801]">
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
             Annuler l'audit
           </button>
         </header>
 
         <div v-if="isLoading" class="py-20 text-center">
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
           <div
             class="w-12 h-12 border-4 border-secondary border-t-transparent rounded-full animate-spin mx-auto mb-4"
           ></div>
           <p class="text-muted-foreground font-bold uppercase tracking-widest text-xs">
+<<<<<<< HEAD
 =======
           <div class="w-12 h-12 border-4 border-[#E54801] border-t-transparent rounded-full animate-spin mx-auto mb-4">
           </div>
           <p class="text-gray-500 font-bold uppercase tracking-widest text-xs">
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
             Chargement de la mission...
           </p>
         </div>
 
         <form v-else @submit.prevent="submitAudit" class="space-y-8">
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
           <!-- Section: Recap Bailleur -->
           <div
             class="bg-purple-50 dark:bg-purple-950/30 p-6 rounded-3xl border border-purple-100 dark:border-purple-800 flex items-start gap-4"
@@ -82,6 +103,7 @@
                   target="_blank"
                   class="px-3 py-1.5 bg-background rounded-lg text-[9px] font-black uppercase text-purple-600 dark:text-purple-400 shadow-sm border border-purple-100 dark:border-purple-800 flex items-center gap-2"
                 >
+<<<<<<< HEAD
 =======
           <!-- Section: Confirmation Bailleur -->
           <div v-if="propRequest.bailleur_confirmed_at"
@@ -125,6 +147,8 @@
                 <a v-for="(doc, idx) in propRequest.documents" :key="idx" :href="getFileUrl(doc)" target="_blank"
                   class="px-3 py-1.5 bg-white rounded-lg text-[9px] font-black uppercase text-purple-600 shadow-sm border border-purple-100 flex items-center gap-2">
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
                   <i class="fas fa-file-contract"></i> Justificatif {{ idx + 1 }}
                 </a>
               </div>
@@ -134,6 +158,9 @@
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <!-- Col 1: Photos Réelles (Prises par l'agent) -->
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
             <div
               class="bg-card p-8 rounded-3xl shadow-sm border border-border"
             >
@@ -162,6 +189,7 @@
                 <p
                   class="text-[10px] font-black text-muted-foreground uppercase tracking-widest"
                 >
+<<<<<<< HEAD
 =======
             <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
               <h3 class="text-xs font-black text-[#1B0B38] uppercase tracking-widest mb-6 flex items-center gap-2">
@@ -176,12 +204,17 @@
                 <i class="fas fa-cloud-upload-alt text-3xl text-gray-200 mb-3"></i>
                 <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest">
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
                   Glisser ou cliquer pour uploader les photos de l'audit
                 </p>
               </div>
 
               <div class="grid grid-cols-3 gap-3 mt-6">
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
                 <div
                   v-for="(src, idx) in previews"
                   :key="idx"
@@ -195,12 +228,15 @@
                     @click.stop="removeImage(idx)"
                     class="absolute -top-2 -right-2 w-6 h-6 bg-destructive text-destructive-foreground rounded-full flex items-center justify-center text-[10px] opacity-0 group-hover:opacity-100 transition-all"
                   >
+<<<<<<< HEAD
 =======
                 <div v-for="(src, idx) in previews" :key="idx" class="relative aspect-square group">
                   <img :src="src" class="w-full h-full object-cover rounded-xl shadow-sm border border-gray-50" />
                   <button @click.stop="removeImage(idx)"
                     class="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-[10px] opacity-0 group-hover:opacity-100 transition-all">
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
                     <i class="fas fa-times"></i>
                   </button>
                 </div>
@@ -209,21 +245,30 @@
 
             <!-- Col 2: Infos Validées -->
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
             <div
               class="bg-card p-8 rounded-3xl shadow-sm border border-border space-y-4"
             >
               <h3
                 class="text-xs font-black text-foreground uppercase tracking-widest mb-6 flex items-center gap-2"
               >
+<<<<<<< HEAD
 =======
             <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 space-y-4">
               <h3 class="text-xs font-black text-[#1B0B38] uppercase tracking-widest mb-6 flex items-center gap-2">
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
                 <i class="fas fa-check-double text-green-500"></i> Données Finales
               </h3>
 
               <div>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
                 <label class="text-[9px] font-black text-muted-foreground uppercase ml-2"
                   >Titre de l'annonce</label
                 >
@@ -232,16 +277,22 @@
                   type="text"
                   class="w-full px-5 py-3 bg-muted/20 rounded-xl text-sm font-bold text-foreground outline-none focus:ring-2 focus:ring-secondary/20"
                 />
+<<<<<<< HEAD
 =======
                 <label class="text-[9px] font-black text-gray-400 uppercase ml-2">Titre de l'annonce</label>
                 <input v-model="form.title" type="text"
                   class="w-full px-5 py-3 bg-gray-50 rounded-xl text-sm font-bold outline-none focus:ring-2 focus:ring-[#E54801]/20" />
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
               </div>
 
               <div class="grid grid-cols-2 gap-4">
                 <div>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
                   <label
                     class="text-[9px] font-black text-muted-foreground uppercase ml-2"
                     >Prix (XAF)</label
@@ -265,6 +316,7 @@
                     <option class="bg-card">Très bon état</option>
                     <option class="bg-card">Bon état</option>
                     <option class="bg-card">À rénover</option>
+<<<<<<< HEAD
 =======
                   <label class="text-[9px] font-black text-gray-400 uppercase ml-2">Prix (XAF)</label>
                   <input v-model.number="form.price" type="number"
@@ -278,6 +330,8 @@
                     <option>Bon état</option>
                     <option>À rénover</option>
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
                   </select>
                 </div>
               </div>
@@ -285,6 +339,9 @@
               <div class="grid grid-cols-3 gap-4">
                 <div>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
                   <label
                     class="text-[9px] font-black text-muted-foreground uppercase text-center block"
                     >Chambres</label
@@ -316,6 +373,7 @@
                     type="number"
                     class="w-full px-3 py-3 bg-muted/20 rounded-xl text-sm font-bold text-center text-foreground"
                   />
+<<<<<<< HEAD
 =======
                   <label class="text-[9px] font-black text-gray-400 uppercase text-center block">Chambres</label>
                   <input v-model.number="form.bedrooms" type="number"
@@ -331,6 +389,8 @@
                   <input v-model.number="form.area" type="number"
                     class="w-full px-3 py-3 bg-gray-50 rounded-xl text-sm font-bold text-center" />
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
                 </div>
               </div>
             </div>
@@ -338,6 +398,9 @@
 
           <!-- Description Complète -->
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
           <div class="bg-card p-8 rounded-3xl shadow-sm border border-border">
             <label
               class="text-[9px] font-black text-muted-foreground uppercase ml-2 mb-2 block"
@@ -349,6 +412,7 @@
               class="w-full px-5 py-4 bg-muted/20 rounded-2xl text-sm font-medium text-foreground outline-none focus:ring-2 focus:ring-secondary/20"
               placeholder="Décrivez le bien en détail après votre visite..."
             ></textarea>
+<<<<<<< HEAD
 =======
           <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
             <label class="text-[9px] font-black text-gray-400 uppercase ml-2 mb-2 block">Description commerciale (Sera
@@ -357,11 +421,16 @@
               class="w-full px-5 py-4 bg-gray-50 rounded-2xl text-sm font-medium outline-none focus:ring-2 focus:ring-[#E54801]/20"
               placeholder="Décrivez le bien en détail après votre visite..."></textarea>
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
           </div>
 
           <!-- Submit -->
           <div class="flex justify-end gap-4">
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
             <button
               type="submit"
               :disabled="isSubmitting"
@@ -373,12 +442,15 @@
                   isSubmitting ? 'fa-circle-notch fa-spin' : 'fa-paper-plane'
                 "
               ></i>
+<<<<<<< HEAD
 =======
             <button type="submit" :disabled="isSubmitting"
               class="px-10 py-5 bg-[#E54801] text-white rounded-2xl font-black uppercase tracking-widest text-xs shadow-xl shadow-[#E54801]/20 hover:-translate-y-1 transition-all disabled:opacity-50">
               <i class="fas" :class="isSubmitting ? 'fa-circle-notch fa-spin' : 'fa-paper-plane'
                 "></i>
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
               {{
                 isSubmitting
                   ? "Publication en cours..."

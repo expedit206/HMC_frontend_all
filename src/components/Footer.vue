@@ -5,9 +5,7 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
         <!-- Colonne 1: Logo et description -->
         <div>
-          <div class="text-2xl font-bold text-primary mb-4">
-            Home<span class="text-secondary">Cameroon</span>
-          </div>
+          <AppLogo withText textClass="text-2xl" class="mb-4" />
           <p class="text-muted-foreground text-sm leading-relaxed">
             La plateforme n°1 pour trouver votre logement idéal au Cameroun.
             Studios, chambres, appartements, maisons et villas modernes à
@@ -169,6 +167,7 @@
 
 <script setup>
 import { RouterLink } from "vue-router";
+import AppLogo from "./common/AppLogo.vue";
 </script>
 
 <style scoped>

@@ -15,14 +15,20 @@
           </p>
         </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
         <RouterLink
           :to="{ name: 'Annonces' }"
           class="px-5 py-2.5 bg-primary text-primary-foreground rounded-xl text-xs font-bold hover:scale-105 transition-all shadow-md uppercase tracking-wider flex items-center gap-2"
         >
+<<<<<<< HEAD
 =======
         <RouterLink :to="{ name: 'Annonces' }"
           class="px-5 py-2.5 bg-[#1B0B38] text-white rounded-xl text-xs font-bold hover:scale-105 transition-all shadow-md uppercase tracking-wider flex items-center gap-2">
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
           <i class="fas fa-search"></i> Nouvel appartement
         </RouterLink>
       </div>
@@ -30,14 +36,20 @@
       <!-- Stats -->
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
         <div class="bg-card p-5 rounded-2xl shadow-sm border border-border">
           <p
             class="text-[10px] text-muted-foreground font-bold uppercase mb-1 tracking-widest"
           >
+<<<<<<< HEAD
 =======
         <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
           <p class="text-[10px] text-gray-400 font-bold uppercase mb-1 tracking-widest">
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
             Total Payé
           </p>
           <div class="flex items-end gap-1">
@@ -48,14 +60,20 @@
           </div>
         </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
         <div class="bg-card p-5 rounded-2xl shadow-sm border border-border">
           <p
             class="text-[10px] text-muted-foreground font-bold uppercase mb-1 tracking-widest"
           >
+<<<<<<< HEAD
 =======
         <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
           <p class="text-[10px] text-gray-400 font-bold uppercase mb-1 tracking-widest">
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
             Locations Actives
           </p>
           <p class="text-2xl font-bold text-foreground">
@@ -63,14 +81,20 @@
           </p>
         </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
         <div class="bg-card p-5 rounded-2xl shadow-sm border border-border">
           <p
             class="text-[10px] text-muted-foreground font-bold uppercase mb-1 tracking-widest"
           >
+<<<<<<< HEAD
 =======
         <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
           <p class="text-[10px] text-gray-400 font-bold uppercase mb-1 tracking-widest">
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
             Interventions
           </p>
           <p class="text-2xl font-bold text-foreground">
@@ -79,16 +103,22 @@
           </p>
         </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
         <div
           class="bg-card p-5 rounded-2xl shadow-sm border border-border border-b-4 border-b-secondary"
         >
           <p
             class="text-[10px] text-secondary font-bold uppercase mb-1 tracking-widest"
           >
+<<<<<<< HEAD
 =======
         <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 border-b-4 border-b-[#E54801]">
           <p class="text-[10px] text-[#E54801] font-bold uppercase mb-1 tracking-widest">
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
             Mes Favoris
           </p>
           <p class="text-2xl font-bold text-secondary">
@@ -101,14 +131,20 @@
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div class="lg:col-span-2 space-y-6">
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
           <div
             v-if="dashboardData.active_rental"
             class="bg-card rounded-3xl shadow-sm border border-border overflow-hidden group"
           >
+<<<<<<< HEAD
 =======
           <div v-if="dashboardData.active_rental"
             class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden group">
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
             <div class="relative h-64 overflow-hidden">
               <img :src="dashboardData.active_rental.property?.primary_image?.path ||
                 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80'
@@ -140,6 +176,9 @@
                 </div>
               </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
               <div
                 class="grid grid-cols-3 gap-4 py-4 border-y border-border mb-6"
               >
@@ -147,11 +186,14 @@
                   <p
                     class="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mb-1"
                   >
+<<<<<<< HEAD
 =======
               <div class="grid grid-cols-3 gap-4 py-4 border-y border-gray-50 mb-6">
                 <div class="text-center border-r border-gray-50">
                   <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-1">
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
                     Surface
                   </p>
                   <p class="text-sm font-black text-foreground">
@@ -159,14 +201,20 @@
                   </p>
                 </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
                 <div class="text-center border-r border-border">
                   <p
                     class="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mb-1"
                   >
+<<<<<<< HEAD
 =======
                 <div class="text-center border-r border-gray-50">
                   <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-1">
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
                     Pièces
                   </p>
                   <p class="text-sm font-black text-foreground">
@@ -175,12 +223,18 @@
                 </div>
                 <div class="text-center">
 <<<<<<< HEAD
+<<<<<<< HEAD
                   <p
                     class="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mb-1"
                   >
 =======
                   <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-1">
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+                  <p
+                    class="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mb-1"
+                  >
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
                     Début
                   </p>
                   <p class="text-sm font-black text-foreground">
@@ -194,6 +248,9 @@
               </div>
               <div class="flex gap-4">
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
                 <RouterLink
                   :to="{ name: 'LocataireMesLocations' }"
                   class="flex-1 py-3 bg-primary text-primary-foreground rounded-xl text-xs font-bold text-center hover:bg-secondary hover:text-secondary-foreground transition-all uppercase tracking-widest"
@@ -219,6 +276,7 @@
             <h3
               class="text-lg font-bold text-muted-foreground uppercase tracking-tight"
             >
+<<<<<<< HEAD
 =======
                 <RouterLink :to="{ name: 'LocataireMesLocations' }"
                   class="flex-1 py-3 bg-[#1B0B38] text-white rounded-xl text-xs font-bold text-center hover:bg-[#E54801] transition-all uppercase tracking-widest">
@@ -236,12 +294,17 @@
             </div>
             <h3 class="text-lg font-bold text-gray-400 uppercase tracking-tight">
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
               Aucun logement occupé
             </h3>
             <p class="text-sm text-muted-foreground mt-2">
               Vous n'avez pas encore de contrat de location actif.
             </p>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
             <RouterLink
               :to="{ name: 'Annonces' }"
               class="inline-block mt-6 px-8 py-3 bg-secondary text-secondary-foreground rounded-xl text-xs font-bold uppercase tracking-widest shadow-lg"
@@ -258,6 +321,7 @@
                 class="text-[10px] font-black uppercase tracking-[0.2em] text-secondary mb-2 block"
                 >Nouveau !</span
               >
+<<<<<<< HEAD
 =======
             <RouterLink :to="{ name: 'Annonces' }"
               class="inline-block mt-6 px-8 py-3 bg-[#E54801] text-white rounded-xl text-xs font-bold uppercase tracking-widest shadow-lg">
@@ -269,6 +333,8 @@
             <div class="relative z-10 w-2/3">
               <span class="text-[10px] font-black uppercase tracking-[0.2em] text-[#E54801] mb-2 block">Nouveau !</span>
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
               <h3 class="text-2xl font-bold mb-4">
                 Besoin de meubles ou d'électroménager ?
               </h3>
@@ -277,16 +343,22 @@
                 prix réduits.
               </p>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
               <a
                 href="#"
                 class="inline-block px-6 py-3 bg-secondary text-secondary-foreground rounded-xl text-xs font-black uppercase tracking-widest hover:scale-105 transition-all shadow-lg"
                 >Visiter la marketplace</a
               >
+<<<<<<< HEAD
 =======
               <a href="#"
                 class="inline-block px-6 py-3 bg-[#E54801] text-white rounded-xl text-xs font-black uppercase tracking-widest hover:scale-105 transition-all shadow-lg">Visiter
                 la marketplace</a>
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
             </div>
             <i
               class="fas fa-shopping-basket absolute -right-6 -bottom-6 text-9xl text-white/5 transform -rotate-12"></i>
@@ -297,6 +369,9 @@
         <div class="space-y-6">
           <!-- Actions rapides -->
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
           <div
             class="bg-card rounded-3xl p-6 shadow-sm border border-border"
           >
@@ -353,6 +428,7 @@
                   class="text-[10px] font-bold text-foreground uppercase text-center"
                   >Chercher</span
                 >
+<<<<<<< HEAD
 =======
           <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
             <h3 class="text-xs font-black text-[#1B0B38] uppercase tracking-[0.2em] mb-6">
@@ -380,12 +456,17 @@
                 <i class="fas fa-search-plus text-[#E54801] mb-2 group-hover:scale-110 transition-transform"></i>
                 <span class="text-[10px] font-bold text-[#1B0B38] uppercase text-center">Chercher</span>
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
               </RouterLink>
             </div>
           </div>
 
           <!-- Notifications -->
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
           <div
             class="bg-card rounded-3xl p-6 shadow-sm border border-border"
           >
@@ -414,6 +495,7 @@
                 <div
                   class="w-8 h-8 rounded-lg bg-secondary/10 text-secondary flex items-center justify-center shrink-0"
                 >
+<<<<<<< HEAD
 =======
           <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100">
             <div class="flex justify-between items-center mb-6">
@@ -431,6 +513,8 @@
                 class="flex gap-4 p-3 hover:bg-gray-50 rounded-xl transition-all cursor-pointer border-b border-gray-50 last:border-0">
                 <div class="w-8 h-8 rounded-lg bg-orange-50 text-[#E54801] flex items-center justify-center shrink-0">
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
                   <i class="fas fa-file-invoice-dollar text-xs"></i>
                 </div>
                 <div>
@@ -445,12 +529,16 @@
               </div>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
               <div
                 v-for="item in dashboardData.recent_interventions"
                 :key="item.id"
                 class="flex gap-4 p-3 hover:bg-muted/20 rounded-xl transition-all cursor-pointer border-b border-border last:border-0"
               >
                 <div
+<<<<<<< HEAD
                   class="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-950/30 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0"
                 >
 =======
@@ -458,6 +546,10 @@
                 class="flex gap-4 p-3 hover:bg-gray-50 rounded-xl transition-all cursor-pointer border-b border-gray-50 last:border-0">
                 <div class="w-8 h-8 rounded-lg bg-blue-50 text-blue-500 flex items-center justify-center shrink-0">
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+                  class="w-8 h-8 rounded-lg bg-blue-500/10 text-blue-600 flex items-center justify-center shrink-0"
+                >
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
                   <i class="fas fa-tools text-xs"></i>
                 </div>
                 <div>
@@ -473,12 +565,16 @@
 
               <!-- Visites récentes -->
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
               <div
                 v-for="item in dashboardData.recent_visits"
                 :key="'v' + item.id"
                 class="flex gap-4 p-3 hover:bg-muted/20 rounded-xl transition-all cursor-pointer border-b border-border last:border-0"
               >
                 <div
+<<<<<<< HEAD
                   class="w-8 h-8 rounded-lg bg-green-100 dark:bg-green-950/30 text-green-600 dark:text-green-400 flex items-center justify-center shrink-0"
                 >
 =======
@@ -486,6 +582,10 @@
                 class="flex gap-4 p-3 hover:bg-gray-50 rounded-xl transition-all cursor-pointer border-b border-gray-50 last:border-0">
                 <div class="w-8 h-8 rounded-lg bg-green-50 text-green-500 flex items-center justify-center shrink-0">
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+                  class="w-8 h-8 rounded-lg bg-green-500/10 text-green-600 flex items-center justify-center shrink-0"
+                >
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
                   <i class="fas fa-calendar-check text-xs"></i>
                 </div>
                 <div>
@@ -502,11 +602,16 @@
             </div>
             <button
 <<<<<<< HEAD
+<<<<<<< HEAD
               class="w-full mt-6 py-2 text-[10px] font-black text-secondary uppercase tracking-widest hover:underline"
             >
 =======
               class="w-full mt-6 py-2 text-[10px] font-black text-[#E54801] uppercase tracking-widest hover:underline">
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+              class="w-full mt-6 py-2 text-[10px] font-black text-secondary uppercase tracking-widest hover:underline"
+            >
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
               Voir tout
             </button>
           </div>

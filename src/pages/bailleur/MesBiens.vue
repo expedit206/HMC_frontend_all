@@ -2,9 +2,7 @@
   <DashboardLayout>
     <div class="max-w-6xl mx-auto">
       <!-- Header Section -->
-      <div
-        class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4 animate-fadeIn"
-      >
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4 animate-fadeIn">
         <div>
           <h1 class="text-2xl font-bold text-foreground leading-tight">Mes Biens Immobiliers</h1>
           <p class="text-muted-foreground text-sm mt-1">
@@ -12,21 +10,25 @@
           </p>
         </div>
         <div class="flex items-center gap-3">
+<<<<<<< HEAD
           <button
             @click="mobileMenuOpen = !mobileMenuOpen"
             class="lg:hidden p-2 text-muted-foreground hover:text-secondary transition-colors"
           >
+=======
+          <button @click="mobileMenuOpen = !mobileMenuOpen"
+            class="lg:hidden p-2 text-muted-foreground hover:text-secondary transition-colors">
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
             <i class="fas fa-bars text-xl"></i>
           </button>
-<<<<<<< HEAD
-          <RouterLink
-            :to="{ name: 'BailleurPublierBien' }"
-            class="px-6 py-3 bg-secondary text-secondary-foreground rounded-xl text-sm font-bold hover:shadow-lg transition-all flex items-center gap-2"
-          >
-=======
           <RouterLink :to="{ name: 'PublierBien' }"
+<<<<<<< HEAD
             class="px-6 py-3 bg-[#E54801] text-white rounded-xl text-sm font-bold hover:shadow-lg transition-all flex items-center gap-2">
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+            class="px-6 py-3 bg-secondary text-secondary-foreground rounded-xl text-sm font-bold hover:shadow-lg transition-all flex items-center gap-2">
+
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
             <i class="fas fa-plus"></i>
             <span class="hidden sm:inline">Ajouter un Bien</span>
           </RouterLink>
@@ -34,53 +36,53 @@
       </div>
 
       <!-- Property Grid -->
-      <div
-        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-fadeIn"
-        style="animation-delay: 0.2s"
-      >
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-fadeIn" style="animation-delay: 0.2s">
         <!-- Loading State -->
         <template v-if="isLoading">
           <div v-for="i in 3" :key="i" class="bg-muted/20 rounded-2xl h-80 animate-pulse"></div>
         </template>
 
         <template v-else>
-<<<<<<< HEAD
-          <div
-            v-if="properties.length === 0"
-            class="col-span-full py-20 text-center bg-card rounded-2xl border border-border shadow-sm"
-          >
-            <i class="fas fa-building text-5xl mb-4 text-muted-foreground/30"></i>
-            <p class="text-muted-foreground font-bold">Vous n'avez pas encore publié de bien.</p>
-            <RouterLink
-              :to="{ name: 'BailleurPublierBien' }"
-              class="text-secondary font-bold mt-2 inline-block hover:underline"
-            >
-=======
           <div v-if="properties.length === 0"
             class="col-span-full py-20 text-center bg-white rounded-2xl border border-gray-100 shadow-sm">
             <i class="fas fa-building text-5xl mb-4 text-gray-200"></i>
             <p class="text-gray-500 font-bold">Vous n'avez pas encore publié de bien.</p>
             <RouterLink :to="{ name: 'PublierBien' }"
+<<<<<<< HEAD
               class="text-[#E54801] font-bold mt-2 inline-block hover:underline">
 >>>>>>> 5a2a46c7f02e0d67ceec2d1b8986a306eabf911a
+=======
+              class="text-secondary font-bold mt-2 inline-block hover:underline">
+
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
               Publier mon premier bien
             </RouterLink>
           </div>
 
           <!-- Property Card (Loop) -->
+<<<<<<< HEAD
           <div
             v-for="property in properties"
             :key="property.id"
             class="bg-card rounded-xl border border-border hover:shadow-sm transition-all group flex flex-col"
           >
+=======
+          <div v-for="property in formattedProperties" :key="property.id"
+            class="bg-card rounded-xl border border-border hover:shadow-sm transition-all group flex flex-col">
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
             <!-- IMAGE -->
             <div class="relative h-36 overflow-hidden rounded-t-xl">
               <img :src="property.image" :alt="property.title" class="w-full h-full object-cover" />
 
+<<<<<<< HEAD
               <span
                 class="absolute top-2 left-2 px-2 py-0.5 text-[9px] font-bold rounded text-white"
                 :class="property.status === 'vacant' ? 'bg-secondary' : 'bg-green-500'"
               >
+=======
+              <span class="absolute top-2 left-2 px-2 py-0.5 text-[9px] font-bold rounded text-white"
+                :class="property.status === 'vacant' ? 'bg-secondary' : 'bg-green-500'">
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
                 {{ property.status === "vacant" ? "Vacant" : "Loué" }}
               </span>
             </div>
@@ -102,7 +104,12 @@
               </p>
 
               <!-- INFOS EN LIGNE -->
+<<<<<<< HEAD
               <div class="flex justify-between text-[11px] font-medium text-muted-foreground border-t border-border pt-2">
+=======
+              <div
+                class="flex justify-between text-[11px] font-medium text-muted-foreground border-t border-border pt-2">
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
                 <span>{{ formatPrice(property.monthly_rent || property.price) }}</span>
 
                 <span :class="property.tenant ? 'text-foreground' : 'text-muted-foreground italic'">
@@ -116,6 +123,7 @@
 
               <!-- ACTIONS -->
               <div class="flex gap-2 mt-2">
+<<<<<<< HEAD
                 <button
                   @click="property.status !== 'vacant' && openProcessStatus(property.id)"
                   :disabled="property.status === 'vacant'"
@@ -133,6 +141,19 @@
                   @click="handleDelete(property.id)"
                   class="w-9 h-9 flex items-center justify-center rounded-lg border border-destructive/20 text-destructive/70 hover:bg-destructive hover:text-destructive-foreground transition-all"
                 >
+=======
+                <button @click="property.status !== 'vacant' && openProcessStatus(property.id)"
+                  :disabled="property.status === 'vacant'"
+                  class="flex-1 py-2 text-[11px] rounded-lg font-semibold transition-all" :class="property.status === 'vacant'
+                      ? 'bg-muted/20 text-muted-foreground cursor-not-allowed'
+                      : 'bg-blue-50 dark:bg-blue-950/30 text-blue-700 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/40'
+                    ">
+                  Suivi
+                </button>
+
+                <button @click="handleDelete(property.id)"
+                  class="w-9 h-9 flex items-center justify-center rounded-lg border border-destructive/20 text-destructive/70 hover:bg-destructive hover:text-destructive-foreground transition-all">
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
                   <i class="fas fa-trash text-xs"></i>
                 </button>
               </div>
@@ -144,6 +165,7 @@
 
     <!-- Tracking Modal -->
     <Teleport to="body">
+<<<<<<< HEAD
       <div
         v-if="trackingModal"
         class="fixed inset-0 z-[100] flex items-center justify-center p-4"
@@ -161,14 +183,28 @@
           <div
             class="px-6 py-4 border-b border-border flex items-center justify-between bg-card"
           >
+=======
+      <div v-if="trackingModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" @click="trackingModal = false"></div>
+
+        <!-- Modal Content -->
+        <div class="relative bg-card rounded-3xl w-full max-w-2xl shadow-2xl overflow-hidden animate-slide-up">
+          <div class="px-6 py-4 border-b border-border flex items-center justify-between bg-card">
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
             <h3 class="font-black text-foreground text-lg flex items-center gap-2">
               <i class="fas fa-chart-timeline text-secondary"></i>
               État d'avancement du dossier
             </h3>
+<<<<<<< HEAD
             <button
               @click="trackingModal = false"
               class="w-8 h-8 rounded-full bg-muted/20 text-muted-foreground hover:bg-muted/30 hover:text-destructive flex items-center justify-center transition-colors"
             >
+=======
+            <button @click="trackingModal = false"
+              class="w-8 h-8 rounded-full bg-muted/20 text-muted-foreground hover:bg-muted/30 hover:text-destructive flex items-center justify-center transition-colors">
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
               <i class="fas fa-times"></i>
             </button>
           </div>
@@ -225,6 +261,7 @@
                 <div class="mt-4 space-y-3">
                   <div class="flex justify-between items-center p-3 bg-muted/20 rounded-xl">
                     <span class="text-sm font-medium text-foreground">Dossier locataire</span>
+<<<<<<< HEAD
                     <span
                       class="px-2 py-1 text-[10px] font-bold rounded-full"
                       :class="
@@ -235,12 +272,21 @@
                             : 'bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400'
                       "
                     >
+=======
+                    <span class="px-2 py-1 text-[10px] font-bold rounded-full" :class="trackingData.application?.status === 'validated'
+                        ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400'
+                        : trackingData.application?.status === 'rejected'
+                          ? 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400'
+                          : 'bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400'
+                      ">
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
                       {{ getStatusLabel(trackingData.application?.status) }}
                     </span>
                   </div>
 
                   <div class="flex justify-between items-center p-3 bg-muted/20 rounded-xl">
                     <span class="text-sm font-medium text-foreground">Paiement initial</span>
+<<<<<<< HEAD
                     <span
                       class="px-2 py-1 text-[10px] font-bold rounded-full"
                       :class="
@@ -249,6 +295,12 @@
                           : 'bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400'
                       "
                     >
+=======
+                    <span class="px-2 py-1 text-[10px] font-bold rounded-full" :class="trackingData.rental?.payment_phase_status === 'paid'
+                        ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400'
+                        : 'bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400'
+                      ">
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
                       {{ getPaymentStatusLabel(trackingData.rental?.payment_phase_status) }}
                     </span>
                   </div>
@@ -276,9 +328,38 @@ import { RouterLink, useRouter } from "vue-router";
 import axios from "../../axios";
 
 const router = useRouter();
+<<<<<<< HEAD
 const mobileMenuOpen = ref(false);
 const properties = ref([]);
 const isLoading = ref(true);
+=======
+const propertyStore = usePropertyStore();
+const mobileMenuOpen = ref(false);
+
+const { bailleurProperties, isLoading } = storeToRefs(propertyStore);
+
+// Computed property to format properties like before
+const formattedProperties = computed(() => {
+  return bailleurProperties.value.map((p) => {
+    let imageUrl = "/images/placeholder-property.jpg";
+    if (p.primary_image) {
+      imageUrl = p.primary_image.path.startsWith("http")
+        ? p.primary_image.path
+        : `/storage/${p.primary_image.path}`;
+    }
+    return {
+      ...p,
+      image: imageUrl,
+      status: p.rental_status === "available" ? "vacant" : "occupied",
+      tenant: p.tenant?.name || null,
+      visits: p.visits_count || 0,
+    };
+  });
+});
+
+// Alias for checking emptiness
+const properties = computed(() => formattedProperties.value);
+>>>>>>> d36e67ac284d7690af04291207f0a131e32f13c9
 
 // ── Variables du Modal Tracking ──
 const trackingModal = ref(false);
@@ -398,6 +479,7 @@ const getPaymentStatusLabel = (s) => {
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -409,6 +491,7 @@ const getPaymentStatusLabel = (s) => {
     opacity: 0;
     transform: translateY(20px) scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
