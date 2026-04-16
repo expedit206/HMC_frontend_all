@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-background min-h-screen pb-16">
+  <div class="bg-background min-h-screen pb-16 overflow-y-auto">
     <!-- ─── PAGE DE CONFIRMATION APRÈS SOUMISSION ─── -->
     <Transition name="fade">
       <div
