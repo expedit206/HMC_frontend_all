@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Réseau Social - Home Cameroon</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'hc-accent': '#E54801',
+            'hc-primary': '#E54801',
+            'hc-secondary': '#1B0B38',
+            'hc-primary': '#913327',
+            'hc-light': '#FAF9F5',
+            'hc-bg': '#F8F9FB',
+            'hc-text': '#333333',
+            'hc-muted': '#666666',
+            
+          },
+          fontFamily: {
+            'inter': ['Inter', 'sans-serif'],
+            'outfit': ['Outfit', 'sans-serif']
+          },
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Inter', sans-serif; }
+    body { background: #F8F9FB; }
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #E54801; border-radius: 10px; }
+    .sidebar-link.active { background: linear-gradient(135deg, #E54801 0%, #913327 100%); color: white; }
+    .sidebar-link.active i { color: white; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-hc-bg">
+<header class="bg-white border-b border-gray-100 sticky top-0 z-[100] shadow-sm">
+  <div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between h-20 items-center">
+      <!-- Logo + Nom -->
+      <a href="../public/accueil.html" class="flex items-center gap-1 group">
+        <div class="relative w-12 h-12">
+          <img src="../../..//assets/images/logo.png" alt="Logo Home Cameroon">
+        </div>
+        <div class="flex flex-col justify-center h-full">
+          <span class="text-xl font-black text-gray-900 leading-none">Home<span
+              class="text-custom-dark">Cameroon</span></span>
+        </div>
+      </a>
+
+      <!-- Navigation Centre -->
+      <nav class="hidden xl:flex items-center gap-1">
+        <a href="../../client/dashboard.html"
+          class="flex items-center gap-2 px-4 py-2 text-gray-900 hover:text-custom-dark font-bold transition rounded-xl hover:bg-orange-50">
+          <i class="fas fa-grid-2"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="../public/accueil.html"
+          class="flex items-center gap-2 px-4 py-2 text-gray-900 hover:text-custom-dark font-bold transition rounded-xl hover:bg-orange-50">
+          <i class="fas fa-home-alt"></i>
+          <span>Accueil</span>
+        </a>
+        <a href="../public/annonces.html"
+          class="flex items-center gap-2 px-4 py-2 text-gray-900 hover:text-custom-dark font-bold transition rounded-xl hover:bg-orange-50">
+          <i class="fas fa-search"></i>
+          <span>Annonces</span>
+        </a>
+        <a href="favoris.html" id="favoris-nav"
+          class="flex items-center gap-2 px-4 py-2 text-custom-dark bg-orange-50 font-bold transition rounded-xl">
+          <i class="fas fa-heart"></i>
+          <span>Mes favoris</span>
+        </a>
+        <a href="../../market place/index.html"
+          class="flex items-center gap-2 px-4 py-2 text-gray-900 hover:text-custom-dark font-bold transition rounded-xl hover:bg-orange-50">
+          <i class="fas fa-store"></i>
+          <span>Marketplace</span>
+        </a>
+      </nav>
+
+      <!-- Actions Droite -->
+      <div class="flex items-center gap-5">
+        <button
+          class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-900 hover:bg-orange-50 transition relative">
+          <i class="fas fa-bell"></i>
+          <span class="absolute top-2 right-2 w-2.5 h-2.5 bg-custom-dark border-2 border-white rounded-full"></span>
+        </button>
+
+        <div class="flex items-center pl-5 border-l border-gray-100">
+          <a href="profil.html" id="header-avatar"
+            class="w-11 h-11 rounded-2xl bg-hc-primary text-white flex items-center justify-center font-bold shadow-lg transform hover:scale-105 transition">
+            JD
+          </a>
+        </div>
+
+        <button id="mobileMenuBtn"
+          class="lg:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5 focus:outline-none">
+          <span class="w-6 h-0.5 bg-gray-900 rounded-full transition-all"></span>
+          <span class="w-6 h-0.5 bg-gray-900 rounded-full transition-all"></span>
+          <span class="w-6 h-0.5 bg-gray-900 rounded-full transition-all"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+  <div class="flex flex-1 w-full mx-auto">
+    <!-- LEFT SIDEBAR - Navigation (Facebook-style) -->
+    <aside class="hidden md:flex flex-col w-72 bg-white border-r border-gray-200 p-0 custom-scrollbar h-[calc(100vh-80px)] sticky top-[72px] overflow-y-auto">
+      <nav class="flex flex-col p-2">
+        <a href="#" class="sidebar-link active flex items-center gap-3 px-4 py-3 rounded-lg font-semibold transition text-gray-900 hover:bg-gray-50"><i class="fa fa-home text-lg"></i> <span>Fil d'actualité</span></a>
+        <a href="#" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg font-semibold transition text-gray-700 hover:bg-gray-50"><i class="fa fa-user-friends text-lg"></i> <span>Amis</span></a>
+        <a href="#" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg font-semibold transition text-gray-700 hover:bg-gray-50"><i class="fa fa-users text-lg"></i> <span>Groupes</span></a>
+        <a href="#" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg font-semibold transition text-gray-700 hover:bg-gray-50"><i class="fa fa-envelope text-lg"></i> <span>Messages</span></a>
+        <a href="#" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg font-semibold transition text-gray-700 hover:bg-gray-50"><i class="fa fa-bookmark text-lg"></i> <span>Enregistré</span></a>
+        <a href="#" class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg font-semibold transition text-gray-700 hover:bg-gray-50"><i class="fa fa-cog text-lg"></i> <span>Paramètres</span></a>
+      </nav>
+      <div class="border-t border-gray-200 p-4">
+        <h4 class="text-xs font-bold text-gray-500 mb-3 uppercase">Suggestions d'amis</h4>
+        <ul class="space-y-3">
+          <li class="flex items-center gap-2">
+            <img src="https://randomuser.me/api/portraits/women/44.jpg" class="w-10 h-10 rounded-full flex-shrink-0" />
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-semibold text-gray-900 truncate">Amina T.</p>
+              <p class="text-xs text-gray-500">Proposée par ami</p>
+            </div>
+            <button class="text-xs bg-hc-primary text-white px-2 py-1 rounded font-semibold hover:opacity-90 flex-shrink-0">Ajouter</button>
+          </li>
+          <li class="flex items-center gap-2">
+            <img src="https://randomuser.me/api/portraits/men/45.jpg" class="w-10 h-10 rounded-full flex-shrink-0" />
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-semibold text-gray-900 truncate">Paul K.</p>
+              <p class="text-xs text-gray-500">Proposée par ami</p>
+            </div>
+            <button class="text-xs bg-hc-primary text-white px-2 py-1 rounded font-semibold hover:opacity-90 flex-shrink-0">Ajouter</button>
+          </li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- MAIN FEED CENTER -->
+    <main class="flex-1 max-w-2xl mx-auto w-full">
+      <div class="bg-white border-l border-r border-gray-200 min-h-[calc(100vh-80px)]">
+        <!-- POST CREATOR -->
+        <section class="border-b border-gray-200 p-4 bg-white sticky top-[72px] z-10">
+          <div class="flex gap-3 items-start mb-4">
+            <img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-12 h-12 rounded-full flex-shrink-0 border-2 border-hc-primary" />
+            <div class="flex-1">
+              <textarea id="post-text" rows="2" class="w-full bg-gray-100 border border-gray-200 rounded-full px-4 py-3 text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-hc-primary resize-none" placeholder="Exprimez-vous... Quoi de neuf ?"></textarea>
+            </div>
+          </div>
+          <div class="flex items-center justify-between border-t border-gray-200 pt-2">
+            <div class="flex items-center gap-3">
+              <label class="cursor-pointer flex items-center gap-2 text-hc-primary hover:bg-gray-100 px-3 py-2 rounded transition">
+                <i class="fa fa-image text-lg"></i>
+                <span class="text-sm font-medium hidden sm:inline">Photo/Vidéo</span>
+                <input type="file" id="image-input" class="hidden" accept="image/*,video/*" />
+              </label>
+              <button class="text-hc-accent flex items-center gap-2 hover:bg-gray-100 px-3 py-2 rounded transition">
+                <i class="fa fa-smile text-lg"></i>
+                <span class="text-sm font-medium hidden sm:inline">Ressenti</span>
+              </button>
+              <button class="text-hc-secondary flex items-center gap-2 hover:bg-gray-100 px-3 py-2 rounded transition">
+                <i class="fa fa-map-marker-alt text-lg"></i>
+                <span class="text-sm font-medium hidden sm:inline">Lieu</span>
+              </button>
+            </div>
+            <button id="btn-post" class="bg-hc-primary text-white px-6 py-2 rounded-lg font-semibold hover:opacity-90 transition active:scale-95">Publier</button>
+          </div>
+        </section>
+
+        <!-- FEED -->
+        <section id="feed" class="flex flex-col">
+          <!-- Les posts seront injectés ici par JS -->
+        </section>
+      </div>
+    </main>
+
+    <!-- RIGHT SIDEBAR - Contacts/Tendances -->
+    <aside class="hidden lg:flex flex-col w-72 bg-white border-l border-gray-200 p-4 custom-scrollbar h-[calc(100vh-80px)] sticky top-[72px] overflow-y-auto">
+      <div class="mb-6">
+        <h3 class="font-bold text-gray-900 mb-4 flex items-center gap-2">
+          <i class="fa fa-bell text-hc-primary"></i>
+          Notifications
+        </h3>
+        <ul class="space-y-3">
+          <li class="flex items-start gap-2 text-sm p-2 hover:bg-gray-50 rounded cursor-pointer">
+            <i class="fa fa-heart text-hc-primary flex-shrink-0 mt-1"></i>
+            <div class="flex-1">
+              <p><b>Sarah</b> a aimé votre post</p>
+              <p class="text-xs text-gray-500 mt-1">il y a 2 min</p>
+            </div>
+          </li>
+          <li class="flex items-start gap-2 text-sm p-2 hover:bg-gray-50 rounded cursor-pointer">
+            <i class="fa fa-comment text-hc-accent flex-shrink-0 mt-1"></i>
+            <div class="flex-1">
+              <p><b>Paul</b> a commenté votre photo</p>
+              <p class="text-xs text-gray-500 mt-1">il y a 10 min</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="border-t border-gray-200 pt-4">
+        <h3 class="font-bold text-gray-900 mb-4 flex items-center gap-2">
+          <i class="fa fa-fire text-hc-primary"></i>
+          Tendances
+        </h3>
+        <ul class="space-y-3">
+          <li class="p-2 hover:bg-gray-50 rounded cursor-pointer">
+            <a href="#" class="text-hc-primary hover:underline font-semibold">#Immobilier</a>
+            <p class="text-xs text-gray-500 mt-1">12.5K posts</p>
+          </li>
+          <li class="p-2 hover:bg-gray-50 rounded cursor-pointer">
+            <a href="#" class="text-hc-primary hover:underline font-semibold">#Investissement</a>
+            <p class="text-xs text-gray-500 mt-1">8.2K posts</p>
+          </li>
+          <li class="p-2 hover:bg-gray-50 rounded cursor-pointer">
+            <a href="#" class="text-hc-primary hover:underline font-semibold">#Cameroun</a>
+            <p class="text-xs text-gray-500 mt-1">45K posts</p>
+          </li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+
+  <script src="social.js"></script>
+</body>
+</html>

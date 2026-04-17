@@ -587,8 +587,10 @@ import { RouterLink, useRouter } from "vue-router";
 import axios from "../../axios";
 import SkeletonLoader from "../../components/SkeletonLoader.vue";
 import PropertyActionBar from "../../components/PropertyActionBar.vue";
+import { useAuthStore } from "../../stores/auth";
 
 const router = useRouter();
+const authStore = useAuthStore();
 
 // State
 const isLoading = ref(true);
@@ -886,6 +888,10 @@ const fetchData = async () => {
 };
 
 onMounted(() => {
+  if (authStore.isAuthenticated) {
+    router.replace('/feed');
+    return;
+  }
   fetchData();
   resetSliderTimer();
 });

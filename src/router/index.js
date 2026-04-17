@@ -110,6 +110,7 @@ const authOnlyPaths = [
   '/mes-demandes',
   '/mes-favoris',
   '/parametres',
+  '/feed',
 ]
 
 const routes = [
@@ -136,7 +137,8 @@ const routes = [
       // Page Paramètres unifiée (tous rôles confondus)
       { path: '/parametres', name: 'Parametres', component: SharedParametres, meta: { hasSidebar: true } },
       { path: '/messages', name: 'Messages', component: () => import('../pages/shared/Messages.vue'), meta: { hasSidebar: true } },
-
+      // Social Feed (Page d'accueil pour connectés)
+      { path: '/feed', name: 'SocialFeed', component: () => import('../pages/public/social/SocialFeed.vue'), meta: { hasSidebar: false } },
     
     ]
   },
