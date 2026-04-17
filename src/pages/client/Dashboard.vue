@@ -1,5 +1,5 @@
 <template>
-  <DashboardLayout title="Mon Espace Home Cameroon">
+  <div class="dashboard-page-content">
     <div class="max-w-[1600px] mx-auto w-full pb-12">
       <!-- Role Switcher -->
       <DashboardRoleSwitcher />
@@ -518,13 +518,12 @@
         </div>
       </div>
     </div>
-  </DashboardLayout>
+  </div>
 </template>
 
 <script setup>
 import { computed, onMounted } from "vue";
 import { RouterLink } from "vue-router";
-import DashboardLayout from "../../layouts/DashboardLayout.vue";
 import DashboardRoleSwitcher from "../../components/common/DashboardRoleSwitcher.vue";
 import { useAuthStore } from "../../stores/auth";
 import { useRentalStore } from "../../stores/rental";

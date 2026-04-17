@@ -456,7 +456,7 @@ const mobileBottomLinks = computed(() => {
   if (!isAuthenticated) {
     return [
       { to: "/", label: "Accueil", icon: "fas fa-home" },
-      { to: "/annonces", label: "Annonces", icon: "fas fa-search-location" },
+      { to: "/annonces", label: "Annonces ", icon: "fas fa-search-location" },
       { to: "/marketplace/prestataires", label: "Services", icon: "fas fa-tools" },
       { to: "/marketplace", label: "Shop", icon: "fas fa-store" },
       { to: "/auth/connexion", label: "Profil", icon: "far fa-user-circle" },
@@ -483,7 +483,7 @@ const mobileBottomLinks = computed(() => {
     case "locataire":
       return [
         ...base,
-        { to: "/annonces", label: "Annonces", icon: "fas fa-search-location" },
+        { to: "/annonces", label: "Annonces ", icon: "fas fa-search-location" },
         { to: "/marketplace/prestataires", label: "Prestataires", icon: "fas fa-tools" },
         { to: "/mon-suivi", label: "Suivi", icon: "fas fa-clipboard-list" },
         { to: "/locataire/dashboard", label: "Dashboard", icon: "far fa-user-circle" },
@@ -505,7 +505,7 @@ const mobileBottomLinks = computed(() => {
     default:
       return [
         ...base,
-        { to: "/annonces", label: "Annonces", icon: "fas fa-search-location" },
+        { to: "/annonces", label: "Annonces ", icon: "fas fa-search-location" },
         { to: "/marketplace/prestataires", label: "Services", icon: "fas fa-tools" },
         { to: "/marketplace", label: "Shop", icon: "fas fa-store" },
         { to: getDashboardLink(), label: "Dashboard", icon: "far fa-user-circle" },

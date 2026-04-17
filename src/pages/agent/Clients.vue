@@ -1,5 +1,5 @@
 <template>
-  <DashboardLayout>
+  <div class="dashboard-page-content">
     <div class="max-w-7xl mx-auto h-full">
       <!-- HEADER SECTION -->
       <div
@@ -142,12 +142,11 @@
         </div>
       </div>
     </div>
-  </DashboardLayout>
+  </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from "vue";
-import DashboardLayout from "../../layouts/DashboardLayout.vue";
 import axios from "../../axios";
 
 const activeTab = ref("all");

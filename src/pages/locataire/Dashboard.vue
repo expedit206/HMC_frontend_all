@@ -1,5 +1,5 @@
 <template>
-  <DashboardLayout title="Espace Résident HMC">
+  <div class="dashboard-page-content">
     <div class="max-w-6xl">
       <!-- Role Switcher -->
       <DashboardRoleSwitcher />
@@ -370,7 +370,7 @@
         </div>
       </div>
     </div>
-  </DashboardLayout>
+  </div>
 </template>
 
 <script setup>
@@ -378,7 +378,6 @@ import { ref, onMounted } from "vue";
 import { RouterLink } from "vue-router";
 import { useAuthStore } from "../../stores/auth";
 import axios from "../../axios";
-import DashboardLayout from "../../layouts/DashboardLayout.vue";
 import DashboardRoleSwitcher from "../../components/common/DashboardRoleSwitcher.vue";
 
 const authStore = useAuthStore();

@@ -1,5 +1,5 @@
 <template>
-  <DashboardLayout>
+  <div class="dashboard-page-content">
     <div class="max-w-7xl mx-auto">
       <!-- Page Header -->
       <div
@@ -238,12 +238,11 @@
         </button>
       </div>
     </div>
-  </DashboardLayout>
+  </div>
 </template>
 
 <script setup>
 import { ref, computed } from "vue";
-import DashboardLayout from "../../layouts/DashboardLayout.vue";
 import { RouterLink, useRouter } from "vue-router";
 
 const router = useRouter();

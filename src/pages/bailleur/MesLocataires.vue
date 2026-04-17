@@ -1,5 +1,5 @@
 <template>
-    <DashboardLayout>
+    <div class="dashboard-page-content">
         <div class="max-w-6xl mx-auto">
             <!-- Header -->
             <div
@@ -232,12 +232,11 @@
                 </form>
             </div>
         </div>
-    </DashboardLayout>
+    </div>
 </template>
 
 <script setup>
 import { ref, onMounted, watch } from "vue";
-import DashboardLayout from "../../layouts/DashboardLayout.vue";
 import { usePropertyStore } from "../../stores/properties";
 import axios from "../../axios";
 

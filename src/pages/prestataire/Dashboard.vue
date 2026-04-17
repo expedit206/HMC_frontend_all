@@ -1,5 +1,5 @@
 <template>
-  <DashboardLayout title="Espace Prestataire Pro">
+  <div class="dashboard-page-content">
     <div
       v-if="isLoading"
       class="flex flex-col items-center justify-center h-full min-h-[60vh]"
@@ -374,14 +374,13 @@
         </div>
       </div>
     </div>
-  </DashboardLayout>
+  </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from "vue";
 import { RouterLink, useRouter } from "vue-router";
 import axios from "../../axios";
-import DashboardLayout from "../../layouts/DashboardLayout.vue";
 import DashboardRoleSwitcher from "../../components/common/DashboardRoleSwitcher.vue";
 
 const router = useRouter();

@@ -1,5 +1,5 @@
 <template>
-  <DashboardLayout>
+  <div class="dashboard-page-content">
     <div class="max-w-7xl mx-auto h-full">
       <!-- HERO SECTION -->
       <div class="text-center mb-14 animate-fadeIn">
@@ -336,13 +336,11 @@
         </div>
       </div>
     </div>
-  </DashboardLayout>
+  </div>
 </template>
 
 <script setup>
 import { ref, reactive } from "vue";
-import DashboardLayout from "../../layouts/DashboardLayout.vue";
-
 const faqs = reactive([
   {
     question: "Comment obtenir mon attestation de garantie ?",

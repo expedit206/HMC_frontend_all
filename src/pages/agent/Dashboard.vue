@@ -1,5 +1,5 @@
 <template>
-  <DashboardLayout title="Espace Agent HMC">
+  <div class="dashboard-page-content">
     <div class="max-w-7xl mx-auto h-full">
       <!-- Role Switcher -->
       <DashboardRoleSwitcher />
@@ -382,14 +382,13 @@
         </div>
       </div>
     </div>
-  </DashboardLayout>
+  </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from "vue";
 import { RouterLink, useRouter } from "vue-router";
 import axios from "../../axios";
-import DashboardLayout from "../../layouts/DashboardLayout.vue";
 import DashboardRoleSwitcher from "../../components/common/DashboardRoleSwitcher.vue";
 
 const router = useRouter();

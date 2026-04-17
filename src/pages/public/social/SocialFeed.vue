@@ -1,5 +1,5 @@
 <template>
-  <SocialLayout :stats="feedStore.stats">
+  <div class="social-feed">
     
     <!-- Boutons Raccourcis -->
     <QuickActionBar class="mb-4" />
@@ -8,8 +8,8 @@
     <StoriesBar v-if="feedStore.stories?.length > 0" :stories="feedStore.stories" class="mb-6" />
 
     <!-- Loading Initial -->
-    <div v-if="feedStore.loading && feedStore.feedItems.length === 0" class="space-y-4 mx-4">
-      <SkeletonLoader type="card" v-for="i in 3" :key="'sk'+i" />
+    <div v-if="feedStore.loading && feedStore.feedItems.length === 0" class="space-y-0 mx-4 md:mx-0">
+      <SkeletonLoader :type="getRandomSkeleton()" v-for="i in 5" :key="'sk'+i" />
     </div>
 
     <!-- Feed Content Interleaved -->
@@ -17,9 +17,7 @@
       <TransitionGroup name="feed" tag="div">
         <template v-for="(item, index) in feedStore.feedItems" :key="item.feed_type + '-' + item.id + '-' + index">
           
-          <SectionDivider v-if="item.feed_type === 'section'" :item="item" />
-          
-          <PropertyFeedCard v-else-if="item.feed_type === 'property'" :item="item" />
+          <PropertyFeedCard v-if="item.feed_type === 'property'" :item="item" />
           
           <ProductFeedCard v-else-if="item.feed_type === 'product'" :item="item" />
           
@@ -30,14 +28,14 @@
         </template>
       </TransitionGroup>
       
+      <!-- Loading More Skeletons -->
+      <div v-if="feedStore.loadingMore" class="w-full mt-4 space-y-0">
+        <SkeletonLoader :type="getRandomSkeleton()" v-for="i in 3" :key="'more-sk'+i" />
+      </div>
+      
       <!-- Infinite Scroll Sentinel -->
       <div ref="infiniteSentinel" class="h-10 mt-4 flex items-center justify-center">
-        <div v-if="feedStore.loadingMore" class="flex gap-1 items-center p-3 rounded-full bg-card shadow-sm border border-border">
-          <div class="w-2 h-2 rounded-full bg-primary animate-bounce"></div>
-          <div class="w-2 h-2 rounded-full bg-primary animate-bounce delay-100"></div>
-          <div class="w-2 h-2 rounded-full bg-primary animate-bounce delay-200"></div>
-        </div>
-        <p v-else-if="!feedStore.hasMore && feedStore.feedItems.length > 0" class="text-xs text-muted-foreground italic bg-muted px-4 py-1.5 rounded-full">
+        <p v-if="!feedStore.hasMore && feedStore.feedItems.length > 0 && !feedStore.loadingMore" class="text-xs text-muted-foreground italic bg-muted px-4 py-1.5 rounded-full">
           Vous avez tout vu ! 🎉
         </p>
       </div>
@@ -52,7 +50,7 @@
 
     </div>
 
-  </SocialLayout>
+  </div>
 </template>
 
 <script setup>
@@ -60,10 +58,8 @@ import { ref, onMounted, onUnmounted, watch } from 'vue'
 // import { useFeedStore } from '../../stores/feed'
 import { useFeedStore } from '../../../stores/feed'
 // Components
-import SocialLayout from '../../../components/social/SocialLayout.vue'
 import QuickActionBar from '../../../components/social/QuickActionBar.vue'
 import StoriesBar from '../../../components/social/StoriesBar.vue'
-import SectionDivider from '../../../components/social/SectionDivider.vue'
 import PropertyFeedCard from '../../../components/social/PropertyFeedCard.vue'
 import ProductFeedCard from '../../../components/social/ProductFeedCard.vue'
 import ServiceRequestFeedCard from '../../../components/social/ServiceRequestFeedCard.vue'
@@ -73,6 +69,11 @@ import SkeletonLoader from '../../../components/SkeletonLoader.vue'
 const feedStore = useFeedStore()
 const infiniteSentinel = ref(null)
 let observer = null
+
+const getRandomSkeleton = () => {
+  const types = ['feed_card_large', 'feed_card_grid', 'feed_card_text'];
+  return types[Math.floor(Math.random() * types.length)];
+}
 
 onMounted(async () => {
   // Charger la data si pas encore chargée
@@ -85,7 +86,7 @@ onMounted(async () => {
     if (entries[0].isIntersecting && feedStore.hasMore && !feedStore.loadingMore) {
       feedStore.loadMore()
     }
-  }, { threshold: 0.1, rootMargin: '200px' })
+  }, { threshold: 0.1, rootMargin: '4000px' })
 
   if (infiniteSentinel.value) {
     observer.observe(infiniteSentinel.value)

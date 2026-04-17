@@ -1,5 +1,5 @@
 <template>
-  <DashboardLayout>
+  <div class="dashboard-page-content">
     <div class="max-w-5xl mx-auto">
       <!-- Header -->
       <div
@@ -153,12 +153,11 @@
         </template>
       </div>
     </div>
-  </DashboardLayout>
+  </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from "vue";
-import DashboardLayout from "../../layouts/DashboardLayout.vue";
 import axios from "../../axios";
 
 const mobileMenuOpen = ref(false);

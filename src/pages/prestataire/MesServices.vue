@@ -1,5 +1,5 @@
 <template>
-  <DashboardLayout>
+  <div class="dashboard-page-content">
     <div class="max-w-4xl mx-auto">
       <div class="flex flex-col gap-3 justify-between mb-8 animate-fadeIn">
         <div>
@@ -111,12 +111,11 @@
         </div>
       </div>
     </div>
-  </DashboardLayout>
+  </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from "vue";
-import DashboardLayout from "../../layouts/DashboardLayout.vue";
 import axios from "../../axios";
 
 const isLoading = ref(true);

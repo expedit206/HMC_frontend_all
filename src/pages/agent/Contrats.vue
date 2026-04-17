@@ -1,5 +1,5 @@
 <template>
-  <DashboardLayout>
+  <div class="dashboard-page-content">
     <div class="max-w-7xl mx-auto h-full">
       <!-- HEADER SECTION -->
       <div
@@ -204,13 +204,11 @@
         </table>
       </div>
     </div>
-  </DashboardLayout>
+  </div>
 </template>
 
 <script setup>
 import { ref, computed, reactive } from "vue";
-import DashboardLayout from "../../layouts/DashboardLayout.vue";
-
 const activeTab = ref("all");
 
 const tabs = [

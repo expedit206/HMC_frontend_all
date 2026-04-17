@@ -1,5 +1,5 @@
 <template>
-  <DashboardLayout>
+  <div class="dashboard-page-content">
     <div
       v-if="isLoading"
       class="flex flex-col items-center justify-center h-full min-h-[60vh]"
@@ -370,12 +370,11 @@
         </div>
       </div>
     </div>
-  </DashboardLayout>
+  </div>
 </template>
 
 <script setup>
 import { ref, onMounted, computed } from "vue";
-import DashboardLayout from "../../layouts/DashboardLayout.vue";
 import { RouterLink } from "vue-router";
 import axios from "../../axios";
 

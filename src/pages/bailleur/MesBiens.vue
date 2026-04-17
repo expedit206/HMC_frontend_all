@@ -1,5 +1,5 @@
 <template>
-  <DashboardLayout>
+  <div class="dashboard-page-content">
     <div class="max-w-6xl mx-auto">
       <!-- Header Section -->
       <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4 animate-fadeIn">
@@ -211,12 +211,11 @@
         </div>
       </div>
     </Teleport>
-  </DashboardLayout>
+  </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from "vue";
-import DashboardLayout from "../../layouts/DashboardLayout.vue";
 import { RouterLink, useRouter } from "vue-router";
 import axios from "../../axios";
 import { usePropertyStore } from "../../stores/properties";

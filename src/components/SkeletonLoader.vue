@@ -101,6 +101,71 @@
       </div>
     </div>
   </div>
+
+  <!-- FEED CARD LARGE (Like Properties/Big images) -->
+  <div
+    v-else-if="type === 'feed_card_large'"
+    class="bg-card rounded-2xl shadow-sm border border-border overflow-hidden p-4 mb-4"
+  >
+    <div class="flex items-center gap-3 mb-4">
+      <div class="sk w-10 h-10 rounded-full shrink-0"></div>
+      <div class="space-y-2 flex-1">
+        <div class="sk h-3 w-1/3 rounded"></div>
+        <div class="sk h-2 w-1/4 rounded"></div>
+      </div>
+    </div>
+    <div class="space-y-2 mb-4">
+      <div class="sk h-3 w-full rounded"></div>
+      <div class="sk h-3 w-5/6 rounded"></div>
+    </div>
+    <div class="sk h-64 w-full rounded-xl mb-4"></div>
+  </div>
+
+  <!-- FEED CARD GRID (Like Products/Marketplace) -->
+  <div
+    v-else-if="type === 'feed_card_grid'"
+    class="bg-card rounded-2xl shadow-sm border border-border overflow-hidden p-4 mb-4"
+  >
+    <div class="flex items-center gap-3 mb-4">
+      <div class="sk w-10 h-10 rounded-full shrink-0"></div>
+      <div class="space-y-2 flex-1">
+        <div class="sk h-3 w-1/3 rounded"></div>
+        <div class="sk h-2 w-1/4 rounded"></div>
+      </div>
+    </div>
+    <div class="space-y-2 mb-4">
+      <div class="sk h-3 w-2/3 rounded"></div>
+      <div class="sk h-3 w-1/2 rounded"></div>
+    </div>
+    <div class="grid grid-cols-2 gap-2 mb-4">
+      <div class="sk h-32 w-full rounded-md"></div>
+      <div class="sk h-32 w-full rounded-md"></div>
+    </div>
+  </div>
+
+  <!-- FEED CARD TEXT (Like Services/Providers) -->
+  <div
+    v-else-if="type === 'feed_card_text'"
+    class="bg-card rounded-2xl shadow-sm border border-border overflow-hidden p-4 mb-4"
+  >
+    <div class="flex items-center gap-3 mb-4">
+      <div class="sk w-10 h-10 rounded-full shrink-0"></div>
+      <div class="space-y-2 flex-1">
+        <div class="sk h-3 w-1/3 rounded"></div>
+        <div class="sk h-2 w-1/4 rounded"></div>
+      </div>
+    </div>
+    <div class="p-4 bg-muted/50 rounded-xl space-y-3 mb-4 border border-border">
+      <div class="sk h-4 w-3/4 rounded"></div>
+      <div class="sk h-2 w-full rounded"></div>
+      <div class="sk h-2 w-full rounded"></div>
+      <div class="sk h-2 w-5/6 rounded"></div>
+    </div>
+    <div class="flex justify-between items-center mt-2">
+       <div class="sk h-6 w-20 rounded-full"></div>
+       <div class="sk h-6 w-20 rounded-full"></div>
+    </div>
+  </div>
 </template>
 
 <script setup>

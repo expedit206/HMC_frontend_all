@@ -1,5 +1,5 @@
 <template>
-  <DashboardLayout>
+  <div class="dashboard-page-content">
 
         <div class="max-w-7xl mx-auto space-y-6">
           <!-- ══ KPI CARDS ══════════════════════════════════════════════════ -->
@@ -679,12 +679,11 @@
         {{ toast.message }}
       </div>
     </transition>
-  </DashboardLayout>
+  </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from "vue";
-import DashboardLayout from "../../layouts/DashboardLayout.vue";
 import axios from "../../axios";
 
 // ─── State ────────────────────────────────────────────────────────────────────

@@ -1,5 +1,5 @@
 <template>
-  <DashboardLayout>
+  <div class="dashboard-page-content">
 
     <div class="bg-[#FAF9F5] min-h-screen py-12 px-6">
       <div class="max-w-3xl mx-auto">
@@ -204,7 +204,7 @@
         </form>
       </div>
     </div>
-  </DashboardLayout>
+  </div>
 
 </template>
 
@@ -212,7 +212,6 @@
 import { ref, reactive, onMounted, computed } from "vue";
 import { RouterLink, useRouter, useRoute } from "vue-router";
 import axios from "../../axios";
-import DashboardLayout from "../../layouts/DashboardLayout.vue";
 const router = useRouter();
 const route = useRoute();
 

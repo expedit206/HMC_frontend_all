@@ -1,5 +1,5 @@
 <template>
-  <DashboardLayout>
+  <div class="dashboard-page-content">
 
     <div class="bg-background min-h-screen py-8">
       <div class="max-w-3xl mx-auto px-4">
@@ -215,7 +215,7 @@
         </div>
       </Transition>
     </div>
-  </DashboardLayout>
+  </div>
 
 </template>
 
@@ -223,8 +223,6 @@
 import { ref, computed, onMounted, onUnmounted } from "vue";
 import { RouterLink, useRouter } from "vue-router";
 import { useNotificationStore } from "../../stores/notifications";
-import DashboardLayout from "../../layouts/DashboardLayout.vue";
-
 const notifStore = useNotificationStore();
 const router = useRouter();
 const showClearConfirm = ref(false);

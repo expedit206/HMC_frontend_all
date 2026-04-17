@@ -1,5 +1,5 @@
 <template>
-  <DashboardLayout title="Administration HMC">
+  <div class="dashboard-page-content">
     <div v-if="isLoading" class="flex flex-col items-center justify-center h-full min-h-[60vh]">
       <div class="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mb-4"></div>
       <p class="text-muted-foreground font-bold uppercase tracking-widest text-xs">
@@ -311,14 +311,13 @@
       </div>
     </div>
 
-  </DashboardLayout>
+  </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from "vue";
 import { RouterLink } from "vue-router";
 import axios from "../../axios";
-import DashboardLayout from "../../layouts/DashboardLayout.vue";
 import DashboardRoleSwitcher from "../../components/common/DashboardRoleSwitcher.vue";
 
 const isLoading = ref(true);

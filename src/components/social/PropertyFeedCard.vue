@@ -69,22 +69,28 @@
 
       <!-- Actions -->
       <div class="flex items-center justify-between border-t border-border pt-3">
-        <div class="flex items-center gap-3 text-muted-foreground text-sm">
+        <div class="flex items-center gap-4 text-muted-foreground text-sm">
           <button @click.prevent="toggleFav"
-            class="flex items-center gap-1 hover:text-red-500 transition-colors group/btn"
+            class="flex items-center gap-1.5 hover:text-red-500 transition-colors group/btn"
             :class="isFaved ? 'text-red-500' : ''">
-            <i :class="`${isFaved ? 'fas' : 'far'} fa-heart text-sm group-hover/btn:scale-110 transition-transform`"></i>
-            <span>{{ localFavsCount }}</span>
+            <i :class="`${isFaved ? 'fas' : 'far'} fa-heart text-base group-hover/btn:scale-110 transition-transform`"></i>
+            <span class="font-medium">{{ localFavsCount }}</span>
           </button>
-          <button class="flex items-center gap-1 hover:text-primary transition-colors">
-            <i class="fas fa-share-alt text-sm"></i>
-            <span>{{ item.shares_count || 0 }}</span>
+          <button class="flex items-center gap-1.5 hover:text-primary transition-colors group/btn">
+            <i class="far fa-comment text-base group-hover/btn:scale-110 transition-transform"></i>
+            <span class="font-medium">0</span>
           </button>
         </div>
-        <RouterLink :to="`/annonces/${item.slug}`"
-          class="px-4 py-1.5 text-sm font-semibold rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors active:scale-95">
-          Voir le bien
-        </RouterLink>
+        
+        <div class="flex items-center gap-2">
+          <button class="px-3 py-1.5 text-sm font-semibold rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors active:scale-95 flex items-center gap-1.5">
+            <i class="fas fa-share-alt"></i> Partager
+          </button>
+          <RouterLink :to="`/annonces/${item.slug}`"
+            class="px-4 py-1.5 text-sm font-semibold rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors active:scale-95">
+            Voir le bien
+          </RouterLink>
+        </div>
       </div>
     </div>
   </article>

@@ -1,5 +1,5 @@
 ﻿<template>
-  <DashboardLayout>
+  <div class="dashboard-page-content">
     <div class="bg-background min-h-screen py-12 px-6">
       <div class="max-w-3xl mx-auto">
         <!-- Header of the form page -->
@@ -322,15 +322,13 @@
         </form>
       </div>
     </div>
-  </DashboardLayout>
+  </div>
 </template>
 
 <script setup>
 import { ref, reactive } from "vue";
 import { RouterLink, useRouter } from "vue-router";
 import axios from "../../axios";
-import DashboardLayout from "../../layouts/DashboardLayout.vue";
-
 const router = useRouter();
 
 // Step Management

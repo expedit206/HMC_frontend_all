@@ -1,5 +1,5 @@
 <template>
-  <DashboardLayout>
+  <div class="dashboard-page-content">
     <div class="max-w-6xl mx-auto">
       <!-- Header -->
       <div class="mb-10 flex justify-between items-end">
@@ -317,12 +317,11 @@
         </div>
       </div>
     </Teleport>
-  </DashboardLayout>
+  </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from "vue";
-import DashboardLayout from "../../layouts/DashboardLayout.vue";
 import { RouterLink } from "vue-router";
 import axios from "../../axios";
 

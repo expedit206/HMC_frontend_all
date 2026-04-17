@@ -1,5 +1,5 @@
 <template>
-  <DashboardLayout>
+  <div class="dashboard-page-content">
     <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
       <!-- Section Paiement -->
       <div class="space-y-6">
@@ -290,12 +290,11 @@
         </div>
       </div>
     </div>
-  </DashboardLayout>
+  </div>
 </template>
 
 <script setup>
 import { ref, computed } from "vue";
-import DashboardLayout from "../../layouts/DashboardLayout.vue";
 import { RouterLink, useRouter } from "vue-router";
 
 const router = useRouter();

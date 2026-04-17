@@ -1,5 +1,5 @@
 <template>
-  <DashboardLayout>
+  <div class="dashboard-page-content">
     <div class="max-w-6xl mx-auto">
       <div
         class="mb-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6"
@@ -134,12 +134,11 @@
         </RouterLink>
       </div>
     </div>
-  </DashboardLayout>
+  </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from "vue";
-import DashboardLayout from "../../layouts/DashboardLayout.vue";
 import { RouterLink, useRouter } from "vue-router";
 import { useAuthStore } from "../../stores/auth";
 import axios from "../../axios";

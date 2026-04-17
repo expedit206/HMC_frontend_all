@@ -1,5 +1,5 @@
 <template>
-  <DashboardLayout>
+  <div class="dashboard-page-content">
     <div class="max-w-7xl mx-auto">
       <div v-if="isLoading" class="py-20 text-center">
         <i
@@ -382,12 +382,11 @@
         </RouterLink>
       </div>
     </div>
-  </DashboardLayout>
+  </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from "vue";
-import DashboardLayout from "../../layouts/DashboardLayout.vue";
 import { RouterLink } from "vue-router";
 import { useAuthStore } from "../../stores/auth";
 import axios from "../../axios";

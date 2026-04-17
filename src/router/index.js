@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
 
-import DefaultLayout from '../layouts/DefaultLayout.vue'
 import AuthLayout from '../layouts/AuthLayout.vue'
+import SocialLayout from '../layouts/SocialLayout.vue'
 
 // Public Pages
 const Accueil = () => import('../pages/public/Accueil.vue')
@@ -117,10 +117,10 @@ const routes = [
   // Public routes
   {
     path: '/',
-    component: DefaultLayout,
+    component: SocialLayout,
     children: [
-      { path: '/', name: 'Accueil', component: Accueil },
-      { path: 'annonces', name: 'Annonces', component: Annonces },
+      { path: '/', name: 'Accueil', component: Accueil, meta: { isFullWidth: true } },
+      { path: 'annonces', name: 'Annonces', component: Annonces, meta: { isFullWidth: true } },
       { path: 'annonces/:slug', name: 'DetailAnnonce', component: DetailAnnonce },
       { path: 'programmer-visite', name: 'ProgrammerVisite', component: ProgrammerVisite },
       { path: 'politique-confidentialite', name: 'PolitiqueConfidentialite', component: PolitiqueConfidentialite },
@@ -137,9 +137,15 @@ const routes = [
       // Page Paramètres unifiée (tous rôles confondus)
       { path: '/parametres', name: 'Parametres', component: SharedParametres, meta: { hasSidebar: true } },
       { path: '/messages', name: 'Messages', component: () => import('../pages/shared/Messages.vue'), meta: { hasSidebar: true } },
-      // Social Feed (Page d'accueil pour connectés)
-      { path: '/feed', name: 'SocialFeed', component: () => import('../pages/public/social/SocialFeed.vue'), meta: { hasSidebar: false } },
-    
+    ]
+  },
+
+  // Social Feed & Authenticated Layout
+  {
+    path: '/',
+    component: SocialLayout,
+    children: [
+       { path: '/feed', name: 'SocialFeed', component: () => import('../pages/public/social/SocialFeed.vue'), meta: { hasSidebar: true, showRightSidebar: true } },
     ]
   },
 
@@ -157,7 +163,7 @@ const routes = [
   // Admin routes
   {
     path: '/admin',
-    component: DefaultLayout,
+    component: SocialLayout,
     meta: { hasSidebar: true },
     children: [
       { path: 'dashboard',            name: 'AdminDashboard',            component: AdminDashboard },
@@ -173,7 +179,7 @@ const routes = [
   // Agent routes
   {
     path: '/agent',
-    component: DefaultLayout,
+    component: SocialLayout,
     meta: { hasSidebar: true },
     children: [
       { path: 'dashboard', name: 'AgentDashboard', component: AgentDashboard },
@@ -193,7 +199,7 @@ const routes = [
   // Bailleur routes
   {
     path: '/bailleur',
-    component: DefaultLayout,
+    component: SocialLayout,
     meta: { hasSidebar: true },
     children: [
       { path: 'dashboard', name: 'BailleurDashboard', component: BailleurDashboard },
@@ -212,7 +218,7 @@ const routes = [
   // Client routes
   {
     path: '/client',
-    component: DefaultLayout,
+    component: SocialLayout,
     meta: { hasSidebar: true },
     children: [
       { path: 'dashboard', name: 'ClientDashboard', component: ClientDashboard },
@@ -223,7 +229,7 @@ const routes = [
   // Locataire routes
   {
     path: '/locataire',
-    component: DefaultLayout,
+    component: SocialLayout,
     meta: { hasSidebar: true },
     children: [
       { path: 'dashboard', name: 'LocataireDashboard', component: LocataireDashboard },
@@ -242,7 +248,7 @@ const routes = [
   // Prestataire routes
   {
     path: '/prestataire',
-    component: DefaultLayout,
+    component: SocialLayout,
     meta: { hasSidebar: true },
     children: [
       { path: 'dashboard', name: 'PrestataireDashboard', component: PrestataireDashboard },
@@ -258,9 +264,9 @@ const routes = [
   // Marketplace routes
   {
     path: '/marketplace',
-    component: DefaultLayout,
+    component: SocialLayout,
     children: [
-      { path: '', name: 'MarketplaceIndex', component: MarketplaceIndex },
+      { path: '', name: 'MarketplaceIndex', component: MarketplaceIndex, meta: { isFullWidth: true } },
       { path: 'demandes', name: 'MarketplaceDemandes', component: DemandesServices },
       { path: 'prestataires', name: 'MarketplacePrestataires', component: Prestataires },
       { path: 'demandes/:id', name: 'ServicePostDetail', component: () => import('../market-place/ServicePostDetail.vue') },

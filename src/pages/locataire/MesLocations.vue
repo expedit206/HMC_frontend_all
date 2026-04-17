@@ -1,5 +1,5 @@
 <template>
-  <DashboardLayout>
+  <div class="dashboard-page-content">
     <div class="max-w-6xl mx-auto">
       <div class="mb-8">
         <h1 class="text-xl font-bold text-foreground leading-tight">
@@ -173,12 +173,11 @@
         </div>
       </div>
     </div>
-  </DashboardLayout>
+  </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from "vue";
-import DashboardLayout from "../../layouts/DashboardLayout.vue";
 import { RouterLink, useRouter } from "vue-router";
 import { useAuthStore } from "../../stores/auth";
 import axios from "../../axios";

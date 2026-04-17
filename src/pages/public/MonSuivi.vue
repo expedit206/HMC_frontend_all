@@ -1,5 +1,5 @@
 <template>
-  <DashboardLayout>
+  <div class="dashboard-page-content">
     <div class="py-8 px-4">
       <div class="max-w-3xl mx-auto">
         <!-- En-tête -->
@@ -498,7 +498,7 @@
         </div>
       </Teleport>
     </div>
-  </DashboardLayout>
+  </div>
 </template>
 
 <script setup>
@@ -507,8 +507,6 @@ import { useRoute, useRouter } from "vue-router";
 import { useAuthStore } from "../../stores/auth";
 import { useRentalStore } from "../../stores/rental";
 import axios from "../../axios";
-import DashboardLayout from "../../layouts/DashboardLayout.vue";
-
 const route = useRoute();
 const router = useRouter();
 const authStore = useAuthStore();
