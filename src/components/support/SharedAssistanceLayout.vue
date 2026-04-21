@@ -1,5 +1,4 @@
 <template>
-    <DashboardLayout>
         <div class="max-w-6xl mx-auto">
             <!-- Header -->
             <div
@@ -111,11 +110,10 @@
                 </div>
             </div>
         </div>
-    </DashboardLayout>
 </template>
 
 <script setup>
-import DashboardLayout from "../../layouts/DashboardLayout.vue";
+// import DashboardLayout from "../../layouts/DashboardLayout.vue";
 
 const props = defineProps({
     title: { type: String, default: "Assistance" },

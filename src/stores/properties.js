@@ -75,7 +75,7 @@ export const usePropertyStore = defineStore('properties', {
   },
 
   actions: {
-    async fetchProperties(page = 1) {
+    async fetchProperties(page = 1, append = false) {
       this.isLoading = true;
       this.error = null;
       this.pagination.current_page = page;
@@ -99,7 +99,13 @@ export const usePropertyStore = defineStore('properties', {
 
         const { data } = await axios.get("/api/properties", { params });
 
-        this.properties = data.data.data || [];
+        const newProperties = data.data.data || [];
+        if (append) {
+          this.properties = [...this.properties, ...newProperties];
+        } else {
+          this.properties = newProperties;
+        }
+
         this.pagination = {
           total: data.data.total || 0,
           last_page: data.data.last_page || 1,

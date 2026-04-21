@@ -71,7 +71,8 @@
                   <div
                     class="w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-black text-xs shadow-md"
                   >
-                    {{ user.name.charAt(0).toUpperCase() }}
+                <UserAvatar :user="user" size="md" />
+
                   </div>
                   <div class="flex flex-col">
                     <span class="text-sm font-black text-foreground">{{
@@ -212,6 +213,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import axios from "../../axios";
+import UserAvatar from "../../components/common/UserAvatar.vue";
 const isLoading = ref(true);
 const users = ref([]);
 const totalUsers = ref(0);

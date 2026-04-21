@@ -76,14 +76,21 @@
             <i :class="`${isFaved ? 'fas' : 'far'} fa-heart text-base group-hover/btn:scale-110 transition-transform`"></i>
             <span class="font-medium">{{ localFavsCount }}</span>
           </button>
-          <button class="flex items-center gap-1.5 hover:text-primary transition-colors group/btn">
-            <i class="far fa-comment text-base group-hover/btn:scale-110 transition-transform"></i>
-            <span class="font-medium">0</span>
+          
+          <button @click.prevent="$emit('open-comments', item)" 
+            class="cursor-pointer flex items-center gap-1 hover:text-amber-500 transition-colors group/btn">
+            <i :class="item.rating > 0 ? 'fas text-amber-400' : 'far text-muted-foreground'" class="fa-star text-base group-hover/btn:scale-110 transition-transform"></i>
+            <span v-if="item.rating > 0" class="font-bold text-amber-600 dark:text-amber-400">
+              {{ item.rating }}
+              <span class="text-xs font-normal text-muted-foreground ml-0.5">({{ item.review_count || item.reviews_count || 0 }})</span>
+            </span>
+            <span v-else class="font-medium text-muted-foreground">Avis</span>
           </button>
         </div>
         
         <div class="flex items-center gap-2">
-          <button class="px-3 py-1.5 text-sm font-semibold rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors active:scale-95 flex items-center gap-1.5">
+          <button @click.prevent="shareItem"
+            class="px-3 py-1.5 text-sm font-semibold rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors active:scale-95 flex items-center gap-1.5">
             <i class="fas fa-share-alt"></i> Partager
           </button>
           <RouterLink :to="`/annonces/${item.slug}`"
@@ -104,6 +111,8 @@ import axios from '../../axios'
 const props = defineProps({
   item: { type: Object, required: true },
 })
+
+const emit = defineEmits(['open-comments'])
 
 const isFaved         = ref(false)
 const localFavsCount  = ref(props.item.favorites_count ?? 0)
@@ -134,6 +143,29 @@ async function toggleFav() {
     // rollback si erreur
     isFaved.value = !isFaved.value
     localFavsCount.value += isFaved.value ? 1 : -1
+  }
+}
+
+async function shareItem() {
+  const shareUrl = window.location.origin + '/annonces/' + props.item.slug
+  if (navigator.share) {
+    try {
+      await navigator.share({
+        title: props.item.title,
+        text: 'Découvrez ce bien impressionnant sur Home Cameroon !',
+        url: shareUrl,
+      })
+    } catch (err) {
+      console.error('Erreur lors du partage :', err)
+    }
+  } else {
+    // Fallback: copy to clipboard
+    try {
+      await navigator.clipboard.writeText(shareUrl)
+      alert('Lien copié dans le presse-papiers !')
+    } catch (err) {
+      console.error('Failed to copy', err)
+    }
   }
 }
 </script>

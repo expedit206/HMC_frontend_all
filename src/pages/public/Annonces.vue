@@ -1,7 +1,7 @@
 <template>
-  <div class="min-h-screen bg-background pb-12">
+  <div class="h-[calc(100vh-64px)] overflow-hidden ">
     <!-- Header Mobile (visible uniquement sur mobile/tablette) -->
-    <div class="lg:hidden bg-card border-b border-border p-4 sticky top-16 z-40">
+    <div class="lg:hidden bg-card border-b border-border p-4 sticky top-0 z-40">
       <div class="flex justify-between items-center mb-4">
         <h1 class="text-xl font-bold text-foreground">
           <span class="text-primary font-semibold">{{ pagination.total }} annonces</span>
@@ -14,274 +14,269 @@
           <i class="fas fa-filter text-primary"></i>
           <span class="font-semibold text-foreground">Filtres</span>
         </button>
-        <button @click="showSortDropdown = !showSortDropdown"
-          class="flex-1 flex items-center justify-center gap-2 bg-background border border-border rounded-lg px-4 py-2 shadow-sm hover: transition-colors">
-          <i class="fas fa-sort-amount-down text-primary"></i>
-          <span class="font-semibold text-foreground">Trier</span>
-        </button>
       </div>
     </div>
 
-    <div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div class="flex flex-col lg:flex-row gap-6">
-        <!-- SIDEBAR FILTRES (Desktop) -->
-        <aside class="hidden lg:block w-1/4">
-          <div
-            class="bg-card rounded-[.45rem] shadow-lg p-6 py-2 pt-6 border border-border sticky top-24 max-h-[calc(100vh-120px)] overflow-y-auto custom-scrollbar">
-            <!-- En-tête du filtre -->
-            <div class="flex justify-between items-center mb-6 pb-4 border-b border-border">
-              <h2 class="text-xl font-bold text-foreground">Filtrer par</h2>
-              <button @click="resetFilters"
-                class="text-secondary text-sm font-medium hover:text-primary transition-colors">
-                <i class="fas fa-redo-alt mr-1"></i> Tout effacer
+    <div class="h-full flex overflow-hidden">
+      <!-- SIDEBAR FILTRES (Desktop) -->
+      <aside
+        class="hidden lg:block w-[350px] border-r border-border bg-card overflow-y-auto custom-scrollbar flex-shrink-0">
+        <div class="p-6">
+          <!-- En-tête du filtre -->
+          <div class="flex justify-between items-center mb-6 pb-4 border-b border-border">
+            <h2 class="text-xl font-bold text-foreground">Filtrer par</h2>
+            <button @click="resetFilters"
+              class="text-secondary text-sm font-medium hover:text-primary transition-colors">
+              <i class="fas fa-redo-alt mr-1"></i>
+            </button>
+          </div>
+
+          <!-- Recherche rapide -->
+          <div class="mb-6">
+            <div class="relative">
+              <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground"></i>
+              <input v-model="filters.search" type="text" placeholder="Rechercher un bien..."
+                class="w-full bg-background border border-input rounded-[.45rem] pl-10 pr-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent transition-all" />
+            </div>
+          </div>
+
+          <!-- Sections de filtres -->
+          <div class="space-y-0">
+            <!-- Type de bien -->
+            <div class="mb-6 pb-4 border-b border-border">
+              <button @click="openSections.types = !openSections.types"
+                class="w-full flex justify-between items-center mb-3">
+                <h3 class="font-bold text-foreground">Type de bien</h3>
+                <i :class="[
+                  'fas fa-chevron-down text-secondary transition-transform duration-200',
+                  openSections.types ? 'rotate-180' : '',
+                ]"></i>
               </button>
-            </div>
-
-            <!-- Recherche rapide -->
-            <div class="mb-6">
-              <div class="relative">
-                <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground"></i>
-                <input v-model="filters.search" type="text" placeholder="Rechercher un bien..."
-                  class="w-full bg-background border border-input rounded-[.45rem] pl-10 pr-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent transition-all" />
+              <div v-show="openSections.types">
+                <div class="grid grid-cols-2 gap-1">
+                  <label v-for="type in propertyTypes" :key="type.value"
+                    class="flex items-center p-2 hover:bg-muted/50 rounded-[.45rem] cursor-pointer transition-colors"
+                    :class="{ 'bg-secondary/10': filters.types.includes(type.value) }">
+                    <input type="checkbox" :value="type.value" v-model="filters.types"
+                      class="mr-2 w-4 h-4 rounded border-input text-secondary focus:ring-secondary focus:ring-2 bg-background" />
+                    <span class="text-foreground/80 text-sm">{{
+                      type.label
+                    }}</span>
+                  </label>
+                </div>
               </div>
             </div>
 
-            <!-- Sections de filtres -->
-            <div class="space-y-0">
-              <!-- Type de bien -->
-              <div class="mb-6 pb-4 border-b border-border">
-                <button @click="openSections.types = !openSections.types"
-                  class="w-full flex justify-between items-center mb-3">
-                  <h3 class="font-bold text-foreground">Type de bien</h3>
-                  <i :class="[
-                    'fas fa-chevron-down text-secondary transition-transform duration-200',
-                    openSections.types ? 'rotate-180' : '',
-                  ]"></i>
-                </button>
-                <div v-show="openSections.types">
-                  <div class="grid grid-cols-2 gap-1">
-                    <label v-for="type in propertyTypes" :key="type.value"
-                      class="flex items-center p-2 hover:bg-muted/50 rounded-[.45rem] cursor-pointer transition-colors"
-                      :class="{ 'bg-secondary/10': filters.types.includes(type.value) }">
-                      <input type="checkbox" :value="type.value" v-model="filters.types"
-                        class="mr-2 w-4 h-4 rounded border-input text-secondary focus:ring-secondary focus:ring-2 bg-background" />
+            <!-- Ville -->
+            <div class="mb-6 pb-4 border-b border-border">
+              <button @click="openSections.cities = !openSections.cities"
+                class="w-full flex justify-between items-center mb-3">
+                <h3 class="font-bold text-foreground">Ville</h3>
+                <i :class="[
+                  'fas fa-chevron-down text-secondary transition-transform duration-200',
+                  openSections.cities ? 'rotate-180' : '',
+                ]"></i>
+              </button>
+              <div v-show="openSections.cities">
+                <div class="relative mb-3">
+                  <i
+                    class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground text-sm"></i>
+                  <input type="text" placeholder="Rechercher une ville..."
+                    class="w-full bg-background border border-input rounded-[.45rem] pl-10 pr-4 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent" />
+                </div>
+                <div class="max-h-40 overflow-y-auto custom-scrollbar">
+                  <label v-for="city in cities" :key="city.value"
+                    class="flex items-center justify-between p-2 hover:bg-muted/50 rounded-[.45rem] cursor-pointer transition-colors"
+                    :class="{ 'bg-secondary/10': filters.cities.includes(city.value) }">
+                    <div class="flex items-center">
+                      <input type="checkbox" :value="city.value" v-model="filters.cities"
+                        class="mr-3 w-4 h-4 rounded border-input text-secondary focus:ring-secondary focus:ring-2 bg-background" />
                       <span class="text-foreground/80 text-sm">{{
-                        type.label
+                        city.label
                       }}</span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Ville -->
-              <div class="mb-6 pb-4 border-b border-border">
-                <button @click="openSections.cities = !openSections.cities"
-                  class="w-full flex justify-between items-center mb-3">
-                  <h3 class="font-bold text-foreground">Ville</h3>
-                  <i :class="[
-                    'fas fa-chevron-down text-secondary transition-transform duration-200',
-                    openSections.cities ? 'rotate-180' : '',
-                  ]"></i>
-                </button>
-                <div v-show="openSections.cities">
-                  <div class="relative mb-3">
-                    <i
-                      class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground text-sm"></i>
-                    <input type="text" placeholder="Rechercher une ville..."
-                      class="w-full bg-background border border-input rounded-[.45rem] pl-10 pr-4 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent" />
-                  </div>
-                  <div class="max-h-40 overflow-y-auto custom-scrollbar">
-                    <label v-for="city in cities" :key="city.value"
-                      class="flex items-center justify-between p-2 hover:bg-muted/50 rounded-[.45rem] cursor-pointer transition-colors"
-                      :class="{ 'bg-secondary/10': filters.cities.includes(city.value) }">
-                      <div class="flex items-center">
-                        <input type="checkbox" :value="city.value" v-model="filters.cities"
-                          class="mr-3 w-4 h-4 rounded border-input text-secondary focus:ring-secondary focus:ring-2 bg-background" />
-                        <span class="text-foreground/80 text-sm">{{
-                          city.label
-                        }}</span>
-                      </div>
-                    </label>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Prix -->
-              <div class="mb-6 pb-4 border-b border-border">
-                <button @click="openSections.price = !openSections.price"
-                  class="w-full flex justify-between items-center mb-3">
-                  <h3 class="font-bold text-foreground">Prix (FCFA/mois)</h3>
-                  <i :class="[
-                    'fas fa-chevron-down text-secondary transition-transform duration-200',
-                    openSections.price ? 'rotate-180' : '',
-                  ]"></i>
-                </button>
-                <div v-show="openSections.price">
-                  <div class="flex space-x-3 mb-3">
-                    <input v-model.number="filters.minPrice" type="number" placeholder="Min"
-                      class="w-full bg-background border border-input rounded-[.45rem] px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent" />
-                    <input v-model.number="filters.maxPrice" type="number" placeholder="Max"
-                      class="w-full bg-background border border-input rounded-[.45rem] px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent" />
-                  </div>
-                  <div class="mb-2">
-                    <input type="range" min="10000" max="1000000" step="10000"
-                      class="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-secondary" />
-                    <div class="flex justify-between text-xs text-muted-foreground mt-1">
-                      <span>10k</span><span>500k</span><span>1M</span>
                     </div>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Prix -->
+            <div class="mb-6 pb-4 border-b border-border">
+              <button @click="openSections.price = !openSections.price"
+                class="w-full flex justify-between items-center mb-3">
+                <h3 class="font-bold text-foreground">Prix (FCFA/mois)</h3>
+                <i :class="[
+                  'fas fa-chevron-down text-secondary transition-transform duration-200',
+                  openSections.price ? 'rotate-180' : '',
+                ]"></i>
+              </button>
+              <div v-show="openSections.price">
+                <div class="flex space-x-3 mb-3">
+                  <input v-model.number="filters.minPrice" type="number" placeholder="Min"
+                    class="w-full bg-background border border-input rounded-[.45rem] px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent" />
+                  <input v-model.number="filters.maxPrice" type="number" placeholder="Max"
+                    class="w-full bg-background border border-input rounded-[.45rem] px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent" />
+                </div>
+                <div class="mb-2">
+                  <input type="range" min="10000" max="1000000" step="10000"
+                    class="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-secondary" />
+                  <div class="flex justify-between text-xs text-muted-foreground mt-1">
+                    <span>10k</span><span>500k</span><span>1M</span>
                   </div>
                 </div>
               </div>
+            </div>
 
-              <!-- Surface -->
-              <div class="mb-6 pb-4 border-b border-border">
-                <button @click="openSections.surface = !openSections.surface"
-                  class="w-full flex justify-between items-center mb-3">
-                  <h3 class="font-bold text-foreground">Surface (m²)</h3>
-                  <i :class="[
-                    'fas fa-chevron-down text-secondary transition-transform duration-200',
-                    openSections.surface ? 'rotate-180' : '',
-                  ]"></i>
-                </button>
-                <div v-show="openSections.surface">
-                  <div class="flex space-x-3 mb-3">
-                    <input v-model.number="filters.minSurface" type="number" placeholder="Min"
-                      class="w-full bg-background border border-input rounded-[.45rem] px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent" />
-                    <input v-model.number="filters.maxSurface" type="number" placeholder="Max"
-                      class="w-full bg-background border border-input rounded-[.45rem] px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent" />
-                  </div>
-                  <div class="mb-2">
-                    <input type="range" min="10" max="500" step="10"
-                      class="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-secondary" />
-                    <div class="flex justify-between text-xs text-muted-foreground mt-1">
-                      <span>10</span><span>250</span><span>500</span>
-                    </div>
+            <!-- Surface -->
+            <div class="mb-6 pb-4 border-b border-border">
+              <button @click="openSections.surface = !openSections.surface"
+                class="w-full flex justify-between items-center mb-3">
+                <h3 class="font-bold text-foreground">Surface (m²)</h3>
+                <i :class="[
+                  'fas fa-chevron-down text-secondary transition-transform duration-200',
+                  openSections.surface ? 'rotate-180' : '',
+                ]"></i>
+              </button>
+              <div v-show="openSections.surface">
+                <div class="flex space-x-3 mb-3">
+                  <input v-model.number="filters.minSurface" type="number" placeholder="Min"
+                    class="w-full bg-background border border-input rounded-[.45rem] px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent" />
+                  <input v-model.number="filters.maxSurface" type="number" placeholder="Max"
+                    class="w-full bg-background border border-input rounded-[.45rem] px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent" />
+                </div>
+                <div class="mb-2">
+                  <input type="range" min="10" max="500" step="10"
+                    class="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-secondary" />
+                  <div class="flex justify-between text-xs text-muted-foreground mt-1">
+                    <span>10</span><span>250</span><span>500</span>
                   </div>
                 </div>
               </div>
+            </div>
 
-              <!-- Chambres -->
-              <div class="mb-6 pb-4 border-b border-border">
-                <button @click="openSections.rooms = !openSections.rooms"
-                  class="w-full flex justify-between items-center mb-3">
-                  <h3 class="font-bold text-foreground">Chambres</h3>
-                  <i :class="[
-                    'fas fa-chevron-down text-secondary transition-transform duration-200',
-                    openSections.rooms ? 'rotate-180' : '',
-                  ]"></i>
-                </button>
-                <div v-show="openSections.rooms">
-                  <div class="flex flex-wrap gap-2">
-                    <button @click="filters.minRooms = 0" :class="[
-                      'px-4 py-2 border rounded-full text-sm font-medium transition-colors',
-                      filters.minRooms === 0
-                        ? 'bg-secondary border-secondary text-white'
-                        : 'border-border hover:border-secondary hover:text-secondary bg-background text-foreground',
-                    ]">
-                      Toutes
-                    </button>
-                    <button @click="filters.minRooms = -1" :class="[
-                      'px-4 py-2 border rounded-full text-sm font-medium transition-colors',
-                      filters.minRooms === -1
-                        ? 'bg-secondary border-secondary text-white'
-                        : 'border-border hover:border-secondary hover:text-secondary bg-background text-foreground',
-                    ]">
-                      Studio
-                    </button>
-                    <button v-for="room in [1, 2, 3, 4]" :key="room" @click="
-                      filters.minRooms = filters.minRooms === room ? 0 : room
-                      " :class="[
+            <!-- Chambres -->
+            <div class="mb-6 pb-4 border-b border-border">
+              <button @click="openSections.rooms = !openSections.rooms"
+                class="w-full flex justify-between items-center mb-3">
+                <h3 class="font-bold text-foreground">Chambres</h3>
+                <i :class="[
+                  'fas fa-chevron-down text-secondary transition-transform duration-200',
+                  openSections.rooms ? 'rotate-180' : '',
+                ]"></i>
+              </button>
+              <div v-show="openSections.rooms">
+                <div class="flex flex-wrap gap-2">
+                  <button @click="filters.minRooms = 0" :class="[
+                    'px-4 py-2 border rounded-full text-sm font-medium transition-colors',
+                    filters.minRooms === 0
+                      ? 'bg-secondary border-secondary text-white'
+                      : 'border-border hover:border-secondary hover:text-secondary bg-background text-foreground',
+                  ]">
+                    Toutes
+                  </button>
+                  <button @click="filters.minRooms = -1" :class="[
+                    'px-4 py-2 border rounded-full text-sm font-medium transition-colors',
+                    filters.minRooms === -1
+                      ? 'bg-secondary border-secondary text-white'
+                      : 'border-border hover:border-secondary hover:text-secondary bg-background text-foreground',
+                  ]">
+                    Studio
+                  </button>
+                  <button v-for="room in [1, 2, 3, 4]" :key="room" @click="
+                    filters.minRooms = filters.minRooms === room ? 0 : room
+                    " :class="[
                         'px-4 py-2 border rounded-full text-sm font-medium transition-colors',
                         filters.minRooms === room
                           ? 'bg-secondary border-secondary text-white'
                           : 'border-border hover:border-secondary hover:text-secondary bg-background text-foreground',
                       ]">
-                      {{ room }}{{ room === 4 ? "+" : "" }}
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <!-- État du bien -->
-              <div class="mb-6 pb-4 border-b border-border">
-                <button @click="openSections.etat = !openSections.etat"
-                  class="w-full flex justify-between items-center mb-3">
-                  <h3 class="font-bold text-foreground">État du bien</h3>
-                  <i :class="[
-                    'fas fa-chevron-down text-secondary transition-transform duration-200',
-                    openSections.etat ? 'rotate-180' : '',
-                  ]"></i>
-                </button>
-                <div v-show="openSections.etat">
-                  <div class="grid grid-cols-2 gap-1">
-                    <label v-for="e in etats" :key="e.value"
-                      class="flex items-center p-2 hover:bg-muted/50 rounded-[.45rem] cursor-pointer transition-colors"
-                      :class="{ 'bg-secondary/10': filters.etats.includes(e.value) }">
-                      <input type="checkbox" :value="e.value" v-model="filters.etats"
-                        class="mr-2 w-4 h-4 rounded border-input text-secondary focus:ring-secondary focus:ring-2 bg-background" />
-                      <span class="text-foreground/80 text-sm">{{
-                        e.label
-                      }}</span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Commodités -->
-              <div class="mb-6">
-                <button @click="openSections.commodites = !openSections.commodites"
-                  class="w-full flex justify-between items-center mb-3">
-                  <h3 class="font-bold text-foreground">Commodités</h3>
-                  <i :class="[
-                    'fas fa-chevron-down text-secondary transition-transform duration-200',
-                    openSections.commodites ? 'rotate-180' : '',
-                  ]"></i>
-                </button>
-                <div v-show="openSections.commodites">
-                  <div class="grid grid-cols-2 gap-1">
-                    <label v-for="a in amenitiesList" :key="a.value"
-                      class="flex items-center p-2 hover:bg-muted/50 rounded-[.45rem] cursor-pointer transition-colors"
-                      :class="{ 'bg-secondary/10': filters.amenities.includes(a.value) }">
-                      <input type="checkbox" :value="a.value" v-model="filters.amenities"
-                        class="mr-2 w-4 h-4 rounded border-input text-secondary focus:ring-secondary focus:ring-2 bg-background" />
-                      <span class="text-foreground/80 text-sm">{{
-                        a.label
-                      }}</span>
-                    </label>
-                  </div>
+                    {{ room }}{{ room === 4 ? "+" : "" }}
+                  </button>
                 </div>
               </div>
             </div>
 
-            <!-- Indicateur temps réel -->
-            <div class="pt-3 pb-1 flex items-center justify-between border-t border-border mt-2">
-              <div class="flex items-center gap-2 text-xs text-muted-foreground">
-                <span v-if="isLoading" class="flex items-center gap-1.5">
-                  <svg class="animate-spin h-3.5 w-3.5 text-secondary" xmlns="http://www.w3.org/2000/svg" fill="none"
-                    viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
-                  </svg>
-                  Recherche en cours…
-                </span>
-                <span v-else-if="activeFiltersCount > 0 || filters.search" class="text-secondary font-medium">
-                  {{ pagination.total }} résultat{{
-                    pagination.total > 1 ? "s" : ""
-                  }}
-                </span>
-              </div>
-              <button v-if="activeFiltersCount > 0" @click="resetFilters"
-                class="text-xs text-destructive hover:text-destructive/80 font-medium flex items-center gap-1 transition-colors">
-                <i class="fas fa-times"></i> Effacer
+            <!-- État du bien -->
+            <div class="mb-6 pb-4 border-b border-border">
+              <button @click="openSections.etat = !openSections.etat"
+                class="w-full flex justify-between items-center mb-3">
+                <h3 class="font-bold text-foreground">État du bien</h3>
+                <i :class="[
+                  'fas fa-chevron-down text-secondary transition-transform duration-200',
+                  openSections.etat ? 'rotate-180' : '',
+                ]"></i>
               </button>
+              <div v-show="openSections.etat">
+                <div class="grid grid-cols-2 gap-1">
+                  <label v-for="e in etats" :key="e.value"
+                    class="flex items-center p-2 hover:bg-muted/50 rounded-[.45rem] cursor-pointer transition-colors"
+                    :class="{ 'bg-secondary/10': filters.etats.includes(e.value) }">
+                    <input type="checkbox" :value="e.value" v-model="filters.etats"
+                      class="mr-2 w-4 h-4 rounded border-input text-secondary focus:ring-secondary focus:ring-2 bg-background" />
+                    <span class="text-foreground/80 text-sm">{{
+                      e.label
+                    }}</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Commodités -->
+            <div class="mb-6">
+              <button @click="openSections.commodites = !openSections.commodites"
+                class="w-full flex justify-between items-center mb-3">
+                <h3 class="font-bold text-foreground">Commodités</h3>
+                <i :class="[
+                  'fas fa-chevron-down text-secondary transition-transform duration-200',
+                  openSections.commodites ? 'rotate-180' : '',
+                ]"></i>
+              </button>
+              <div v-show="openSections.commodites">
+                <div class="grid grid-cols-2 gap-1">
+                  <label v-for="a in amenitiesList" :key="a.value"
+                    class="flex items-center p-2 hover:bg-muted/50 rounded-[.45rem] cursor-pointer transition-colors"
+                    :class="{ 'bg-secondary/10': filters.amenities.includes(a.value) }">
+                    <input type="checkbox" :value="a.value" v-model="filters.amenities"
+                      class="mr-2 w-4 h-4 rounded border-input text-secondary focus:ring-secondary focus:ring-2 bg-background" />
+                    <span class="text-foreground/80 text-sm">{{
+                      a.label
+                    }}</span>
+                  </label>
+                </div>
+              </div>
             </div>
           </div>
-        </aside>
 
-        <!-- MAIN CONTENT -->
-        <main class="lg:w-3/4 w-full">
+          <!-- Indicateur temps réel -->
+          <div class="pt-3 pb-1 flex items-center justify-between border-t border-border mt-2">
+            <div class="flex items-center gap-2 text-xs text-muted-foreground">
+              <span v-if="isLoading" class="flex items-center gap-1.5">
+                <svg class="animate-spin h-3.5 w-3.5 text-secondary" xmlns="http://www.w3.org/2000/svg" fill="none"
+                  viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+                </svg>
+                Recherche en cours…
+              </span>
+              <span v-else-if="activeFiltersCount > 0 || filters.search" class="text-secondary font-medium">
+                {{ pagination.total }} résultat{{
+                  pagination.total > 1 ? "s" : ""
+                }}
+              </span>
+            </div>
+            <button v-if="activeFiltersCount > 0" @click="resetFilters"
+              class="text-xs text-destructive hover:text-destructive/80 font-medium flex items-center gap-1 transition-colors">
+              <i class="fas fa-times"></i> Effacer
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      <!-- MAIN CONTENT (Scrollable Feed) -->
+      <main class="flex-1 overflow-y-auto custom-scrollbar h-full bg-muted/5+">
+        <div class="max-w-5xl mx-auto px-6 py-8">
           <!-- En-tête Desktop -->
-          <div class="hidden lg:block mb-6">
+          <div class="hidden lg:block mb-8">
             <div class="flex justify-between items-center">
               <div>
                 <h1 class="text-2xl font-bold text-foreground">
@@ -371,7 +366,7 @@
           </div>
 
           <!-- Liste des annonces -->
-          <div class="space-y-6">
+          <div class="space-y-8">
             <!-- Squelettes chargement -->
             <template v-if="isLoading">
               <div v-for="n in 4" :key="n"
@@ -415,69 +410,61 @@
             <template v-else>
               <div v-for="property in properties" :key="property.id"
                 class="bg-card rounded-[.45rem] shadow-lg overflow-hidden border border-border hover:border-secondary transition-all group property-card">
+                <!-- ... existing property card content ... -->
                 <div class="flex flex-col md:flex-row">
                   <!-- Image Section -->
-                    <!-- Image Container with Slider -->
-                    <div class="md:w-2/5 relative h-64 md:h-auto md:self-stretch overflow-hidden group/image">
-                      <!-- Slider Images -->
-                      <div class="absolute inset-0 flex transition-transform duration-500 ease-in-out"
-                        :style="{ transform: `translateX(-${(property.currentImageIndex || 0) * 100}%)` }">
-                        <div v-for="(img, idx) in (property.all_images?.length ? property.all_images : [property.image])" :key="idx"
-                          class="min-w-full h-full bg-cover bg-center"
-                          :style="{ backgroundImage: `url('${prepareImageUrl(img)}')` }">
+                  <div class="md:w-2/5 relative h-64 md:h-auto md:self-stretch overflow-hidden group/image">
+                    <div class="absolute inset-0 flex transition-transform duration-500 ease-in-out"
+                      :style="{ transform: `translateX(-${(property.currentImageIndex || 0) * 100}%)` }">
+                      <div v-for="(img, idx) in (property.all_images?.length ? property.all_images : [property.image])"
+                        :key="idx" class="min-w-full h-full bg-cover bg-center"
+                        :style="{ backgroundImage: `url('${prepareImageUrl(img)}')` }"
+                        >
+                      </div>
+                    </div>
+
+                    <div
+                      class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent md:bg-gradient-to-r pointer-events-none">
+                    </div>
+
+                    <template v-if="property.all_images && property.all_images.length > 1">
+                      <button @click.prevent="prevPropertyImage(property)"
+                        class="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-black/30 hover:bg-black/60 text-white rounded-full flex items-center justify-center transition-all opacity-0 group-hover/image:opacity-100 z-30">
+                        <i class="fas fa-chevron-left text-xs"></i>
+                      </button>
+                      <button @click.prevent="nextPropertyImage(property)"
+                        class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-black/30 hover:bg-black/60 text-white rounded-full flex items-center justify-center transition-all opacity-0 group-hover/image:opacity-100 z-30">
+                        <i class="fas fa-chevron-right text-xs"></i>
+                      </button>
+
+                      <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5 z-30 pointer-events-none">
+                        <div v-for="(_, idx) in property.all_images" :key="idx"
+                          class="w-1.5 h-1.5 rounded-full transition-all"
+                          :class="idx === (property.currentImageIndex || 0) ? 'bg-secondary w-3' : 'bg-white/50'">
                         </div>
                       </div>
-
-                      <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent md:bg-gradient-to-r pointer-events-none">
-                      </div>
-
-                      <!-- Navigation Arrows (only if multi images) -->
-                      <template v-if="property.all_images && property.all_images.length > 1">
-                        <button @click.prevent="prevPropertyImage(property)"
-                          class="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-black/30 hover:bg-black/60 text-white rounded-full flex items-center justify-center transition-all opacity-0 group-hover/image:opacity-100 z-30">
-                          <i class="fas fa-chevron-left text-xs"></i>
-                        </button>
-                        <button @click.prevent="nextPropertyImage(property)"
-                          class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-black/30 hover:bg-black/60 text-white rounded-full flex items-center justify-center transition-all opacity-0 group-hover/image:opacity-100 z-30">
-                          <i class="fas fa-chevron-right text-xs"></i>
-                        </button>
-
-                        <!-- Pagination Dots -->
-                        <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5 z-30 pointer-events-none">
-                          <div v-for="(_, idx) in property.all_images" :key="idx"
-                            class="w-1.5 h-1.5 rounded-full transition-all"
-                            :class="idx === (property.currentImageIndex || 0) ? 'bg-secondary w-3' : 'bg-white/50'">
-                          </div>
-                        </div>
-                      </template>
+                    </template>
                     <div
                       class="absolute top-3 right-3 bg-secondary text-white px-3 py-1 rounded-full text-sm font-semibold shadow-sm">
                       {{ property.type === "rent" ? "À louer" : "À vendre" }}
                     </div>
-                    
+
                     <div v-if="property.avg_rating > 0"
                       class="absolute top-3 left-3 bg-black/70 backdrop-blur-sm text-white px-2.5 py-1 rounded-full text-xs font-bold flex items-center gap-1">
                       <i class="fas fa-star text-amber-400 text-[10px]"></i>
                       {{ property.avg_rating }}
                     </div>
 
-                    <!-- Barre d'actions TikTok via composant réutilisable -->
-                    <PropertyActionBar
-                      :property="property"
-                      :is-fav="isFavorite(property.id)"
-                      btn-size="md"
-                      position="absolute right-3 bottom-4"
-                      @toggle-favorite="toggleFavorite"
-                      @share="shareProperty"
-                    />
+                    <PropertyActionBar :property="property" :is-fav="isFavorite(property.id)" btn-size="md"
+                      position="absolute right-3 bottom-4" @toggle-favorite="toggleFavorite" @share="shareProperty" />
                   </div>
 
-                  <!-- Content Section -->
                   <div class="md:w-3/5 p-6 flex flex-col justify-between">
                     <div>
                       <div class="flex justify-between items-start mb-2 relative">
                         <h2
-                          class="text-xl md:text-2xl font-bold text-foreground group-hover:text-secondary transition-colors line-clamp-1 pr-6">
+                          class="text-xl md:text-2xl font-bold text-foreground group-hover:text-secondary transition-colors line-clamp-1 pr-6"
+                          :title="property.title">
                           {{ property.title }}
                         </h2>
                       </div>
@@ -494,8 +481,7 @@
                         </span>
                       </div>
 
-                      <!-- Détails -->
-                      <div class="flex flex-wrap gap-4 mb-4 pb-4 border-b border-border">
+                      <div class="flex flex-wrap gap-4 mb-0 pb-2 border-b border-border">
                         <div class="flex items-center text-foreground/80 text-sm">
                           <i class="fas fa-check-circle text-secondary mr-1.5"></i>
                           <span>{{ property.rooms || 0 }} Chambres</span>
@@ -514,65 +500,56 @@
                         </div>
                       </div>
 
-                      <!-- Bailleur -->
-                      <div v-if="property.owner" class="flex items-center gap-2 text-sm text-muted-foreground mr-auto">
+                      <!-- <div v-if="property.owner" class="flex items-center gap-2 text-sm text-muted-foreground mr-auto">
                         <img v-if="property.owner.avatar_url" :src="property.owner.avatar_url"
                           class="w-6 h-6 rounded-full object-cover border border-border" />
                         <i v-else class="fas fa-user-circle text-lg text-muted-foreground"></i>
                         <span>{{ property.owner.name }}</span>
-                      </div>
+                      </div> -->
                     </div>
 
-                    <div class="flex justify-between items-center mt-4">
+                    <div class="flex flex-col  items- mt-2">
                       <div>
                         <div class="text-secondary font-bold text-2xl">
-                        {{ formatPrice(property.price) }} F
-                        <span class="text-muted-foreground font-normal text-base">/ mois</span>
-                      </div>
-                      <div v-if="property.avg_rating > 0" class="flex items-center gap-1 mt-1">
-                        <i v-for="s in 5" :key="s"
-                          :class="s <= Math.round(property.avg_rating) ? 'fas fa-star text-amber-400' : 'far fa-star text-muted-foreground/40'"
-                          class="text-xs"></i>
-                        <span class="text-xs text-muted-foreground ml-1">{{ property.avg_rating }}/5</span>
-                      </div>
-                      <p class="text-sm text-muted-foreground/70">
-                        Charges incluses
-                      </p>
+                          {{ formatPrice(property.price) }} F
+                          <span class="text-muted-foreground font-normal text-base">/ mois</span>
+                        </div>
+                        <div v-if="property.avg_rating > 0" class="flex items-center gap-1 mt-1">
+                          <i v-for="s in 5" :key="s"
+                            :class="s <= Math.round(property.avg_rating) ? 'fas fa-star text-amber-400' : 'far fa-star text-muted-foreground/40'"
+                            class="text-xs"></i>
+                          <span class="text-xs text-muted-foreground ml-1">{{ property.avg_rating }}/5</span>
+                        </div>
+                       
                       </div>
                       <RouterLink :to="`/annonces/${property.slug}`"
-                        class="bg-secondary text-white px-6 py-3 rounded-[.45rem] font-semibold hover:bg-primary transition-colors shadow-md hover:shadow-lg">
+                        class="bg-secondary text-white text-center px-6 py-3 rounded-[.45rem] font-semibold hover:bg-primary transition-colors shadow-md hover:shadow-lg w-full">
                         Voir les détails
                       </RouterLink>
                     </div>
                   </div>
                 </div>
               </div>
+
+              <!-- Sentinel for Infinite Scroll -->
+              <div ref="infiniteScrollSentinel" class="h-20 flex items-center justify-center py-10">
+                <div v-if="isLoadingMore" class="flex items-center gap-3 text-secondary font-medium">
+                  <svg class="animate-spin h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+                  </svg>
+                  <span>Chargement des annonces suivantes...</span>
+                </div>
+                <div v-else-if="pagination.current_page >= pagination.last_page && properties.length > 0"
+                  class="text-muted-foreground text-sm italic">
+                  Vous avez atteint la fin des résultats.
+                </div>
+              </div>
             </template>
           </div>
 
-          <!-- Pagination -->
-          <div v-if="totalPages > 1" class="flex items-center justify-center gap-2 mt-10">
-            <button @click="propertyStore.fetchProperties(Math.max(1, pagination.current_page - 1))"
-              :disabled="pagination.current_page === 1"
-              class="w-10 h-10 rounded-[.45rem] border border-border flex items-center justify-center disabled:opacity-50 hover:bg-muted transition-colors bg-background text-foreground">
-              <i class="fas fa-chevron-left text-muted-foreground"></i>
-            </button>
-            <button v-for="page in pageNumbers" :key="page" @click="propertyStore.fetchProperties(page)" :class="[
-              'w-10 h-10 rounded-[.45rem] font-medium transition-colors',
-              pagination.current_page === page
-                ? 'bg-primary text-primary-foreground shadow-md'
-                : 'bg-background border border-border hover:bg-muted text-foreground',
-            ]">
-              {{ page }}
-            </button>
-            <button @click="propertyStore.fetchProperties(Math.min(totalPages, pagination.current_page + 1))"
-              :disabled="pagination.current_page === totalPages"
-              class="w-10 h-10 rounded-[.45rem] border border-border flex items-center justify-center disabled:opacity-50 hover:bg-muted transition-colors bg-background text-foreground">
-              <i class="fas fa-chevron-right text-muted-foreground"></i>
-            </button>
-          </div>
-        </main>
-      </div>
+        </div>
+      </main>
     </div>
   </div>
 </template>
@@ -604,7 +581,6 @@ const openSections = ref({
   commodites: true,
 });
 
-// Store State & Getters
 const {
   properties,
   pagination,
@@ -613,8 +589,11 @@ const {
   isLoading,
   activeFiltersCount,
   totalPages,
-  pageNumbers
 } = storeToRefs(propertyStore);
+
+const isLoadingMore = ref(false);
+const infiniteScrollSentinel = ref(null);
+let observer = null;
 
 const propertyTypes = computed(() => aggregates.value.types || []);
 const cities = computed(() => aggregates.value.cities || []);
@@ -631,7 +610,7 @@ const togglePropertyMenu = (id) => {
 const shareProperty = async (property) => {
   activeMenu.value = null;
   const url = window.location.origin + '/annonces/' + property.slug;
-  
+
   // Track share in backend
   await propertyStore.shareProperty(property.id);
 
@@ -725,6 +704,35 @@ watch(
   }
 );
 
+// ─── Infinite Scroll Logic ──────────────────────────────────────────
+const loadMore = async () => {
+  if (isLoadingMore.value || isLoading.value) return;
+  if (pagination.value.current_page >= pagination.value.last_page) return;
+
+  isLoadingMore.value = true;
+  try {
+    await propertyStore.fetchProperties(pagination.value.current_page + 1, true);
+  } finally {
+    isLoadingMore.value = false;
+  }
+};
+
+const setupInfiniteScroll = () => {
+  if (observer) observer.disconnect();
+
+  observer = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) {
+      loadMore();
+    }
+  }, {
+    rootMargin: '200px'
+  });
+
+  if (infiniteScrollSentinel.value) {
+    observer.observe(infiniteScrollSentinel.value);
+  }
+};
+
 onMounted(() => {
   // Sync filters with URL
   if (route.query.search) filters.value.search = route.query.search;
@@ -740,7 +748,13 @@ onMounted(() => {
   if (route.query.min_area) filters.value.minSurface = Number(route.query.min_area);
   if (route.query.max_area) filters.value.maxSurface = Number(route.query.max_area);
 
-  propertyStore.fetchProperties();
+  propertyStore.fetchProperties().then(() => {
+    setupInfiniteScroll();
+  });
+});
+
+watch(infiniteScrollSentinel, (newVal) => {
+  if (newVal) setupInfiniteScroll();
 });
 
 const resetFilters = () => propertyStore.resetFilters();
@@ -761,79 +775,64 @@ const isFavorite = (id) => {
 const formatPrice = (price) => new Intl.NumberFormat("fr-FR").format(price);
 </script>
 
-<style scoped>
-.custom-scrollbar::-webkit-scrollbar {
-  width: 6px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: hsl(var(--muted));
-  border-radius: 10px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: hsl(var(--primary));
-  border-radius: 10px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--primary) / 0.8);
-}
-
+<style>
 /* Animation de chargement */
 @keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-
-  100% {
-    background-position: 200% 0;
-  }
+0% { background-position: -200% 0; }
+100% { background-position: 200% 0; }
 }
 
 .bg-muted\/50 {
-  background: linear-gradient(90deg, hsl(var(--muted)) 25%, hsl(var(--muted)/0.3) 50%, hsl(var(--muted)) 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.5s ease-in-out infinite;
+background: linear-gradient(90deg, hsl(var(--muted)) 25%, hsl(var(--muted)/0.3) 50%, hsl(var(--muted)) 75%);
+background-size: 200% 100%;
+animation: shimmer 1.5s ease-in-out infinite;
 }
 
-/* Style pour l'input range */
+/* Transitions pour les cartes */
+.property-card {
+transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.property-card:hover {
+transform: translateY(-4px);
+box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
 input[type=range] {
-  -webkit-appearance: none;
-  background: transparent;
+-webkit-appearance: none;
+background: transparent;
 }
 
 input[type=range]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  height: 16px;
-  width: 16px;
-  border-radius: 50%;
-  background: hsl(var(--secondary));
-  cursor: pointer;
-  margin-top: -6px;
-  border: 2px solid hsl(var(--background));
+-webkit-appearance: none;
+height: 16px;
+width: 16px;
+border-radius: 50%;
+background: hsl(var(--secondary));
+cursor: pointer;
+margin-top: -6px;
+border: 2px solid hsl(var(--background));
 }
 
 input[type=range]::-moz-range-thumb {
-  height: 16px;
-  width: 16px;
-  border-radius: 50%;
-  background: hsl(var(--secondary));
-  cursor: pointer;
-  border: 2px solid hsl(var(--background));
+height: 16px;
+width: 16px;
+border-radius: 50%;
+background: hsl(var(--secondary));
+cursor: pointer;
+border: 2px solid hsl(var(--background));
 }
 
 input[type=range]::-webkit-slider-runnable-track {
-  width: 100%;
-  height: 4px;
-  background: hsl(var(--secondary) / 0.3);
-  border-radius: 2px;
+width: 100%;
+height: 4px;
+background: hsl(var(--secondary) / 0.3);
+border-radius: 2px;
 }
 
 input[type=range]::-moz-range-track {
-  width: 100%;
-  height: 4px;
-  background: hsl(var(--secondary) / 0.3);
-  border-radius: 2px;
+width: 100%;
+height: 4px;
+background: hsl(var(--secondary) / 0.3);
+border-radius: 2px;
 }
 </style>

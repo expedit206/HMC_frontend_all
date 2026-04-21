@@ -2,7 +2,6 @@
   <div class="dashboard-page-content">
     <div class="max-w-6xl">
       <!-- Role Switcher -->
-      <DashboardRoleSwitcher />
       <!-- Header -->
       <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <div>
@@ -378,7 +377,6 @@ import { ref, onMounted } from "vue";
 import { RouterLink } from "vue-router";
 import { useAuthStore } from "../../stores/auth";
 import axios from "../../axios";
-import DashboardRoleSwitcher from "../../components/common/DashboardRoleSwitcher.vue";
 
 const authStore = useAuthStore();
 const isLoading = ref(true);

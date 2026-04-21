@@ -1,256 +1,302 @@
 <template>
-  <div class="dashboard-page-content">
-    <div class="max-w-5xl mx-auto">
-      <!-- Header -->
-      <div
-        class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4 animate-fadeIn"
-      >
+  <div class="h-full flex flex-col bg-gray-50/30">
+    <!-- Header Page -->
+    <div class="bg-white border-b border-gray-100 px-8 py-6">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 class="text-3xl font-black text-foreground leading-tight">
-            Gestion des <span class="text-secondary">Visites</span>
-          </h1>
-          <p
-            class="text-muted-foreground font-bold uppercase text-[10px] tracking-widest mt-1"
-          >
-            Demandes de rendez-vous sur vos propriétés
-          </p>
+          <h1 class="text-2xl font-bold text-gray-900">Gestion des Visites</h1>
+          <p class="text-gray-500 mt-1">Suivez et gérez les rendez-vous de visite pour vos propriétés.</p>
         </div>
         <div class="flex items-center gap-3">
-          <button
-            @click="mobileMenuOpen = !mobileMenuOpen"
-            class="lg:hidden p-2 text-muted-foreground hover:text-secondary transition-colors"
+          <button 
+            @click="fetchVisits"
+            class="p-2.5 text-gray-400 hover:text-orange-600 hover:bg-orange-50 rounded-xl transition-all"
+            :class="{ 'animate-spin': loadingVisits }"
+            title="Rafraîchir"
           >
-            <i class="fas fa-bars text-xl"></i>
+            <i class="fas fa-sync-alt"></i>
           </button>
         </div>
       </div>
 
-      <div class="space-y-6 animate-fadeIn" style="animation-delay: 0.1s">
-        <!-- Loading State -->
-        <div v-if="isLoading" class="py-20 text-center text-muted-foreground">
-          <i
-            class="fas fa-circle-notch fa-spin text-3xl mb-4 text-secondary"
-          ></i>
-          <p class="font-bold uppercase text-[10px] tracking-widest">
-            Récupération des visites...
-          </p>
+      <!-- Stats Quick View -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+        <div class="bg-orange-50/50 p-4 rounded-2xl border border-orange-100">
+          <p class="text-xs font-bold text-orange-600 uppercase tracking-wider mb-1">En attente</p>
+          <p class="text-2xl font-black text-gray-900">{{ stats.pending }}</p>
         </div>
-
-        <!-- Empty State -->
-        <div
-          v-else-if="visits.length === 0"
-          class="py-20 text-center bg-card rounded-[2rem] border border-border shadow-sm"
-        >
-          <i class="fas fa-calendar-times text-5xl mb-4 text-muted-foreground/20"></i>
-          <p class="text-muted-foreground font-bold">
-            Aucune demande de visite enregistrée.
-          </p>
+        <div class="bg-blue-50/50 p-4 rounded-2xl border border-blue-100">
+          <p class="text-xs font-bold text-blue-600 uppercase tracking-wider mb-1">Confirmées</p>
+          <p class="text-2xl font-black text-gray-900">{{ stats.confirmed }}</p>
         </div>
+        <div class="bg-green-50/50 p-4 rounded-2xl border border-green-100">
+          <p class="text-xs font-bold text-green-600 uppercase tracking-wider mb-1">Terminées</p>
+          <p class="text-2xl font-black text-gray-900">{{ stats.completed }}</p>
+        </div>
+        <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100">
+          <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Aujourd'hui</p>
+          <p class="text-2xl font-black text-gray-900">{{ stats.today }}</p>
+        </div>
+      </div>
+    </div>
 
-        <!-- Visits List -->
-        <template v-else>
-          <div
-            v-for="visit in visits"
-            :key="visit.id"
-            class="bg-card p-6 md:p-8 rounded-[2rem] shadow-sm border border-border flex flex-col md:flex-row gap-6 md:gap-8 relative overflow-hidden group hover:shadow-lg transition-all"
-            :class="{
-              'border-l-[6px] border-secondary': visit.status === 'pending',
-            }"
+    <!-- Content -->
+    <div class="flex-1 overflow-y-auto p-8 custom-scrollbar">
+      <div v-if="loadingVisits" class="flex flex-col items-center justify-center py-20 grayscale opacity-50">
+        <div class="w-12 h-12 border-4 border-orange-100 border-t-orange-600 rounded-full animate-spin mb-4"></div>
+        <p class="font-medium text-gray-500">Chargement de votre agenda...</p>
+      </div>
+
+      <div v-else-if="visits.length === 0" class="bg-white rounded-3xl border border-dashed border-gray-200 p-20 text-center">
+        <div class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6">
+          <i class="fas fa-calendar-times text-3xl text-gray-300"></i>
+        </div>
+        <h2 class="text-xl font-bold text-gray-900 mb-2">Aucune visite programmée</h2>
+        <p class="text-gray-500 max-w-sm mx-auto">
+          Les futures visites de vos propriétés apparaîtront ici. Assurez-vous que vos annonces sont bien publiées.
+        </p>
+      </div>
+
+      <div v-else class="space-y-6">
+        <!-- Filtres Rapides -->
+        <div class="flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar">
+          <button 
+            v-for="filter in filterOptions" 
+            :key="filter.id"
+            @click="activeStatusFilter = filter.id"
+            class="px-5 py-2.5 rounded-full text-sm font-bold whitespace-nowrap transition-all border"
+            :class="activeStatusFilter === filter.id 
+              ? 'bg-gray-900 text-white border-gray-900 shadow-lg scale-105' 
+              : 'bg-white text-gray-500 border-gray-100 hover:border-gray-200'"
           >
-            <div
-              class="w-16 h-16 rounded-2xl flex items-center justify-center text-2xl shrink-0 group-hover:scale-110 transition-transform"
-              :class="getStatusClass(visit.status)"
+            {{ filter.label }}
+            <span class="ml-2 opacity-50 text-xs">{{ filter.count }}</span>
+          </button>
+        </div>
+
+        <!-- Liste -->
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+          <div 
+            v-for="visit in filteredVisits" 
+            :key="visit.id"
+            class="bg-white rounded-3xl border border-gray-100 p-6 hover:shadow-xl hover:shadow-orange-500/5 transition-all group relative overflow-hidden"
+          >
+            <!-- Badge Statut -->
+            <div 
+              class="absolute top-0 right-0 px-6 py-2 rounded-bl-3xl text-[10px] font-black uppercase tracking-widest text-white z-10"
+              :class="statusColors[visit.status]"
             >
-              <i class="fas fa-calendar-check"></i>
+              {{ statusLabels[visit.status] }}
             </div>
-            <div class="flex-1">
-              <div class="flex items-center gap-3 mb-2 flex-wrap">
-                <h3 class="text-lg font-black text-foreground">
-                  {{ visit.property?.title }}
+
+            <div class="flex gap-6">
+              <!-- Date Big View -->
+              <div class="hidden sm:flex flex-col items-center justify-center w-24 h-24 bg-gray-50 rounded-2xl flex-shrink-0 group-hover:bg-orange-50 transition-colors">
+                <span class="text-xs font-bold text-orange-600 uppercase">{{ formatMonth(visit.visit_date) }}</span>
+                <span class="text-3xl font-black text-gray-900">{{ formatDay(visit.visit_date) }}</span>
+                <span class="text-xs font-bold text-gray-400">{{ formatTime(visit.visit_date) }}</span>
+              </div>
+
+              <div class="flex-1 min-w-0">
+                <div class="flex flex-col sm:flex-row sm:items-center gap-2 mb-2">
+                  <span class="text-xs font-black text-orange-600 uppercase tracking-widest">Bien Immobilier</span>
+                  <span class="hidden sm:inline text-gray-300">•</span>
+                  <span class="text-xs text-gray-400">Réf: #{{ visit.id }}</span>
+                </div>
+                
+                <h3 class="text-lg font-bold text-gray-900 truncate mb-1" :title="visit.property?.title">
+                  {{ visit.property?.title || 'Chargement...' }}
                 </h3>
-                <span
-                  class="px-3 py-1 text-[9px] font-black uppercase tracking-widest rounded-full"
-                  :class="getStatusClass(visit.status)"
-                >
-                  {{ getStatusLabel(visit.status) }}
+                
+                <p class="text-sm text-gray-500 flex items-center gap-2 mb-4">
+                  <i class="fas fa-map-marker-alt text-[#E54801]"></i>
+                  {{ visit.property?.location || 'Localisation non définie' }}
+                </p>
+
+                <!-- Infos Participant -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-gray-50">
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-400 overflow-hidden">
+                      <img v-if="visit.user?.avatar_url" :src="visit.user.avatar_url" class="w-full h-full object-cover" />
+                      <i v-else class="fas fa-user"></i>
+                    </div>
+                    <div>
+                      <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Client</p>
+                      <p class="text-sm font-bold text-gray-900 truncate w-32">{{ visit.user?.name || 'Inconnu' }}</p>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-3" v-if="visit.agent">
+                    <div class="w-10 h-10 rounded-full bg-[#E54801]/10 flex items-center justify-center text-[#E54801]">
+                      <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div>
+                      <p class="text-xs font-bold text-[#E54801] uppercase tracking-wider">Agent HMC</p>
+                      <p class="text-sm font-bold text-gray-900 truncate w-32">{{ visit.agent?.name }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="mt-6 flex items-center justify-between gap-4 pt-4 border-t border-gray-50 opacity-0 group-hover:opacity-100 transition-opacity">
+              <div class="flex items-center gap-4 text-xs font-bold">
+                <span class="flex items-center gap-2 text-gray-400">
+                  <i class="far fa-clock"></i>
+                  {{ formatVisitFullDate(visit.visit_date) }}
                 </span>
               </div>
-              <p
-                class="text-xs text-muted-foreground mb-4 font-medium flex items-center gap-2"
-              >
-                <i class="fas fa-clock text-secondary"></i>
-                <span class="font-black text-foreground">{{
-                  formatDate(visit.scheduled_at)
-                }}</span>
-                à {{ formatTime(visit.scheduled_at) }}
-              </p>
-
-              <div
-                class="flex items-center gap-3 bg-muted/20 p-3 rounded-2xl inline-flex"
-              >
-                <div
-                  class="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-[10px] font-black"
+              <div class="flex gap-2">
+                <button 
+                  v-if="visit.status === 'pending'"
+                  @click="handleConfirm(visit.id)"
+                  class="px-4 py-2 bg-green-600 text-white rounded-xl text-xs font-bold hover:bg-green-700 transition"
+                  :disabled="actionLoading === visit.id"
                 >
-                  {{ visit.visitor?.name?.[0]?.toUpperCase() || "?" }}
-                </div>
-                <div class="flex flex-col">
-                  <span
-                    class="text-[10px] text-foreground font-black uppercase tracking-tight"
-                  >
-                    {{ visit.visitor?.name || "Visiteur anonyme" }}
-                  </span>
-                  <span class="text-[9px] text-muted-foreground font-medium">{{
-                    visit.visitor?.phone || "Pas de numéro"
-                  }}</span>
-                </div>
-              </div>
-            </div>
-
-            <div
-              class="flex flex-col justify-end items-end gap-3 min-w-[180px] w-full md:w-auto"
-            >
-              <!-- Actions Status -->
-              <div
-                class="flex flex-col gap-2 w-full"
-                v-if="visit.status === 'pending'"
-              >
-                <button
-                  @click="handleStatusUpdate(visit.id, 'confirmed')"
-                  class="w-full py-2.5 bg-secondary text-secondary-foreground text-[9px] font-black uppercase tracking-widest rounded-xl hover:bg-secondary/90 transition-all flex items-center justify-center gap-2"
-                >
-                  <i class="fas fa-check"></i> Confirmer
+                  Confirmer
                 </button>
-                <button
-                  @click="handleStatusUpdate(visit.id, 'cancelled')"
-                  class="w-full py-2.5 border border-border text-muted-foreground text-[9px] font-black uppercase tracking-widest rounded-xl hover:bg-muted/20 transition-all flex items-center justify-center gap-2"
-                >
-                  <i class="fas fa-times"></i> Rejeter
-                </button>
-              </div>
-              <div
-                v-else-if="visit.status === 'confirmed'"
-                class="w-full flex flex-col gap-2"
-              >
-                <button
-                  @click="handleStatusUpdate(visit.id, 'completed')"
-                  class="w-full py-2.5 bg-green-600 text-white text-[9px] font-black uppercase tracking-widest rounded-xl hover:bg-green-700 transition-all flex items-center justify-center gap-2"
-                >
-                  <i class="fas fa-check-double"></i> Marquer Terminée
-                </button>
-                <button
-                  @click="handleStatusUpdate(visit.id, 'cancelled')"
-                  class="w-full py-2.5 border border-border text-muted-foreground text-[9px] font-black uppercase tracking-widest rounded-xl hover:bg-muted/20 transition-all"
+                <button 
+                  v-if="['pending', 'confirmed'].includes(visit.status)"
+                  @click="handleCancel(visit.id)"
+                  class="px-4 py-2 border border-red-100 text-red-600 rounded-xl text-xs font-bold hover:bg-red-50 transition"
+                  :disabled="actionLoading === visit.id"
                 >
                   Annuler
                 </button>
-              </div>
-              <div
-                v-else
-                class="text-[10px] font-black text-muted-foreground uppercase italic"
-              >
-                Visite
-                {{ visit.status === "completed" ? "effectuée" : "annulée" }}
+                <RouterLink 
+                  :to="`/annonces/${visit.property?.slug}`"
+                  class="p-2 bg-gray-50 text-gray-400 rounded-xl hover:bg-orange-50 hover:text-orange-600 transition"
+                >
+                  <i class="fas fa-eye"></i>
+                </RouterLink>
               </div>
             </div>
           </div>
-        </template>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
-import axios from "../../axios";
+import { ref, onMounted, computed } from 'vue'
+import { useRentalStore } from '../../stores/rental'
+import { storeToRefs } from 'pinia'
 
-const mobileMenuOpen = ref(false);
-const visits = ref([]);
-const isLoading = ref(true);
+const rentalStore = useRentalStore()
+const { visits, loadingVisits } = storeToRefs(rentalStore)
 
-const fetchVisits = async () => {
-  isLoading.value = true;
-  try {
-    const { data } = await axios.get("/api/bailleur/visits");
-    if (data.success) {
-      visits.value = data.data;
-    }
-  } catch (err) {
-    console.error("Erreur chargement visites:", err);
-  } finally {
-    isLoading.value = false;
+const activeStatusFilter = ref('all')
+const actionLoading = ref(null)
+
+const stats = computed(() => {
+  const now = new Date()
+  const todayStr = now.toISOString().split('T')[0]
+  
+  return {
+    pending: visits.value.filter(v => v.status === 'pending').length,
+    confirmed: visits.value.filter(v => v.status === 'confirmed').length,
+    completed: visits.value.filter(v => v.status === 'completed').length,
+    today: visits.value.filter(v => v.visit_date.startsWith(todayStr)).length
   }
-};
+})
 
-const handleStatusUpdate = async (id, status) => {
-  try {
-    const { data } = await axios.post(`/api/bailleur/visits/${id}/status`, {
-      status,
-    });
-    if (data.success) {
-      alert("Statut de la visite mis à jour !");
-      await fetchVisits();
-    }
-  } catch (err) {
-    console.error("Erreur status visite:", err);
-    alert("Une erreur est survenue.");
-  }
-};
+const filterOptions = computed(() => [
+  { id: 'all', label: 'Toutes', count: visits.value.length },
+  { id: 'pending', label: 'En attente', count: visits.value.filter(v => v.status === 'pending').length },
+  { id: 'confirmed', label: 'Confirmées', count: visits.value.filter(v => v.status === 'confirmed').length },
+  { id: 'completed', label: 'Terminées', count: visits.value.filter(v => v.status === 'completed').length },
+  { id: 'cancelled', label: 'Annulées', count: visits.value.filter(v => v.status === 'cancelled').length },
+])
 
-onMounted(fetchVisits);
+const filteredVisits = computed(() => {
+  if (activeStatusFilter.value === 'all') return visits.value
+  return visits.value.filter(v => v.status === activeStatusFilter.value)
+})
 
-const getStatusLabel = (s) => {
-  const map = {
-    pending: "En attente",
-    confirmed: "Confirmée",
-    completed: "Terminée",
-    cancelled: "Annulée",
-  };
-  return map[s] || s;
-};
+const statusColors = {
+  pending: 'bg-orange-500',
+  confirmed: 'bg-blue-600',
+  completed: 'bg-green-600',
+  cancelled: 'bg-gray-400',
+  no_show: 'bg-red-500'
+}
 
-const getStatusClass = (s) => {
-  const map = {
-    pending: "bg-orange-100 dark:bg-orange-950/30 text-orange-600 dark:text-orange-400",
-    confirmed: "bg-blue-100 dark:bg-blue-950/30 text-blue-600 dark:text-blue-400",
-    completed: "bg-green-100 dark:bg-green-950/30 text-green-600 dark:text-green-400",
-    cancelled: "bg-muted text-muted-foreground",
-  };
-  return map[s] || "bg-muted text-muted-foreground";
-};
+const statusLabels = {
+  pending: 'Attente',
+  confirmed: 'Confirmé',
+  completed: 'Terminé',
+  cancelled: 'Annulé',
+  no_show: 'Absent'
+}
 
-const formatDate = (dateStr) => {
-  if (!dateStr) return "";
-  return new Date(dateStr).toLocaleDateString("fr-FR", {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-};
+const fetchVisits = () => rentalStore.fetchVisits()
+
+const handleConfirm = async (id) => {
+  if (!confirm('Souhaitez-vous confirmer cette visite ?')) return
+  actionLoading.value = id
+  await rentalStore.confirmVisit(id)
+  actionLoading.value = null
+}
+
+const handleCancel = async (id) => {
+  if (!confirm('Souhaitez-vous annuler cette visite ?')) return
+  actionLoading.value = id
+  await rentalStore.cancelVisit(id)
+  actionLoading.value = null
+}
+
+const formatMonth = (dateStr) => {
+  const d = new Date(dateStr)
+  return d.toLocaleString('fr-FR', { month: 'short' }).replace('.', '')
+}
+
+const formatDay = (dateStr) => {
+  const d = new Date(dateStr)
+  return d.getDate()
+}
 
 const formatTime = (dateStr) => {
-  if (!dateStr) return "";
-  return new Date(dateStr).toLocaleTimeString("fr-FR", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-};
+  const d = new Date(dateStr)
+  return d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })
+}
+
+const formatVisitFullDate = (dateStr) => {
+  const d = new Date(dateStr)
+  return d.toLocaleString('fr-FR', { 
+    weekday: 'long', 
+    day: 'numeric', 
+    month: 'long', 
+    hour: '2-digit', 
+    minute: '2-digit' 
+  })
+}
+
+onMounted(() => {
+  fetchVisits()
+})
 </script>
 
 <style scoped>
-.animate-fadeIn {
-  animation: fadeIn 0.5s ease-out forwards;
-  opacity: 0;
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #e5e7eb;
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #d1d5db;
 }
 </style>

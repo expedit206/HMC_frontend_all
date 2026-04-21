@@ -9,7 +9,6 @@
 
     <div v-else class="max-w-7xl mx-auto">
       <!-- Role Switcher -->
-      <DashboardRoleSwitcher />
       <!-- STATS CARDS -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 animate-fadeIn">
         <div class="bg-card p-6 rounded-2xl border border-border shadow-sm hover:shadow-lg transition-shadow">
@@ -318,7 +317,6 @@
 import { ref, onMounted } from "vue";
 import { RouterLink } from "vue-router";
 import axios from "../../axios";
-import DashboardRoleSwitcher from "../../components/common/DashboardRoleSwitcher.vue";
 
 const isLoading = ref(true);
 const dashboardData = ref({

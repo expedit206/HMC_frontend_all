@@ -118,25 +118,26 @@ const routes = [
   {
     path: '/',
     component: SocialLayout,
+    meta: { hasSidebar: false, isFullWidth: true },
     children: [
-      { path: '/', name: 'Accueil', component: Accueil, meta: { isFullWidth: true } },
-      { path: 'annonces', name: 'Annonces', component: Annonces, meta: { isFullWidth: true } },
+      { path: '/', name: 'Accueil', component: Accueil  },
+      { path: 'annonces', name: 'Annonces', component: Annonces, meta: { hideFooter: true, noMainScroll: true } },
       { path: 'annonces/:slug', name: 'DetailAnnonce', component: DetailAnnonce },
       { path: 'programmer-visite', name: 'ProgrammerVisite', component: ProgrammerVisite },
       { path: 'politique-confidentialite', name: 'PolitiqueConfidentialite', component: PolitiqueConfidentialite },
       { path: 'notifications', name: 'Notifications', component: Notifications },
       { path: 'assistance', name: 'Assistance', component: Assistance },
       // Pages du processus locatif (auth requise, pas de rôle spécifique)
-      { path: 'mon-suivi', name: 'MonSuivi', component: MonSuivi, meta: { hasSidebar: true } },
+      { path: 'mon-suivi', name: 'MonSuivi', component: MonSuivi, meta: { hasSidebar: false } },
       { path: 'payment', name: 'Payment', component: Payment },
       
       { path: 'dossier-location', name: 'DossierLocation', component: DossierLocation },
-      { path: '/publier-bien', name: 'PublierBien', component: PublierBien, meta: { hasSidebar: true } },
-      { path: '/mes-demandes', name: 'PublicationRequests', component: MesDemandes, meta: { hasSidebar: true } },
-      { path: '/mes-favoris', name: 'MesFavoris', component: MesFavoris, meta: { hasSidebar: true } },
+      { path: '/publier-bien', name: 'PublierBien', component: PublierBien, meta: { hasSidebar: true, isFullWidth: false } },
+      { path: '/mes-demandes', name: 'PublicationRequests', component: MesDemandes, meta: { hasSidebar: true, isFullWidth: false } },
+      { path: '/mes-favoris', name: 'MesFavoris', component: MesFavoris, meta: { hasSidebar: true, isFullWidth: false } },
       // Page Paramètres unifiée (tous rôles confondus)
-      { path: '/parametres', name: 'Parametres', component: SharedParametres, meta: { hasSidebar: true } },
-      { path: '/messages', name: 'Messages', component: () => import('../pages/shared/Messages.vue'), meta: { hasSidebar: true } },
+      { path: '/parametres', name: 'Parametres', component: SharedParametres, meta: { hasSidebar: true, isFullWidth: false } },
+      { path: '/messages', name: 'Messages', component: () => import('../pages/shared/Messages.vue'), meta: { hasSidebar: true, isFullWidth: false } },
     ]
   },
 
@@ -265,8 +266,9 @@ const routes = [
   {
     path: '/marketplace',
     component: SocialLayout,
+    meta: { hasSidebar: false, isFullWidth: true },
     children: [
-      { path: '', name: 'MarketplaceIndex', component: MarketplaceIndex, meta: { isFullWidth: true } },
+      { path: '', name: 'MarketplaceIndex', component: MarketplaceIndex },
       { path: 'demandes', name: 'MarketplaceDemandes', component: DemandesServices },
       { path: 'prestataires', name: 'MarketplacePrestataires', component: Prestataires },
       { path: 'demandes/:id', name: 'ServicePostDetail', component: () => import('../market-place/ServicePostDetail.vue') },

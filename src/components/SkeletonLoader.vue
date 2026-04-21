@@ -38,7 +38,7 @@
   <!-- AGENT CARD -->
   <div
     v-else-if="type === 'agent'"
-    class="rounded-[.45rem] shadow border border-border overflow-hidden h-full flex flex-col"
+    class="bg-card rounded-[.45rem] shadow border border-border overflow-hidden h-full flex flex-col"
   >
     <div class="sk h-48 w-full rounded-none"></div>
     <div class="p-3 space-y-3 flex-1">
@@ -155,7 +155,7 @@
         <div class="sk h-2 w-1/4 rounded"></div>
       </div>
     </div>
-    <div class="p-4 bg-muted/50 rounded-xl space-y-3 mb-4 border border-border">
+    <div class="p-4 bg-card rounded-xl space-y-3 mb-4 border border-border">
       <div class="sk h-4 w-3/4 rounded"></div>
       <div class="sk h-2 w-full rounded"></div>
       <div class="sk h-2 w-full rounded"></div>

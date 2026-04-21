@@ -10,19 +10,20 @@
 
       <!-- Colonne Centrale -->
       <main 
-        class="flex-1 w-full min-w-0 bg-background overflow-y-auto custom-scrollbar h-[calc(100vh-80px)] scroll-smooth relative" 
+        class="flex-1 w-full min-w-0 bg-background scroll-smooth relative" 
+        :class="noMainScroll ? 'h-[calc(100vh-64px)] overflow-hidden' : 'h-[calc(100vh-80px)] overflow-y-auto custom-scrollbar'"
         ref="mainScroll"
       >
         <div :class="[
           isFullWidth ? 'w-full' : (showRightSidebar ? 'max-w-2xl mx-auto' : 'max-w-7xl mx-auto'),
           isFullWidth ? '' : 'px-4 pt-4',
-          'pb-20 transition-all duration-300'
+          (hideFooter || noMainScroll) ? '' : 'pb-20',
+          'transition-all duration-300 h-full'
         ]">
           <RouterView />
         </div>
         
         <!-- Pied de page -->
-        <Footer v-if="!showRightSidebar" />
         
         <!-- Bouton remonter -->
         <button 
@@ -37,6 +38,8 @@
       <!-- Colonne Droite (Conditionnelle) -->
       <RightSidebar v-if="showRightSidebar" :stats="feedStore.stats" />
     </div>
+    
+    <Footer v-if="!showRightSidebar && !hideFooter" />
   </div>
 </template>
 
@@ -58,6 +61,8 @@ const showScrollTop = ref(false)
 const hasSidebar = computed(() => route.meta?.hasSidebar !== false)
 const showRightSidebar = computed(() => route.meta?.showRightSidebar === true)
 const isFullWidth = computed(() => route.meta?.isFullWidth === true)
+const hideFooter = computed(() => route.meta?.hideFooter === true)
+const noMainScroll = computed(() => route.meta?.noMainScroll === true)
 
 function handleScroll() {
   if (mainScroll.value) {

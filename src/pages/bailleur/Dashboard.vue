@@ -2,7 +2,6 @@
   <div class="dashboard-page-content">
     <div class="max-w-6xl mx-auto">
       <!-- Role Switcher -->
-      <DashboardRoleSwitcher />
       <!-- ═══ SKELETON ════════════════════════════════════════ -->
       <div v-if="isLoading">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -364,7 +363,6 @@ import { ref, computed, onMounted } from "vue";
 import { RouterLink, useRouter } from "vue-router";
 import { useAuthStore } from "../../stores/auth";
 import axios from "../../axios";
-import DashboardRoleSwitcher from "../../components/common/DashboardRoleSwitcher.vue";
 
 const router = useRouter();
 const authStore = useAuthStore();

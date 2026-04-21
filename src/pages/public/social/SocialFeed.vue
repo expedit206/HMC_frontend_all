@@ -17,7 +17,7 @@
       <TransitionGroup name="feed" tag="div">
         <template v-for="(item, index) in feedStore.feedItems" :key="item.feed_type + '-' + item.id + '-' + index">
           
-          <PropertyFeedCard v-if="item.feed_type === 'property'" :item="item" />
+          <PropertyFeedCard v-if="item.feed_type === 'property'" :item="item" @open-comments="openCommentModal" />
           
           <ProductFeedCard v-else-if="item.feed_type === 'product'" :item="item" />
           
@@ -50,6 +50,14 @@
 
     </div>
 
+    <!-- Modale des commentaires contextuelle -->
+    <CommentModal 
+      :is-open="isCommentModalOpen" 
+      :item="activeCommentItem" 
+      @close="closeCommentModal" 
+      @updated-count="updateCommentCount"
+    />
+
   </div>
 </template>
 
@@ -65,6 +73,7 @@ import ProductFeedCard from '../../../components/social/ProductFeedCard.vue'
 import ServiceRequestFeedCard from '../../../components/social/ServiceRequestFeedCard.vue'
 import ProviderFeedCard from '../../../components/social/ProviderFeedCard.vue'
 import SkeletonLoader from '../../../components/SkeletonLoader.vue'
+import CommentModal from '../../../components/social/CommentModal.vue'
 
 const feedStore = useFeedStore()
 const infiniteSentinel = ref(null)
@@ -73,6 +82,25 @@ let observer = null
 const getRandomSkeleton = () => {
   const types = ['feed_card_large', 'feed_card_grid', 'feed_card_text'];
   return types[Math.floor(Math.random() * types.length)];
+}
+
+const isCommentModalOpen = ref(false)
+const activeCommentItem = ref(null)
+
+const openCommentModal = (item) => {
+  activeCommentItem.value = item
+  isCommentModalOpen.value = true
+}
+
+const closeCommentModal = () => {
+  isCommentModalOpen.value = false
+  setTimeout(() => activeCommentItem.value = null, 300) // delay pour éviter un saut visuel
+}
+
+const updateCommentCount = (count) => {
+  if (activeCommentItem.value) {
+    activeCommentItem.value.review_count = count
+  }
 }
 
 onMounted(async () => {

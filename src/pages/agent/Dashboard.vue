@@ -2,7 +2,6 @@
   <div class="dashboard-page-content">
     <div class="max-w-7xl mx-auto h-full">
       <!-- Role Switcher -->
-      <DashboardRoleSwitcher />
       <!-- Header -->
       <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4 animate-fadeIn">
         <div>
@@ -389,7 +388,6 @@
 import { ref, onMounted } from "vue";
 import { RouterLink, useRouter } from "vue-router";
 import axios from "../../axios";
-import DashboardRoleSwitcher from "../../components/common/DashboardRoleSwitcher.vue";
 
 const router = useRouter();
 const isLoading = ref(true);

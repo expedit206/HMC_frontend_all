@@ -8,7 +8,7 @@
         </div>
       </div>
       <div 
-        class="flex-1 bg-muted hover:bg-muted/80 transition-colors border border-border rounded-full px-4 py-2.5 text-sm text-muted-foreground cursor-text"
+        class="flex-1 bg-primary/5 hover:bg-muted/80 transition-colors border border-border rounded-full px-4 py-2.5 text-sm text-muted-foreground cursor-text"
         @click="focusAction"
       >
         Que souhaitez-vous faire, {{ firstName }} ?

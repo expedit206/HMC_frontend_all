@@ -1,297 +1,113 @@
 <template>
-  <div class="marketplace-index bg-gray-50 pb-20">
-    <!-- HERO SECTION -->
-    <section class="relative bg-primary overflow-hidden">
-      <div
-        class="absolute inset-0 z-0 opacity-10"
-        style="
-          background-image: radial-gradient(#ffffff 2px, transparent 2px);
-          background-size: 30px 30px;
-        "
-      ></div>
-      <div
-        class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 relative z-10 flex flex-col md:flex-row items-center gap-10"
-      >
-        <div class="flex-1 text-center md:text-left text-white space-y-6">
-          <span
-            class="inline-block px-4 py-1 bg-white/20 backdrop-blur-md rounded-full text-sm font-semibold uppercase tracking-wider mb-2 opacity-0 animate-fade-in-up"
-          >
-            Nouveau sur Home Cameroon
-          </span>
-          <h1
-            class="text-4xl sm:text-5xl lg:text-7xl font-bold leading-tight opacity-0 animate-fade-in-up delay-100"
-          >
-            Le Marketplace <span class="text-secondary">Premium</span>
-          </h1>
-          <p
-            class="text-lg sm:text-xl text-white/90 max-w-2xl opacity-0 animate-fade-in-up delay-200"
-          >
-            Découvrez une sélection exclusive de meubles, décorations et
-            services pour aménager votre intérieur avec style.
-          </p>
-          <div
-            class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start pt-4 opacity-0 animate-fade-in-up delay-300"
-          >
-            <button @click="router.push('/marketplace/prestataires')"
-              class="px-8 py-4 bg-white text-primary rounded-full font-bold shadow-xl hover:bg-gray-100 transition-all hover:scale-105 flex items-center gap-2"
-            >
-              <i class="fas fa-user-tools"></i> Trouver un Pro
-            </button>
-            <button @click="router.push('/marketplace/demandes')"
-              class="px-8 py-4 bg-white/10 backdrop-blur-md border border-white/30 text-white rounded-full font-bold hover:bg-white/20 transition-all flex items-center gap-2"
-            >
-              <i class="fas fa-clipboard-list"></i> Demandes de services
-            </button>
-          </div>
-        </div>
-        <!-- Right Image/Illustration -->
-        <div
-          class="flex-1 w-full max-w-lg md:max-w-xl opacity-0 animate-fade-in-right"
-        >
-          <img
-            src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=800&q=80"
-            alt="Marketplace Showcase"
-            class="rounded-2xl shadow-2xl rotate-2 hover:rotate-0 transition-transform duration-500 border-4 border-white/20"
-          />
-        </div>
-      </div>
-    </section>
-
-    <!-- SEARCH & FILTERS BAR (Sticky) -->
-    <div
-      class="sticky top-[0px] z-40 bg-white border-b border-border shadow-sm transition-all duration-300"
-      :class="{ 'shadow-md': isScrolled }"
-    >
-      <div
-        class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row items-center justify-between gap-4"
-      >
-        <!-- Categories Quick Links (Desktop) -->
-        <div
-          class="hidden md:flex items-center gap-2 overflow-x-auto scrollbar-hide pb-2 md:pb-0 font-medium text-sm text-gray-600"
-        >
-          <button
-            v-for="cat in categories"
-            :key="cat.id"
-            @click="activeCategory = cat.id"
-            class="whitespace-nowrap px-4 py-2 rounded-full transition-colors border"
-            :class="
-              activeCategory === cat.id
-                ? 'bg-primary text-white border-primary shadow-md'
-                : 'hover:bg-gray-100 border-transparent'
-            "
-          >
-            <i :class="cat.icon" class="mr-2"></i> {{ cat.name }}
-          </button>
-        </div>
-
-        <!-- Filter Toggle & Search -->
-        <div class="flex items-center gap-4 w-full md:w-auto">
-          <button
-            @click="showFilters = !showFilters"
-            class="md:hidden p-2 text-gray-600 border border-border rounded-lg bg-gray-50 hover:bg-white"
-          >
+  <div class="h-[calc(100vh-64px)] overflow-hidden bg-background">
+    <!-- BARRE DE RECHERCHE HORIZONTALE (Fixée en haut) -->
+    <header class="bg-white border-b border-border z-30 relative">
+      <div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between gap-4">
+        <div class="flex-1 flex items-center gap-4">
+          <button @click="showMobileFilters = true" class="lg:hidden p-2.5 bg-gray-50 text-gray-500 rounded-xl hover:text-primary transition-all">
             <i class="fas fa-filter"></i>
           </button>
-
-          <div class="relative flex-1 md:w-80">
-            <input
-              v-model="searchQuery"
+          
+          <div class="relative flex-1 max-w-2xl">
+            <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+            <input 
+              v-model="searchQuery" 
               @keyup.enter="handleSearch"
-              type="text"
-              placeholder="Rechercher un produit..."
-              class="w-full pl-10 pr-4 py-2.5 rounded-full border border-border bg-gray-50 focus:bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none"
+              type="text" 
+              placeholder="Que recherchez-vous aujourd'hui ?" 
+              class="w-full pl-12 pr-4 py-3 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-primary/20 focus:bg-white transition-all text-sm font-medium"
             />
-            <i
-              class="fas fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"
-            ></i>
           </div>
+        </div>
 
-          <button
-            @click="cartStore.toggleCart()"
-            class="p-2.5 text-gray-600 hover:text-primary transition-colors relative"
+        <div class="flex items-center gap-3">
+          <button @click="cartStore.toggleCart()" 
+            class="p-3 bg-gray-50 text-gray-600 rounded-2xl hover:text-primary hover:bg-orange-50 transition-all relative group"
           >
-            <i class="fas fa-shopping-cart text-xl"></i>
-            <span
-              v-if="cartStore.totalItems > 0"
-              class="absolute top-0 right-0 w-5 h-5 bg-red-500 text-white text-[10px] flex items-center justify-center rounded-full border-2 border-white font-black"
+            <i class="fas fa-shopping-cart text-lg group-hover:scale-110 transition-transform"></i>
+            <span v-if="cartStore.totalItems > 0" 
+              class="absolute -top-1 -right-1 w-5 h-5 bg-primary text-white text-[10px] flex items-center justify-center rounded-full border-2 border-white font-black animate-bounce-subtle"
             >
               {{ cartStore.totalItems }}
             </span>
           </button>
         </div>
       </div>
+    </header>
 
-      <!-- Mobile Categories (Expandable) -->
-      <div
-        v-show="showFilters"
-        class="md:hidden border-t border-border bg-gray-50 p-4 grid grid-cols-2 gap-2 animate-fade-in-up"
-      >
-        <button
-          v-for="cat in categories"
-          :key="cat.id"
-          @click="activeCategory = cat.id"
-          class="flex items-center gap-2 px-4 py-3 rounded-lg text-sm font-medium transition-colors border bg-white"
-          :class="
-            activeCategory === cat.id
-              ? 'border-primary text-primary ring-1 ring-primary'
-              : 'border-border text-gray-600'
-          "
-        >
-          <i :class="cat.icon" class=""></i> {{ cat.name }}
-        </button>
-      </div>
-    </div>
-
-    <!-- MAIN CONTENT GRID -->
-    <div
-      class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 flex flex-col lg:flex-row gap-8"
-    >
-      <!-- DESKTOP SIDEBAR FILTERS -->
-      <aside class="hidden lg:block w-72 flex-shrink-0 space-y-8">
-        <!-- Filter Card -->
-        <div
-          class="bg-white rounded-2xl border border-border p-6 shadow-sm sticky top-32"
-        >
-          <div class="flex items-center justify-between mb-6">
-            <h3 class="font-bold text-lg">Filtres</h3>
-            <button class="text-xs text-primary font-medium hover:underline">
-              Réinitialiser
+    <!-- CONTENT LAYOUT -->
+    <div class="flex h-[calc(100vh-130px)] max-w-[1600px] mx-auto overflow-hidden">
+      <!-- SIDEBAR FILTERS (Statique Desktop) -->
+      <aside class="hidden lg:flex flex-col w-72 h-full border-r border-border bg-white overflow-y-auto custom-scrollbar p-6 space-y-8">
+        <div>
+          <h3 class="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-4">Catégories</h3>
+          <div class="space-y-1">
+            <button 
+              v-for="cat in categories" 
+              :key="cat.id"
+              @click="activeCategory = cat.id"
+              class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all text-left"
+              :class="activeCategory === cat.id ? 'bg-primary text-white shadow-lg shadow-orange-500/20' : 'text-gray-500 hover:bg-gray-50 hover:text-primary'"
+            >
+              <i :class="cat.icon" class="w-5 text-center"></i>
+              <span>{{ cat.name }}</span>
             </button>
           </div>
+        </div>
 
-          <!-- Price Range -->
-          <div class="mb-6">
-            <h4 class="font-semibold text-sm mb-3">Prix</h4>
-            <div class="space-y-2">
-              <input
-                type="range"
-                class="w-full accent-primary"
-                min="0"
-                max="1000000"
-                step="5000"
-              />
-              <div class="flex justify-between text-xs text-gray-500">
-                <span>0 FCFA</span>
-                <span>1M+ FCFA</span>
-              </div>
+        <div class="pt-8 border-t border-gray-100">
+          <h3 class="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-6">Filtres Avancés</h3>
+          
+          <!-- Price -->
+          <div class="mb-8">
+            <div class="flex justify-between items-center mb-4">
+              <span class="text-sm font-bold text-gray-700">Budget Max</span>
+              <span class="text-xs font-black text-primary">{{ formatPrice(maxPrice) }}</span>
             </div>
+            <input type="range" v-model="maxPrice" min="0" max="2000000" step="10000" class="w-full accent-primary h-1.5 bg-gray-100 rounded-lg appearance-none cursor-pointer" />
           </div>
 
           <!-- Condition -->
-          <div class="mb-6">
-            <h4 class="font-semibold text-sm mb-3">État</h4>
-            <div class="space-y-2">
-              <label class="flex items-center gap-2 cursor-pointer group">
-                <input
-                  type="checkbox"
-                  class="rounded border-gray-300 text-primary focus:ring-primary"
-                  checked
-                />
-                <span
-                  class="text-sm text-gray-600 group-hover:text-primary transition-colors"
-                  >Neuf</span
-                >
-              </label>
-              <label class="flex items-center gap-2 cursor-pointer group">
-                <input
-                  type="checkbox"
-                  class="rounded border-gray-300 text-primary focus:ring-primary"
-                />
-                <span
-                  class="text-sm text-gray-600 group-hover:text-primary transition-colors"
-                  >Occasion</span
-                >
+          <div>
+            <span class="text-sm font-bold text-gray-700 block mb-4">État de l'article</span>
+            <div class="space-y-3">
+              <label v-for="c in ['Neuf', 'Excellent', 'Bon état']" :key="c" class="flex items-center gap-3 cursor-pointer group">
+                <input type="checkbox" class="w-5 h-5 border-2 border-gray-200 rounded-lg text-primary focus:ring-primary transition-all cursor-pointer" />
+                <span class="text-sm font-medium text-gray-500 group-hover:text-gray-900 transition-colors">{{ c }}</span>
               </label>
             </div>
           </div>
         </div>
 
-        <!-- Promo Banner 1: Demandes -->
-        <div
-          class="bg-primary rounded-2xl p-6 text-white text-center relative overflow-hidden mb-6"
-        >
-          <div
-            class="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"
-          ></div>
-          <h4 class="font-bold text-xl mb-2">Besoin d'un Pro ?</h4>
-          <p class="text-xs text-white/80 mb-4">
-            Postez votre besoin et recevez des offres de nos experts vérifiés.
-          </p>
-          <button @click="router.push('/marketplace/demandes')"
-            class="w-full py-2.5 bg-white text-primary font-bold rounded-xl shadow-lg hover:bg-gray-100 transition-all"
-          >
-            Voir les demandes
-          </button>
-        </div>
-
-        <!-- Promo Banner 2 -->
-        <div
-          class="bg-secondary rounded-2xl p-6 text-white text-center relative overflow-hidden"
-        >
-          <div
-            class="absolute top-0 right-0 w-24 h-24 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"
-          ></div>
-          <h4 class="font-bold text-xl mb-2">Devenez Vendeur</h4>
-          <p class="text-sm text-white/90 mb-4">
-            Vendez vos articles sur Home Cameroon et touchez des milliers
-            d'acheteurs.
-          </p>
-          <button
-            class="w-full py-2.5 bg-white text-secondary font-bold rounded-lg shadow-lg hover:bg-gray-100 transition-colors"
-          >
-            Créer une boutique
-          </button>
+        <!-- Call to Action -->
+        <div class="mt-auto p-6 bg-orange-50 rounded-3xl border border-orange-100">
+          <p class="text-xs font-bold text-orange-600 uppercase tracking-wider mb-2">Vendre un article</p>
+          <p class="text-xs text-gray-500 mb-4 leading-relaxed">Gagnez de l'argent en vendant vos meubles inutilisés.</p>
+          <button class="w-full py-2.5 bg-primary text-white rounded-xl text-xs font-black shadow-lg hover:scale-105 transition-all">Créer une boutique</button>
         </div>
       </aside>
 
-      <!-- PRODUCTS GRID -->
-      <div class="flex-1">
-        <!-- Sort Bar -->
-        <div class="flex items-center justify-between mb-6">
-          <p class="text-gray-500 text-sm">
-            Affichage de
-            <span class="font-bold text-gray-900">{{ products.length }}</span>
-            articles trouvés
-          </p>
-
-          <div class="flex items-center gap-2">
-            <span class="text-sm text-gray-500 hidden sm:inline"
-              >Trier par:</span
-            >
-            <select
-              class="border-none bg-transparent text-sm font-bold text-gray-800 focus:ring-0 cursor-pointer"
-            >
-              <option>Pertinence</option>
-              <option>Prix croissant</option>
-              <option>Prix décroissant</option>
-              <option>Nouveautés</option>
-            </select>
+      <!-- MAIN FEED (Scrolling) -->
+      <main class="flex-1 h-full overflow-y-auto custom-scrollbar bg-gray-50/30 p-4 md:p-8">
+        <!-- TOP INFO -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+          <div v-if="!isLoading || products.length > 0">
+            <h2 class="text-xl font-black text-gray-900">
+              {{ activeCategory === 'all' ? 'Tous les produits' : getCategoryName(activeCategory) }}
+            </h2>
+            <p class="text-xs font-bold text-gray-400 mt-1 uppercase tracking-widest">{{ products.length }} articles trouvés</p>
+          </div>
+          
+          <div class="flex items-center gap-2 bg-white p-1.5 rounded-xl border border-gray-100 shadow-sm">
+            <button class="p-2 bg-gray-900 text-white rounded-lg text-xs"><i class="fas fa-th-large"></i></button>
+            <button class="p-2 text-gray-400 rounded-lg text-xs hover:bg-gray-50"><i class="fas fa-list"></i></button>
           </div>
         </div>
 
-        <!-- Grid -->
-        <div v-if="isLoading" class="py-20 text-center text-gray-400">
-          <div
-            class="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"
-          ></div>
-          <p class="font-bold uppercase text-[10px] tracking-widest">
-            Recherche en cours...
-          </p>
-        </div>
-
-        <div
-          v-else-if="products.length === 0"
-          class="py-20 text-center bg-white rounded-2xl border border-gray-100 shadow-sm"
-        >
-          <i class="fas fa-box-open text-5xl mb-4 text-gray-200"></i>
-          <p class="text-gray-500 font-bold">
-            Aucun produit ou service trouvé pour cette recherche.
-          </p>
-        </div>
-
-        <div
-          v-else
-          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+        <!-- GRID -->
+        <div 
+          v-if="products.length > 0" 
+          class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6"
         >
           <ProductCard
             v-for="product in products"
@@ -302,25 +118,54 @@
           />
         </div>
 
-        <!-- Pagination -->
-        <div v-if="products.length > 0" class="mt-12 flex justify-center">
-          <nav class="flex items-center gap-2">
-            <button
-              class="w-10 h-10 flex items-center justify-center rounded-full border border-border text-gray-500"
-            >
-              <i class="fas fa-chevron-left"></i>
-            </button>
-            <button
-              class="w-10 h-10 flex items-center justify-center rounded-full bg-primary text-white font-bold shadow-md"
-            >
-              1
-            </button>
-            <button
-              class="w-10 h-10 flex items-center justify-center rounded-full border border-border text-gray-500"
-            >
-              <i class="fas fa-chevron-right"></i>
-            </button>
-          </nav>
+        <!-- EMPTY STATE -->
+        <div v-else-if="!isLoading" class="flex flex-col items-center justify-center py-32 text-center">
+          <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-6">
+            <i class="fas fa-box-open text-4xl text-gray-300"></i>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900">Aucun produit trouvé</h3>
+          <p class="text-gray-500 mt-2 max-w-xs mx-auto">Essayez d'ajuster vos filtres ou votre recherche pour trouver ce que vous cherchez.</p>
+        </div>
+
+        <!-- LOADING / INFINITE SCROLL TARGET -->
+        <div ref="scrollTarget" class="py-12 flex justify-center">
+          <div v-if="isLoading" class="flex items-center gap-3">
+            <div class="w-6 h-6 border-3 border-orange-100 border-t-primary rounded-full animate-spin"></div>
+            <span class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">Chargement...</span>
+          </div>
+          <div v-else-if="!hasMorePages && products.length > 0" class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-300">
+            Vous avez atteint la fin du catalogue
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- MOBILE FILTERS OVERLAY -->
+    <div v-if="showMobileFilters" class="fixed inset-0 z-50 lg:hidden overflow-hidden">
+      <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" @click="showMobileFilters = false"></div>
+      <div class="absolute inset-y-0 left-0 w-80 bg-white shadow-2xl flex flex-col p-6 animate-fade-in-right">
+        <div class="flex items-center justify-between mb-8">
+          <h2 class="text-xl font-black italic">Filtres</h2>
+          <button @click="showMobileFilters = false" class="p-2 text-gray-400 hover:text-gray-900"><i class="fas fa-times"></i></button>
+        </div>
+        <!-- Same filters as above but mobile -->
+        <div class="flex-1 overflow-y-auto custom-scrollbar pr-2 space-y-8">
+          <!-- Categories -->
+          <div>
+            <h3 class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4">Parcourir</h3>
+            <div class="grid grid-cols-1 gap-2">
+              <button 
+                v-for="cat in categories" 
+                :key="cat.id"
+                @click="activeCategory = cat.id; showMobileFilters = false"
+                class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-left"
+                :class="activeCategory === cat.id ? 'bg-primary text-white' : 'text-gray-500 bg-gray-50'"
+              >
+                <i :class="cat.icon"></i>
+                {{ cat.name }}
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -337,13 +182,18 @@ import { useCartStore } from "../stores/cart";
 // State
 const router = useRouter();
 const cartStore = useCartStore();
-const isScrolled = ref(false);
-const showFilters = ref(false);
+const showMobileFilters = ref(false);
 const activeCategory = ref("all");
 const products = ref([]);
 const categories = ref([{ id: "all", name: "Tout", icon: "fas fa-th-large" }]);
-const isLoading = ref(true);
+const isLoading = ref(false);
 const searchQuery = ref("");
+const maxPrice = ref(2000000);
+
+// Infinite Scroll State
+const currentPage = ref(1);
+const hasMorePages = ref(true);
+const scrollTarget = ref(null);
 
 const fetchCategories = async () => {
   try {
@@ -356,16 +206,32 @@ const fetchCategories = async () => {
   }
 };
 
-const fetchItems = async () => {
+const fetchItems = async (append = false) => {
+  if (isLoading.value) return;
   isLoading.value = true;
+  
+  if (!append) {
+    currentPage.value = 1;
+    products.value = [];
+    hasMorePages.value = true;
+  }
+
   try {
     const params = {
       category: activeCategory.value,
       search: searchQuery.value,
+      page: currentPage.value,
+      per_page: 12
     };
     const { data } = await axios.get("/api/marketplace/items", { params });
     if (data.success) {
-      products.value = data.data;
+      const newItems = data.data.data;
+      if (append) {
+        products.value = [...products.value, ...newItems];
+      } else {
+        products.value = newItems;
+      }
+      hasMorePages.value = data.data.current_page < data.data.last_page;
     }
   } catch (err) {
     console.error("Erreur chargement articles marketplace:", err);
@@ -386,6 +252,30 @@ const handleViewDetails = (product) => {
   });
 };
 
+const getCategoryName = (id) => {
+  const cat = categories.value.find(c => c.id === id);
+  return cat ? cat.name : 'Catégorie';
+};
+
+const formatPrice = (price) => {
+  return new Intl.NumberFormat('fr-FR').format(price) + ' FCFA';
+};
+
+// Intersection Observer for Infinite Scroll
+let observer = null;
+const setupObserver = () => {
+  observer = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting && hasMorePages.value && !isLoading.value) {
+      currentPage.value++;
+      fetchItems(true);
+    }
+  }, { threshold: 0.5 });
+
+  if (scrollTarget.value) {
+    observer.observe(scrollTarget.value);
+  }
+};
+
 // Watch for category changes
 watch(activeCategory, () => {
   fetchItems();
@@ -396,19 +286,14 @@ const handleSearch = () => {
   fetchItems();
 };
 
-// Scroll Handler
-const handleScroll = () => {
-  isScrolled.value = window.scrollY > 100;
-};
-
 onMounted(() => {
-  window.addEventListener("scroll", handleScroll);
   fetchCategories();
   fetchItems();
+  setupObserver();
 });
 
 onUnmounted(() => {
-  window.removeEventListener("scroll", handleScroll);
+  if (observer) observer.disconnect();
 });
 </script>
 
@@ -421,44 +306,40 @@ onUnmounted(() => {
   scrollbar-width: none;
 }
 
-/* Custom Animations */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #E5E7EB;
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #D1D5DB;
+}
+
+.animate-bounce-subtle {
+  animation: bounceSubtle 2s infinite;
+}
+
+@keyframes bounceSubtle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
 @keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes fadeInRight {
-  from {
-    opacity: 0;
-    transform: translateX(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-.animate-fade-in-up {
-  animation: fadeInUp 0.8s ease-out forwards;
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
 }
 
 .animate-fade-in-right {
-  animation: fadeInRight 1s ease-out forwards;
-}
-
-.delay-100 {
-  animation-delay: 0.1s;
-}
-.delay-200 {
-  animation-delay: 0.2s;
-}
-.delay-300 {
-  animation-delay: 0.3s;
+  animation: fadeInRight 0.4s ease-out forwards;
 }
 </style>

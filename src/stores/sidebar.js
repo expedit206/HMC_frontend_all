@@ -6,6 +6,7 @@ import { useAuthStore } from './auth'
 export const useSidebarStore = defineStore('sidebar', () => {
     const badges = ref({})
     const isLoading = ref(false)
+    const isMobileOpen = ref(false)
     const authStore = useAuthStore()
 
     const fetchBadges = async () => {
@@ -28,9 +29,15 @@ export const useSidebarStore = defineStore('sidebar', () => {
         }
     }
 
+    const toggleMobile = () => {
+        isMobileOpen.value = !isMobileOpen.value
+    }
+
     return {
         badges,
         isLoading,
-        fetchBadges
+        isMobileOpen,
+        fetchBadges,
+        toggleMobile
     }
 })

@@ -1,5 +1,4 @@
 <template>
-  <DashboardLayout>
     <div class="max-w-5xl mx-auto">
       <!-- Header -->
       <div class="mb-8">
@@ -200,12 +199,10 @@
         </div>
       </div>
     </div>
-  </DashboardLayout>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue';
-import DashboardLayout from '../../layouts/DashboardLayout.vue';
 import { useAuthStore } from '../../stores/auth';
 import axios from '../../axios';
 
