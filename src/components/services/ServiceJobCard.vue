@@ -44,7 +44,7 @@
           </span>
         </div>
         
-        <router-link v-if="authStore.user?.id === job.client_id" :to="'/marketplace/demandes/' + job.id" 
+        <router-link v-if="authStore.user?.id === job.client_id" :to="'/services/demandes/' + job.id" 
                 class="px-4 h-10 rounded-xl bg-orange-100 text-orange-600 font-bold text-xs flex items-center justify-center hover:scale-105 transition-all">
           Gérer
         </router-link>
@@ -84,7 +84,7 @@ const isModalOpen = ref(false);
 
 const openRespondModal = () => {
   if (!authStore.isAuthenticated) {
-    router.push({ path: '/auth/connexion', query: { redirect: '/marketplace/demandes' } });
+    router.push({ path: '/auth/connexion', query: { redirect: '/services/demandes' } });
     return;
   }
   

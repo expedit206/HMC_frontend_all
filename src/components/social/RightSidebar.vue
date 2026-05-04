@@ -62,7 +62,7 @@
         <RouterLink to="/annonces?category=Appartement" class="px-3 py-1.5 bg-muted hover:bg-primary hover:text-white transition-colors rounded-full text-xs font-semibold text-muted-foreground border border-border">
           #AppartementYaoundé
         </RouterLink>
-        <RouterLink to="/marketplace/prestataires" class="px-3 py-1.5 bg-muted hover:bg-secondary hover:text-white transition-colors rounded-full text-xs font-semibold text-muted-foreground border border-border">
+        <RouterLink to="/services/prestataires" class="px-3 py-1.5 bg-muted hover:bg-secondary hover:text-white transition-colors rounded-full text-xs font-semibold text-muted-foreground border border-border">
           #PlombierDouala
         </RouterLink>
         <RouterLink to="/marketplace?category=meubles" class="px-3 py-1.5 bg-muted hover:bg-primary hover:text-white transition-colors rounded-full text-xs font-semibold text-muted-foreground border border-border">

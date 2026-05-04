@@ -1,215 +1,354 @@
 <template>
-  <div class="h-[calc(100vh-64px)] overflow-hidden bg-background">
-    <!-- BARRE DE RECHERCHE HORIZONTALE (Fixée en haut) -->
-    <header class="bg-white border-b border-border z-30 relative">
-      <div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between gap-4">
-        <div class="flex-1 flex items-center gap-4">
-          <button @click="showMobileFilters = true" class="lg:hidden p-2.5 bg-gray-50 text-gray-500 rounded-xl hover:text-primary transition-all">
-            <i class="fas fa-filter"></i>
-          </button>
-          
-          <div class="relative flex-1 max-w-2xl">
-            <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
-            <input 
-              v-model="searchQuery" 
-              @keyup.enter="handleSearch"
-              type="text" 
-              placeholder="Que recherchez-vous aujourd'hui ?" 
-              class="w-full pl-12 pr-4 py-3 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-primary/20 focus:bg-white transition-all text-sm font-medium"
-            />
-          </div>
+  <div class="h-[calc(100vh-64px)] overflow-hidden bg-background flex flex-col">
+
+    <!-- ═══════════════ HEADER ═══════════════ -->
+    <header class="shrink-0 bg-card border-b border-border z-30">
+      <div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center gap-3">
+
+        <!-- Bouton filtre mobile -->
+        <button @click="showMobileFilters = true"
+          class="lg:hidden flex items-center justify-center w-9 h-9 rounded-md border border-border text-muted-foreground hover:text-foreground hover:border-primary/40 transition-all">
+          <i class="fas fa-sliders-h text-sm"></i>
+        </button>
+
+        <!-- Recherche -->
+        <div class="relative flex-1 max-w-lg">
+          <i
+            class="fas fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground text-xs pointer-events-none"></i>
+          <input v-model="searchQuery" @keyup.enter="handleSearch" type="text"
+            placeholder="Rechercher un produit, une marque..."
+            class="w-full pl-9 pr-4 py-2 border border-border rounded-md text-sm font-medium text-foreground placeholder:text-muted-foreground focus:bg-card focus:border-primary/40 focus:ring-2 focus:ring-primary/10 focus:outline-none transition-all" />
         </div>
 
-        <div class="flex items-center gap-3">
-          <button @click="cartStore.toggleCart()" 
-            class="p-3 bg-gray-50 text-gray-600 rounded-2xl hover:text-primary hover:bg-orange-50 transition-all relative group"
-          >
-            <i class="fas fa-shopping-cart text-lg group-hover:scale-110 transition-transform"></i>
-            <span v-if="cartStore.totalItems > 0" 
-              class="absolute -top-1 -right-1 w-5 h-5 bg-primary text-white text-[10px] flex items-center justify-center rounded-full border-2 border-white font-black animate-bounce-subtle"
-            >
-              {{ cartStore.totalItems }}
-            </span>
+        <!-- Tri rapide (Desktop) -->
+        <div class="hidden sm:flex items-center gap-1rounded-md p-0.5 border border-border">
+          <button v-for="sort in sortOptions" :key="sort.value" @click="activeSort = sort.value; fetchItems()"
+            class="px-3 py-1.5 rounded text-xs font-bold transition-all" :class="activeSort === sort.value
+              ? 'bg-primary text-primary-foreground shadow-sm'
+              : 'text-muted-foreground hover:text-foreground'">
+            {{ sort.label }}
           </button>
         </div>
+
+        <div class="flex-1 hidden sm:block"></div>
+
+        <!-- Panier -->
+        <button @click="cartStore.toggleCart()"
+          class="relative flex items-center gap-2 px-3 py-2 rounded-md border border-border text-sm font-bold text-foreground hover:border-primary/40 hover:text-primary transition-all">
+          <i class="fas fa-shopping-bag text-sm"></i>
+          <span class="hidden sm:inline text-xs">Panier</span>
+          <span v-if="cartStore.totalItems > 0"
+            class="absolute -top-1.5 -right-1.5 w-5 h-5 bg-primary text-primary-foreground text-[10px] font-black flex items-center justify-center rounded-full border-2 border-card">
+            {{ cartStore.totalItems }}
+          </span>
+        </button>
       </div>
     </header>
 
-    <!-- CONTENT LAYOUT -->
-    <div class="flex h-[calc(100vh-130px)] max-w-[1600px] mx-auto overflow-hidden">
-      <!-- SIDEBAR FILTERS (Statique Desktop) -->
-      <aside class="hidden lg:flex flex-col w-72 h-full border-r border-border bg-white overflow-y-auto custom-scrollbar p-6 space-y-8">
-        <div>
-          <h3 class="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-4">Catégories</h3>
-          <div class="space-y-1">
-            <button 
-              v-for="cat in categories" 
-              :key="cat.id"
-              @click="activeCategory = cat.id"
-              class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all text-left"
-              :class="activeCategory === cat.id ? 'bg-primary text-white shadow-lg shadow-orange-500/20' : 'text-gray-500 hover:bg-gray-50 hover:text-primary'"
-            >
-              <i :class="cat.icon" class="w-5 text-center"></i>
-              <span>{{ cat.name }}</span>
-            </button>
+    <!-- ═══════════════ LAYOUT ═══════════════ -->
+    <div class="flex flex-1 min-h-0 max-w-[1600px] w-full mx-auto">
+
+      <!-- ────── SIDEBAR ────── -->
+      <aside
+        class="hidden lg:flex flex-col w-64 xl:w-72 shrink-0 border-r border-border bg-card overflow-y-auto custom-scrollbar">
+
+        <!-- Catégories -->
+        <div class="p-5">
+          <p class="text-[10px] font-black text-muted-foreground uppercase tracking-[0.18em] mb-3">Catégories</p>
+          <div class="relative">
+            <select v-model="activeCategory" @change="fetchItems()"
+              class="w-full pl-4 pr-10 py-3  border border-border rounded-lg text-sm font-bold text-foreground focus:ring-2 focus:ring-primary/20 focus:border-primary/40 appearance-none cursor-pointer outline-none transition-all">
+              <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
+            </select>
+            <i
+              class="fas fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground text-[10px] pointer-events-none"></i>
           </div>
         </div>
 
-        <div class="pt-8 border-t border-gray-100">
-          <h3 class="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-6">Filtres Avancés</h3>
-          
-          <!-- Price -->
-          <div class="mb-8">
-            <div class="flex justify-between items-center mb-4">
-              <span class="text-sm font-bold text-gray-700">Budget Max</span>
+        <!-- Séparateur -->
+        <div class="mx-5 border-t border-border"></div>
+
+        <!-- Filtres avancés -->
+        <div class="p-5 space-y-6">
+          <p class="text-[10px] font-black text-muted-foreground uppercase tracking-[0.18em]">Filtres</p>
+
+          <!-- Budget -->
+          <div>
+            <div class="flex items-baseline justify-between mb-3">
+              <span class="text-xs font-bold text-foreground">Budget max</span>
               <span class="text-xs font-black text-primary">{{ formatPrice(maxPrice) }}</span>
             </div>
-            <input type="range" v-model="maxPrice" min="0" max="2000000" step="10000" class="w-full accent-primary h-1.5 bg-gray-100 rounded-lg appearance-none cursor-pointer" />
+            <input type="range" v-model="maxPrice" min="0" max="2000000" step="10000"
+              class="w-full h-1 rounded-full bg-muted appearance-none cursor-pointer accent-primary"
+              @change="fetchItems()" />
+            <div class="flex justify-between mt-1.5">
+              <span class="text-[9px] text-muted-foreground font-medium">0</span>
+              <span class="text-[9px] text-muted-foreground font-medium">2M FCFA</span>
+            </div>
           </div>
 
-          <!-- Condition -->
+          <!-- État article -->
           <div>
-            <span class="text-sm font-bold text-gray-700 block mb-4">État de l'article</span>
-            <div class="space-y-3">
-              <label v-for="c in ['Neuf', 'Excellent', 'Bon état']" :key="c" class="flex items-center gap-3 cursor-pointer group">
-                <input type="checkbox" class="w-5 h-5 border-2 border-gray-200 rounded-lg text-primary focus:ring-primary transition-all cursor-pointer" />
-                <span class="text-sm font-medium text-gray-500 group-hover:text-gray-900 transition-colors">{{ c }}</span>
+            <span class="text-xs font-bold text-foreground block mb-3">État</span>
+            <div class="space-y-2">
+              <label v-for="condition in conditions" :key="condition.value"
+                class="flex items-center gap-2.5 cursor-pointer group">
+                <div @click="toggleCondition(condition.value)"
+                  class="w-4 h-4 rounded border-2 flex items-center justify-center transition-all shrink-0" :class="activeConditions.includes(condition.value)
+                    ? 'bg-primary border-primary'
+                    : 'border-border group-hover:border-primary/50'">
+                  <i v-if="activeConditions.includes(condition.value)"
+                    class="fas fa-check text-primary-foreground text-[8px]"></i>
+                </div>
+                <span class="text-xs font-medium text-muted-foreground group-hover:text-foreground transition-colors">
+                  {{ condition.label }}
+                </span>
               </label>
             </div>
           </div>
         </div>
 
-        <!-- Call to Action -->
-        <div class="mt-auto p-6 bg-orange-50 rounded-3xl border border-orange-100">
-          <p class="text-xs font-bold text-orange-600 uppercase tracking-wider mb-2">Vendre un article</p>
-          <p class="text-xs text-gray-500 mb-4 leading-relaxed">Gagnez de l'argent en vendant vos meubles inutilisés.</p>
-          <button class="w-full py-2.5 bg-primary text-white rounded-xl text-xs font-black shadow-lg hover:scale-105 transition-all">Créer une boutique</button>
+        <!-- CTA Vendre -->
+        <div class="mt-auto mx-5 mb-5 p-4 rounded-lg border border-primary/20 bg-primary/5">
+          <div class="w-8 h-8 bg-primary/10 rounded-md flex items-center justify-center mb-3">
+            <i class="fas fa-store text-primary text-sm"></i>
+          </div>
+          <p class="text-xs font-black text-foreground mb-1">Vous vendez quelque chose ?</p>
+          <p class="text-[10px] text-muted-foreground leading-relaxed mb-3">Publiez vos articles et touchez des
+            acheteurs locaux.</p>
+          <button
+            class="w-full py-2 bg-primary text-primary-foreground text-xs font-black rounded-md hover:bg-primary/90 transition-all">
+            Créer une annonce
+          </button>
         </div>
       </aside>
 
-      <!-- MAIN FEED (Scrolling) -->
-      <main class="flex-1 h-full overflow-y-auto custom-scrollbar bg-gray-50/30 p-4 md:p-8">
-        <!-- TOP INFO -->
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
-          <div v-if="!isLoading || products.length > 0">
-            <h2 class="text-xl font-black text-gray-900">
-              {{ activeCategory === 'all' ? 'Tous les produits' : getCategoryName(activeCategory) }}
-            </h2>
-            <p class="text-xs font-bold text-gray-400 mt-1 uppercase tracking-widest">{{ products.length }} articles trouvés</p>
-          </div>
-          
-          <div class="flex items-center gap-2 bg-white p-1.5 rounded-xl border border-gray-100 shadow-sm">
-            <button class="p-2 bg-gray-900 text-white rounded-lg text-xs"><i class="fas fa-th-large"></i></button>
-            <button class="p-2 text-gray-400 rounded-lg text-xs hover:bg-gray-50"><i class="fas fa-list"></i></button>
-          </div>
-        </div>
+      <!-- ────── MAIN ────── -->
+      <main class="flex-1 min-w-0 overflow-y-auto custom-scrollbar bg-background">
+        <div class="p-5 md:p-7">
 
-        <!-- GRID -->
-        <div 
-          v-if="products.length > 0" 
-          class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6"
-        >
-          <ProductCard
-            v-for="product in products"
-            :key="product.id + product.type"
-            :product="product"
-            @add-to-cart="handleAddToCart"
-            @view-details="handleViewDetails"
-          />
-        </div>
+          <!-- Barre info + tri mobile -->
+          <div class="flex items-center justify-between mb-5 gap-3 flex-wrap">
+            <div>
+              <h2 class="text-base font-black text-foreground">
+                {{ activeCategory === 'all' ? 'Tous les produits' : getCategoryName(activeCategory) }}
+              </h2>
+              <p class="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mt-0.5">
+                <span v-if="!isLoading">{{ products.length }} article{{ products.length > 1 ? 's' : '' }}</span>
+                <span v-else>Chargement...</span>
+              </p>
+            </div>
 
-        <!-- EMPTY STATE -->
-        <div v-else-if="!isLoading" class="flex flex-col items-center justify-center py-32 text-center">
-          <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-6">
-            <i class="fas fa-box-open text-4xl text-gray-300"></i>
-          </div>
-          <h3 class="text-xl font-bold text-gray-900">Aucun produit trouvé</h3>
-          <p class="text-gray-500 mt-2 max-w-xs mx-auto">Essayez d'ajuster vos filtres ou votre recherche pour trouver ce que vous cherchez.</p>
-        </div>
+            <!-- Tri mobile -->
+            <div class="flex sm:hidden items-center gap-1 bg-muted/30 rounded-md p-0.5 border border-border">
+              <button v-for="sort in sortOptions" :key="sort.value" @click="activeSort = sort.value; fetchItems()"
+                class="px-2.5 py-1.5 rounded text-[10px] font-bold transition-all" :class="activeSort === sort.value
+                  ? 'bg-primary text-primary-foreground'
+                  : 'text-muted-foreground'">
+                {{ sort.label }}
+              </button>
+            </div>
 
-        <!-- LOADING / INFINITE SCROLL TARGET -->
-        <div ref="scrollTarget" class="py-12 flex justify-center">
-          <div v-if="isLoading" class="flex items-center gap-3">
-            <div class="w-6 h-6 border-3 border-orange-100 border-t-primary rounded-full animate-spin"></div>
-            <span class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">Chargement...</span>
           </div>
-          <div v-else-if="!hasMorePages && products.length > 0" class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-300">
-            Vous avez atteint la fin du catalogue
+
+          <!-- ── SKELETON ── -->
+          <div v-if="isLoading && products.length === 0"
+            class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
+            <div v-for="n in 12" :key="n" class="relative flex flex-col rounded-xl p-2 animate-pulse">
+              <!-- Image skeleton -->
+              <div
+                class="relative aspect-[4/3] rounded-md overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 mb-2">
+                <!-- Badge prix barré simulé -->
+
+                <!-- Zone image -->
+                <div class="w-full h-full bg-gray-200"></div>
+
+                <!-- Zone localisation -->
+                <div class="absolute bottom-1 right-3">
+                  <div class="w-16 h-4 bg-gray-300/60 rounded-full"></div>
+                </div>
+              </div>
+
+              <!-- Contenu skeleton -->
+              <div class="flex flex-col flex-grow px-0.5 border-l pl-1">
+                <!-- Catégorie + condition -->
+                <div class="flex items-center justify-between mb-2">
+                  <div class="h-2 w-12 bg-gray-200 rounded"></div>
+                  <div class="h-2 w-8 bg-gray-200 rounded"></div>
+                </div>
+
+                <!-- Titre -->
+                <div class="space-y-1 mb-2">
+                  <div class="h-2 bg-gray-200 rounded w-full"></div>
+                  <div class="h-2 bg-gray-200 rounded w-3/4"></div>
+                </div>
+
+                <!-- Prix -->
+                <div class="flex items-end justify-between mt-auto">
+                  <div class="flex flex-col gap-1">
+                    <div class="h-2 bg-gray-200 rounded w-12"></div>
+                    <div class="h-3 bg-gray-300 rounded w-16"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- ── GRILLE PRODUITS ── -->
+          <div v-else-if="products.length > 0"
+            class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-4">
+            <ProductCard v-for="product in products" :key="product.id + product.type" :product="product"
+              @add-to-cart="handleAddToCart" @view-details="handleViewDetails" />
+          </div>
+
+          <!-- ── EMPTY STATE ── -->
+          <div v-else-if="!isLoading" class="flex flex-col items-center justify-center py-32 text-center">
+            <div class="w-20 h-20 bg-muted/30 rounded-full flex items-center justify-center mb-5 border border-border">
+              <i class="fas fa-box-open text-3xl text-muted-foreground/40"></i>
+            </div>
+            <h3 class="text-base font-black text-foreground">Aucun produit trouvé</h3>
+            <p class="text-muted-foreground text-sm mt-1.5 max-w-xs mx-auto">Essayez d'ajuster vos filtres ou élargissez
+              votre recherche.</p>
+            <button @click="resetFilters"
+              class="mt-5 px-5 py-2 bg-primary text-primary-foreground text-xs font-black rounded-md hover:bg-primary/90 transition-all">
+              Réinitialiser les filtres
+            </button>
+          </div>
+
+          <!-- ── INFINITE SCROLL ── -->
+          <div ref="scrollTarget" class="py-10 flex justify-center">
+            <div v-if="isLoading && products.length > 0" class="flex items-center gap-2.5">
+              <div class="w-5 h-5 border-2 border-primary/20 border-t-primary rounded-full animate-spin"></div>
+              <span class="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Chargement...</span>
+            </div>
+            <div v-else-if="!hasMorePages && products.length > 0"
+              class="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.15em] text-muted-foreground/60">
+              <div class="w-8 h-px bg-border"></div>
+              Fin du catalogue
+              <div class="w-8 h-px bg-border"></div>
+            </div>
           </div>
         </div>
       </main>
     </div>
 
-    <!-- MOBILE FILTERS OVERLAY -->
-    <div v-if="showMobileFilters" class="fixed inset-0 z-50 lg:hidden overflow-hidden">
-      <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" @click="showMobileFilters = false"></div>
-      <div class="absolute inset-y-0 left-0 w-80 bg-white shadow-2xl flex flex-col p-6 animate-fade-in-right">
-        <div class="flex items-center justify-between mb-8">
-          <h2 class="text-xl font-black italic">Filtres</h2>
-          <button @click="showMobileFilters = false" class="p-2 text-gray-400 hover:text-gray-900"><i class="fas fa-times"></i></button>
-        </div>
-        <!-- Same filters as above but mobile -->
-        <div class="flex-1 overflow-y-auto custom-scrollbar pr-2 space-y-8">
-          <!-- Categories -->
-          <div>
-            <h3 class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4">Parcourir</h3>
-            <div class="grid grid-cols-1 gap-2">
-              <button 
-                v-for="cat in categories" 
-                :key="cat.id"
-                @click="activeCategory = cat.id; showMobileFilters = false"
-                class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-left"
-                :class="activeCategory === cat.id ? 'bg-primary text-white' : 'text-gray-500 bg-gray-50'"
-              >
-                <i :class="cat.icon"></i>
-                {{ cat.name }}
-              </button>
+    <!-- ═══════════════ MOBILE FILTERS OVERLAY ═══════════════ -->
+    <Teleport to="body">
+      <div v-if="showMobileFilters" class="fixed inset-0 z-50 lg:hidden">
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" @click="showMobileFilters = false"></div>
+        <div class="absolute inset-y-0 left-0 w-72 bg-card shadow-2xl flex flex-col overflow-hidden animate-slide-left">
+
+          <!-- Header modal -->
+          <div class="flex items-center justify-between px-5 py-4 border-b border-border shrink-0">
+            <h2 class="text-sm font-black text-foreground">Filtres</h2>
+            <button @click="showMobileFilters = false"
+              class="w-8 h-8 flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-muted/30 transition-all">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+
+          <!-- Contenu scrollable -->
+          <div class="flex-1 overflow-y-auto custom-scrollbar p-5 space-y-6">
+            <!-- Catégories -->
+            <div>
+              <p class="text-[10px] font-black text-muted-foreground uppercase tracking-[0.18em] mb-3">Catégories</p>
+              <div class="space-y-0.5">
+                <button v-for="cat in categories" :key="cat.id"
+                  @click="activeCategory = cat.id; fetchItems(); showMobileFilters = false"
+                  class="w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-xs font-bold transition-all text-left"
+                  :class="activeCategory === cat.id ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:bg-muted/40 hover:text-foreground'">
+                  <i :class="cat.icon || 'fas fa-tag'" class="text-[11px] w-4 text-center"></i>
+                  {{ cat.name }}
+                </button>
+              </div>
+            </div>
+
+            <!-- Budget -->
+            <div>
+              <div class="flex items-baseline justify-between mb-3">
+                <span class="text-xs font-bold text-foreground">Budget max</span>
+                <span class="text-xs font-black text-primary">{{ formatPrice(maxPrice) }}</span>
+              </div>
+              <input type="range" v-model="maxPrice" min="0" max="2000000" step="10000"
+                class="w-full h-1 rounded-full bg-muted appearance-none cursor-pointer accent-primary"
+                @change="fetchItems()" />
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </Teleport>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, watch } from "vue";
-import { useRouter } from "vue-router";
-import axios from "../axios";
-import ProductCard from "../components/marketplace/ProductCard.vue";
-import { useCartStore } from "../stores/cart";
+import { ref, onMounted, onUnmounted, watch } from 'vue';
+import { useRouter } from 'vue-router';
+import axios from '../axios';
+import ProductCard from '../components/marketplace/ProductCard.vue';
+import { useCartStore } from '../stores/cart';
 
-// State
 const router = useRouter();
 const cartStore = useCartStore();
-const showMobileFilters = ref(false);
-const activeCategory = ref("all");
-const products = ref([]);
-const categories = ref([{ id: "all", name: "Tout", icon: "fas fa-th-large" }]);
-const isLoading = ref(false);
-const searchQuery = ref("");
-const maxPrice = ref(2000000);
 
-// Infinite Scroll State
+// ── UI State ──────────────────────────────────────
+const showMobileFilters = ref(false);
+const viewMode = ref('grid');
+
+// ── Filters ───────────────────────────────────────
+const activeCategory = ref('all');
+const activeSort = ref('recent');
+const activeConditions = ref([]);
+const maxPrice = ref(2000000);
+const searchQuery = ref('');
+
+// ── Data ──────────────────────────────────────────
+const products = ref([]);
+const categories = ref([{ id: 'all', name: 'Tout', icon: 'fas fa-th-large' }]);
+const isLoading = ref(false);
+
+// ── Infinite Scroll ───────────────────────────────
 const currentPage = ref(1);
 const hasMorePages = ref(true);
 const scrollTarget = ref(null);
 
+const sortOptions = [
+  { value: 'recent', label: 'Récent' },
+  { value: 'price_asc', label: 'Prix ↑' },
+  { value: 'price_desc', label: 'Prix ↓' },
+];
+
+const conditions = [
+  { value: 'new', label: 'Neuf' },
+  { value: 'excellent', label: 'Excellent' },
+  { value: 'good', label: 'Bon état' },
+  { value: 'fair', label: 'Acceptable' },
+];
+
+// ── Methods ───────────────────────────────────────
+const toggleCondition = (val) => {
+  const idx = activeConditions.value.indexOf(val);
+  if (idx === -1) activeConditions.value.push(val);
+  else activeConditions.value.splice(idx, 1);
+  fetchItems();
+};
+
 const fetchCategories = async () => {
   try {
-    const { data } = await axios.get("/api/marketplace/categories");
+    const { data } = await axios.get('/api/marketplace/categories');
     if (data.success) {
-      categories.value = data.data;
+      categories.value = [
+        // { id: 'all', name: 'Tout', icon: 'fas fa-th-large' },
+        ...data.data,
+      ];
     }
   } catch (err) {
-    console.error("Erreur chargement catégories marketplace:", err);
+    console.error('Erreur catégories marketplace:', err);
   }
 };
 
 const fetchItems = async (append = false) => {
   if (isLoading.value) return;
   isLoading.value = true;
-  
+
   if (!append) {
     currentPage.value = 1;
     products.value = [];
@@ -218,38 +357,31 @@ const fetchItems = async (append = false) => {
 
   try {
     const params = {
-      category: activeCategory.value,
-      search: searchQuery.value,
+      category: activeCategory.value !== 'all' ? activeCategory.value : undefined,
+      search: searchQuery.value || undefined,
+      sort: activeSort.value,
+      max_price: maxPrice.value < 2000000 ? maxPrice.value : undefined,
+      conditions: activeConditions.value.length ? activeConditions.value.join(',') : undefined,
       page: currentPage.value,
-      per_page: 12
+      per_page: 12,
     };
-    const { data } = await axios.get("/api/marketplace/items", { params });
+    const { data } = await axios.get('/api/marketplace/items', { params });
     if (data.success) {
       const newItems = data.data.data;
-      if (append) {
-        products.value = [...products.value, ...newItems];
-      } else {
-        products.value = newItems;
-      }
+      products.value = append ? [...products.value, ...newItems] : newItems;
       hasMorePages.value = data.data.current_page < data.data.last_page;
     }
   } catch (err) {
-    console.error("Erreur chargement articles marketplace:", err);
+    console.error('Erreur articles marketplace:', err);
   } finally {
     isLoading.value = false;
   }
 };
 
-const handleAddToCart = (product) => {
-  cartStore.addItem(product);
-};
-
+const handleSearch = () => fetchItems();
+const handleAddToCart = (product) => cartStore.addItem(product);
 const handleViewDetails = (product) => {
-  router.push({
-    name: "MarketplaceDetail",
-    params: { id: product.id },
-    query: { type: product.type },
-  });
+  router.push({ name: 'MarketplaceDetail', params: { id: product.id }, query: { type: product.type } });
 };
 
 const getCategoryName = (id) => {
@@ -257,11 +389,19 @@ const getCategoryName = (id) => {
   return cat ? cat.name : 'Catégorie';
 };
 
-const formatPrice = (price) => {
-  return new Intl.NumberFormat('fr-FR').format(price) + ' FCFA';
+const formatPrice = (price) =>
+  new Intl.NumberFormat('fr-FR').format(price) + ' FCFA';
+
+const resetFilters = () => {
+  activeCategory.value = 'all';
+  activeSort.value = 'recent';
+  activeConditions.value = [];
+  maxPrice.value = 2000000;
+  searchQuery.value = '';
+  fetchItems();
 };
 
-// Intersection Observer for Infinite Scroll
+// ── Infinite Scroll ───────────────────────────────
 let observer = null;
 const setupObserver = () => {
   observer = new IntersectionObserver((entries) => {
@@ -270,20 +410,7 @@ const setupObserver = () => {
       fetchItems(true);
     }
   }, { threshold: 0.5 });
-
-  if (scrollTarget.value) {
-    observer.observe(scrollTarget.value);
-  }
-};
-
-// Watch for category changes
-watch(activeCategory, () => {
-  fetchItems();
-});
-
-// Watch for search query
-const handleSearch = () => {
-  fetchItems();
+  if (scrollTarget.value) observer.observe(scrollTarget.value);
 };
 
 onMounted(() => {
@@ -298,48 +425,60 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+.custom-scrollbar::-webkit-scrollbar {
+  width: 3px;
 }
 
-.custom-scrollbar::-webkit-scrollbar {
-  width: 4px;
-}
 .custom-scrollbar::-webkit-scrollbar-track {
   background: transparent;
 }
+
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #E5E7EB;
+  background: hsl(var(--border));
   border-radius: 10px;
 }
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #D1D5DB;
+
+select,
+input[type="range"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 
-.animate-bounce-subtle {
-  animation: bounceSubtle 2s infinite;
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: hsl(var(--primary));
+  cursor: pointer;
+  border: 2px solid hsl(var(--card));
+  box-shadow: 0 1px 4px hsl(var(--primary) / 0.3);
 }
 
-@keyframes bounceSubtle {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-3px); }
+/* Vue liste */
+.product-list-item {
+  flex-direction: row !important;
 }
 
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+.product-list-item>*:first-child {
+  width: 120px !important;
+  aspect-ratio: 1 !important;
+  flex-shrink: 0;
 }
 
-@keyframes fadeInRight {
-  from { opacity: 0; transform: translateX(-20px); }
-  to { opacity: 1; transform: translateX(0); }
+/* Slide sidebar mobile */
+@keyframes slideLeft {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
 }
 
-.animate-fade-in-right {
-  animation: fadeInRight 0.4s ease-out forwards;
+.animate-slide-left {
+  animation: slideLeft 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 </style>

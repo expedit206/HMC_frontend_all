@@ -513,10 +513,6 @@
                   </RouterLink>
                 </template>
 
-                <a :href="`tel:${ownerPhone}`" v-if="ownerPhone"
-                  class="w-full py-3 bg-green-600 text-white rounded-xl font-bold hover:bg-green-700 transition-all flex items-center justify-center gap-2 shadow-sm">
-                  <i class="fas fa-phone"></i> Appeler le propriétaire
-                </a>
                 <RouterLink :to="{ name: 'Assistance' }"
                   class="w-full py-3 border-2 border-secondary text-secondary rounded-xl font-bold hover:bg-secondary hover:text-primary transition-all flex items-center justify-center gap-2">
                   <i class="fas fa-headset"></i> Assistance

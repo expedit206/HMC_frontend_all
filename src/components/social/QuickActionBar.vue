@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-card border border-border rounded-xl shadow-sm mx-4 my-2 p-4">
+  <div class="bg-card border border-border rounded-xl shadow-sm my-2 p-4">
     <div class="flex gap-3 items-center mb-4">
       <div class="w-10 h-10 rounded-full border border-border bg-muted overflow-hidden flex-shrink-0">
         <img v-if="userAvatar" :src="userAvatar" alt="Avatar" class="w-full h-full object-cover">
@@ -21,11 +21,11 @@
           <i class="fas fa-home group-hover:scale-110 transition-transform"></i>
           <span class="text-xs sm:text-sm font-medium">Louer un bien</span>
         </RouterLink>
-        <RouterLink to="/marketplace/demandes" class="flex items-center gap-2 text-secondary hover:bg-secondary/10 px-2 sm:px-3 py-1.5 rounded transition-colors group">
+        <RouterLink to="/services/demandes" class="flex items-center gap-2  hover:bg-secondary/10 px-2 sm:px-3 py-1.5 rounded transition-colors group">
           <i class="fas fa-tools group-hover:scale-110 transition-transform"></i>
           <span class="text-xs sm:text-sm font-medium">Chercher un pro</span>
         </RouterLink>
-        <RouterLink to="/marketplace" class="flex items-center gap-2 text-green-600 hover:bg-green-600/10 px-2 sm:px-3 py-1.5 rounded transition-colors group">
+        <RouterLink to="/marketplace" class="flex items-center gap-2   hover:bg-green-600/10 px-2 sm:px-3 py-1.5 rounded transition-colors group">
           <i class="fas fa-shopping-bag group-hover:scale-110 transition-transform"></i>
           <span class="text-xs sm:text-sm font-medium hidden sm:inline">Marketplace</span>
         </RouterLink>

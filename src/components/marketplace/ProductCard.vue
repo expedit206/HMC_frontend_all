@@ -1,95 +1,70 @@
 <template>
   <div @click="emit('viewDetails', product)"
-    class="group relative bg-white border border-border rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer">
-    <!-- Image -->
-    <div class="relative aspect-[4/3] overflow-hidden rounded-t-2xl bg-gray-100 flex items-center justify-center">
-      <div v-if="
-        product.image &&
-        (product.image.startsWith('fas ') || product.image.startsWith('fab '))
-      " class="text-6xl text-primary/30 transform group-hover:scale-110 transition-transform duration-500">
-        <i :class="product.image"></i>
-      </div>
-      <img v-else :src="product.image || 'https://placehold.co/400x300?text=Produit'" :alt="product.name"
-        class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+    class="group relative flex flex-col  rounded-xl p-2 transition-all active:scale-[0.97]   cursor-pointer">
+    
+    <div class="relative aspect-[4/3] rounded-md overflow-hidden bg-[#F8F9FA] mb-2">
+      <span v-if="product.oldPrice"
+        class="absolute top-1.5 left-1.5 z-10 bg-red-500 text-white text-[9px] font-black px-1.5 py-0.5 rounded shadow-sm">
+        -{{ Math.round((1 - product.price / product.oldPrice) * 100) }}%
+      </span>
 
-      <!-- Badges -->
-      <div class="absolute top-3 left-3 flex gap-2">
-        <span v-if="product.isNew" class="px-2.5 py-1 text-xs font-bold text-white bg-secondary rounded-full shadow-sm">
-          Nouveau
-        </span>
-        <span v-if="product.discount"
-          class="px-2.5 py-1 text-xs font-bold text-white bg-red-500 rounded-full shadow-sm">
-          -{{ product.discount }}%
-        </span>
+
+      <img :src="product.image || '/placeholder-product.jpg'"
+        class="w-full h-full object-cover duration-500 group-hover:scale-110"
+        @error="onImageError" />
+
+      <div v-if="product.stock === 0"
+        class="absolute inset-0 bg-white/60 backdrop-blur-[1px] flex items-center justify-center z-20">
+        <span class="bg-black/80 text-white text-[9px] px-2 py-1 rounded font-bold uppercase">Épuisé</span>
       </div>
 
-      <!-- Actions Overlay (Desktop) -->
-      <div
-        class="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex justify-center gap-3 pb-6 bg-gradient-to-t from-black/50 to-transparent">
-        <button @click.stop="emit('addToCart', product)"
-          class="bg-white text-gray-800 p-2.5 rounded-full shadow-lg hover:bg-primary hover:text-white transition-colors transform hover:scale-110"
-          title="Ajouter au panier">
-          <i class="fas fa-shopping-cart"></i>
-        </button>
-        <button @click.stop="emit('toggleClientFavorite', product)"
-          class="bg-white text-gray-800 p-2.5 rounded-full shadow-lg hover:bg-red-500 hover:text-white transition-colors transform hover:scale-110"
-          :class="{ 'text-red-500': product.isFavorite }" title="Favoris">
-          <i :class="product.isFavorite ? 'fas fa-heart' : 'far fa-heart'"></i>
-        </button>
-        <button @click.stop="emit('viewDetails', product)"
-          class="bg-white text-gray-800 p-2.5 rounded-full shadow-lg hover:bg-secondary hover:text-white transition-colors transform hover:scale-110"
-          title="Voir plus">
-          <i class="fas fa-eye"></i>
-        </button>
-      </div>
+      <div class="absolute bottom-1 right-3 flex gap-2 flex-wrap">
+
+          <div v-if="product.location"
+            class="flex items-center  text-foreground/80 text-white text-[9px] font-semibold italic p-2 py-1 border rounded-full drop-shadow-[1px_0px_2px_rgba(0,0,0,1)] ">
+            <i class="fas fa-map-marker-alt drop-shadow-[1px_0px_1px_rgba(0,0,0,1)]  "></i>
+            <span class="drop-shadow-[1px_0px_1px_rgba(0,0,0,1)]">{{ product.location }}</span>
+          </div>
+        </div>
+     
+
     </div>
 
-    <!-- Content -->
-    <div class="p-4">
-      <!-- Category -->
-      <div class="flex justify-between items-start mb-2">
-        <span class="text-xs font-medium text-primary uppercase tracking-wider bg-primary/10 px-2 py-1 rounded">
-          {{ product.category }}
+    <div class="flex flex-col flex-grow px-0.5 border-l pl-1">
+      <div class="flex items-center justify-between mb-1">
+        <span class="text-[9px] font-bold text-primary uppercase tracking-[0.05em]">
+          {{ product.category || 'Général' }}
         </span>
-        <div class="flex items-center gap-1 text-yellow-500 text-xs">
-          <i class="fas fa-star"></i>
-          <span class="font-bold text-gray-700">{{ product.rating }}</span>
-          <span class="text-gray-400">({{ product.reviews }})</span>
-        </div>
+        <span class="text-[8px] px-1.5 py-0.5 rounded bg-gray-100 text-gray-600 font-bold uppercase tracking-wider">
+          {{ product.condition || 'Neuf' }}
+        </span>
       </div>
 
-      <!-- Title -->
-      <h3 class="font-bold text-gray-800 text-lg mb-1 line-clamp-1 group-hover:text-primary transition-colors">
+      
+
+      <h3 class="text-[10px]  italic  text-gray-800 leading-tight line-clamp-2 min-h-[2.4em] mb-1">
         {{ product.name }}
       </h3>
 
-      <!-- Location/Seller -->
-      <div class="flex items-center gap-1 text-gray-500 text-xs mb-3">
-        <i class="fas fa-map-marker-alt"></i>
-        <span class="truncate">{{ product.location }}</span>
-      </div>
-
-      <!-- Price & Button -->
-      <div class="flex items-center justify-between pt-3 border-t border-border mt-auto">
-        <div class="flex flex-col">
-          <span v-if="product.oldPrice" class="text-xs text-gray-400 line-through decoration-red-500">
+      <div class="flex items-end justify-between mt-auto gap-1">
+        <div class="flex flex-col min-w-0">
+          <span v-if="product.oldPrice" class="text-[10px] text-gray-400 line-through leading-none mb-0.5">
             {{ formatPrice(product.oldPrice) }}
           </span>
-          <span class="text-xl font-bold text-primary">
+          <span class="text-[13px] font-semibold italic text-gray-900 tracking-tight leading-none">
             {{ formatPrice(product.price) }}
           </span>
         </div>
 
-        <!-- Mobile Action Button -->
-        <button @click.stop="emit('addToCart', product)"
-          class="lg:hidden bg-primary/10 text-primary p-2 rounded-full hover:bg-primary hover:text-white transition-colors">
-          <i class="fas fa-plus"></i>
-        </button>
+        <!-- <button @click.stop="emit('addToCart', product)" 
+          :disabled="product.stock === 0"
+          class="shrink-0 w-8 h-8 bg-gray-900 text-white rounded-lg flex items-center justify-center active:bg-primary transition-colors disabled:bg-gray-200">
+          <i class="fas fa-plus text-[10px]"></i>
+        </button> -->
       </div>
     </div>
   </div>
 </template>
-
 <script setup>
 const props = defineProps({
   product: {
@@ -98,17 +73,18 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["addToCart", "toggleClientFavorite", "viewDetails"]);
+const emit = defineEmits(['addToCart', 'toggleClientFavorite', 'viewDetails']);
 
 const formatPrice = (price) => {
-  return new Intl.NumberFormat("fr-CM", {
-    style: "currency",
-    currency: "XAF",
+  if (!price && price !== 0) return '—';
+  return new Intl.NumberFormat('fr-CM', {
+    style: 'currency',
+    currency: 'XAF',
     maximumFractionDigits: 0,
   }).format(price);
 };
-</script>
 
-<style scoped>
-/* Optional: specific styles if needed */
-</style>
+const onImageError = (e) => {
+  e.target.src = 'https://placehold.co/400x400/F8F9FA/a1a1aa?text=Produit';
+};
+</script>

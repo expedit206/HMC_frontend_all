@@ -89,7 +89,7 @@ const close = () => {
 const submitContact = async () => {
   if (!authStore.isAuthenticated) {
     // Redirect to login if user is not authenticated
-    router.push({ path: '/auth/connexion', query: { redirect: '/marketplace/prestataires' } });
+    router.push({ path: '/auth/connexion', query: { redirect: '/services/prestataires' } });
     return;
   }
 

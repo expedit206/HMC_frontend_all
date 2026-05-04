@@ -296,8 +296,8 @@ const navLinks = computed(() => {
   const baseLinks = [
     { to: "/", label: "Accueil", icon: "fas fa-home" },
     { to: "/annonces", label: "Immobilier", icon: "fas fa-building" },
-    { to: "/marketplace/prestataires", label: "Prestataires", icon: "fas fa-users" }, // Changé: fa-hard-hat -> fa-users
-    { to: "/marketplace/demandes", label: "Missions", icon: "fas fa-tasks" }, // Changé: fa-briefcase -> fa-tasks
+    { to: "/services/prestataires", label: "Prestataires", icon: "fas fa-users" }, // Changé: fa-hard-hat -> fa-users
+    { to: "/services/demandes", label: "Missions", icon: "fas fa-tasks" }, // Changé: fa-briefcase -> fa-tasks
   ];
 
   const dashLink = { 

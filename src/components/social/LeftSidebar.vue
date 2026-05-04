@@ -257,7 +257,7 @@ const allLinks = [
   // --- PRESTATAIRE ---
   { name: "Mon Activité",      isLabel: true,                                                            roles: ["prestataire"] },
   { name: "Mes Services",      to: "/prestataire/mes-services",  icon: "fas fa-toolbox",              roles: ["prestataire"] },
-  { name: "Offres Disponibles",to: "/marketplace/demandes",      icon: "fas fa-clipboard-check",     roles: ["prestataire"] },
+  { name: "Offres Disponibles",to: "/services/demandes",      icon: "fas fa-clipboard-check",     roles: ["prestataire"] },
   { name: "Interventions",     to: "/prestataire/interventions", icon: "fas fa-wrench",               roles: ["prestataire"] },
   { name: "Agenda",            to: "/prestataire/agenda",        icon: "fas fa-calendar-alt",         roles: ["prestataire"] },
   { name: "Finances",          to: "/prestataire/finances",      icon: "fas fa-wallet",               roles: ["prestataire"] },

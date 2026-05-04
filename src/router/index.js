@@ -89,8 +89,8 @@ const MarketplaceIndex = () => import('../market-place/Index.vue')
 const MarketplaceDetail = () => import('../market-place/DetailProduit.vue')
 const MarketplaceAide = () => import('../market-place/Aide.vue')
 const MarketplaceContact = () => import('../market-place/Contact.vue')
-const DemandesServices = () => import('../market-place/DemandesServices.vue')
-const Prestataires = () => import('../market-place/Prestataires.vue')
+const DemandesServices = () => import('../pages/services/DemandesServices.vue')
+const Prestataires = () => import('../pages/services/Prestataires.vue')
 
 // Nouvelles pages du processus locatif
 const MonSuivi = () => import('../pages/public/MonSuivi.vue')
@@ -269,12 +269,21 @@ const routes = [
     meta: { hasSidebar: false, isFullWidth: true },
     children: [
       { path: '', name: 'MarketplaceIndex', component: MarketplaceIndex },
-      { path: 'demandes', name: 'MarketplaceDemandes', component: DemandesServices },
-      { path: 'prestataires', name: 'MarketplacePrestataires', component: Prestataires },
-      { path: 'demandes/:id', name: 'ServicePostDetail', component: () => import('../market-place/ServicePostDetail.vue') },
       { path: ':id', name: 'MarketplaceDetail', component: MarketplaceDetail },
       { path: 'aide', name: 'MarketplaceAide', component: MarketplaceAide },
       { path: 'contact', name: 'MarketplaceContact', component: MarketplaceContact },
+    ]
+  },
+
+  // Services routes
+  {
+    path: '/services',
+    component: SocialLayout,
+    meta: { hasSidebar: false, isFullWidth: true },
+    children: [
+      { path: 'demandes', name: 'MarketplaceDemandes', component: DemandesServices },
+      { path: 'demandes/:id', name: 'ServicePostDetail', component: () => import('../pages/services/ServicePostDetail.vue') },
+      { path: 'prestataires', name: 'MarketplacePrestataires', component: Prestataires },
     ]
   },
 ]

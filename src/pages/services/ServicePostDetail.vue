@@ -11,7 +11,7 @@
 
     <div v-else class="max-w-4xl mx-auto px-4 py-8">
       <!-- Back button -->
-      <router-link to="/marketplace/demandes" class="inline-flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-foreground transition-colors mb-6">
+      <router-link to="/services/demandes" class="inline-flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-foreground transition-colors mb-6">
         <i class="fas fa-arrow-left"></i> Retour au Job Board
       </router-link>
 
@@ -114,8 +114,8 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import axios from '../axios';
-import { useAuthStore } from '../stores/auth';
+import axios from '../../axios';
+import { useAuthStore } from '../../stores/auth';
 
 const route = useRoute();
 const router = useRouter();
@@ -168,7 +168,7 @@ const acceptOffer = async (responseId) => {
 
 onMounted(() => {
   if (!authStore.isAuthenticated) {
-    router.push({ path: '/auth/connexion', query: { redirect: `/marketplace/demandes/${route.params.id}` } });
+    router.push({ path: '/auth/connexion', query: { redirect: `/services/demandes/${route.params.id}` } });
     return;
   }
   fetchPost();

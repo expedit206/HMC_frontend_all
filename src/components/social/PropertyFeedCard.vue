@@ -1,28 +1,24 @@
 <template>
-  <article class="bg-card border border-border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group mx-4 my-2">
+  <article
+    class="bg-card border border-border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group  my-2">
     <!-- Image -->
     <RouterLink :to="`/annonces/${item.slug}`" class="block relative overflow-hidden">
       <div class="relative h-52 bg-muted">
-        <img
-          v-if="item.image"
-          :src="imageUrl"
-          :alt="item.title"
-          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-          loading="lazy"
-          @error="onImgError"
-        />
-        <div v-else class="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/10 to-secondary/10">
+        <img v-if="item.image" :src="imageUrl" :alt="item.title"
+          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy"
+          @error="onImgError" />
+        <div v-else
+          class="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/10 to-secondary/10">
           <i class="fas fa-home text-4xl text-primary/30"></i>
         </div>
 
         <!-- Badges -->
         <div class="absolute top-3 left-3 flex gap-2 flex-wrap">
-          <span class="px-2 py-0.5 text-xs font-semibold rounded-full bg-primary text-primary-foreground shadow-sm">
-            À louer
-          </span>
-          <span v-if="item.category" class="px-2 py-0.5 text-xs font-semibold rounded-full bg-card/90 text-foreground shadow-sm backdrop-blur-sm">
-            {{ item.category }}
-          </span>
+
+          <div v-if="item.category"
+            class="flex items-center text-foreground/80 text-white text-sm font-semibold italic p-2 py-1 border rounded-full drop-shadow-[2px_0px_2px_rgba(0,0,0,1)] ">
+            <span class="drop-shadow-[1px_0px_1px_rgba(0,0,0,1)]">{{ item.category }}</span>
+          </div>
         </div>
 
         <!-- Prix badge -->
@@ -37,7 +33,8 @@
     <!-- Contenu -->
     <div class="p-4">
       <RouterLink :to="`/annonces/${item.slug}`">
-        <h3 class="font-semibold text-foreground text-base leading-tight line-clamp-1 group-hover:text-primary transition-colors mb-1">
+        <h3
+          class="font-semibold text-foreground text-base leading-tight line-clamp-1 group-hover:text-primary transition-colors mb-1">
           {{ item.title }}
         </h3>
       </RouterLink>
@@ -45,6 +42,11 @@
       <div class="flex items-center gap-1 text-muted-foreground text-sm mb-3">
         <i class="fas fa-map-marker-alt text-secondary text-xs"></i>
         <span>{{ item.city }}<span v-if="item.neighborhood"> — {{ item.neighborhood }}</span></span>
+
+        <span class="flex items-center gap-1 ml-auto">
+          <i class="fas fa-clock text-xs text-primary/60"></i>
+          {{ item.date }}
+        </span>
       </div>
 
       <!-- Caractéristiques -->
@@ -61,10 +63,7 @@
           <i class="fas fa-vector-square text-xs text-primary/60"></i>
           {{ item.area }}m²
         </span>
-        <span class="flex items-center gap-1 ml-auto">
-          <i class="fas fa-clock text-xs text-primary/60"></i>
-          {{ item.date }}
-        </span>
+ 
       </div>
 
       <!-- Actions -->
@@ -73,25 +72,31 @@
           <button @click.prevent="toggleFav"
             class="flex items-center gap-1.5 hover:text-red-500 transition-colors group/btn"
             :class="isFaved ? 'text-red-500' : ''">
-            <i :class="`${isFaved ? 'fas' : 'far'} fa-heart text-base group-hover/btn:scale-110 transition-transform`"></i>
+            <i
+              :class="`${isFaved ? 'fas' : 'far'} fa-heart text-base group-hover/btn:scale-110 transition-transform`"></i>
             <span class="font-medium">{{ localFavsCount }}</span>
           </button>
-          
-          <button @click.prevent="$emit('open-comments', item)" 
+
+          <button @click.prevent="$emit('open-comments', item)"
             class="cursor-pointer flex items-center gap-1 hover:text-amber-500 transition-colors group/btn">
-            <i :class="item.rating > 0 ? 'fas text-amber-400' : 'far text-muted-foreground'" class="fa-star text-base group-hover/btn:scale-110 transition-transform"></i>
+            <i :class="item.rating > 0 ? 'fas text-amber-400' : 'far text-muted-foreground'"
+              class="fa-star text-base group-hover/btn:scale-110 transition-transform"></i>
             <span v-if="item.rating > 0" class="font-bold text-amber-600 dark:text-amber-400">
               {{ item.rating }}
-              <span class="text-xs font-normal text-muted-foreground ml-0.5">({{ item.review_count || item.reviews_count || 0 }})</span>
+              <span class="text-xs font-normal text-muted-foreground ml-0.5">({{ item.review_count || item.reviews_count
+                || 0 }})</span>
             </span>
             <span v-else class="font-medium text-muted-foreground">Avis</span>
           </button>
         </div>
-        
+
         <div class="flex items-center gap-2">
           <button @click.prevent="shareItem"
             class="px-3 py-1.5 text-sm font-semibold rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors active:scale-95 flex items-center gap-1.5">
-            <i class="fas fa-share-alt"></i> Partager
+            <i class="fas fa-share-alt "></i> <span class="hidden sm:block">
+
+              Partager
+            </span>
           </button>
           <RouterLink :to="`/annonces/${item.slug}`"
             class="px-4 py-1.5 text-sm font-semibold rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors active:scale-95">
@@ -114,9 +119,9 @@ const props = defineProps({
 
 const emit = defineEmits(['open-comments'])
 
-const isFaved         = ref(false)
-const localFavsCount  = ref(props.item.favorites_count ?? 0)
-const imgError        = ref(false)
+const isFaved = ref(false)
+const localFavsCount = ref(props.item.favorites_count ?? 0)
+const imgError = ref(false)
 
 const imageUrl = computed(() => {
   if (imgError.value || !props.item.image) return null

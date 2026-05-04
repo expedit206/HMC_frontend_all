@@ -1,5 +1,5 @@
 <template>
-  <article class="bg-card border border-border rounded-xl shadow-sm hover:shadow-md transition-all duration-300 mx-4 my-2 p-4 flex flex-col gap-3 group relative overflow-hidden">
+  <article class="bg-card border border-border rounded-xl shadow-sm hover:shadow-md transition-all duration-300  my-2 p-4 flex flex-col gap-3 group relative overflow-hidden">
     <!-- Décoration urgence -->
     <div v-if="urgencyColor" :class="`absolute top-0 left-0 w-1 h-full ${urgencyColor}`"></div>
 
@@ -67,7 +67,7 @@
         </span>
       </div>
 
-      <RouterLink :to="`/marketplace/demandes/${item.id}`"
+      <RouterLink :to="`/services/demandes/${item.id}`"
         class="inline-flex items-center justify-center rounded-lg px-3 py-1.5 text-xs font-bold transition-colors bg-secondary/10 text-secondary hover:bg-secondary hover:text-white border border-transparent hover:border-secondary shadow-sm">
         Proposer mes services
       </RouterLink>

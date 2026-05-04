@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-card border border-border rounded-xl shadow-sm mx-4 my-4 p-4 overflow-hidden relative">
+  <div class="bg-card border border-border rounded-xl shadow-sm  my-4 p-4 overflow-hidden relative">
     <h3 class="text-sm font-bold text-foreground mb-3 flex items-center gap-2">
       <i class="fas fa-bolt text-yellow-500"></i> À la une
     </h3>

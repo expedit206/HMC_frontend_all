@@ -1,13 +1,8 @@
 <template>
-  <div class="h-[calc(100vh-64px)] overflow-hidden ">
+  <div class=" h-full overflow-hidden ">
     <!-- Header Mobile (visible uniquement sur mobile/tablette) -->
-    <div class="lg:hidden bg-card border-b border-border p-4 sticky top-0 z-40">
-      <div class="flex justify-between items-center mb-4">
-        <h1 class="text-xl font-bold text-foreground">
-          <span class="text-primary font-semibold">{{ pagination.total }} annonces</span>
-          trouvées
-        </h1>
-      </div>
+    <div class="lg:hidden bg-card  pb-2 p-4 sticky top-0 z-40 flex items-center gap-2">
+     
       <div class="flex gap-3">
         <button @click="showMobileFilters = true"
           class="flex-1 flex items-center justify-center gap-2 bg-background border border-border rounded-lg px-4 py-2 shadow-sm hover: transition-colors">
@@ -15,6 +10,10 @@
           <span class="font-semibold text-foreground">Filtres</span>
         </button>
       </div>
+      <div class="flex items-center gap-2 border p-2 w-full rounded-md hover:border-blue">
+        <input type="search" class="border-none w-full outline-none ">
+      <i class="fas fa-search absolute right-8 cursor-pointer"></i>
+     </div>
     </div>
 
     <div class="h-full flex overflow-hidden">
@@ -278,16 +277,7 @@
           <!-- En-tête Desktop -->
           <div class="hidden lg:block mb-8">
             <div class="flex justify-between items-center">
-              <div>
-                <h1 class="text-2xl font-bold text-foreground">
-                  <span class="text-secondary font-semibold">{{ pagination.total }} annonces</span>
-                  trouvées
-                </h1>
-                <p class="text-muted-foreground mt-1">
-                  Affinez votre recherche avec les filtres pour trouver le
-                  logement idéal
-                </p>
-              </div>
+           
               <div class="flex items-center gap-3">
                 <!-- Bouton Trier avec dropdown -->
                 <div class="relative">
@@ -444,10 +434,11 @@
                         </div>
                       </div>
                     </template>
-                    <div
-                      class="absolute top-3 right-3 bg-secondary text-white px-3 py-1 rounded-full text-sm font-semibold shadow-sm">
-                      {{ property.type === "rent" ? "À louer" : "À vendre" }}
-                    </div>
+                      <!-- {{ property.type === "rent" ? "À louer" : "À vendre" }} -->
+
+                       <div v-if="property.category" class="flex items-center text-foreground/80 text-white text-sm absolute top-3 right-3 font-semibold italic p-2 py-1 border rounded-full drop-shadow-[2px_0px_2px_rgba(0,0,0,1)] ">
+                          <span class="drop-shadow-[1px_0px_1px_rgba(0,0,0,1)]">{{ property.category }}</span>
+                        </div>
 
                     <div v-if="property.avg_rating > 0"
                       class="absolute top-3 left-3 bg-black/70 backdrop-blur-sm text-white px-2.5 py-1 rounded-full text-xs font-bold flex items-center gap-1">
@@ -475,10 +466,10 @@
                       <div class="flex items-center text-secondary mb-4 text-sm font-medium">
                         <i class="fas fa-map-marker-alt mr-2"></i>
                         <span>{{ property.location }}</span>
-                        <span v-if="property.city"
+                        <!-- <span v-if="property.city"
                           class="hidden sm:inline-block ml-4 text-xs text-muted-foreground px-2 py-0.5 rounded bg-muted">
                           {{ property.city }}
-                        </span>
+                        </span> -->
                       </div>
 
                       <div class="flex flex-wrap gap-4 mb-0 pb-2 border-b border-border">
@@ -494,31 +485,21 @@
                           <i class="fas fa-check-circle text-secondary mr-1.5"></i>
                           <span>{{ property.area }} m²</span>
                         </div>
-                        <div v-if="property.category" class="flex items-center text-foreground/80 text-sm">
-                          <i class="fas fa-check-circle text-secondary mr-1.5"></i>
-                          <span>{{ property.category }}</span>
-                        </div>
+                       
                       </div>
 
-                      <!-- <div v-if="property.owner" class="flex items-center gap-2 text-sm text-muted-foreground mr-auto">
-                        <img v-if="property.owner.avatar_url" :src="property.owner.avatar_url"
-                          class="w-6 h-6 rounded-full object-cover border border-border" />
-                        <i v-else class="fas fa-user-circle text-lg text-muted-foreground"></i>
-                        <span>{{ property.owner.name }}</span>
-                      </div> -->
                     </div>
 
                     <div class="flex flex-col  items- mt-2">
-                      <div>
+                      <div class="flex justify-between pb-1">
                         <div class="text-secondary font-bold text-2xl">
                           {{ formatPrice(property.price) }} F
                           <span class="text-muted-foreground font-normal text-base">/ mois</span>
                         </div>
                         <div v-if="property.avg_rating > 0" class="flex items-center gap-1 mt-1">
-                          <i v-for="s in 5" :key="s"
-                            :class="s <= Math.round(property.avg_rating) ? 'fas fa-star text-amber-400' : 'far fa-star text-muted-foreground/40'"
-                            class="text-xs"></i>
-                          <span class="text-xs text-muted-foreground ml-1">{{ property.avg_rating }}/5</span>
+                          <i 
+                            class="fas fa-star text-amber-400 text-xs"></i>
+                          <span class="text-xs text-muted-foreground ml-1">{{ property.avg_rating }}</span>
                         </div>
                        
                       </div>
