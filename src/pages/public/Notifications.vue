@@ -4,29 +4,29 @@
     <div class="bg-background min-h-screen py-8">
       <div class="max-w-3xl mx-auto px-4">
         <!-- En-tête -->
-        <div class="flex items-center justify-between mb-8">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 sm:mb-8">
           <div>
-            <h1 class="text-2xl font-bold text-foreground flex items-center gap-3">
-              <i class="fas fa-bell text-secondary"></i>
+            <h1 class="text-xl sm:text-2xl font-black text-foreground flex items-center gap-2 sm:gap-3">
+              <div class="w-10 h-10 sm:w-12 sm:h-12 bg-secondary/10 rounded-xl flex items-center justify-center">
+                <i class="fas fa-bell text-secondary text-base sm:text-xl"></i>
+              </div>
               Notifications
               <span v-if="notifStore.unreadCount > 0"
-                class="px-2.5 py-0.5 bg-secondary text-white text-sm font-bold rounded-full animate-pulse">
-                {{ notifStore.unreadCount }}
+                class="px-2 py-0.5 bg-secondary text-white text-[10px] sm:text-xs font-black rounded-full animate-pulse uppercase tracking-wider">
+                {{ notifStore.unreadCount }} Nouveaux
               </span>
             </h1>
-            <p class="text-muted-foreground text-sm mt-1">
-              Restez informé de toute l'activité sur votre compte
-            </p>
           </div>
-          <div class="flex items-center gap-3">
+          <div class="flex items-center gap-2 sm:gap-3">
             <button v-if="notifStore.unreadCount > 0" @click="notifStore.markAllRead()"
-              class="text-sm text-secondary hover:text-primary font-medium flex items-center gap-2 transition-colors">
+              class="flex-1 sm:flex-none text-[11px] sm:text-sm bg-secondary/10 hover:bg-secondary/20 text-secondary px-3 py-2 rounded-xl font-bold flex items-center justify-center gap-2 transition-all">
               <i class="fas fa-check-double"></i>
-              Tout marquer comme lu
+              Tout lire
             </button>
             <button v-if="notifStore.notifications.length > 0" @click="confirmClearAll"
-              class="text-sm text-muted-foreground hover:text-destructive font-medium flex items-center gap-2 transition-colors">
+              class="w-10 h-10 sm:w-auto sm:px-3 sm:h-10 bg-muted/20 text-muted-foreground hover:text-destructive rounded-xl flex items-center justify-center transition-all">
               <i class="fas fa-trash-alt"></i>
+              <span class="hidden sm:inline ml-2 text-xs font-bold">Vider</span>
             </button>
           </div>
         </div>
@@ -64,86 +64,92 @@
         <div v-else-if="notifStore.notifications.length > 0" class="space-y-3">
           <TransitionGroup name="notif-list">
             <div v-for="notif in notifStore.notifications" :key="notif.id" @click="handleNotifClick(notif)" :class="[
-              'bg-card rounded-2xl p-5 border shadow-sm cursor-pointer transition-all hover:shadow-md hover:-translate-y-0.5 group',
+              'bg-card rounded-2xl p-3 sm:p-5 border shadow-sm cursor-pointer transition-all hover:shadow-md active:scale-[0.98] group relative overflow-hidden',
               notif.is_read ? 'border-border' : 'border-secondary/30 bg-secondary/5',
             ]">
-              <div class="flex items-start gap-4">
+              <!-- Indicateur nouveau (mobile focus) -->
+              <div v-if="!notif.is_read" class="absolute left-0 top-0 bottom-0 w-1 bg-secondary"></div>
+
+              <div class="flex items-start gap-3 sm:gap-4">
                 <!-- Icône -->
                 <div
-                  :class="`w-11 h-11 ${notif.icon_bg} rounded-2xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform`">
-                  <i :class="`fas fa-${notif.icon} ${notif.icon_color} text-lg`"></i>
+                  :class="`w-10 h-10 sm:w-11 sm:h-11 ${notif.icon_bg} rounded-xl sm:rounded-2xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform`"
+                >
+                  <i :class="`fas fa-${notif.icon} ${notif.icon_color} text-base sm:text-lg`"></i>
                 </div>
 
                 <!-- Contenu -->
                 <div class="flex-1 min-w-0">
-                  <div class="flex items-start justify-between gap-2">
+                  <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-1 sm:gap-4">
                     <div class="flex-1">
-                      <p :class="[
-                        'text-xs font-black uppercase tracking-wider mb-1',
-                        notif.is_read ? 'text-muted-foreground' : 'text-secondary',
-                      ]">
-                        {{ notif.title }}
-                      </p>
-                      <p :class="[
-                        'text-sm font-medium leading-snug',
+                      <div class="flex items-center justify-between sm:block">
+                        <p :class="[
+                          'text-[10px] sm:text-xs font-black uppercase tracking-wider mb-0.5 sm:mb-1',
+                          notif.is_read ? 'text-muted-foreground' : 'text-secondary',
+                        ]">
+                          {{ notif.title }}
+                        </p>
+                        <span class="sm:hidden text-[10px] text-muted-foreground font-medium">
+                          {{ timeAgo(notif.created_at) }}
+                        </span>
+                      </div>
+                      <h3 :class="[
+                        'text-sm font-semibold leading-tight sm:leading-snug',
                         notif.is_read ? 'text-foreground/80' : 'text-foreground',
                       ]">
                         {{ notif.message }}
-
-
-                      </p>
+                      </h3>
                     </div>
-                    <div class="flex flex-col items-center gap-0 flex-shrink-0">
 
+                    <!-- Métadonnées & Actions (Desktop) -->
+                    <div class="hidden sm:flex flex-col items-end gap-2 flex-shrink-0">
                       <div class="flex items-center gap-2">
-
-                        <span v-if="!notif.is_read" class="w-2 h-2 bg-secondary rounded-full"></span>
-                        <span class="text-xs text-muted-foreground whitespace-nowrap">
+                        <span v-if="!notif.is_read" class="w-1.5 h-1.5 bg-secondary rounded-full"></span>
+                        <span class="text-[11px] text-muted-foreground whitespace-nowrap">
                           {{ timeAgo(notif.created_at) }}
                         </span>
-                        <!-- Bouton supprimer -->
                         <button @click.stop="notifStore.deleteNotification(notif.id)"
-                          class="opacity-80 group-hover:opacity-100 w-6 h-6 flex items-center justify-center text-muted-foreground hover:text-destructive transition-all rounded-full hover:bg-destructive/10 ml-1">
-                          <i class="fas fa-times text-xs"></i>
+                          class="opacity-0 group-hover:opacity-100 w-6 h-6 flex items-center justify-center text-muted-foreground hover:text-destructive transition-all rounded-full hover:bg-destructive/10">
+                          <i class="fas fa-times text-[10px]"></i>
                         </button>
                       </div>
-
-
-
-                      <div class="flex items-center gap-3 mt-3" v-if="notif.action_link">
-                        <RouterLink :to="notif.action_link"
-                          class="text-xs font-semibold text-secondary hover:text-primary transition-colors flex items-center gap-1"
-                          @click.stop>
-                          {{ notif.action_label || 'Voir' }}
-                          <i class="fas fa-arrow-right text-xs"></i>
-                        </RouterLink>
-
                     </div>
+                  </div>
 
-                      </div>
-                    </div>
-
-
-                    <div class="flex">
-
-                      <p v-if="notif.detail" class="text-xs text-muted-foreground mt-1">
+                  <!-- Actions & Détails additionnels -->
+                  <div class="mt-2 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                      <RouterLink v-if="notif.action_link" :to="notif.action_link"
+                        class="text-[11px] font-bold text-secondary hover:text-primary transition-colors flex items-center gap-1.5 py-1 px-2.5 bg-secondary/10 rounded-lg"
+                        @click.stop
+                      >
+                        {{ notif.action_label || 'Voir' }}
+                        <i class="fas fa-arrow-right text-[10px]"></i>
+                      </RouterLink>
+                      
+                      <p v-if="notif.detail" class="text-[11px] text-muted-foreground italic truncate max-w-[150px] sm:max-w-none">
                         {{ notif.detail }}
                       </p>
-
-
                     </div>
 
+                    <!-- Bouton supprimer mobile -->
+                    <button @click.stop="notifStore.deleteNotification(notif.id)"
+                      class="sm:hidden w-8 h-8 flex items-center justify-center text-muted-foreground/40 active:text-destructive transition-colors">
+                      <i class="fas fa-trash-alt text-sm"></i>
+                    </button>
                   </div>
                 </div>
               </div>
+            </div>
           </TransitionGroup>
 
           <!-- Charger plus -->
-          <div v-if="notifStore.currentPage < notifStore.lastPage" class="text-center mt-4">
+          <div v-if="notifStore.currentPage < notifStore.lastPage" class="text-center mt-6">
             <button @click="loadMore" :disabled="notifStore.isLoading"
-              class="px-6 py-2.5 bg-card border border-border rounded-xl text-sm font-medium text-foreground hover:border-secondary hover:text-secondary transition-all">
-              <i class="fas fa-chevron-down mr-2" :class="{ 'fa-spin fa-circle-notch': notifStore.isLoading }"></i>
-              Charger plus
+              class="w-full sm:w-auto px-8 py-3 bg-card border border-border rounded-xl text-sm font-bold text-foreground hover:border-secondary hover:text-secondary transition-all flex items-center justify-center gap-2"
+            >
+              <i v-if="notifStore.isLoading" class="fas fa-circle-notch fa-spin"></i>
+              <span v-else>Voir plus de notifications</span>
             </button>
           </div>
         </div>

@@ -1,32 +1,79 @@
 <template>
-  <div class="bg-card border border-border rounded-xl shadow-sm  my-4 p-4 overflow-hidden relative">
-    <h3 class="text-sm font-bold text-foreground mb-3 flex items-center gap-2">
-      <i class="fas fa-bolt text-yellow-500"></i> À la une
-    </h3>
+  <div class="relative py-2 overflow-hidden">
+    <!-- Header avec titre et navigation -->
+    <div class="flex items-center justify-between mb-4 px-2">
+      <h3 class="text-sm font-black text-foreground uppercase tracking-[0.2em] flex items-center gap-2">
+        <span class="relative flex h-2 w-2">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-secondary"></span>
+        </span>
+        En vedette
+      </h3>
+      <div class="flex gap-1">
+        <button @click="scroll('left')" class="w-7 h-7 rounded-full bg-card border border-border flex items-center justify-center text-xs hover:bg-muted transition-colors shadow-sm">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <button @click="scroll('right')" class="w-7 h-7 rounded-full bg-card border border-border flex items-center justify-center text-xs hover:bg-muted transition-colors shadow-sm">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+    </div>
     
-    <div class="flex gap-3 overflow-x-auto custom-scrollbar pb-2 snap-x" ref="scrollContainer">
+    <div class="flex gap-4 overflow-x-auto custom-scrollbar pb-4 px-2 snap-x" ref="scrollContainer">
       
-      <!-- Upload Story (Bouton d'action) -->
-      <RouterLink to="/publier-bien" class="flex flex-col items-center gap-1.5 flex-shrink-0 w-24 snap-start group cursor-pointer">
-        <div class="w-16 h-16 rounded-full border-2 border-dashed border-primary/50 flex items-center justify-center bg-primary/5 group-hover:bg-primary/10 transition-colors">
-          <i class="fas fa-plus text-primary text-xl"></i>
+      <!-- Upload Story (Bouton d'action premium) -->
+      <RouterLink to="/publier-bien" class="flex-shrink-0 w-32 h-48 rounded-2xl overflow-hidden relative snap-start group cursor-pointer shadow-lg hover:shadow-xl transition-all border-2 border-dashed border-muted-foreground/20 hover:border-primary/50 bg-muted/20">
+        <div class="absolute inset-0 flex flex-col items-center justify-center gap-3 p-4 text-center">
+          <div class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+            <i class="fas fa-plus"></i>
+          </div>
+          <span class="text-[11px] font-black uppercase tracking-wider text-muted-foreground group-hover:text-primary transition-colors">
+            Publier<br>une exclu
+          </span>
         </div>
-        <span class="text-xs font-semibold text-center text-foreground group-hover:text-primary leading-tight">Publier<br>un bien</span>
       </RouterLink>
 
-      <!-- Stories Items -->
-      <RouterLink v-for="story in stories" :key="story.id" :to="`/annonces/${story.slug}`" class="flex flex-col items-center gap-1.5 flex-shrink-0 w-24 snap-start group">
-        <div class="relative w-16 h-16 rounded-full p-0.5" style="background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 100%);">
-          <div class="w-full h-full rounded-full border-2 border-card overflow-hidden bg-muted">
-            <img v-if="story.image" :src="getImageUrl(story.image)" :alt="story.title" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" @error="e => e.target.style.display='none'">
-            <div v-else class="w-full h-full flex items-center justify-center bg-primary/20">
-              <i class="fas fa-home text-primary"></i>
-            </div>
-          </div>
+      <!-- Stories Items (Card Style Premium) -->
+      <RouterLink 
+        v-for="story in stories" 
+        :key="story.id" 
+        :to="`/annonces/${story.slug}`" 
+        class="flex-shrink-0 w-32 h-48 rounded-2xl overflow-hidden relative snap-start group shadow-lg hover:shadow-xl transition-all"
+      >
+        <!-- Background Image -->
+        <img 
+          v-if="story.image" 
+          :src="getImageUrl(story.image)" 
+          :alt="story.title" 
+          class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+        >
+        <div v-else class="absolute inset-0 bg-linear-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
+          <i class="fas fa-home text-2xl text-primary/40"></i>
         </div>
-        <span class="text-[10px] font-medium text-center text-muted-foreground w-full truncate px-1 group-hover:text-foreground transition-colors">
-          {{ formatPrice(story.price) }}
-        </span>
+
+        <!-- Gradient Overlay -->
+        <div class="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-black/30 group-hover:from-black/90 transition-all"></div>
+
+        <!-- Badge Ville -->
+        <div class="absolute top-2 left-2 z-10">
+          <span class="px-1.5 py-0.5 bg-black/40 backdrop-blur-md rounded-md text-[8px] font-black uppercase text-white tracking-widest border border-white/10">
+            {{ story.city }}
+          </span>
+        </div>
+
+        <!-- Avatar du vendeur (Simulé ou réel) -->
+        <div class="absolute top-2 right-2 z-10 ring-2 ring-secondary rounded-full overflow-hidden w-6 h-6 border-2 border-white shadow-sm">
+          <img :src="`https://i.pravatar.cc/100?u=${story.id}`" class="w-full h-full object-cover">
+        </div>
+
+        <!-- Info en bas -->
+        <div class="absolute bottom-0 left-0 right-0 p-3 z-10">
+          <div class="text-[10px] font-black text-secondary leading-tight mb-0.5">{{ formatPrice(story.price) }}</div>
+          <h4 class="text-[11px] font-bold text-white leading-tight line-clamp-2">{{ story.title }}</h4>
+        </div>
+        
+        <!-- Hover indicator line -->
+        <div class="absolute bottom-0 left-0 h-1 bg-secondary w-0 group-hover:w-full transition-all duration-300"></div>
       </RouterLink>
 
     </div>
@@ -45,6 +92,16 @@ const props = defineProps({
 })
 
 const scrollContainer = ref(null)
+
+function scroll(direction) {
+  if (scrollContainer.value) {
+    const scrollAmount = 300
+    scrollContainer.value.scrollBy({
+      left: direction === 'left' ? -scrollAmount : scrollAmount,
+      behavior: 'smooth'
+    })
+  }
+}
 
 function getImageUrl(imgPath) {
   if (!imgPath) return null

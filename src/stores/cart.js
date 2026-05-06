@@ -13,15 +13,15 @@ export const useCartStore = defineStore('cart', {
     },
 
     actions: {
-        addItem(product) {
+        addItem(product, quantity = 1) {
             const existingItem = this.items.find(item => item.id === product.id && item.type === product.type);
             
             if (existingItem) {
-                existingItem.quantity += 1;
+                existingItem.quantity += parseInt(quantity);
             } else {
                 this.items.push({
                     ...product,
-                    quantity: 1
+                    quantity: parseInt(quantity)
                 });
             }
             
@@ -29,16 +29,34 @@ export const useCartStore = defineStore('cart', {
             this.isOpen = true; // Open cart when item added
         },
 
-        removeItem(product_id, type) {
+        removeItem(product_id, type = 'product') {
             this.items = this.items.filter(item => !(item.id === product_id && item.type === type));
             this.saveToLocaleStorage();
         },
 
-        updateQuantity(product_id, type, quantity) {
+        updateQuantity(product_id, type = 'product', quantity) {
             const item = this.items.find(item => item.id === product_id && item.type === type);
             if (item) {
                 item.quantity = Math.max(1, quantity);
                 this.saveToLocaleStorage();
+            }
+        },
+
+        increaseQuantity(product_id, type = 'product') {
+            const item = this.items.find(item => item.id === product_id && item.type === type);
+            if (item) {
+                item.quantity += 1;
+                this.saveToLocaleStorage();
+            }
+        },
+
+        decreaseQuantity(product_id, type = 'product') {
+            const item = this.items.find(item => item.id === product_id && item.type === type);
+            if (item && item.quantity > 1) {
+                item.quantity -= 1;
+                this.saveToLocaleStorage();
+            } else if (item && item.quantity === 1) {
+                this.removeItem(product_id, type);
             }
         },
 

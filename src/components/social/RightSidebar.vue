@@ -1,84 +1,148 @@
 <template>
-  <aside class="w-80 bg-card border-l border-border h-[calc(100vh-80px)] sticky top-[80px] overflow-y-auto custom-scrollbar flex flex-col p-4 hidden lg:flex space-y-6">
+  <aside class="w-[350px] bg-card border-l border-border h-[calc(100vh-80px)] sticky top-[80px] overflow-y-auto custom-scrollbar flex flex-col hidden lg:flex">
     
-    <!-- Widget Notifications Rapides -->
-    <div class="bg-muted/30 rounded-xl p-4 border border-border">
-      <h3 class="font-bold text-foreground mb-3 flex items-center gap-2">
-        <i class="fas fa-bell text-primary"></i> Récent
-      </h3>
-      <ul class="space-y-3">
-        <li class="flex items-start gap-3 p-2 hover:bg-card rounded-lg cursor-pointer transition-colors border border-transparent hover:border-border">
-          <div class="w-8 h-8 rounded-full bg-secondary/10 text-secondary flex items-center justify-center flex-shrink-0 mt-0.5">
-            <i class="fas fa-bullhorn text-sm"></i>
-          </div>
-          <div class="flex-1 min-w-0">
-            <p class="text-xs text-foreground leading-snug"><b>Nouveau bien</b> ajouté dans votre secteur géographique favori.</p>
-            <p class="text-[10px] text-muted-foreground mt-1">Il y a 2h</p>
-          </div>
-        </li>
-        <li class="flex items-start gap-3 p-2 hover:bg-card rounded-lg cursor-pointer transition-colors border border-transparent hover:border-border">
-          <div class="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center flex-shrink-0 mt-0.5">
-            <i class="fas fa-percentage text-sm"></i>
-          </div>
-          <div class="flex-1 min-w-0">
-            <p class="text-xs text-foreground leading-snug"><b>Promotion</b> sur les services de plomberie cette semaine.</p>
-            <p class="text-[10px] text-muted-foreground mt-1">Hier</p>
-          </div>
-        </li>
-      </ul>
-      <RouterLink to="/notifications" class="block text-center text-xs font-semibold text-primary mt-3 hover:underline">Voir toutes les notifications</RouterLink>
-    </div>
-
-    <!-- Widget Stats Plateforme -->
-    <div v-if="stats" class="bg-gradient-to-br from-primary to-secondary rounded-xl p-4 text-white shadow-md relative overflow-hidden group">
-      <div class="absolute -right-4 -top-4 opacity-10 transform group-hover:scale-110 transition-transform duration-700">
-        <i class="fas fa-chart-line text-9xl"></i>
-      </div>
-      <h3 class="font-bold mb-4 relative z-10 flex items-center gap-2 text-sm">
-        <i class="fas fa-globe-africa"></i> Sur HomeCameroon
-      </h3>
-      <div class="grid grid-cols-2 gap-3 relative z-10">
-        <div class="bg-black/20 rounded-lg p-2 text-center backdrop-blur-sm">
-          <div class="text-lg font-black">{{ formatNumber(stats.total_properties) }}</div>
-          <div class="text-[10px] uppercase tracking-wider opacity-80">Biens</div>
-        </div>
-        <div class="bg-black/20 rounded-lg p-2 text-center backdrop-blur-sm">
-          <div class="text-lg font-black">{{ formatNumber(stats.active_providers) }}</div>
-          <div class="text-[10px] uppercase tracking-wider opacity-80">Pros</div>
-        </div>
-        <div class="bg-black/20 rounded-lg p-2 text-center backdrop-blur-sm col-span-2 flex justify-between items-center px-4">
-          <span class="text-[10px] uppercase tracking-wider opacity-80">Marketplace</span>
-          <span class="font-bold">{{ formatNumber(stats.total_products) }} offres</span>
-        </div>
+    <!-- HEADER RECHERCHE RAPIDE (Visuel) -->
+    <div class="p-6 pb-2">
+      <div class="relative group">
+        <input 
+          type="text" 
+          placeholder="Rechercher sur le feed..." 
+          class="w-full bg-muted/50 border border-border rounded-2xl py-3 pl-12 pr-4 text-xs font-bold focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-hidden"
+        >
+        <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors"></i>
       </div>
     </div>
 
-    <!-- Widget Tendances -->
-    <div>
-      <h3 class="font-bold text-foreground mb-3 flex items-center gap-2">
-        <i class="fas fa-fire text-secondary"></i> Tendances
-      </h3>
-      <div class="flex flex-wrap gap-2">
-        <RouterLink to="/annonces?category=Appartement" class="px-3 py-1.5 bg-muted hover:bg-primary hover:text-white transition-colors rounded-full text-xs font-semibold text-muted-foreground border border-border">
-          #AppartementYaoundé
-        </RouterLink>
-        <RouterLink to="/services/prestataires" class="px-3 py-1.5 bg-muted hover:bg-secondary hover:text-white transition-colors rounded-full text-xs font-semibold text-muted-foreground border border-border">
-          #PlombierDouala
-        </RouterLink>
-        <RouterLink to="/marketplace?category=meubles" class="px-3 py-1.5 bg-muted hover:bg-primary hover:text-white transition-colors rounded-full text-xs font-semibold text-muted-foreground border border-border">
-          #MeublesDesign
-        </RouterLink>
-        <RouterLink to="/annonces" class="px-3 py-1.5 bg-muted hover:bg-primary hover:text-white transition-colors rounded-full text-xs font-semibold text-muted-foreground border border-border">
-          #Investissement
-        </RouterLink>
+    <div class="p-6 space-y-8">
+      
+      <!-- SECTION 1: À LA UNE (Spotlight) -->
+      <div class="space-y-4">
+        <div class="flex items-center justify-between">
+          <h3 class="font-black text-foreground text-xs uppercase tracking-[0.2em] flex items-center gap-2">
+            <span class="w-1.5 h-1.5 bg-secondary rounded-full animate-pulse"></span>
+            À la une
+          </h3>
+          <span class="text-[10px] font-bold text-muted-foreground bg-muted px-2 py-0.5 rounded-md">Live</span>
+        </div>
+
+        <div class="group relative rounded-2xl overflow-hidden bg-muted aspect-4/5 shadow-lg shadow-black/5 hover:shadow-xl transition-all">
+          <img 
+            src="/images/categoriebien/dupp.jfif" 
+            alt="Product Spotlight" 
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+          >
+          <div class="absolute inset-0 bg-linear-to-t from-black/90 via-black/20 to-transparent p-5 flex flex-col justify-end">
+            <div class="bg-secondary text-white text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded w-fit mb-2">Offre de la semaine</div>
+            <h4 class="text-white font-black text-lg leading-tight mb-2">Villa de Luxe Moderne avec Piscine à Bastos</h4>
+            <div class="flex items-center justify-between">
+              <span class="text-secondary font-black text-xl">1 200 000 <small class="text-[10px]">FCFA/mois</small></span>
+              <button class="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md text-white flex items-center justify-center hover:bg-white transition-colors hover:text-black">
+                <i class="fas fa-arrow-right text-xs"></i>
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
+
+      <!-- SECTION 2: STATS DYNAMIQUES -->
+      <div v-if="stats" class="bg-linear-to-br from-[#1B0B38] to-[#6b21a8] rounded-3xl p-5 text-white shadow-xl relative overflow-hidden group border border-white/5">
+        <div class="absolute -right-8 -top-8 opacity-10 transform group-hover:rotate-12 transition-transform duration-1000 rotate-[-15deg]">
+          <i class="fas fa-chart-line text-[200px]"></i>
+        </div>
+        
+        <div class="relative z-10 space-y-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <div class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center">
+                <i class="fas fa-rocket text-xs"></i>
+              </div>
+              <span class="text-[10px] font-black uppercase tracking-widest opacity-80">En temps réel</span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div class="space-y-1">
+              <div class="text-2xl font-black">{{ formatNumber(stats.total_properties) }}</div>
+              <div class="text-[9px] font-bold uppercase tracking-widest opacity-60">Biens disponibles</div>
+            </div>
+            <div class="space-y-1">
+              <div class="text-2xl font-black">{{ formatNumber(stats.active_providers) }}</div>
+              <div class="text-[9px] font-bold uppercase tracking-widest opacity-60">Prestataires certifiés</div>
+            </div>
+          </div>
+
+          <div class="pt-4 border-t border-white/10 flex items-center justify-between">
+            <div class="flex -space-x-2">
+              <div v-for="i in 4" :key="i" class="w-7 h-7 rounded-full border-2 border-[#1B0B38] bg-muted overflow-hidden">
+                <img :src="`https://i.pravatar.cc/100?u=${i}`" alt="Avatar">
+              </div>
+              <div class="w-7 h-7 rounded-full border-2 border-[#1B0B38] bg-secondary flex items-center justify-center text-[8px] font-black">
+                +{{ stats.total_products }}
+              </div>
+            </div>
+            <span class="text-[10px] font-bold opacity-80">Offres marketplace</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 3: TENDANCES (Hashtags focus) -->
+      <div class="space-y-4">
+        <h3 class="font-black text-foreground text-xs uppercase tracking-[0.2em] flex items-center gap-2">
+          <i class="fas fa-fire-flame-curved text-orange-500"></i>
+          Tendances
+        </h3>
+        
+        <div class="space-y-1">
+          <RouterLink 
+            v-for="trend in trends" 
+            :key="trend.tag" 
+            :to="trend.to"
+            class="flex items-center justify-between p-3 rounded-2xl hover:bg-muted group transition-all"
+          >
+            <div class="space-y-0.5">
+              <div class="text-[10px] font-black text-muted-foreground uppercase tracking-widest">{{ trend.category }}</div>
+              <div class="text-sm font-black text-foreground group-hover:text-primary transition-colors">#{{ trend.tag }}</div>
+            </div>
+            <div class="text-right">
+              <div class="text-xs font-black text-secondary">{{ trend.count }}</div>
+              <div class="text-[9px] font-bold text-muted-foreground uppercase">Posts</div>
+            </div>
+          </RouterLink>
+        </div>
+      </div>
+
+      <!-- SECTION 4: RÉCENT (Activity) -->
+      <div class="space-y-4">
+        <h3 class="font-black text-foreground text-xs uppercase tracking-[0.2em] flex items-center gap-2">
+          <i class="fas fa-bolt text-secondary"></i>
+          Activités récentes
+        </h3>
+        
+        <div class="space-y-3">
+          <div v-for="(activity, i) in activities" :key="i" class="flex gap-4 p-3 rounded-2xl border border-border bg-muted/10 hover:bg-muted/30 transition-all cursor-pointer">
+            <div :class="`w-10 h-10 rounded-full ${activity.bg} flex items-center justify-center shrink-0`">
+              <i :class="`${activity.icon} ${activity.color} text-xs`"></i>
+            </div>
+            <div class="space-y-1 min-w-0">
+              <p class="text-xs text-foreground font-medium leading-tight line-clamp-2" v-html="activity.text"></p>
+              <p class="text-[10px] text-muted-foreground font-bold uppercase tracking-widest">{{ activity.time }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
 
-    <!-- Mini Footer -->
-    <div class="mt-auto pt-6 text-[10px] text-muted-foreground/60 flex flex-wrap gap-x-3 gap-y-1 justify-center">
-      <RouterLink to="/politique-confidentialite" class="hover:text-foreground">Confidentialité</RouterLink>
-      <RouterLink to="/assistance" class="hover:text-foreground">Assistance</RouterLink>
-      <span>&copy; {{ new Date().getFullYear() }} HomeCameroon</span>
+    <!-- MINI FOOTER -->
+    <div class="mt-auto p-6 pt-0">
+      <div class="border-t border-border pt-4 pb-2 flex flex-wrap gap-x-4 gap-y-2 justify-center">
+        <RouterLink to="/politique-confidentialite" class="text-[9px] font-black uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors">Politique</RouterLink>
+        <RouterLink to="/assistance" class="text-[9px] font-black uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors">Assistance</RouterLink>
+        <RouterLink to="/contact" class="text-[9px] font-black uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors">Contact</RouterLink>
+      </div>
+      <p class="text-[9px] font-black uppercase tracking-widest text-muted-foreground/40 text-center">
+        &copy; {{ new Date().getFullYear() }} HomeCameroon • Douala - Yaoundé
+      </p>
     </div>
 
   </aside>
@@ -94,8 +158,60 @@ defineProps({
   }
 })
 
+const trends = [
+  { tag: 'AppartementYaounde', category: 'Immobilier', count: '142', to: '/annonces?city=yaoundé' },
+  { tag: 'PlombierDouala', category: 'Services', count: '89', to: '/services/prestataires' },
+  { tag: 'MeublesDesign', category: 'Marketplace', count: '256', to: '/marketplace' },
+  { tag: 'Investissement', category: 'Conseils', count: '12', to: '/annonces' },
+]
+
+const activities = [
+  { 
+    icon: 'fas fa-home', 
+    bg: 'bg-secondary/10', 
+    color: 'text-secondary', 
+    text: 'Une nouvelle <b>Villa Moderne</b> a été publiée à Kribi (Plage).', 
+    time: 'Il y a 15 min' 
+  },
+  { 
+    icon: 'fas fa-tools', 
+    bg: 'bg-orange-500/10', 
+    color: 'text-orange-500', 
+    text: '<b>Jean D.</b> recherche un plombier certifié pour une urgence à Bonapriso.', 
+    time: 'Il y a 42 min' 
+  },
+  { 
+    icon: 'fas fa-shopping-bag', 
+    bg: 'bg-primary/10', 
+    color: 'text-primary', 
+    text: 'Vente flash terminée: <b>12 Onduleurs</b> vendus en moins de 2h.', 
+    time: 'Il y a 1h' 
+  },
+]
+
 function formatNumber(num) {
   if (!num) return '0'
   return new Intl.NumberFormat('fr-FR').format(num)
 }
 </script>
+
+<style scoped>
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.1);
+  border-radius: 10px;
+}
+.custom-scrollbar:hover::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary) / 0.3);
+}
+
+@keyframes pulse-slow {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(0.98); }
+}
+</style>

@@ -111,6 +111,8 @@ const authOnlyPaths = [
   '/mes-favoris',
   '/parametres',
   '/feed',
+  '/marketplace/vendre',
+  '/marketplace/orders',
 ]
 
 const routes = [
@@ -137,6 +139,7 @@ const routes = [
       { path: '/mes-favoris', name: 'MesFavoris', component: MesFavoris, meta: { hasSidebar: true, isFullWidth: false } },
       // Page Paramètres unifiée (tous rôles confondus)
       { path: '/parametres', name: 'Parametres', component: SharedParametres, meta: { hasSidebar: true, isFullWidth: false } },
+      { path: '/marketplace/orders', name: 'MarketplaceOrders', component: () => import('../pages/shared/MarketplaceOrders.vue'), meta: { hasSidebar: true, isFullWidth: false } },
       { path: '/messages', name: 'Messages', component: () => import('../pages/shared/Messages.vue'), meta: { hasSidebar: true, isFullWidth: false } },
     ]
   },
@@ -269,6 +272,7 @@ const routes = [
     meta: { hasSidebar: false, isFullWidth: true },
     children: [
       { path: '', name: 'MarketplaceIndex', component: MarketplaceIndex },
+      { path: 'vendre', name: 'MarketplacePublish', component: () => import('../market-place/PublishProduct.vue'), meta: { requiresAuth: true } },
       { path: ':id', name: 'MarketplaceDetail', component: MarketplaceDetail },
       { path: 'aide', name: 'MarketplaceAide', component: MarketplaceAide },
       { path: 'contact', name: 'MarketplaceContact', component: MarketplaceContact },
@@ -303,6 +307,11 @@ router.beforeEach(async (to, from, next) => {
 
   const isAuthenticated = authStore.isAuthenticated
   const userRole = authStore.user?.role
+
+  // 1b. Rediriger l'accueil vers le feed si déjà connecté
+  if (to.path === '/' && isAuthenticated) {
+    return next('/feed')
+  }
 
   // 2. Rediriger vers le dashboard si on est connecté et qu'on tente d'accéder aux pages auth
   if (isAuthenticated && to.path.startsWith('/auth')) {

@@ -116,10 +116,11 @@
           <p class="text-xs font-black text-foreground mb-1">Vous vendez quelque chose ?</p>
           <p class="text-[10px] text-muted-foreground leading-relaxed mb-3">Publiez vos articles et touchez des
             acheteurs locaux.</p>
-          <button
-            class="w-full py-2 bg-primary text-primary-foreground text-xs font-black rounded-md hover:bg-primary/90 transition-all">
+          <router-link
+            :to="{ name: 'MarketplacePublish' }"
+            class="w-full py-2 bg-primary text-primary-foreground text-xs font-black rounded-md hover:bg-primary/90 transition-all flex items-center justify-center">
             Créer une annonce
-          </button>
+          </router-link>
         </div>
       </aside>
 

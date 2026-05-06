@@ -278,6 +278,7 @@ const allLinks = [
   { name: "Suivi Dossier",     to: "/mon-suivi",    icon: "fas fa-clipboard-list",                    roles: ["client"] },
   { name: "Mes Favoris",       to: "/mes-favoris",  icon: "fas fa-heart",                             roles: ["client"] },
   { name: "Mes Demandes",      to: "/mes-demandes", icon: "fas fa-file-alt",                          roles: ["client"] },
+  { name: "Achats & Ventes",   to: "/marketplace/orders", icon: "fas fa-shopping-bag",                roles: ["client", "locataire", "bailleur", "prestataire", "agent", "admin"] },
   { name: "Assistance",        to: "/client/assistance", icon: "fas fa-circle-question",              roles: ["client"] },
 
   // --- COMMUN (tous authentifiés) ---

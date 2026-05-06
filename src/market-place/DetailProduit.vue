@@ -120,19 +120,30 @@
                 </div>
                 
                 <button
-                  @click="addToCart"
-                  :disabled="item.stock === 0"
-                  class="flex-1 bg-primary text-primary-foreground font-black text-xs uppercase tracking-widest rounded-lg shadow-md hover:bg-primary/90 hover:shadow-lg transition-all active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  @click="buyNow"
+                  :disabled="item.stock === 0 || isProcessing"
+                  class="flex-1 bg-[#1B0B38] text-white font-black text-xs uppercase tracking-widest rounded-lg shadow-md hover:bg-primary hover:shadow-lg transition-all active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <i class="fas fa-cart-plus"></i> <span class="hidden sm:inline">Ajouter au panier</span><span class="sm:hidden">Ajouter</span>
+                  <i v-if="isProcessing" class="fas fa-circle-notch fa-spin"></i>
+                  <i v-else class="fas fa-bolt"></i> 
+                  <span class="hidden sm:inline">Acheter maintenant</span><span class="sm:hidden">Acheter</span>
                 </button>
               </div>
 
-              <!-- Favoris -->
-              <button class="w-full h-12 border border-border bg-card text-foreground font-bold text-xs uppercase tracking-widest rounded-lg hover:border-primary/50 hover:bg-primary/5 transition-all flex items-center justify-center gap-2 group">
-                <i class="far fa-heart text-muted-foreground group-hover:text-red-500 transition-colors"></i> 
-                Mettre de côté
-              </button>
+              <!-- Favoris / Panier Standard -->
+              <div class="flex gap-3">
+                <button
+                    @click="addToCart"
+                    :disabled="item.stock === 0"
+                    class="flex-1 h-12 border border-border bg-card text-foreground font-bold text-[10px] uppercase tracking-widest rounded-lg hover:border-primary/50 transition-all flex items-center justify-center gap-2 group"
+                >
+                    <i class="fas fa-cart-plus text-primary"></i> 
+                    Ajouter au panier
+                </button>
+                <button class="w-12 h-12 border border-border bg-card text-foreground rounded-lg hover:border-red-500/50 hover:bg-red-500/5 transition-all flex items-center justify-center group">
+                    <i class="far fa-heart text-muted-foreground group-hover:text-red-500 transition-colors"></i> 
+                </button>
+              </div>
             </div>
 
           </div>
@@ -176,7 +187,31 @@ const cartStore = useCartStore();
 
 const item = ref(null);
 const isLoading = ref(true);
+const isProcessing = ref(false);
 const quantity = ref(1);
+
+const buyNow = async () => {
+  if (!item.value) return;
+  
+  isProcessing.value = true;
+  try {
+    const { data } = await axios.post('/api/marketplace/checkout', {
+      product_id: item.value.id,
+      quantity: quantity.value,
+      delivery_fee: 0, // Idéalement calculé
+    });
+    
+    if (data.success && data.data.payment_url) {
+      // Redirection vers NotchPay
+      window.location.href = data.data.payment_url;
+    }
+  } catch (err) {
+    console.error("Erreur initiation achat:", err);
+    alert(err.response?.data?.message || "Une erreur est survenue lors de l'initiation du paiement.");
+  } finally {
+    isProcessing.value = false;
+  }
+};
 
 const fetchItem = async () => {
   isLoading.value = true;
@@ -206,11 +241,7 @@ const formatPrice = (price) => {
 
 const addToCart = () => {
   if (!item.value) return;
-  // Ajouter selon quantité (à adapter si le store a une methode addItem(item, qty)
-  // Ici on boucle pour la simplicité, mais idéalement c'est géré by le store
-  for (let i = 0; i < quantity.value; i++) {
-    cartStore.addItem(item.value);
-  }
+  cartStore.addItem(item.value, quantity.value);
 };
 
 const onImageError = (e) => {

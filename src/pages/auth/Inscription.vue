@@ -1,5 +1,5 @@
 <template>
-  <div class="font-inter bg-background text-foreground min-h-screen flex flex-col relative">
+  <div class="font-inter bg-background text-foreground  flex flex-col relative">
 
     <!-- Hero Mobile -->
     <section class="lg:hidden gradient-bg relative overflow-hidden">
@@ -36,294 +36,294 @@
       </div>
     </section>
 
-    <!-- Layout principal -->
-    <div class="flex flex-col lg:flex-row flex-1">
+        <!-- Layout principal -->
+        <div class="flex flex-col lg:flex-row flex-1 ">
 
-      <!-- Panneau gauche (desktop uniquement) -->
-      <div class="hidden lg:flex lg:w-1/2 gradient-bg relative overflow-hidden">
-        <div class="absolute inset-0 overflow-hidden pointer-events-none">
-          <div class="absolute top-10 left-10 w-64 h-64 bg-secondary/10 rounded-full blur-3xl"></div>
-          <div class="absolute bottom-10 right-10 w-80 h-80 bg-primary/40 rounded-full blur-3xl"></div>
-          <div class="absolute top-1/3 right-1/4 w-48 h-48 bg-secondary/5 rounded-full blur-2xl"></div>
-        </div>
-        <div class="absolute inset-0 opacity-10 pointer-events-none">
-          <div class="absolute top-20 left-20 w-32 h-32 border-2 border-secondary rounded-lg transform rotate-45"></div>
-          <div class="absolute bottom-40 right-32 w-24 h-24 border-2 border-primary-foreground rounded-full"></div>
-          <div class="absolute top-1/2 left-1/3 w-16 h-16 border-2 border-secondary/80 transform -rotate-12"></div>
-        </div>
-
-        <div class="relative z-10 p-12 flex flex-col justify-between text-primary-foreground w-full">
-          <!-- Logo -->
-          <div class="flex items-center gap-6 mb-16 animate-fadeInUp">
-            <div class="relative w-20 h-20 logo-glow">
-              <div class="absolute inset-0 bg-gradient-to-br from-primary to-secondary/80 rounded-2xl transform rotate-3"></div>
-              <RouterLink to="/" class="absolute inset-2 bg-gradient-to-br from-card to-muted rounded-xl flex items-center justify-center p-2 hover:scale-105 transition-transform">
-                <AppLogo class="max-h-full max-w-full object-contain" />
-              </RouterLink>
+          <!-- Panneau gauche (desktop uniquement) -->
+          <div class="hidden lg:flex lg:w-1/2 gradient-bg relative overflow-hidden">
+            <div class="absolute inset-0 overflow-hidden pointer-events-none">
+              <div class="absolute top-10 left-10 w-64 h-64 bg-secondary/10 rounded-full blur-3xl"></div>
+              <div class="absolute bottom-10 right-10 w-80 h-80 bg-primary/40 rounded-full blur-3xl"></div>
+              <div class="absolute top-1/3 right-1/4 w-48 h-48 bg-secondary/5 rounded-full blur-2xl"></div>
             </div>
-            <div>
-              <div class="text-4xl font-bold">Home<span class="highlight-text">Cameroon</span></div>
-              <p class="text-primary-foreground/70 text-sm font-medium mt-1">L'excellence immobilière camerounaise</p>
+            <div class="absolute inset-0 opacity-10 pointer-events-none">
+              <div class="absolute top-20 left-20 w-32 h-32 border-2 border-secondary rounded-lg transform rotate-45"></div>
+              <div class="absolute bottom-40 right-32 w-24 h-24 border-2 border-primary-foreground rounded-full"></div>
+              <div class="absolute top-1/2 left-1/3 w-16 h-16 border-2 border-secondary/80 transform -rotate-12"></div>
             </div>
-          </div>
 
-          <div class="max-w-2xl flex-1">
-            <div class="inline-block mb-6 px-6 py-3 bg-white/10 backdrop-blur-sm rounded-full border border-white/30 animate-fadeInUp" style="animation-delay:0.2s">
-              <span class="text-primary-foreground font-bold"><i class="fas fa-rocket mr-2 text-yellow-300"></i>Commencez votre aventure !</span>
-            </div>
-            <h2 class="text-5xl font-bold mb-8 leading-tight animate-fadeInUp" style="animation-delay:0.3s">
-              Rejoignez notre
-              <span class="highlight-text">communauté exclusive</span>
-            </h2>
-            <p class="text-primary-foreground/70 text-xl mb-12 leading-relaxed animate-fadeInUp" style="animation-delay:0.4s">
-              Créez votre compte en moins de 2 minutes et accédez à des milliers
-              d'annonces vérifiées, des outils de gestion avancés et un support dédié.
-            </p>
-
-            <!-- Avantages -->
-            <div class="space-y-8 mb-16">
-              <div v-for="(item, i) in features" :key="i" class="flex items-center gap-6 animate-fadeInUp" :style="`animation-delay:${0.5 + i * 0.1}s`">
-                <div :class="`w-14 h-14 rounded-xl ${item.bg} flex items-center justify-center shadow-lg`">
-                  <i :class="`fas fa-${item.icon} text-white text-xl`"></i>
+            <div class="relative z-10 p-12 flex flex-col justify-between text-primary-foreground w-full">
+              <!-- Logo -->
+              <div class="flex items-center gap-6 mb-16 animate-fadeInUp">
+                <div class="relative w-20 h-20 logo-glow">
+                  <div class="absolute inset-0 bg-gradient-to-br from-primary to-secondary/80 rounded-2xl transform rotate-3"></div>
+                  <RouterLink to="/" class="absolute inset-2 bg-gradient-to-br from-card to-muted rounded-xl flex items-center justify-center p-2 hover:scale-105 transition-transform">
+                    <AppLogo class="max-h-full max-w-full object-contain" />
+                  </RouterLink>
                 </div>
                 <div>
-                  <h3 class="text-xl font-bold mb-1">{{ item.title }}</h3>
-                  <p class="text-primary-foreground/70">{{ item.desc }}</p>
+                  <div class="text-4xl font-bold">Home<span class="highlight-text">Cameroon</span></div>
+                  <p class="text-primary-foreground/70 text-sm font-medium mt-1">L'excellence immobilière camerounaise</p>
                 </div>
               </div>
-            </div>
 
-            <!-- Témoignage -->
-            <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 mb-12 animate-fadeInUp" style="animation-delay:0.8s">
-              <div class="flex items-center gap-4 mb-4">
-                <div class="w-12 h-12 rounded-full bg-gradient-to-br from-secondary to-secondary/80 flex items-center justify-center">
-                  <i class="fas fa-user-check text-secondary-foreground"></i>
+              <div class="max-w-2xl flex-1">
+                <div class="inline-block mb-6 px-6 py-3 bg-white/10 backdrop-blur-sm rounded-full border border-white/30 animate-fadeInUp" style="animation-delay:0.2s">
+                  <span class="text-primary-foreground font-bold"><i class="fas fa-rocket mr-2 text-yellow-300"></i>Commencez votre aventure !</span>
                 </div>
-                <div>
-                  <div class="font-bold">Jean K.</div>
-                  <div class="text-primary-foreground/70 text-sm">Membre depuis 2023</div>
+                <h2 class="text-5xl font-bold mb-8 leading-tight animate-fadeInUp" style="animation-delay:0.3s">
+                  Rejoignez notre
+                  <span class="highlight-text">communauté exclusive</span>
+                </h2>
+                <p class="text-primary-foreground/70 text-xl mb-12 leading-relaxed animate-fadeInUp" style="animation-delay:0.4s">
+                  Créez votre compte en moins de 2 minutes et accédez à des milliers
+                  d'annonces vérifiées, des outils de gestion avancés et un support dédié.
+                </p>
+
+                <!-- Avantages -->
+                <div class="space-y-8 mb-16">
+                  <div v-for="(item, i) in features" :key="i" class="flex items-center gap-6 animate-fadeInUp" :style="`animation-delay:${0.5 + i * 0.1}s`">
+                    <div :class="`w-14 h-14 rounded-xl ${item.bg} flex items-center justify-center shadow-lg`">
+                      <i :class="`fas fa-${item.icon} text-white text-xl`"></i>
+                    </div>
+                    <div>
+                      <h3 class="text-xl font-bold mb-1">{{ item.title }}</h3>
+                      <p class="text-primary-foreground/70">{{ item.desc }}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Témoignage -->
+                <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 mb-12 animate-fadeInUp" style="animation-delay:0.8s">
+                  <div class="flex items-center gap-4 mb-4">
+                    <div class="w-12 h-12 rounded-full bg-gradient-to-br from-secondary to-secondary/80 flex items-center justify-center">
+                      <i class="fas fa-user-check text-secondary-foreground"></i>
+                    </div>
+                    <div>
+                      <div class="font-bold">Jean K.</div>
+                      <div class="text-primary-foreground/70 text-sm">Membre depuis 2023</div>
+                    </div>
+                  </div>
+                  <p class="text-primary-foreground/80 italic">
+                    "Inscrit en 5 minutes, j'ai trouvé mon appartement idéal à Douala en 48h.
+                    La plateforme est intuitive et les propriétaires sont vérifiés !"
+                  </p>
+                </div>
+
+                <!-- Réseaux sociaux -->
+                <div class="animate-fadeInUp" style="animation-delay:0.9s">
+                  <h3 class="text-xl font-semibold mb-6">Rejoignez-nous aussi sur</h3>
+                  <div class="flex gap-4">
+                    <a v-for="s in socials" :key="s.icon" href="#" :class="`w-12 h-12 rounded-xl bg-white/10 ${s.hover} flex items-center justify-center text-white transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg`">
+                      <i :class="`fab fa-${s.icon}`"></i>
+                    </a>
+                  </div>
                 </div>
               </div>
-              <p class="text-primary-foreground/80 italic">
-                "Inscrit en 5 minutes, j'ai trouvé mon appartement idéal à Douala en 48h.
-                La plateforme est intuitive et les propriétaires sont vérifiés !"
-              </p>
-            </div>
 
-            <!-- Réseaux sociaux -->
-            <div class="animate-fadeInUp" style="animation-delay:0.9s">
-              <h3 class="text-xl font-semibold mb-6">Rejoignez-nous aussi sur</h3>
-              <div class="flex gap-4">
-                <a v-for="s in socials" :key="s.icon" href="#" :class="`w-12 h-12 rounded-xl bg-white/10 ${s.hover} flex items-center justify-center text-white transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg`">
-                  <i :class="`fab fa-${s.icon}`"></i>
-                </a>
+              <!-- Footer gauche -->
+              <div class="pt-8 border-t border-white/10 text-white/70 text-sm mt-8">
+                <div class="flex justify-between items-center">
+                  <div>© 2025 Home Cameroon (HMC). Tous droits réservés.</div>
+                  <div class="flex gap-4">
+                    <RouterLink :to="{ name: 'PolitiqueConfidentialite' }" class="hover:text-secondary transition-colors">Confidentialité</RouterLink>
+                    <a href="#" class="hover:text-secondary transition-colors">Conditions</a>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          <!-- Footer gauche -->
-          <div class="pt-8 border-t border-white/10 text-white/70 text-sm mt-8">
-            <div class="flex justify-between items-center">
-              <div>© 2025 Home Cameroon (HMC). Tous droits réservés.</div>
-              <div class="flex gap-4">
-                <RouterLink :to="{ name: 'PolitiqueConfidentialite' }" class="hover:text-secondary transition-colors">Confidentialité</RouterLink>
-                <a href="#" class="hover:text-secondary transition-colors">Conditions</a>
-              </div>
+          <!-- Panneau droit — Formulaire -->
+          <div class="lg:w-1/2 flex items-center justify-center p-4 sm:p-6 lg:p-12 xl:p-16 overflow-y-auto relative">
+            <div class="absolute top-4 left-4 z-50 flex items-center gap-3">
+              <button @click="router.back()" class="w-10 h-10 bg-black/20 hover:bg-black/40 backdrop-blur-md rounded-full flex items-center justify-center text-white shadow-lg transition-all" title="Retour à la page précédente">
+                <i class="fas fa-arrow-left"></i> 
+              </button>
+              <span class="text-primary font-semibold">Retour</span>
             </div>
-          </div>
-        </div>
-      </div>
 
-      <!-- Panneau droit — Formulaire -->
-      <div class="lg:w-1/2 flex items-center justify-center p-4 sm:p-6 lg:p-12 xl:p-16 overflow-y-auto relative">
-        <div class="absolute top-4 left-4 z-50 flex items-center gap-3">
-          <button @click="router.back()" class="w-10 h-10 bg-black/20 hover:bg-black/40 backdrop-blur-md rounded-full flex items-center justify-center text-white shadow-lg transition-all" title="Retour à la page précédente">
-            <i class="fas fa-arrow-left"></i> 
-          </button>
-          <span class="text-primary font-semibold">Retour</span>
-        </div>
+            <div class="absolute top-4 right-4 z-50">
+              <ThemeToggle />
+            </div>
 
-        <div class="absolute top-4 right-4 z-50">
-          <ThemeToggle />
-        </div>
+            <div class="w-full max-w-md animate-fadeInUp mt-12 sm:mt-0">
 
-        <div class="w-full max-w-md animate-fadeInUp mt-12 sm:mt-0">
+              <div class="mb-10 text-center">
+                <h2 class="text-2xl sm:text-3xl font-bold text-foreground mb-3">Créer votre compte</h2>
+                <p class="text-muted-foreground text-sm">Remplissez le formulaire ci-dessous pour commencer</p>
+              </div>
 
-          <div class="mb-10 text-center">
-            <h2 class="text-2xl sm:text-3xl font-bold text-foreground mb-3">Créer votre compte</h2>
-            <p class="text-muted-foreground text-sm">Remplissez le formulaire ci-dessous pour commencer</p>
-          </div>
+              <!-- Message -->
+              <div v-if="message.text" :class="['mb-6 px-6 py-4 rounded-xl text-white font-semibold text-center shadow-lg animate-fadeIn', message.type === 'error' ? 'bg-destructive' : 'bg-green-600']">
+                {{ message.text }}
+              </div>
 
-          <!-- Message -->
-          <div v-if="message.text" :class="['mb-6 px-6 py-4 rounded-xl text-white font-semibold text-center shadow-lg animate-fadeIn', message.type === 'error' ? 'bg-destructive' : 'bg-green-600']">
-            {{ message.text }}
-          </div>
+              <form @submit.prevent="handleRegister" class="space-y-6">
 
-          <form @submit.prevent="handleRegister" class="space-y-6">
-
-            <!-- Nom & Prénom -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 animate-fadeInUp" style="animation-delay:0.1s">
-              <div class="space-y-2">
-                <label class="block text-foreground font-semibold text-sm">Nom</label>
-                <div class="relative">
-                  <i class="fas fa-user absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground"></i>
-                  <input v-model="form.lastName" type="text" placeholder="Votre Nom" required class="w-full pl-12 pr-4 py-3 border-2 border-border bg-background text-foreground placeholder:text-muted-foreground rounded-xl focus:border-secondary focus:ring-4 focus:ring-secondary/10 outline-none transition-all duration-300" />
+                <!-- Nom & Prénom -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 animate-fadeInUp" style="animation-delay:0.1s">
+                  <div class="space-y-2">
+                    <label class="block text-foreground font-semibold text-sm">Nom</label>
+                    <div class="relative">
+                      <i class="fas fa-user absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground"></i>
+                      <input v-model="form.lastName" type="text" placeholder="Votre Nom" required class="w-full pl-12 pr-4 py-3 border-2 border-border bg-background text-foreground placeholder:text-muted-foreground rounded-xl focus:border-secondary focus:ring-4 focus:ring-secondary/10 outline-none transition-all duration-300" />
+                    </div>
+                  </div>
+                  <div class="space-y-2">
+                    <label class="block text-foreground font-semibold text-sm">Prénom</label>
+                    <div class="relative">
+                      <i class="fas fa-user absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground"></i>
+                      <input v-model="form.firstName" type="text" placeholder="Votre prénom" required class="w-full pl-12 pr-4 py-3 border-2 border-border bg-background text-foreground placeholder:text-muted-foreground rounded-xl focus:border-secondary focus:ring-4 focus:ring-secondary/10 outline-none transition-all duration-300" />
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div class="space-y-2">
-                <label class="block text-foreground font-semibold text-sm">Prénom</label>
-                <div class="relative">
-                  <i class="fas fa-user absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground"></i>
-                  <input v-model="form.firstName" type="text" placeholder="Votre prénom" required class="w-full pl-12 pr-4 py-3 border-2 border-border bg-background text-foreground placeholder:text-muted-foreground rounded-xl focus:border-secondary focus:ring-4 focus:ring-secondary/10 outline-none transition-all duration-300" />
+
+                <!-- Téléphone -->
+                <div class="space-y-2 animate-fadeInUp" style="animation-delay:0.2s">
+                  <label class="block text-foreground font-semibold text-sm">Téléphone</label>
+                  <div class="relative">
+                    <i class="fas fa-phone absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground"></i>
+                    <input v-model="form.phone" type="tel" placeholder="Votre numéro de téléphone" required class="w-full pl-12 pr-4 py-3 border-2 border-border bg-background text-foreground placeholder:text-muted-foreground rounded-xl focus:border-secondary focus:ring-4 focus:ring-secondary/10 outline-none transition-all duration-300" />
+                  </div>
                 </div>
-              </div>
-            </div>
 
-            <!-- Téléphone -->
-            <div class="space-y-2 animate-fadeInUp" style="animation-delay:0.2s">
-              <label class="block text-foreground font-semibold text-sm">Téléphone</label>
-              <div class="relative">
-                <i class="fas fa-phone absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground"></i>
-                <input v-model="form.phone" type="tel" placeholder="Votre numéro de téléphone" required class="w-full pl-12 pr-4 py-3 border-2 border-border bg-background text-foreground placeholder:text-muted-foreground rounded-xl focus:border-secondary focus:ring-4 focus:ring-secondary/10 outline-none transition-all duration-300" />
-              </div>
-            </div>
+                <!-- Email -->
+                <div class="space-y-2 animate-fadeInUp" style="animation-delay:0.3s">
+                  <label class="block text-foreground font-semibold text-sm">Mail</label>
+                  <div class="relative">
+                    <i class="fas fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground"></i>
+                    <input v-model="form.email" type="email" placeholder="email@hmc.com" required class="w-full pl-12 pr-4 py-3 border-2 border-border bg-background text-foreground placeholder:text-muted-foreground rounded-xl focus:border-secondary focus:ring-4 focus:ring-secondary/10 outline-none transition-all duration-300" />
+                  </div>
+                </div>
 
-            <!-- Email -->
-            <div class="space-y-2 animate-fadeInUp" style="animation-delay:0.3s">
-              <label class="block text-foreground font-semibold text-sm">Mail</label>
-              <div class="relative">
-                <i class="fas fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground"></i>
-                <input v-model="form.email" type="email" placeholder="email@hmc.com" required class="w-full pl-12 pr-4 py-3 border-2 border-border bg-background text-foreground placeholder:text-muted-foreground rounded-xl focus:border-secondary focus:ring-4 focus:ring-secondary/10 outline-none transition-all duration-300" />
-              </div>
-            </div>
+                <!-- Mot de passe -->
+                <div class="space-y-2 animate-fadeInUp" style="animation-delay:0.4s">
+                  <label class="block text-foreground font-semibold text-sm">Mot de passe</label>
+                  <div class="relative">
+                    <i class="fas fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground"></i>
+                    <input
+                      v-model="form.password"
+                      :type="showPassword ? 'text' : 'password'"
+                      placeholder="Créez un mot de passe sécurisé"
+                      required
+                      @input="checkStrength"
+                      class="w-full pl-12 pr-12 py-3 border-2 border-border bg-background text-foreground placeholder:text-muted-foreground rounded-xl focus:border-secondary focus:ring-4 focus:ring-secondary/10 outline-none transition-all duration-300"
+                    />
+                    <button type="button" @click="showPassword = !showPassword" class="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-secondary transition-colors">
+                      <i :class="`fas fa-${showPassword ? 'eye-slash' : 'eye'}`"></i>
+                    </button>
+                  </div>
 
-            <!-- Mot de passe -->
-            <div class="space-y-2 animate-fadeInUp" style="animation-delay:0.4s">
-              <label class="block text-foreground font-semibold text-sm">Mot de passe</label>
-              <div class="relative">
-                <i class="fas fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground"></i>
-                <input
-                  v-model="form.password"
-                  :type="showPassword ? 'text' : 'password'"
-                  placeholder="Créez un mot de passe sécurisé"
-                  required
-                  @input="checkStrength"
-                  class="w-full pl-12 pr-12 py-3 border-2 border-border bg-background text-foreground placeholder:text-muted-foreground rounded-xl focus:border-secondary focus:ring-4 focus:ring-secondary/10 outline-none transition-all duration-300"
-                />
-                <button type="button" @click="showPassword = !showPassword" class="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-secondary transition-colors">
-                  <i :class="`fas fa-${showPassword ? 'eye-slash' : 'eye'}`"></i>
+                  <!-- Indicateur de force -->
+                  <div class="mt-2">
+                    <div class="flex justify-between text-xs text-muted-foreground mb-1">
+                      <span>Force du mot de passe :</span>
+                      <span :class="strengthColor">{{ strengthLabel }}</span>
+                    </div>
+                    <div class="w-full bg-muted rounded-full h-1.5">
+                      <div :class="['h-1.5 rounded-full transition-all duration-300', strengthBarClass]" :style="`width: ${strengthWidth}`"></div>
+                    </div>
+                  </div>
+
+                  <!-- Conseils -->
+                  <div class="text-xs text-muted-foreground mt-2 space-y-1">
+                    <p class="flex items-center gap-2">
+                      <i :class="`fas fa-check-circle ${form.password.length >= 8 ? 'text-green-600' : 'text-muted-foreground/30'}`"></i>
+                      Minimum 8 caractères
+                    </p>
+                    <p class="flex items-center gap-2">
+                      <i :class="`fas fa-check-circle ${/[a-z]/.test(form.password) && /[A-Z]/.test(form.password) ? 'text-green-600' : 'text-muted-foreground/30'}`"></i>
+                      Lettres majuscules et minuscules
+                    </p>
+                    <p class="flex items-center gap-2">
+                      <i :class="`fas fa-check-circle ${/[0-9]/.test(form.password) ? 'text-green-600' : 'text-muted-foreground/30'}`"></i>
+                      Au moins un chiffre
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Confirmation Mot de passe -->
+                <div class="space-y-2 animate-fadeInUp" style="animation-delay:0.45s">
+                  <label class="block text-foreground font-semibold text-sm">Confirmer le mot de passe</label>
+                  <div class="relative">
+                    <i class="fas fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground"></i>
+                    <input
+                      v-model="form.password_confirmation"
+                      :type="showPassword ? 'text' : 'password'"
+                      placeholder="Répétez votre mot de passe"
+                      required
+                      class="w-full pl-12 pr-12 py-3 border-2 border-border bg-background text-foreground placeholder:text-muted-foreground rounded-xl focus:border-secondary focus:ring-4 focus:ring-secondary/10 outline-none transition-all duration-300"
+                    />
+                  </div>
+                  <p v-if="form.password_confirmation && form.password !== form.password_confirmation" class="text-xs text-destructive mt-1">
+                    Les mots de passe ne correspondent pas.
+                  </p>
+                </div>
+
+                <!-- Conditions -->
+                <div class="p-4 bg-gradient-to-r from-secondary/5 to-secondary/10 rounded-xl border-l-4 border-secondary animate-fadeInUp" style="animation-delay:0.5s">
+                  <div class="flex items-start gap-3">
+                    <input v-model="form.terms" type="checkbox" required class="w-5 h-5 text-secondary rounded focus:ring-secondary bg-background border-border mt-1 flex-shrink-0" />
+                    <label class="text-sm text-foreground">
+                      J'accepte les
+                      <a href="#" class="text-secondary font-semibold hover:underline">Conditions d'utilisation</a>,
+                      confirme avoir pris connaissance de la
+                      <RouterLink :to="{ name: 'PolitiqueConfidentialite' }" class="text-secondary font-semibold hover:underline">Politique de confidentialité</RouterLink>
+                      et
+                      <a href="#" class="text-secondary font-semibold hover:underline">Politique de cookies</a>
+                      de Home Cameroon.
+                    </label>
+                  </div>
+                </div>
+
+                <!-- Bouton créer compte -->
+                <button
+                  type="submit"
+                  :disabled="isLoading"
+                  class="w-full bg-gradient-to-r from-secondary to-secondary/80 text-secondary-foreground font-bold py-4 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-3 animate-fadeInUp disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none"
+                  style="animation-delay:0.6s"
+                >
+                  <span v-if="!isLoading"><i class="fas fa-user-plus mr-2"></i>Créer mon compte</span>
+                  <span v-else class="flex items-center gap-2"><i class="fas fa-spinner animate-spin"></i>Création en cours...</span>
                 </button>
-              </div>
 
-              <!-- Indicateur de force -->
-              <div class="mt-2">
-                <div class="flex justify-between text-xs text-muted-foreground mb-1">
-                  <span>Force du mot de passe :</span>
-                  <span :class="strengthColor">{{ strengthLabel }}</span>
+                <!-- Séparateur -->
+                <div class="flex items-center my-8 animate-fadeInUp" style="animation-delay:0.7s">
+                  <div class="flex-1 h-px bg-border"></div>
+                  <div class="px-4 text-sm text-muted-foreground">ou continuer avec</div>
+                  <div class="flex-1 h-px bg-border"></div>
                 </div>
-                <div class="w-full bg-muted rounded-full h-1.5">
-                  <div :class="['h-1.5 rounded-full transition-all duration-300', strengthBarClass]" :style="`width: ${strengthWidth}`"></div>
+
+                <!-- Google -->
+                <button type="button" class="w-full border-2 border-border hover:border-secondary bg-card text-foreground font-semibold py-3 rounded-xl hover:shadow-md transition-all duration-300 flex items-center justify-center gap-3 animate-fadeInUp" style="animation-delay:0.8s">
+                  <i class="fab fa-google text-red-500"></i>
+                  S'inscrire avec Google
+                </button>
+
+                <!-- Lien connexion -->
+                <div class="mt-8 p-6 bg-gradient-to-r from-muted/20 to-card rounded-xl text-center border border-border shadow-sm animate-fadeInUp" style="animation-delay:0.9s">
+                  <p class="text-foreground">
+                    Vous avez déjà un compte ?
+                    <RouterLink :to="{ name: 'Connexion' }" class="text-secondary font-bold hover:text-secondary/80 hover:underline transition-colors ml-1">
+                      Se connecter
+                    </RouterLink>
+                  </p>
+                </div>
+              </form>
+
+              <!-- Réseaux sociaux mobile -->
+              <div class="lg:hidden mt-12 pt-8 border-t border-border">
+                <h3 class="text-center text-foreground font-semibold mb-6">Suivez-nous</h3>
+                <div class="flex justify-center gap-4">
+                  <a v-for="s in socials" :key="s.icon" href="#" :class="`w-10 h-10 rounded-full bg-primary ${s.hover} flex items-center justify-center text-primary-foreground transition-all duration-300 transform hover:-translate-y-1`">
+                    <i :class="`fab fa-${s.icon}`"></i>
+                  </a>
                 </div>
               </div>
-
-              <!-- Conseils -->
-              <div class="text-xs text-muted-foreground mt-2 space-y-1">
-                <p class="flex items-center gap-2">
-                  <i :class="`fas fa-check-circle ${form.password.length >= 8 ? 'text-green-600' : 'text-muted-foreground/30'}`"></i>
-                  Minimum 8 caractères
-                </p>
-                <p class="flex items-center gap-2">
-                  <i :class="`fas fa-check-circle ${/[a-z]/.test(form.password) && /[A-Z]/.test(form.password) ? 'text-green-600' : 'text-muted-foreground/30'}`"></i>
-                  Lettres majuscules et minuscules
-                </p>
-                <p class="flex items-center gap-2">
-                  <i :class="`fas fa-check-circle ${/[0-9]/.test(form.password) ? 'text-green-600' : 'text-muted-foreground/30'}`"></i>
-                  Au moins un chiffre
-                </p>
-              </div>
-            </div>
-
-            <!-- Confirmation Mot de passe -->
-            <div class="space-y-2 animate-fadeInUp" style="animation-delay:0.45s">
-              <label class="block text-foreground font-semibold text-sm">Confirmer le mot de passe</label>
-              <div class="relative">
-                <i class="fas fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground"></i>
-                <input
-                  v-model="form.password_confirmation"
-                  :type="showPassword ? 'text' : 'password'"
-                  placeholder="Répétez votre mot de passe"
-                  required
-                  class="w-full pl-12 pr-12 py-3 border-2 border-border bg-background text-foreground placeholder:text-muted-foreground rounded-xl focus:border-secondary focus:ring-4 focus:ring-secondary/10 outline-none transition-all duration-300"
-                />
-              </div>
-              <p v-if="form.password_confirmation && form.password !== form.password_confirmation" class="text-xs text-destructive mt-1">
-                Les mots de passe ne correspondent pas.
-              </p>
-            </div>
-
-            <!-- Conditions -->
-            <div class="p-4 bg-gradient-to-r from-secondary/5 to-secondary/10 rounded-xl border-l-4 border-secondary animate-fadeInUp" style="animation-delay:0.5s">
-              <div class="flex items-start gap-3">
-                <input v-model="form.terms" type="checkbox" required class="w-5 h-5 text-secondary rounded focus:ring-secondary bg-background border-border mt-1 flex-shrink-0" />
-                <label class="text-sm text-foreground">
-                  J'accepte les
-                  <a href="#" class="text-secondary font-semibold hover:underline">Conditions d'utilisation</a>,
-                  confirme avoir pris connaissance de la
-                  <RouterLink :to="{ name: 'PolitiqueConfidentialite' }" class="text-secondary font-semibold hover:underline">Politique de confidentialité</RouterLink>
-                  et
-                  <a href="#" class="text-secondary font-semibold hover:underline">Politique de cookies</a>
-                  de Home Cameroon.
-                </label>
-              </div>
-            </div>
-
-            <!-- Bouton créer compte -->
-            <button
-              type="submit"
-              :disabled="isLoading"
-              class="w-full bg-gradient-to-r from-secondary to-secondary/80 text-secondary-foreground font-bold py-4 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-3 animate-fadeInUp disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none"
-              style="animation-delay:0.6s"
-            >
-              <span v-if="!isLoading"><i class="fas fa-user-plus mr-2"></i>Créer mon compte</span>
-              <span v-else class="flex items-center gap-2"><i class="fas fa-spinner animate-spin"></i>Création en cours...</span>
-            </button>
-
-            <!-- Séparateur -->
-            <div class="flex items-center my-8 animate-fadeInUp" style="animation-delay:0.7s">
-              <div class="flex-1 h-px bg-border"></div>
-              <div class="px-4 text-sm text-muted-foreground">ou continuer avec</div>
-              <div class="flex-1 h-px bg-border"></div>
-            </div>
-
-            <!-- Google -->
-            <button type="button" class="w-full border-2 border-border hover:border-secondary bg-card text-foreground font-semibold py-3 rounded-xl hover:shadow-md transition-all duration-300 flex items-center justify-center gap-3 animate-fadeInUp" style="animation-delay:0.8s">
-              <i class="fab fa-google text-red-500"></i>
-              S'inscrire avec Google
-            </button>
-
-            <!-- Lien connexion -->
-            <div class="mt-8 p-6 bg-gradient-to-r from-muted/20 to-card rounded-xl text-center border border-border shadow-sm animate-fadeInUp" style="animation-delay:0.9s">
-              <p class="text-foreground">
-                Vous avez déjà un compte ?
-                <RouterLink :to="{ name: 'Connexion' }" class="text-secondary font-bold hover:text-secondary/80 hover:underline transition-colors ml-1">
-                  Se connecter
-                </RouterLink>
-              </p>
-            </div>
-          </form>
-
-          <!-- Réseaux sociaux mobile -->
-          <div class="lg:hidden mt-12 pt-8 border-t border-border">
-            <h3 class="text-center text-foreground font-semibold mb-6">Suivez-nous</h3>
-            <div class="flex justify-center gap-4">
-              <a v-for="s in socials" :key="s.icon" href="#" :class="`w-10 h-10 rounded-full bg-primary ${s.hover} flex items-center justify-center text-primary-foreground transition-all duration-300 transform hover:-translate-y-1`">
-                <i :class="`fab fa-${s.icon}`"></i>
-              </a>
             </div>
           </div>
         </div>
-      </div>
-    </div>
 
     <!-- Footer mobile -->
     <footer class="lg:hidden bg-primary text-muted-foreground py-8 px-4 text-center">
