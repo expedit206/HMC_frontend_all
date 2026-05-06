@@ -213,7 +213,7 @@
 <script setup>
 import { computed, ref } from "vue";
 import DashboardLayout from "../../layouts/DashboardLayout.vue";
-import UserAvatar from "../../components/common/UserAvatar.vue";
+import UserAvatar from "@/common/UserAvatar.vue";
 import { useAuthStore } from "../../stores/auth";
 
 const props = defineProps({

@@ -34,7 +34,8 @@
       <!-- Litiges -->
       <div
         class="bg-card rounded-2xl shadow-sm border border-border p-8 transform hover:-translate-y-2 transition-transform duration-300">
-        <div class="w-12 h-12 bg-blue-100 dark:bg-blue-950/30 text-blue-600 dark:text-blue-400 rounded-xl flex items-center justify-center mb-6">
+        <div
+          class="w-12 h-12 bg-blue-100 dark:bg-blue-950/30 text-blue-600 dark:text-blue-400 rounded-xl flex items-center justify-center mb-6">
           <i class="fas fa-hand-holding-dollar text-2xl"></i>
         </div>
         <h3 class="text-xl font-bold text-foreground mb-4">Aide au Recouvrement</h3>
@@ -50,7 +51,8 @@
       <!-- Suivi -->
       <div
         class="bg-card rounded-2xl shadow-sm border border-border p-8 transform hover:-translate-y-2 transition-transform duration-300">
-        <div class="w-12 h-12 bg-purple-100 dark:bg-purple-950/30 text-purple-600 dark:text-purple-400 rounded-xl flex items-center justify-center mb-6">
+        <div
+          class="w-12 h-12 bg-purple-100 dark:bg-purple-950/30 text-purple-600 dark:text-purple-400 rounded-xl flex items-center justify-center mb-6">
           <i class="fas fa-chart-line text-2xl"></i>
         </div>
         <h3 class="text-xl font-bold text-foreground mb-4">Suivi & Croissance</h3>
@@ -82,5 +84,5 @@
 </template>
 
 <script setup>
-import SharedAssistanceLayout from "../../components/support/SharedAssistanceLayout.vue";
+import SharedAssistanceLayout from "@/support/SharedAssistanceLayout.vue";
 </script>

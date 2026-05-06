@@ -2,7 +2,7 @@
   <div class=" h-full overflow-hidden ">
     <!-- Header Mobile (visible uniquement sur mobile/tablette) -->
     <div class="lg:hidden bg-card  pb-2 p-4 sticky top-0 z-40 flex items-center gap-2">
-     
+
       <div class="flex gap-3">
         <button @click="showMobileFilters = true"
           class="flex-1 flex items-center justify-center gap-2 bg-background border border-border rounded-lg px-4 py-2 shadow-sm hover: transition-colors">
@@ -12,8 +12,8 @@
       </div>
       <div class="flex items-center gap-2 border p-2 w-full rounded-md hover:border-blue">
         <input type="search" class="border-none w-full outline-none ">
-      <i class="fas fa-search absolute right-8 cursor-pointer"></i>
-     </div>
+        <i class="fas fa-search absolute right-8 cursor-pointer"></i>
+      </div>
     </div>
 
     <div class="h-full flex overflow-hidden">
@@ -184,11 +184,11 @@
                   <button v-for="room in [1, 2, 3, 4]" :key="room" @click="
                     filters.minRooms = filters.minRooms === room ? 0 : room
                     " :class="[
-                        'px-4 py-2 border rounded-full text-sm font-medium transition-colors',
-                        filters.minRooms === room
-                          ? 'bg-secondary border-secondary text-white'
-                          : 'border-border hover:border-secondary hover:text-secondary bg-background text-foreground',
-                      ]">
+                      'px-4 py-2 border rounded-full text-sm font-medium transition-colors',
+                      filters.minRooms === room
+                        ? 'bg-secondary border-secondary text-white'
+                        : 'border-border hover:border-secondary hover:text-secondary bg-background text-foreground',
+                    ]">
                     {{ room }}{{ room === 4 ? "+" : "" }}
                   </button>
                 </div>
@@ -277,7 +277,7 @@
           <!-- En-tête Desktop -->
           <div class="hidden lg:block mb-8">
             <div class="flex justify-between items-center">
-           
+
               <div class="flex items-center gap-3">
                 <!-- Bouton Trier avec dropdown -->
                 <div class="relative">
@@ -408,8 +408,7 @@
                       :style="{ transform: `translateX(-${(property.currentImageIndex || 0) * 100}%)` }">
                       <div v-for="(img, idx) in (property.all_images?.length ? property.all_images : [property.image])"
                         :key="idx" class="min-w-full h-full bg-cover bg-center"
-                        :style="{ backgroundImage: `url('${prepareImageUrl(img)}')` }"
-                        >
+                        :style="{ backgroundImage: `url('${prepareImageUrl(img)}')` }">
                       </div>
                     </div>
 
@@ -434,11 +433,12 @@
                         </div>
                       </div>
                     </template>
-                      <!-- {{ property.type === "rent" ? "À louer" : "À vendre" }} -->
+                    <!-- {{ property.type === "rent" ? "À louer" : "À vendre" }} -->
 
-                       <div v-if="property.category" class="flex items-center text-foreground/80 text-white text-sm absolute top-3 right-3 font-semibold italic p-2 py-1 border rounded-full drop-shadow-[2px_0px_2px_rgba(0,0,0,1)] ">
-                          <span class="drop-shadow-[1px_0px_1px_rgba(0,0,0,1)]">{{ property.category }}</span>
-                        </div>
+                    <div v-if="property.category"
+                      class="flex items-center text-foreground/80 text-white text-sm absolute top-3 right-3 font-semibold italic p-2 py-1 border rounded-full drop-shadow-[2px_0px_2px_rgba(0,0,0,1)] ">
+                      <span class="drop-shadow-[1px_0px_1px_rgba(0,0,0,1)]">{{ property.category }}</span>
+                    </div>
 
                     <div v-if="property.avg_rating > 0"
                       class="absolute top-3 left-3 bg-black/70 backdrop-blur-sm text-white px-2.5 py-1 rounded-full text-xs font-bold flex items-center gap-1">
@@ -485,7 +485,7 @@
                           <i class="fas fa-check-circle text-secondary mr-1.5"></i>
                           <span>{{ property.area }} m²</span>
                         </div>
-                       
+
                       </div>
 
                     </div>
@@ -497,11 +497,10 @@
                           <span class="text-muted-foreground font-normal text-base">/ mois</span>
                         </div>
                         <div v-if="property.avg_rating > 0" class="flex items-center gap-1 mt-1">
-                          <i 
-                            class="fas fa-star text-amber-400 text-xs"></i>
+                          <i class="fas fa-star text-amber-400 text-xs"></i>
                           <span class="text-xs text-muted-foreground ml-1">{{ property.avg_rating }}</span>
                         </div>
-                       
+
                       </div>
                       <RouterLink :to="`/annonces/${property.slug}`"
                         class="bg-secondary text-white text-center px-6 py-3 rounded-[.45rem] font-semibold hover:bg-primary transition-colors shadow-md hover:shadow-lg w-full">
@@ -540,7 +539,7 @@ import { ref, computed, watch, onMounted } from "vue";
 import { RouterLink, useRoute, useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import { useAuthStore } from "../../stores/auth";
-import PropertyActionBar from "../../components/PropertyActionBar.vue";
+import PropertyActionBar from "@/PropertyActionBar.vue";
 import { usePropertyStore } from "../../stores/properties";
 import axios from "../../axios";
 
@@ -759,61 +758,67 @@ const formatPrice = (price) => new Intl.NumberFormat("fr-FR").format(price);
 <style>
 /* Animation de chargement */
 @keyframes shimmer {
-0% { background-position: -200% 0; }
-100% { background-position: 200% 0; }
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
 }
 
 .bg-muted\/50 {
-background: linear-gradient(90deg, hsl(var(--muted)) 25%, hsl(var(--muted)/0.3) 50%, hsl(var(--muted)) 75%);
-background-size: 200% 100%;
-animation: shimmer 1.5s ease-in-out infinite;
+  background: linear-gradient(90deg, hsl(var(--muted)) 25%, hsl(var(--muted)/0.3) 50%, hsl(var(--muted)) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
 }
 
 /* Transitions pour les cartes */
 .property-card {
-transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .property-card:hover {
-transform: translateY(-4px);
-box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
 }
+
 input[type=range] {
--webkit-appearance: none;
-background: transparent;
+  -webkit-appearance: none;
+  background: transparent;
 }
 
 input[type=range]::-webkit-slider-thumb {
--webkit-appearance: none;
-height: 16px;
-width: 16px;
-border-radius: 50%;
-background: hsl(var(--secondary));
-cursor: pointer;
-margin-top: -6px;
-border: 2px solid hsl(var(--background));
+  -webkit-appearance: none;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: hsl(var(--secondary));
+  cursor: pointer;
+  margin-top: -6px;
+  border: 2px solid hsl(var(--background));
 }
 
 input[type=range]::-moz-range-thumb {
-height: 16px;
-width: 16px;
-border-radius: 50%;
-background: hsl(var(--secondary));
-cursor: pointer;
-border: 2px solid hsl(var(--background));
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: hsl(var(--secondary));
+  cursor: pointer;
+  border: 2px solid hsl(var(--background));
 }
 
 input[type=range]::-webkit-slider-runnable-track {
-width: 100%;
-height: 4px;
-background: hsl(var(--secondary) / 0.3);
-border-radius: 2px;
+  width: 100%;
+  height: 4px;
+  background: hsl(var(--secondary) / 0.3);
+  border-radius: 2px;
 }
 
 input[type=range]::-moz-range-track {
-width: 100%;
-height: 4px;
-background: hsl(var(--secondary) / 0.3);
-border-radius: 2px;
+  width: 100%;
+  height: 4px;
+  background: hsl(var(--secondary) / 0.3);
+  border-radius: 2px;
 }
 </style>

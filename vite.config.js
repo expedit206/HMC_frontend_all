@@ -19,4 +19,14 @@ export default {
       },
     },
   },
+   resolve: {
+    alias: {
+        '@': '/src/components'
+        // '@components': '/src/js/components',
+        // '@components/ui': '/src/js/components/ui',
+        // '@layouts': '/src/js/layouts',
+        // '@pages': '/src/js/pages',
+        // '@types': '/src/js/types',
+    },
+    },
 }

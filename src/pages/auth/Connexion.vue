@@ -433,8 +433,8 @@
 import { ref, reactive } from "vue";
 import { RouterLink, useRouter } from "vue-router";
 import { useAuthStore } from "../../stores/auth";
-import AppLogo from "../../components/common/AppLogo.vue";
-import ThemeToggle from "../../components/ThemeToggle.vue";
+import AppLogo from "@/common/AppLogo.vue";
+import ThemeToggle from "@/ThemeToggle.vue";
 
 const router = useRouter();
 const authStore = useAuthStore();

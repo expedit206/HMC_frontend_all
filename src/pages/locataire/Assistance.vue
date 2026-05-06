@@ -18,7 +18,8 @@
           </div>
         </div>
         <div class="flex items-center justify-between">
-          <span class="text-xs font-bold text-secondary bg-blue-50 dark:bg-blue-950/50 px-3 py-1 rounded-full">À partir de 5.000
+          <span class="text-xs font-bold text-secondary bg-blue-50 dark:bg-blue-950/50 px-3 py-1 rounded-full">À partir
+            de 5.000
             XAF/mois</span>
           <i class="fas fa-arrow-right text-secondary group-hover:translate-x-1 transition-transform"></i>
         </div>
@@ -38,7 +39,8 @@
           </div>
         </div>
         <div class="flex items-center justify-between">
-          <span class="text-xs font-bold text-secondary bg-purple-50 dark:bg-purple-950/50 px-3 py-1 rounded-full">2,5% du loyer annuel</span>
+          <span class="text-xs font-bold text-secondary bg-purple-50 dark:bg-purple-950/50 px-3 py-1 rounded-full">2,5%
+            du loyer annuel</span>
           <i class="fas fa-arrow-right text-secondary group-hover:translate-x-1 transition-transform"></i>
         </div>
       </div>
@@ -57,7 +59,8 @@
           </div>
         </div>
         <div class="flex items-center justify-between">
-          <span class="text-xs font-bold text-secondary bg-green-50 dark:bg-green-950/50 px-3 py-1 rounded-full">Premium</span>
+          <span
+            class="text-xs font-bold text-secondary bg-green-50 dark:bg-green-950/50 px-3 py-1 rounded-full">Premium</span>
           <i class="fas fa-arrow-right text-secondary group-hover:translate-x-1 transition-transform"></i>
         </div>
       </div>
@@ -76,7 +79,8 @@
           </div>
         </div>
         <div class="flex items-center justify-between">
-          <span class="text-xs font-bold text-secondary bg-orange-50 dark:bg-secondary/10 px-3 py-1 rounded-full">Inclus Premium</span>
+          <span class="text-xs font-bold text-secondary bg-orange-50 dark:bg-secondary/10 px-3 py-1 rounded-full">Inclus
+            Premium</span>
           <i class="fas fa-arrow-right text-secondary group-hover:translate-x-1 transition-transform"></i>
         </div>
       </div>
@@ -93,7 +97,8 @@
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div class="bg-muted/20 rounded-2xl p-6 border border-border">
-            <div class="w-12 h-12 bg-secondary text-secondary-foreground rounded-xl flex items-center justify-center text-lg mb-4">
+            <div
+              class="w-12 h-12 bg-secondary text-secondary-foreground rounded-xl flex items-center justify-center text-lg mb-4">
               <i class="fas fa-comments"></i>
             </div>
             <h4 class="font-bold text-foreground mb-2">Chat en direct</h4>
@@ -104,7 +109,8 @@
             </button>
           </div>
           <div class="bg-muted/20 rounded-2xl p-6 border border-border">
-            <div class="w-12 h-12 bg-primary text-primary-foreground rounded-xl flex items-center justify-center text-lg mb-4">
+            <div
+              class="w-12 h-12 bg-primary text-primary-foreground rounded-xl flex items-center justify-center text-lg mb-4">
               <i class="fas fa-phone"></i>
             </div>
             <h4 class="font-bold text-foreground mb-2">Appel téléphonique</h4>
@@ -118,7 +124,8 @@
       </div>
 
       <!-- CTA Section -->
-      <div class="bg-gradient-to-r from-secondary to-secondary/80 rounded-3xl p-12 text-secondary-foreground shadow-xl text-center">
+      <div
+        class="bg-gradient-to-r from-secondary to-secondary/80 rounded-3xl p-12 text-secondary-foreground shadow-xl text-center">
         <h3 class="text-3xl font-bold mb-4">Besoin d'une solution sur mesure ?</h3>
         <p class="text-secondary-foreground/80 text-lg mb-8 max-w-2xl mx-auto">
           Notre équipe d'experts peut vous proposer un package personnalisé selon vos besoins spécifiques.
@@ -182,7 +189,7 @@
 
 <script setup>
 import { ref } from "vue";
-import SharedAssistanceLayout from "../../components/support/SharedAssistanceLayout.vue";
+import SharedAssistanceLayout from "@/support/SharedAssistanceLayout.vue";
 
 const faqs = ref([
   {

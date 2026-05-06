@@ -16,7 +16,8 @@
           <div class="relative max-w-md">
             <input type="text" placeholder="Rechercher une aide, un document..."
               class="w-full bg-white/10 border border-white/20 rounded-xl py-3 pl-12 pr-4 text-primary-foreground placeholder:text-primary-foreground/50 focus:bg-card focus:text-foreground focus:outline-none transition-all shadow-inner" />
-            <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-primary-foreground/50 pointer-events-none"></i>
+            <i
+              class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-primary-foreground/50 pointer-events-none"></i>
           </div>
         </div>
         <div class="absolute right-0 bottom-0 opacity-10 pointer-events-none transform translate-x-1/4 translate-y-1/4">
@@ -54,7 +55,8 @@
       <!-- Legal Support -->
       <div
         class="bg-card rounded-3xl border border-border shadow-sm p-8 flex flex-col hover:-translate-y-2 transition-transform duration-300">
-        <div class="w-16 h-16 bg-blue-50 dark:bg-blue-950/30 rounded-2xl flex items-center justify-center text-blue-600 dark:text-blue-400 mb-6">
+        <div
+          class="w-16 h-16 bg-blue-50 dark:bg-blue-950/30 rounded-2xl flex items-center justify-center text-blue-600 dark:text-blue-400 mb-6">
           <i class="fas fa-gavel text-2xl"></i>
         </div>
         <h3 class="text-xl font-bold text-foreground mb-3">Gestion des Litiges</h3>
@@ -78,7 +80,8 @@
       <!-- Personal Follow-up -->
       <div
         class="bg-card rounded-3xl border border-border shadow-sm p-8 flex flex-col hover:-translate-y-2 transition-transform duration-300">
-        <div class="w-16 h-16 bg-purple-50 dark:bg-purple-950/30 rounded-2xl flex items-center justify-center text-purple-600 dark:text-purple-400 mb-6">
+        <div
+          class="w-16 h-16 bg-purple-50 dark:bg-purple-950/30 rounded-2xl flex items-center justify-center text-purple-600 dark:text-purple-400 mb-6">
           <i class="fas fa-user-tie text-2xl"></i>
         </div>
         <h3 class="text-xl font-bold text-foreground mb-3">Suivi Personnalisé</h3>
@@ -115,7 +118,8 @@
               <i class="fas fa-file-pdf"></i>
             </div>
             <div>
-              <h4 class="text-sm font-bold group-hover:text-secondary transition-colors text-foreground">Contrat de bail type</h4>
+              <h4 class="text-sm font-bold group-hover:text-secondary transition-colors text-foreground">Contrat de bail
+                type</h4>
               <p class="text-[11px] text-muted-foreground uppercase font-bold">Mis à jour Jan. 2024</p>
             </div>
           </div>
@@ -125,7 +129,8 @@
               <i class="fas fa-file-word"></i>
             </div>
             <div>
-              <h4 class="text-sm font-bold group-hover:text-secondary transition-colors text-foreground">Modèle de mise en demeure</h4>
+              <h4 class="text-sm font-bold group-hover:text-secondary transition-colors text-foreground">Modèle de mise
+                en demeure</h4>
               <p class="text-[11px] text-muted-foreground uppercase font-bold">Conforme loi 2023</p>
             </div>
           </div>
@@ -157,5 +162,5 @@
 </template>
 
 <script setup>
-import SharedAssistanceLayout from "../../components/support/SharedAssistanceLayout.vue";
+import SharedAssistanceLayout from "@/support/SharedAssistanceLayout.vue";
 </script>

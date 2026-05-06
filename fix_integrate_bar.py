@@ -10,8 +10,8 @@ with open('src/pages/public/Accueil.vue', encoding='utf-8') as f:
 # 1. Add import at the top of <script setup>
 if "PropertyActionBar" not in accueil:
     accueil = accueil.replace(
-        'import SkeletonLoader from "../../components/SkeletonLoader.vue";',
-        'import SkeletonLoader from "../../components/SkeletonLoader.vue";\nimport PropertyActionBar from "../../components/PropertyActionBar.vue";'
+        'import SkeletonLoader from "@/SkeletonLoader.vue";',
+        'import SkeletonLoader from "@/SkeletonLoader.vue";\nimport PropertyActionBar from "@/PropertyActionBar.vue";'
     )
 
 # 2. Replace the entire action bar in the image section with the component
@@ -99,7 +99,7 @@ with open('src/pages/public/Annonces.vue', encoding='utf-8') as f:
 if "PropertyActionBar" not in annonces:
     annonces = annonces.replace(
         'import { usePropertyStore }',
-        'import PropertyActionBar from "../../components/PropertyActionBar.vue";\nimport { usePropertyStore }'
+        'import PropertyActionBar from "@/PropertyActionBar.vue";\nimport { usePropertyStore }'
     )
 
 # 2. Replace the TikTok action bar section

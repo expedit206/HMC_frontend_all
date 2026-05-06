@@ -55,7 +55,7 @@
 
 <script setup>
 import { reactive } from "vue";
-import SharedAssistanceLayout from "../../components/support/SharedAssistanceLayout.vue";
+import SharedAssistanceLayout from "@/support/SharedAssistanceLayout.vue";
 
 const faqs = reactive([
   {

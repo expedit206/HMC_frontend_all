@@ -177,14 +177,9 @@
               </button>
 
               <!-- Barre d'actions TikTok sur l'image principale -->
-              <PropertyActionBar
-                :property="property"
-                :is-fav="property.is_favorite"
-                btn-size="md"
-                position="absolute right-2   bottom-2  md:bottom-2"
-                @toggle-favorite="toggleFavorite"
-                @share="shareProperty"
-              />
+              <PropertyActionBar :property="property" :is-fav="property.is_favorite" btn-size="md"
+                position="absolute right-2   bottom-2  md:bottom-2" @toggle-favorite="toggleFavorite"
+                @share="shareProperty" />
             </div>
             <!-- Miniatures -->
             <div v-if="galleryImages.length > 1" class="grid grid-cols-4 sm:grid-cols-5 gap-2">
@@ -296,7 +291,8 @@
               </h2>
               <div v-if="reviewStats?.total" class="flex items-center gap-2">
                 <div class="flex items-center gap-0.5">
-                  <i v-for="s in 5" :key="s" :class="s <= Math.round(reviewStats.average) ? 'fas fa-star' : 'far fa-star'"
+                  <i v-for="s in 5" :key="s"
+                    :class="s <= Math.round(reviewStats.average) ? 'fas fa-star' : 'far fa-star'"
                     class="text-amber-500 text-sm"></i>
                 </div>
                 <span class="font-bold text-primary text-lg">{{ reviewStats.average }}</span>
@@ -306,14 +302,17 @@
 
             <!-- Barre de distribution des notes -->
             <div v-if="reviewStats?.total" class="mb-6 space-y-1.5">
-              <div v-for="star in [5,4,3,2,1]" :key="star" class="flex items-center gap-2 text-xs">
+              <div v-for="star in [5, 4, 3, 2, 1]" :key="star" class="flex items-center gap-2 text-xs">
                 <span class="w-3 text-right font-medium text-muted-foreground">{{ star }}</span>
                 <i class="fas fa-star text-amber-400 text-[10px]"></i>
                 <div class="flex-1 bg-muted/30 rounded-full h-2 overflow-hidden">
                   <div class="h-2 bg-amber-400 rounded-full transition-all duration-500"
-                    :style="{ width: reviewStats.total ? ((reviewStats[['one','two','three','four','five'][star-1]] / reviewStats.total) * 100) + '%' : '0%' }"></div>
+                    :style="{ width: reviewStats.total ? ((reviewStats[['one', 'two', 'three', 'four', 'five'][star - 1]] / reviewStats.total) * 100) + '%' : '0%' }">
+                  </div>
                 </div>
-                <span class="w-6 text-muted-foreground">{{ reviewStats[['one','two','three','four','five'][star-1]] }}</span>
+                <span class="w-6 text-muted-foreground">{{ reviewStats[['one', 'two', 'three', 'four', 'five'][star -
+                  1]]
+                  }}</span>
               </div>
             </div>
 
@@ -334,15 +333,14 @@
 
               <!-- Étoiles interactives -->
               <div class="flex items-center gap-1 mb-4">
-                <button v-for="s in 5" :key="s"
-                  @click="newReview.rating = s"
-                  @mouseover="reviewHover = s"
+                <button v-for="s in 5" :key="s" @click="newReview.rating = s" @mouseover="reviewHover = s"
                   @mouseleave="reviewHover = 0"
                   class="text-2xl transition-transform hover:scale-110 focus:outline-none">
-                  <i :class="s <= (reviewHover || newReview.rating) ? 'fas fa-star text-amber-400' : 'far fa-star text-muted-foreground'"></i>
+                  <i
+                    :class="s <= (reviewHover || newReview.rating) ? 'fas fa-star text-amber-400' : 'far fa-star text-muted-foreground'"></i>
                 </button>
                 <span class="ml-2 text-sm font-medium text-foreground">
-                  {{ ['','Médiocre','Passable','Bien','Très bien','Excellent'][newReview.rating] }}
+                  {{ ['', 'Médiocre', 'Passable', 'Bien', 'Très bien', 'Excellent'][newReview.rating] }}
                 </span>
               </div>
 
@@ -352,10 +350,12 @@
               <textarea v-model="newReview.comment" rows="4"
                 placeholder="Décrivez votre expérience avec ce bien... (min. 10 caractères)"
                 class="w-full px-4 py-2.5 bg-background border border-border rounded-xl text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-secondary/30 resize-none"></textarea>
-              <p v-if="newReview.comment.length > 0" class="text-right text-xs text-muted-foreground mt-1">{{ newReview.comment.length }}/1000</p>
+              <p v-if="newReview.comment.length > 0" class="text-right text-xs text-muted-foreground mt-1">{{
+                newReview.comment.length }}/1000</p>
 
               <div class="flex gap-3 mt-4">
-                <button @click="submitReview" :disabled="isSubmittingReview || !newReview.rating || newReview.comment.length < 10"
+                <button @click="submitReview"
+                  :disabled="isSubmittingReview || !newReview.rating || newReview.comment.length < 10"
                   class="flex-1 py-2.5 bg-secondary text-secondary-foreground rounded-xl text-sm font-bold hover:bg-primary hover:text-primary-foreground transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
                   <i v-if="isSubmittingReview" class="fas fa-circle-notch fa-spin mr-2"></i>
                   {{ isSubmittingReview ? 'Publication...' : 'Publier mon avis' }}
@@ -372,7 +372,8 @@
             <div v-if="myReview" class="mb-6 p-4 bg-secondary/5 border border-secondary/20 rounded-xl">
               <div class="flex items-center justify-between mb-2">
                 <p class="text-xs font-bold text-secondary uppercase tracking-wide">Votre avis</p>
-                <button @click="deleteMyReview" class="text-xs text-destructive hover:text-destructive/80 transition-colors">
+                <button @click="deleteMyReview"
+                  class="text-xs text-destructive hover:text-destructive/80 transition-colors">
                   <i class="fas fa-trash mr-1"></i> Supprimer
                 </button>
               </div>
@@ -401,7 +402,8 @@
               <i class="far fa-comment-dots text-4xl text-muted-foreground/30 mb-3"></i>
               <p class="text-sm text-muted-foreground">Aucun avis pour le moment.</p>
               <p v-if="!authStore.user" class="text-xs text-muted-foreground mt-1">
-                <RouterLink :to="{ name: 'Connexion' }" class="text-secondary hover:underline">Connectez-vous</RouterLink>
+                <RouterLink :to="{ name: 'Connexion' }" class="text-secondary hover:underline">Connectez-vous
+                </RouterLink>
                 pour laisser votre avis.
               </p>
             </div>
@@ -410,15 +412,14 @@
               <div v-for="r in reviews" :key="r.id" class="border-b border-border pb-5 last:border-0 last:pb-0">
                 <div class="flex items-start justify-between mb-2">
                   <div class="flex items-center gap-3">
-                    <div v-if="r.user?.avatar"
-                      class="w-10 h-10 rounded-full overflow-hidden shrink-0">
-              <UserAvatar :user="r.user" size="sm" />
-                    
+                    <div v-if="r.user?.avatar" class="w-10 h-10 rounded-full overflow-hidden shrink-0">
+                      <UserAvatar :user="r.user" size="sm" />
+
                       <!-- <img :src="r.user.avatar" :alt="r.user.name" class="w-full h-full object-cover" /> -->
                     </div>
                     <div v-else
                       class="w-10 h-10 bg-gradient-to-br from-secondary to-primary rounded-full flex items-center justify-center text-primary-foreground font-bold text-sm shrink-0">
-                      {{ r.user?.name?.split(' ').map(n => n[0]).join('').toUpperCase().slice(0,2) }}
+                      {{r.user?.name?.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)}}
                     </div>
                     <div>
                       <div class="flex items-center gap-2">
@@ -444,8 +445,7 @@
 
               <!-- Pagination -->
               <div v-if="reviewPagination.last_page > 1" class="flex justify-center gap-2 pt-2">
-                <button v-for="p in reviewPagination.last_page" :key="p"
-                  @click="fetchReviews(p)"
+                <button v-for="p in reviewPagination.last_page" :key="p" @click="fetchReviews(p)"
                   :class="p === reviewPagination.current_page ? 'bg-secondary text-secondary-foreground' : 'bg-muted/20 text-muted-foreground hover:bg-muted/40'"
                   class="w-8 h-8 rounded-lg text-xs font-bold transition-colors">{{ p }}</button>
               </div>
@@ -538,7 +538,7 @@
                   class="w-14 h-14 bg-gradient-to-br from-secondary to-primary rounded-full flex items-center justify-center text-primary-foreground text-lg font-bold shrink-0 overflow-hidden">
                   <!-- <img v-if="property.owner?.avatar_url" :src="property.owner.avatar_url"
                     class="w-full h-full object-cover" /> -->
-              <UserAvatar v-if="property.owner" :user="property.owner" size="sm" />
+                  <UserAvatar v-if="property.owner" :user="property.owner" size="sm" />
 
                   <span v-else>{{ ownerInitials }}</span>
                 </div>
@@ -621,21 +621,16 @@
                 <img :src="s.image" :alt="s.title"
                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
               </RouterLink>
-              
+
               <span
                 class="absolute top-3 left-3 px-3 py-1 bg-secondary text-secondary-foreground text-xs font-bold rounded-full">
                 {{ formatPrice(s.price) }} F
               </span>
-              
+
               <!-- Barre d'actions TikTok sur les biens similaires -->
-              <PropertyActionBar
-                :property="s"
-                :is-fav="s.is_favorite"
-                btn-size="sm"
-                position="absolute right-2 bottom-2"
-                @toggle-favorite="(id) => toggleFavorite(s)"
-                @share="(p) => shareProperty(p)"
-              />
+              <PropertyActionBar :property="s" :is-fav="s.is_favorite" btn-size="sm"
+                position="absolute right-2 bottom-2" @toggle-favorite="(id) => toggleFavorite(s)"
+                @share="(p) => shareProperty(p)" />
             </div>
             <div class="p-4">
               <RouterLink :to="`/annonces/${s.slug || s.id}`">
@@ -671,8 +666,8 @@ import { useAuthStore } from "../../stores/auth";
 import { useRentalStore } from "../../stores/rental";
 import { usePropertyStore } from "../../stores/properties";
 import axios from "../../axios";
-import PropertyActionBar from "../../components/PropertyActionBar.vue";
-import UserAvatar from "../../components/common/UserAvatar.vue";
+import PropertyActionBar from "@/PropertyActionBar.vue";
+import UserAvatar from "@/common/UserAvatar.vue";
 
 const route = useRoute();
 const router = useRouter();

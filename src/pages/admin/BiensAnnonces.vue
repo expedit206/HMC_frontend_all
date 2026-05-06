@@ -245,7 +245,7 @@
 
 <script setup>
 import { ref, computed, onMounted } from "vue";
-import AgentAssignModal from "../../components/admin/AgentAssignModal.vue";
+import AgentAssignModal from "@/admin/AgentAssignModal.vue";
 import { RouterLink } from "vue-router";
 import axios from "../../axios";
 import { usePropertyStore } from "../../stores/properties";

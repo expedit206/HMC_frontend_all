@@ -145,7 +145,7 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import AgentAssignModal from "../../components/admin/AgentAssignModal.vue";
+import AgentAssignModal from "@/admin/AgentAssignModal.vue";
 import axios from "../../axios";
 
 const isLoading = ref(true);

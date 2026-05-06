@@ -10,8 +10,8 @@ with open('src/pages/public/Accueil.vue', encoding='utf-8') as f:
 # Add import if not present
 if "PropertyActionBar" not in accueil:
     accueil = accueil.replace(
-        'import SkeletonLoader from "../../components/SkeletonLoader.vue";',
-        'import SkeletonLoader from "../../components/SkeletonLoader.vue";\nimport PropertyActionBar from "../../components/PropertyActionBar.vue";'
+        'import SkeletonLoader from "@/SkeletonLoader.vue";',
+        'import SkeletonLoader from "@/SkeletonLoader.vue";\nimport PropertyActionBar from "@/PropertyActionBar.vue";'
     )
 
 # Find the action bar block between the badge and the closing </div></div>
@@ -74,7 +74,7 @@ with open('src/pages/public/Annonces.vue', encoding='utf-8') as f:
 if "PropertyActionBar" not in annonces:
     annonces = annonces.replace(
         'import { usePropertyStore }',
-        'import PropertyActionBar from "../../components/PropertyActionBar.vue";\nimport { usePropertyStore }'
+        'import PropertyActionBar from "@/PropertyActionBar.vue";\nimport { usePropertyStore }'
     )
 
 # Find and replace the TikTok bar section in Annonces.vue

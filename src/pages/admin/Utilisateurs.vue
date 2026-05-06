@@ -213,7 +213,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import axios from "../../axios";
-import UserAvatar from "../../components/common/UserAvatar.vue";
+import UserAvatar from "@/common/UserAvatar.vue";
 const isLoading = ref(true);
 const users = ref([]);
 const totalUsers = ref(0);

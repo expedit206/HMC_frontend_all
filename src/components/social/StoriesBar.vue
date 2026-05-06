@@ -68,7 +68,11 @@
 
         <!-- Info en bas -->
         <div class="absolute bottom-0 left-0 right-0 p-3 z-10">
-          <div class="text-[10px] font-black text-secondary leading-tight mb-0.5">{{ formatPrice(story.price) }}</div>
+          <div class="text-[10px] font-black  text-white p-0.5  flex w-1/2 text-center items-center rounded-full "> <span class="drop-shadow-[2px_0px_2px_rgba(0,0,0,1)] drop-shadow-[0_0_2px_rgba(0,0,0,1)]">
+
+            {{ formatPrice(story.price) }}
+          </span>
+        </div>
           <h4 class="text-[11px] font-bold text-white leading-tight line-clamp-2">{{ story.title }}</h4>
         </div>
         
