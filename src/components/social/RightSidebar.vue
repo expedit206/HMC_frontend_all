@@ -1,5 +1,5 @@
 <template>
-  <aside class="w-[350px] bg-card border-l border-border h-[calc(100vh-80px)] sticky top-[80px] overflow-y-auto custom-scrollbar flex flex-col hidden lg:flex">
+  <aside class="w-[350px] bg-card border-l border-border h-[calc(100vh-80px)] sticky top-[80px] overflow-y-auto custom-scrollbar flex flex-col hidden xl:flex">
     
     <!-- HEADER RECHERCHE RAPIDE (Visuel) -->
     <div class="p-6 pb-2">

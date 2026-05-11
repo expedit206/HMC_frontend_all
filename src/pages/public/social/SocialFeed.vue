@@ -5,7 +5,7 @@
     <QuickActionBar class="mb-4" />
 
     <!-- Stories (Uniquement page 1) -->
-    <StoriesBar v-if="feedStore.stories?.length > 0" :stories="feedStore.stories" class="mb-6" />
+    <StoriesBar v-if="feedStore.stories?.length > 0" :stories="feedStore.stories" class="md:mb-6 " />
 
     <!-- Loading Initial -->
     <div v-if="feedStore.loading && feedStore.feedItems.length === 0" class="space-y-0 mx-4 md:mx-0">

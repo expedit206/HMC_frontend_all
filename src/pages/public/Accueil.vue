@@ -585,8 +585,8 @@
 import { ref, onMounted, onBeforeUnmount, computed } from "vue";
 import { RouterLink, useRouter } from "vue-router";
 import axios from "../../axios";
-import SkeletonLoader from "@/SkeletonLoader.vue";
-import PropertyActionBar from "@/PropertyActionBar.vue";
+import SkeletonLoader from "../../components/SkeletonLoader.vue";
+import PropertyActionBar from "../../components/PropertyActionBar.vue";
 
 const router = useRouter();
 

@@ -19,9 +19,9 @@
       </div>
     </div>
     
-    <div class="flex gap-4 overflow-x-auto custom-scrollbar pb-4 px-2 snap-x" ref="scrollContainer">
+    <div class="flex gap-2 md:gap-3 overflow-x-auto custom-scrollbar pb-4 px-2 snap-x" ref="scrollContainer">
       
-      <!-- Upload Story (Bouton d'action premium) -->
+      <!-- Upload Story (Bouton d'action premium)
       <RouterLink to="/publier-bien" class="flex-shrink-0 w-32 h-48 rounded-2xl overflow-hidden relative snap-start group cursor-pointer shadow-lg hover:shadow-xl transition-all border-2 border-dashed border-muted-foreground/20 hover:border-primary/50 bg-muted/20">
         <div class="absolute inset-0 flex flex-col items-center justify-center gap-3 p-4 text-center">
           <div class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
@@ -31,14 +31,14 @@
             Publier<br>une exclu
           </span>
         </div>
-      </RouterLink>
+      </RouterLink> -->
 
       <!-- Stories Items (Card Style Premium) -->
       <RouterLink 
         v-for="story in stories" 
         :key="story.id" 
         :to="`/annonces/${story.slug}`" 
-        class="flex-shrink-0 w-32 h-48 rounded-2xl overflow-hidden relative snap-start group shadow-lg hover:shadow-xl transition-all"
+        class="flex-shrink-0 w-32 h-48 rounded-md overflow-hidden relative snap-start group shadow-lg hover:shadow-xl transition-all"
       >
         <!-- Background Image -->
         <img 

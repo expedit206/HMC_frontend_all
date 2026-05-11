@@ -113,7 +113,7 @@
                                     </td>
                                     <td class="px-6 py-4 text-right">
                                         <span class="text-xs font-bold text-foreground">{{ formatPrice(order.amount)
-                                        }}</span>
+                                            }}</span>
                                     </td>
                                     <td class="px-6 py-4 text-center">
                                         <span
@@ -151,8 +151,8 @@
                             <h4 class="text-xs font-semibold text-foreground truncate">{{ product.name }}</h4>
                             <p class="text-[10px] font-bold"
                                 :class="product.stock === 0 ? 'text-red-500' : 'text-orange-500'">
-                                {{ product.stock === 0 ? 'Rupture de stock' : 'Attention : ' + product.stock + '
-                                restants' }}
+                                {{ product.stock === 0 ? 'Rupture de stock' : 'Attention : ' + product.stock +
+                                'restants' }}
                             </p>
                         </div>
                         <router-link :to="{ name: 'VendeurEditerProduit', params: { id: product.id } }"

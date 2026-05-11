@@ -1,84 +1,128 @@
 <template>
-    <div class="p-6 lg:p-10 space-y-8 max-w-7xl mx-auto animate-in fade-in duration-500">
+    <div class="p-4 sm:p-6 lg:p-10 space-y-6 sm:space-y-8 max-w-7xl mx-auto animate-in fade-in duration-500">
 
         <!-- ═══════════════ HEADER ═══════════════ -->
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-border pb-8">
-            <div>
-                <h1 class="text-3xl font-bold text-foreground tracking-tight">
-                    Suivi des <span class="text-primary font-normal italic">commandes</span>
-                </h1>
-                <p class="text-muted-foreground text-sm mt-1">Gérez vos ventes et mettez à jour les statuts
-                    d'expédition.</p>
-            </div>
+        <div class="flex flex-col gap-6">
 
-            <div class="flex items-center gap-2 px-4 py-2 rounded-xl bg-card border border-border">
-                <span class="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Total</span>
-                <span class="text-xs font-bold text-foreground">{{ orders.length }} Commandes</span>
+            <div
+                class="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-border pb-6 sm:pb-8">
+                <div>
+                    <h1 class="text-2xl sm:text-3xl font-bold text-foreground tracking-tight">
+                        Suivi des <span class="text-primary font-normal italic">commandes</span>
+                    </h1>
+                    <p class="text-muted-foreground text-sm mt-1">Gérez vos ventes et les expéditions.</p>
+                </div>
+
+                <div class="hidden md:flex items-center gap-2 px-4 py-2 rounded-xl bg-card border border-border">
+                    <span class="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Total</span>
+                    <span class="text-xs font-bold text-foreground">{{ orders.length }} Commandes</span>
+                </div>
             </div>
         </div>
 
         <!-- ═══════════════ TABS ═══════════════ -->
-        <div class="flex items-center gap-1 bg-muted/30 border border-border/50 p-1 rounded-xl w-fit">
+        <div
+            class="flex items-center gap-1 bg-muted/30 border border-border/50 p-1 rounded-xl overflow-x-auto no-scrollbar whitespace-nowrap w-fit max-w-full">
             <button v-for="tab in tabs" :key="tab.value" @click="activeTab = tab.value; fetchOrders()"
-                class="px-5 py-2 rounded-lg text-xs font-semibold transition-all" :class="activeTab === tab.value
+                class="px-4 sm:px-5 py-2 rounded-lg text-xs font-semibold transition-all" :class="activeTab === tab.value
                     ? 'bg-white text-primary shadow-sm'
                     : 'text-muted-foreground hover:text-foreground'">
                 {{ tab.label }}
             </button>
         </div>
 
-        <!-- ═══════════════ ORDERS LIST ═══════════════ -->
+        <!-- ═══════════════ ORDERS LIST (Desktop: Table / Mobile: Cards) ═══════════════ -->
         <div v-if="isLoading" class="space-y-4">
             <div v-for="n in 5" :key="n"
                 class="h-20 bg-muted/20 border border-border border-dashed rounded-2xl animate-pulse"></div>
         </div>
 
         <div v-else-if="orders.length > 0" class="space-y-4">
-            <div v-for="order in orders" :key="order.id"
-                class="group bg-card p-5 rounded-2xl border border-border shadow-sm hover:shadow-md transition-all flex flex-col md:flex-row items-center gap-6">
 
-                <!-- Produit info -->
-                <div class="flex items-center gap-4 flex-1 min-w-0">
-                    <div class="w-14 h-14 bg-muted rounded-xl overflow-hidden shrink-0 border border-border/50">
-                        <img :src="order.product?.image" class="w-full h-full object-cover" />
-                    </div>
-                    <div class="min-w-0">
-                        <h3 class="text-sm font-semibold text-foreground line-clamp-1 italic">{{ order.product?.name }}
-                        </h3>
-                        <div class="flex items-center gap-2 mt-1">
-                            <span class="text-[10px] font-medium text-muted-foreground">Acheteur :</span>
-                            <span class="text-[10px] font-bold text-primary">{{ order.buyer?.name }}</span>
+            <!-- DESKTOP VIEW -->
+            <div class="hidden md:block bg-card rounded-2xl border border-border shadow-sm overflow-hidden">
+                <table class="w-full text-left">
+                    <thead>
+                        <tr class="bg-muted/30 border-b border-border">
+                            <th class="px-6 py-4 text-xs font-semibold text-muted-foreground">Articles & Client</th>
+                            <th class="px-6 py-4 text-xs font-semibold text-muted-foreground">Montant</th>
+                            <th class="px-6 py-4 text-xs font-semibold text-muted-foreground">Date</th>
+                            <th class="px-6 py-4 text-xs font-semibold text-muted-foreground text-center">Statut</th>
+                            <th class="px-6 py-4 text-xs font-semibold text-muted-foreground text-right italic">Actions
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-border/50">
+                        <tr v-for="order in orders" :key="order.id" class="hover:bg-muted/5 transition-colors">
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-4">
+                                    <div
+                                        class="w-12 h-12 bg-muted rounded-xl overflow-hidden shrink-0 border border-border/50">
+                                        <img :src="order.product?.image" class="w-full h-full object-cover" />
+                                    </div>
+                                    <div class="min-w-0">
+                                        <h3 class="text-sm font-semibold text-foreground line-clamp-1 italic">{{
+                                            order.product?.name }}</h3>
+                                        <p class="text-[10px] text-muted-foreground mt-1">Client: <span
+                                                class="font-bold text-primary">{{ order.buyer?.name }}</span></p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4">
+                                <span class="text-xs font-bold text-foreground">{{ formatPrice(order.amount) }}</span>
+                            </td>
+                            <td class="px-6 py-4">
+                                <span class="text-[10px] font-semibold text-muted-foreground">{{
+                                    formatDate(order.created_at) }}</span>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <span
+                                    class="inline-flex px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-tight border"
+                                    :class="getStatusClass(order.status)">
+                                    {{ getStatusLabel(order.status) }}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <button v-if="order.status === 'paid_escrow'" @click="handleExpedier(order)"
+                                    class="px-4 py-2 bg-secondary text-secondary-foreground text-[10px] font-bold rounded-lg hover:shadow-lg transition-all">
+                                    Expédier
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- MOBILE VIEW -->
+            <div class="md:hidden space-y-4">
+                <div v-for="order in orders" :key="order.id"
+                    class="bg-card p-4 rounded-2xl border border-border shadow-sm space-y-4">
+                    <div class="flex items-center gap-4">
+                        <img :src="order.product?.image"
+                            class="w-16 h-16 bg-muted rounded-xl object-cover border border-border/50" />
+                        <div class="flex-1 min-w-0">
+                            <span class="inline-block px-2 py-0.5 rounded-md text-[8px] font-bold uppercase border mb-1"
+                                :class="getStatusClass(order.status)">
+                                {{ getStatusLabel(order.status) }}
+                            </span>
+                            <h3 class="text-sm font-bold text-foreground truncate">{{ order.product?.name }}</h3>
+                            <p class="text-[10px] text-muted-foreground italic">Par {{ order.buyer?.name }}</p>
                         </div>
                     </div>
-                </div>
 
-                <!-- Détails -->
-                <div class="flex items-center gap-8 shrink-0">
-                    <div class="text-center md:text-left">
-                        <p class="text-[10px] text-muted-foreground mb-0.5">Montant</p>
-                        <p class="text-xs font-bold text-foreground">{{ formatPrice(order.amount) }}</p>
-                    </div>
-                    <div class="text-center md:text-left border-x border-border/50 px-8">
-                        <p class="text-[10px] text-muted-foreground mb-0.5">Date</p>
-                        <p class="text-[10px] font-semibold text-foreground">{{ formatDate(order.created_at) }}</p>
-                    </div>
-                </div>
-
-                <!-- Statut & Action -->
-                <div class="flex items-center gap-4 shrink-0">
-                    <span class="px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-tight border"
-                        :class="getStatusClass(order.status)">
-                        {{ getStatusLabel(order.status) }}
-                    </span>
-
-                    <button v-if="order.status === 'paid_escrow'" @click="handleExpedier(order)"
-                        class="px-5 py-2.5 bg-secondary text-secondary-foreground text-xs font-bold rounded-xl hover:shadow-lg hover:shadow-secondary/10 transition-all">
-                        Expédier
-                    </button>
-
-                    <div v-else-if="order.status === 'shipped'" class="flex items-center gap-2 text-primary opacity-60">
-                        <i class="fas fa-truck text-xs animate-bounce"></i>
-                        <span class="text-[10px] font-bold uppercase tracking-widest italic">En route</span>
+                    <div class="flex items-center justify-between pt-4 border-t border-border/50">
+                        <div>
+                            <p class="text-[9px] text-muted-foreground uppercase font-bold">Montant</p>
+                            <p class="text-sm font-black text-foreground">{{ formatPrice(order.amount) }}</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-[9px] text-muted-foreground uppercase font-bold">Le {{
+                                formatDate(order.created_at) }}</p>
+                            <button v-if="order.status === 'paid_escrow'" @click="handleExpedier(order)"
+                                class="mt-1 px-4 py-2 bg-secondary text-secondary-foreground text-[10px] font-bold rounded-lg shadow-md active:scale-95">
+                                Expédier
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -86,13 +130,13 @@
 
         <!-- ═══════════════ EMPTY STATE ═══════════════ -->
         <div v-else
-            class="flex flex-col items-center justify-center py-24 text-center bg-muted/10 border border-border border-dashed rounded-3xl opacity-60">
-            <div class="w-20 h-20 bg-muted rounded-2xl flex items-center justify-center mb-6">
-                <i class="fas fa-shopping-bag text-3xl text-muted-foreground/30"></i>
+            class="flex flex-col items-center justify-center py-20 text-center bg-muted/10 border border-border border-dashed rounded-3xl opacity-60">
+            <div class="w-16 h-16 bg-muted rounded-2xl flex items-center justify-center mb-4">
+                <i class="fas fa-shopping-bag text-2xl text-muted-foreground/30"></i>
             </div>
-            <h3 class="text-lg font-bold text-foreground">Aucune commande</h3>
-            <p class="text-muted-foreground text-sm mt-2 max-w-sm mx-auto font-medium">Les commandes à traiter
-                apparaîtront ici.</p>
+            <h3 class="text-base font-bold text-foreground">Aucune commande</h3>
+            <p class="text-muted-foreground text-xs mt-2 max-w-[200px] mx-auto">Les nouvelles ventes apparaîtront ici.
+            </p>
         </div>
 
     </div>
@@ -101,7 +145,10 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from '@/../axios';
+import { useSidebarStore } from '../../stores/sidebar';
+// import { useSidebarStore } from '@/stores/sidebar';
 
+const sidebarStore = useSidebarStore();
 const orders = ref([]);
 const isLoading = ref(true);
 const activeTab = ref('all');
@@ -141,7 +188,6 @@ const handleExpedier = async (order) => {
         }
     } catch (err) {
         console.error(err);
-        alert(err.response?.data?.message || 'Erreur lors de l\'expédition.');
     }
 };
 
@@ -156,14 +202,13 @@ const formatPrice = (price) => {
 const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('fr-FR', {
         day: 'numeric',
-        month: 'short',
-        year: 'numeric'
+        month: 'short'
     });
 };
 
 const getStatusLabel = (status) => {
     const labels = {
-        'pending': 'En attente',
+        'pending': 'Attente',
         'paid_escrow': 'À expédier',
         'shipped': 'En cours',
         'delivered': 'Livrée',
@@ -201,5 +246,14 @@ onMounted(fetchOrders);
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 </style>

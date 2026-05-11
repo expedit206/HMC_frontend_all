@@ -1,31 +1,24 @@
 <template>
   <div class="bg-background min-h-screen">
 
-    <!-- ═══════════════ HEADER ═══════════════ -->
+    <!-- ═══════════════ HEADER (Desktop & Mobile Search) ═══════════════ -->
     <header class="sticky top-0 bg-card border-b border-border z-30 shadow-sm">
       <div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center gap-4">
 
-        <!-- Toggle Sidebar (Mobile Only) -->
-        <button @click="sidebarStore.toggleMobile()"
-          class="md:hidden w-10 h-10 flex items-center justify-center text-foreground">
-          <i class="fas fa-bars text-lg"></i>
-        </button>
-
         <!-- Recherche -->
-        <div class="relative flex-1 max-w-md">
+        <div class="relative flex-1 ">
           <i
             class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground text-xs pointer-events-none"></i>
           <input v-model="searchQuery" @keyup.enter="handleSearch" type="text"
             placeholder="Rechercher sur la marketplace..."
-            class="w-full pl-10 pr-4 py-2.5 bg-muted/50 border border-transparent rounded-xl text-sm font-medium focus:bg-card focus:border-primary/20 focus:outline-none transition-all shadow-inner" />
+            class="w-full pl-10 pr-4 py-2.5 bg-muted/2 border border-transparent rounded-xl text-sm font-medium focus:bg-card focus:border-primary/20 focus:outline-none transition-all shadow-inner" />
         </div>
 
-        <div class="flex-1 hidden md:block"></div>
 
-        <!-- Actions -->
-        <div class="flex items-center gap-2">
+        <!-- Actions (Desktop Only) -->
+        <div class="hidden md:flex items-center gap-2">
           <router-link v-if="authStore.isAuthenticated" :to="{ name: 'MarketplacePublish' }"
-            class="hidden sm:flex items-center gap-2 px-5 py-2.5 bg-primary text-primary-foreground rounded-xl text-xs font-bold hover:shadow-lg hover:shadow-primary/20 transition-all">
+            class="flex items-center gap-2 px-5 py-2.5 bg-primary text-primary-foreground rounded-xl text-xs font-bold hover:shadow-lg hover:shadow-primary/20 transition-all">
             <i class="fas fa-plus"></i>
             <span>Vendre</span>
           </router-link>
@@ -45,14 +38,11 @@
       <div class="border-t border-border bg-card">
         <div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
           <div class="flex items-center gap-3 overflow-x-auto py-3 no-scrollbar scroll-smooth">
-            <div class="shrink-0 md:hidden flex items-center gap-2 pr-2 border-r border-border mr-1">
-              <span class="text-[9px] font-black uppercase text-muted-foreground vertical-text">Menu</span>
-            </div>
             <button v-for="cat in categories" :key="cat.id" @click="activeCategory = cat.id; fetchItems()"
               class="flex items-center gap-2 px-5 py-2 rounded-xl whitespace-nowrap transition-all text-xs font-semibold border"
               :class="activeCategory === cat.id
                 ? 'bg-primary border-primary text-primary-foreground shadow-sm'
-                : 'bg-muted/30 border-transparent text-muted-foreground hover:bg-card hover:border-border'">
+                : ' border text-muted-foreground hover:bg-card hover:border-border'">
               <i :class="cat.icon || 'fas fa-tag'" class="text-[10px] opacity-70"></i>
               {{ cat.name }}
             </button>
@@ -64,7 +54,7 @@
     <!-- ═══════════════ MAIN CONTENT ═══════════════ -->
     <main class="max-w-[1600px] mx-auto p-4 sm:p-6 lg:p-10">
 
-      <!-- Toolbar (Tri + Filtres actifs) -->
+      <!-- Toolbar (Tri) -->
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
           <h2 class="text-xl font-black text-foreground flex items-center gap-3">
@@ -76,10 +66,10 @@
           </h2>
         </div>
 
-        <!-- Tri -->
+        <!-- Tri (Filtre Prix enlevé) -->
         <div class="flex items-center gap-2 bg-card p-1 rounded-full border border-border shadow-sm">
           <button v-for="sort in sortOptions" :key="sort.value" @click="activeSort = sort.value; fetchItems()"
-            class="px-4 py-1.5 rounded-full text-[10px] font-black transition-all" :class="activeSort === sort.value
+            class="px-4 py-1.5 rounded-full text-[10px] font-bold transition-all" :class="activeSort === sort.value
               ? 'bg-primary text-primary-foreground'
               : 'text-muted-foreground hover:text-foreground'">
             {{ sort.label }}
@@ -169,9 +159,8 @@ const hasMorePages = ref(true);
 const scrollTarget = ref(null);
 
 const sortOptions = [
-  { value: 'recent', label: 'Récent' },
-  { value: 'price_asc', label: 'Prix ↑' },
-  { value: 'price_desc', label: 'Prix ↓' },
+  { value: 'recent', label: 'Plus récents' },
+  { value: 'oldest', label: 'Plus anciens' },
 ];
 
 const conditions = [

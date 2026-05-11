@@ -74,7 +74,7 @@
                 <div class="p-5 space-y-3 flex-grow flex flex-col">
                     <div class="flex-grow">
                         <p class="text-[10px] font-bold text-primary uppercase tracking-wider mb-1">{{ product.category
-                            }}</p>
+                        }}</p>
                         <h3 class="text-sm font-semibold text-foreground line-clamp-1 truncate">{{ product.name }}</h3>
                     </div>
 

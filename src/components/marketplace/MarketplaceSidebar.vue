@@ -22,8 +22,8 @@
                 </nav>
             </div>
 
-            <!-- Mes Achats (Si connecté) -->
-            <div v-if="authStore.isAuthenticated">
+            <!-- Mes Achats (Si au moins un achat) -->
+            <div v-if="authStore.isAuthenticated && stats.purchases_count > 0">
                 <h2 class="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-4">Mes Achats</h2>
                 <nav class="space-y-1">
                     <RouterLink to="/marketplace/orders"
@@ -43,7 +43,7 @@
                     <span>Vendre un article</span>
                 </RouterLink>
 
-                <div v-if="authStore.isAuthenticated">
+                <div v-if="authStore.isAuthenticated && stats.sales_count > 0">
                     <h2 class="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-4">Espace
                         Vendeur</h2>
                     <nav class="space-y-1">
@@ -56,34 +56,39 @@
                     </nav>
                 </div>
             </div>
-
-            <!-- Aide & Contact -->
-            <div class="pt-4 border-t border-border">
-                <nav class="space-y-1">
-                    <RouterLink to="/marketplace/aide"
-                        class="flex items-center gap-3 px-4 py-2 rounded-xl text-[11px] font-bold text-muted-foreground hover:text-primary transition-colors">
-                        <i class="fas fa-question-circle w-4"></i>
-                        <span>Centre d'aide</span>
-                    </RouterLink>
-                    <RouterLink to="/marketplace/contact"
-                        class="flex items-center gap-3 px-4 py-2 rounded-xl text-[11px] font-bold text-muted-foreground hover:text-primary transition-colors">
-                        <i class="fas fa-headset w-4"></i>
-                        <span>Contacter le support</span>
-                    </RouterLink>
-                </nav>
-            </div>
-
+            
         </div>
     </aside>
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue';
 import { RouterLink } from 'vue-router';
 import { useAuthStore } from '../../stores/auth';
 import { useSidebarStore } from '../../stores/sidebar';
+import axios from '@/../axios';
 
 const authStore = useAuthStore();
 const sidebarStore = useSidebarStore();
+
+const stats = ref({
+    purchases_count: 0,
+    sales_count: 0
+});
+
+const fetchStats = async () => {
+    if (!authStore.isAuthenticated) return;
+    try {
+        const { data } = await axios.get('/api/marketplace/navigation-stats');
+        if (data.success) {
+            stats.value = data.data;
+        }
+    } catch (err) {
+        console.error('Erreur stats navigation:', err);
+    }
+};
+
+onMounted(fetchStats);
 
 const mainLinks = [
     { name: 'Explorer', to: '/marketplace', icon: 'fas fa-store' },
