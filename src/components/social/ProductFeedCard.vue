@@ -1,5 +1,5 @@
 <template>
-  <article class="bg-card border border-border  overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group flex flex-row  my-2 h-36">
+  <article class="bg-card border border-border md:rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group flex flex-row  my-2 h-36">
     <!-- Image -->
     <RouterLink :to="`/marketplace/${item.id}`" class="block relative w-1/3 min-w-[120px] max-w-[150px] bg-muted overflow-hidden flex-shrink-0">
       <img

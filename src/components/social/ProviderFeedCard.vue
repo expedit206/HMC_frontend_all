@@ -1,6 +1,6 @@
 <template>
   <article
-    class="bg-card border border-border sm:rounded-xl shadow-sm hover:shadow-md transition-all duration-300  my-2 p-4 flex flex-col group relative overflow-hidden text-center sm:text-left sm:flex-row gap-4 items-center sm:items-start">
+    class="bg-card border border-border md:rounded-lg shadow-sm hover:shadow-md transition-all duration-300  my-2 p-4 flex flex-col group relative overflow-hidden text-center sm:text-left sm:flex-row gap-4 items-center sm:items-start">
 
     <!-- Avatar -->
 

@@ -1,5 +1,5 @@
 <template>
-  <article class="bg-card border border-border sm:rounded-xl shadow-sm hover:shadow-md transition-all duration-300  my-2 p-4 flex flex-col gap-3 group relative overflow-hidden">
+  <article class="bg-card border border-border md:rounded-lg shadow-sm hover:shadow-md transition-all duration-300  my-2 p-4 flex flex-col gap-3 group relative overflow-hidden">
     <!-- Décoration urgence -->
     <div v-if="urgencyColor" :class="`absolute top-0 left-0 w-1 h-full ${urgencyColor}`"></div>
 

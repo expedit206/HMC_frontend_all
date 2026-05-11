@@ -23,7 +23,7 @@
 
         <div :class="[
           isFullWidth ? 'w-full ' : (showRightSidebar ? 'mx-auto ' : 'max-w-7xl mx-auto'),
-          isFullWidth ? 'md:px-4' : ' pt-0 sm:px-6',
+          isFullWidth ? '' : ' pt-0 sm:px-6',
           (hideFooter || noMainScroll) ? '' : 'pb-20',
           'transition-all duration-300 h-full'
         ]">

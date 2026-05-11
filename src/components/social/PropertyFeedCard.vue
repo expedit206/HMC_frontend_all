@@ -1,9 +1,9 @@
 <template>
   <article
-    class="bg-card border border-border sm:rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group  my-2">
+    class="bg-card border border-border md:rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group  my-2">
     <!-- Image -->
     <RouterLink :to="`/annonces/${item.slug}`" class="block relative overflow-hidden">
-      <div class="relative h-[2em]  bg-muted">
+      <div class="relative h-[18em]  bg-muted">
         <img v-if="item.image" :src="imageUrl" :alt="item.title"
           class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy"
           @error="onImgError" />

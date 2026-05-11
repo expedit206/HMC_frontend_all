@@ -428,7 +428,7 @@ const handleRegister = async () => {
   if (success) {
     message.text = `Compte créé avec succès pour ${form.firstName} ! Redirection...`
     message.type = 'success'
-    setTimeout(() => router.push({ name: 'ClientDashboard' }), 1000)
+    setTimeout(() => router.push({ name: 'Accueil' }), 1000)
   } else {
     message.text = authStore.error || 'Erreur lors de la création du compte. Vérifiez que cet email n\'est pas déjà utilisé.'
     message.type = 'error'
