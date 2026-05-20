@@ -15,8 +15,9 @@
         <nav class="flex items-center gap-6 font-medium text-sm text-muted-foreground">
           <template v-for="link in navLinks" :key="link.label">
             <!-- Simple Link -->
-            <RouterLink v-if="!link.children" :to="link.to" active-class="text-secondary font-bold"
-              class="flex flex-col lg:flex-row items-center gap-2 hover:text-primary transition-colors whitespace-nowrap">
+            <RouterLink v-if="!link.children" :to="link.to"
+              class="flex flex-col lg:flex-row items-center gap-2 hover:text-primary transition-colors whitespace-nowrap"
+              :class="isLinkActive(link.to) ? 'text-secondary font-bold' : ''">
               <i :class="link.icon" class="text-xs"></i> {{ link.label }}
             </RouterLink>
 
@@ -44,20 +45,13 @@
           </template>
         </nav>
 
-        <!-- Search Bar -->
+        <!-- Search Bar Trigger -->
         <div class="relative flex items-center">
-          <div class="flex items-center transition-all duration-500 ease-in-out"
-            :class="searchExpanded ? 'w-[280px] lg:w-[350px] xl:w-[450px]' : 'w-10'">
-            <button @click="toggleSearch"
-              class="absolute left-0 w-10 h-10 flex items-center justify-center rounded-full text-muted-foreground hover:text-primary transition-all z-10"
-              :class="{ 'text-primary': searchExpanded }" :title="searchExpanded ? 'Fermer' : 'Rechercher'">
-              <i class="fas" :class="searchExpanded ? 'fa-times' : 'fa-search'"></i>
-            </button>
-            <input ref="searchInput" v-model="searchQuery" type="text" placeholder="Rechercher un logement..."
-              class="w-full h-10 rounded-full border border-border  pl-10 pr-4 text-sm placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20 focus:bg-card outline-none transition-all"
-              :class="searchExpanded ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4 pointer-events-none'"
-              @blur="handleBlur" @keyup.enter="handleSearch" />
-          </div>
+          <button @click="isSearchOpen = true" 
+            class="flex items-center gap-3 px-2 py-2 rounded-full border border-border hover:border-primary/30 transition-all text-muted-foreground group"
+            title="Rechercher ">
+            <i class="fas fa-search text-xs group-h eover:text-primary transition-colors"></i>
+          </button> 
         </div>
       </div>
 
@@ -104,19 +98,22 @@
         </div>
 
         <!-- CONNECTÉ : Menu Utilisateur (Style Facebook) pour Desktop & Mobile -->
-        <div v-if="authStore.isAuthenticated" class="relative group">
+        <div v-if="authStore.isAuthenticated" class="relative">
           <button
+            @click.stop="showUserMenu = !showUserMenu"
             class="flex items-center gap-1.5 p-1 rounded-full cursor-pointer transition focus:outline-none relative">
             <UserAvatar :user="authStore.user" size="sm" />
             <div
-              class="w-4 h-4 flex items-center justify-center rounded-full bg-primary/10 top-5 mr-1 group-hover:bg-primary/20 group-hover:text-primary transition-colors absolute -right-1">
-              <i class="fas fa-chevron-down text-[10px]"></i>
+              class="w-4 h-4 flex items-center justify-center rounded-full bg-primary/10 top-5 mr-1 transition-colors absolute -right-1"
+              :class="showUserMenu ? 'bg-primary/20 text-primary' : ''">
+              <i class="fas fa-chevron-down text-[10px]" :class="showUserMenu ? 'rotate-180' : ''"></i>
             </div>
           </button>
 
           <!-- Dropdown Menu (Facebook Style Switcher) -->
-          <div
-            class="absolute right-0 mt-2 w-[calc(100vw-2rem)] sm:w-80 max-w-[320px] bg-card border border-border rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top-right z-[100] p-3">
+          <div v-if="showUserMenu"
+            v-click-outside="() => showUserMenu = false"
+            class="absolute right-0 mt-2 w-[calc(100vw-2rem)] sm:w-80 max-w-[320px] bg-card border border-border rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] z-[100] p-3 animate-fade-in-up">
             <!-- Profil Principal -->
             <div
               class="p-2 mb-3 bg-card border border-border rounded-xl shadow-sm flex flex-col gap-2 relative overflow-hidden">
@@ -197,38 +194,30 @@
       </div>
     </div>
 
-    <!-- Barre de navigation mobile du bas -->
     <nav
       class="lg:hidden bg-card border-t border-border flex justify-between px-2 py-2 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] overflow-x-auto scrollbar-hide sticky bottom-0 z-50">
-      <RouterLink v-for="link in mobileBottomLinks" :key="link.to" :to="link.to" custom v-slot="{ navigate, isActive }">
+      <RouterLink v-for="link in mobileBottomLinks" :key="link.to" :to="link.to" custom v-slot="{ navigate }">
         <div @click="navigate" role="button"
           class="flex flex-col items-center gap-1 min-w-15 transition py-1 cursor-pointer"
-          :class="[isActive ? 'text-secondary scale-110' : 'text-muted-foreground hover:-translate-y-1 hover:text-primary']">
-          <i :class="isActive ? link.icon.replace('far ', 'fas ') : link.icon" class="text-xl"></i>
+          :class="[isLinkActive(link.to) ? 'text-secondary scale-110' : 'text-muted-foreground hover:-translate-y-1 hover:text-primary']">
+          <i :class="isLinkActive(link.to) ? link.icon.replace('far ', 'fas ') : link.icon" class="text-xl"></i>
           <span class="text-[10px] font-bold">{{ link.label }}</span>
         </div>
       </RouterLink>
     </nav>
   </header>
 
-  <!-- MOBILE SEARCH BAR (FULL WIDTH) -->
-  <div v-show="searchExpanded" class="lg:hidden bg-card border-t border-border px-4 py-3 shadow-sm">
-    <div class="relative max-w-7xl mx-auto">
-      <input v-model="searchQuery" type="text" placeholder="Rechercher un logement..."
-        class="w-full h-11 rounded-full border border-border  pl-4 pr-12 text-sm placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20 focus:bg-card outline-none"
-        @keyup.enter="handleSearch" />
-      <button @click="handleSearch" class="absolute right-3 top-1/2 -translate-y-1/2 text-primary">
-        <i class="fas fa-search"></i>
-      </button>
-    </div>
-  </div>
+  <!-- MOBILE SEARCH BAR REMOVED because it's in GlobalSearchOverlay -->
+  
+  <!-- GLOBAL SEARCH OVERLAY -->
+  <GlobalSearchOverlay :is-open="isSearchOpen" @close="isSearchOpen = false" />
 
   <!-- SMART AI ASSISTANT -->
   <AIAssistant />
 </template>
 
 <script setup>
-import { ref, watch, computed } from "vue";
+import { ref, watch, computed, onMounted, onUnmounted } from "vue";
 import { RouterLink, useRoute, useRouter } from "vue-router";
 import { useAuthStore } from "../stores/auth";
 import { useCartStore } from "../stores/cart";
@@ -237,10 +226,10 @@ import UserAvatar from "./common/UserAvatar.vue";
 import ThemeToggle from "./ThemeToggle.vue";
 import AppLogo from "./common/AppLogo.vue";
 import AIAssistant from "./common/AIAssistant.vue";
+import GlobalSearchOverlay from "./search/GlobalSearchOverlay.vue";
 
-const searchExpanded = ref(false);
-const searchQuery = ref("");
-const searchInput = ref(null);
+const isSearchOpen = ref(false);
+const showUserMenu = ref(false);
 const route = useRoute();
 const router = useRouter();
 const authStore = useAuthStore();
@@ -248,36 +237,40 @@ const cartStore = useCartStore();
 const sidebarStore = useSidebarStore();
 
 const toggleSearch = () => {
-  searchExpanded.value = !searchExpanded.value;
-  if (searchExpanded.value) {
-    setTimeout(() => {
-      searchInput.value?.focus();
-    }, 100);
-  }
+  isSearchOpen.value = true;
 };
 
-const handleSearch = () => {
-  if (searchQuery.value.trim()) {
-    router.push({
-      path: "/annonces",
-      query: { search: searchQuery.value.trim() },
-    });
-    searchExpanded.value = false;
-  }
+
+
+// Click outside directive (simulated)
+const vClickOutside = {
+  mounted(el, binding) {
+    el.clickOutsideEvent = (event) => {
+      if (!(el === event.target || el.contains(event.target))) {
+        binding.value(event);
+      }
+    };
+    document.addEventListener("click", el.clickOutsideEvent);
+  },
+  unmounted(el) {
+    document.removeEventListener("click", el.clickOutsideEvent);
+  },
 };
 
-const handleBlur = (e) => {
-  if (!searchQuery.value) {
-    searchExpanded.value = false;
-  }
+const isLinkActive = (to) => {
+  if (to === '/') return route.path === '/';
+  return route.path.startsWith(to);
 };
+
+
 
 // Close menu when route changes
 watch(
   () => route.path,
   () => {
     sidebarStore.isMobileOpen = false;
-    searchExpanded.value = false;
+    isSearchOpen.value = false;
+    showUserMenu.value = false;
   },
 );
 
@@ -347,7 +340,7 @@ const handleLogout = async () => {
 </script>
 
 <style scoped>
-@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css");
+@import '@fortawesome/fontawesome-free/css/all.min.css';
 
 @keyframes fadeInUp {
   from {

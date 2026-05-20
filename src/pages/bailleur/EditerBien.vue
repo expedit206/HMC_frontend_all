@@ -71,19 +71,14 @@
                                 class="w-full px-5 py-4 bg-muted/20 border-none rounded-2xl text-sm font-bold focus:ring-2 focus:ring-secondary/20 outline-none transition-all text-foreground" />
                         </div>
 
-                        <!-- Ville -->
-                        <div>
-                            <label class="block text-[10px] text-muted-foreground font-bold uppercase mb-2 ml-2">Ville</label>
-                            <input v-model="form.city" type="text" required
-                                class="w-full px-5 py-4 bg-muted/20 border-none rounded-2xl text-sm font-medium focus:ring-2 focus:ring-secondary/20 outline-none transition-all text-foreground placeholder:text-muted-foreground" />
-                        </div>
-
-                        <!-- Quartier -->
+                        <!-- Localisation -->
                         <div class="col-span-1 md:col-span-2">
-                            <label class="block text-[10px] text-muted-foreground font-bold uppercase mb-2 ml-2">Quartier /
-                                Adresse précise</label>
-                            <input v-model="form.location" type="text" required
-                                class="w-full px-5 py-4 bg-muted/20 border-none rounded-2xl text-sm font-medium focus:ring-2 focus:ring-secondary/20 outline-none transition-all text-foreground placeholder:text-muted-foreground" />
+                            <CameroonLocationFields
+                              v-model:city="form.city"
+                              v-model:location="form.location"
+                              city-id="edit-city"
+                              neighborhood-id="edit-neighborhood"
+                            />
                         </div>
 
                         <!-- Chambres / SDB -->
@@ -155,6 +150,7 @@ import { ref, reactive, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { usePropertyStore } from "../../stores/properties";
 import axios from "../../axios";
+import CameroonLocationFields from "@/common/CameroonLocationFields.vue";
 
 const route = useRoute();
 const router = useRouter();

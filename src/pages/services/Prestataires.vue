@@ -1,10 +1,10 @@
 <template>
-  <div class="min-h-screen bg-gray-50/50">
+  <div class="min-h-screen bg-background">
 
     <!-- ═══════════════════════════════════════════════
          BARRE DE FILTRES (Desktop)
     ════════════════════════════════════════════════ -->
-    <header class="bg-white border-b border-border sticky top-0 z-30">
+    <header class="bg-card border-b border-border sticky top-0 z-30">
       <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-3">
         <div class="flex items-center gap-3">
 
@@ -14,7 +14,7 @@
           <div class="hidden md:flex items-center gap-2">
 
             <!-- Séparateur visuel -->
-            <div class="w-px h-6 bg-gray-200"></div>
+            <div class="w-px h-6 bg-muted/80"></div>
 
             <!-- Filtre Ville -->
             <div class="relative">
@@ -22,54 +22,45 @@
               <select
                 v-model="activeCity"
                 @change="onCityChange"
-                class="pl-8 pr-8 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-bold text-gray-700 focus:ring-2 focus:ring-secondary/20 focus:border-secondary/40 transition-all appearance-none cursor-pointer min-w-[140px]"
+                class="pl-8 pr-8 py-2.5 bg-muted/50 border border-border rounded-xl text-xs font-bold text-foreground focus:ring-2 focus:ring-secondary/20 focus:border-secondary/40 transition-all appearance-none cursor-pointer min-w-[140px]"
               >
                 <option value="Tout le pays"> Toutes les villes</option>
                 <option v-for="city in cities" :key="city" :value="city">{{ city }}</option>
               </select>
-              <i class="fas fa-chevron-down absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-[9px] pointer-events-none"></i>
+              <i class="fas fa-chevron-down absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground text-[9px] pointer-events-none"></i>
             </div>
 
             <!-- Filtre Quartier (toujours affiché, désactivé si pas de ville) -->
             <div class="relative">
               <i class="fas fa-location-dot absolute left-3 top-1/2 -translate-y-1/2 text-xs pointer-events-none"
-                :class="activeCity !== 'Tout le pays' ? 'text-secondary' : 'text-gray-300'"
+                :class="activeCity !== 'Tout le pays' ? 'text-secondary' : 'text-muted-foreground/50'"
               ></i>
               <select
                 v-model="activeNeighborhood"
                 :disabled="activeCity === 'Tout le pays'"
                 class="pl-8 pr-8 py-2.5 border rounded-xl text-xs font-bold focus:ring-2 focus:ring-secondary/20 focus:border-secondary/40 transition-all appearance-none min-w-[150px]"
                 :class="activeCity !== 'Tout le pays'
-                  ? 'bg-gray-50 border-gray-200 text-gray-700 cursor-pointer'
-                  : 'bg-gray-100/60 border-gray-100 text-gray-300 cursor-not-allowed'"
+                  ? 'bg-muted/50 border-border text-foreground cursor-pointer'
+                  : 'bg-muted/30 border-border text-muted-foreground/50 cursor-not-allowed'"
               >
-                <option value="">{{ activeCity === 'Tout le pays' ? 'Choisir une ville d\'abord' : 'Tous les quartiers' }}</option>
+                <option value="">{{ activeCity === 'Tout le pays' ? 'Choisir un quartier' : 'Tous les quartiers' }}</option>
                 <option v-for="q in neighborhoodsForCity" :key="q" :value="q">{{ q }}</option>
               </select>
               <i class="fas fa-chevron-down absolute right-3 top-1/2 -translate-y-1/2 text-[9px] pointer-events-none"
-                :class="activeCity !== 'Tout le pays' ? 'text-gray-400' : 'text-gray-300'"
+                :class="activeCity !== 'Tout le pays' ? 'text-muted-foreground' : 'text-muted-foreground/50'"
               ></i>
             </div>
           </div>
 
-            <!-- Recherche (toujours visible) -->
-          <div class="relative flex-1 min-w-0 ">
-            <i class="fas fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
-            <input
-              v-model="searchQuery"
-              @keyup.enter="handleSearch"
-              type="text"
-              placeholder="Plombier, électricien..."
-              class="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-secondary/20 focus:bg-white focus:border-secondary/40 transition-all text-sm font-medium"
-            />
-          </div>
+          <!-- Recherche (toujours visible) SUPPRIMÉE car gérée par le Header -->
+          <div class="hidden"></div>
           <!-- Spacer -->
           <div class="flex-1 hidden md:block"></div>
 
           <!-- Bouton Devenir Prestataire (Desktop) -->
           <router-link
             to="/prestataire/inscription"
-            class="hidden md:flex items-center gap-2 px-5 py-2.5 bg-gray-900 text-white text-xs font-black rounded-xl hover:bg-secondary hover:shadow-lg hover:shadow-secondary/25 transition-all shrink-0"
+            class="hidden md:flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-xs font-black rounded-xl hover:bg-secondary hover:shadow-lg hover:shadow-secondary/25 transition-all shrink-0"
           >
             <i class="fas fa-user-plus"></i>
             Devenir Prestataire
@@ -78,25 +69,25 @@
           <!-- Bouton menu Mobile -->
           <button
             @click="mobileMenuOpen = !mobileMenuOpen"
-            class="md:hidden flex items-center justify-center w-10 h-10 rounded-xl bg-gray-100 hover:bg-gray-200 transition-all shrink-0"
+            class="md:hidden flex items-center justify-center w-10 h-10 rounded-xl bg-muted hover:bg-muted/80 transition-all shrink-0"
           >
-            <i class="fas text-gray-600" :class="mobileMenuOpen ? 'fa-times' : 'fa-sliders-h'"></i>
+            <i class="fas text-foreground" :class="mobileMenuOpen ? 'fa-times' : 'fa-sliders-h'"></i>
           </button>
         </div>
 
         <!-- ─── Menu Mobile déroulant ─── -->
         <transition name="menu-drop">
-          <div v-if="mobileMenuOpen" class="md:hidden mt-3 pb-3 border-t border-gray-100 pt-3 space-y-3">
+          <div v-if="mobileMenuOpen" class="md:hidden mt-3 pb-3 border-t border-border pt-3 space-y-3">
 
             <!-- Filtre Ville -->
             <div>
-              <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1.5 block">
+              <label class="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-1.5 block">
                 <i class="fas fa-map-marker-alt mr-1 text-secondary"></i>Ville
               </label>
               <select
                 v-model="activeCity"
                 @change="onCityChange"
-                class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-bold text-gray-700 focus:ring-2 focus:ring-secondary/20 focus:border-secondary/40 transition-all"
+                class="w-full px-4 py-2.5 bg-muted/50 border border-border rounded-xl text-sm font-bold text-foreground focus:ring-2 focus:ring-secondary/20 focus:border-secondary/40 transition-all"
               >
                 <option value="Tout le pays">Tout le pays</option>
                 <option v-for="city in cities" :key="city" :value="city">{{ city }}</option>
@@ -105,12 +96,12 @@
 
             <!-- Filtre Quartier Mobile -->
             <div v-if="activeCity !== 'Tout le pays'">
-              <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1.5 block">
+              <label class="text-[10px] font-black text-muted-foreground uppercase tracking-widest mb-1.5 block">
                 <i class="fas fa-location-dot mr-1 text-secondary"></i>Quartier
               </label>
               <select
                 v-model="activeNeighborhood"
-                class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-bold text-gray-700 focus:ring-2 focus:ring-secondary/20 focus:border-secondary/40 transition-all"
+                class="w-full px-4 py-2.5 bg-muted/50 border border-border rounded-xl text-sm font-bold text-foreground focus:ring-2 focus:ring-secondary/20 focus:border-secondary/40 transition-all"
               >
                 <option value="">Tous les quartiers</option>
                 <option v-for="q in neighborhoodsForCity" :key="q" :value="q">{{ q }}</option>
@@ -121,7 +112,7 @@
             <router-link
               to="/prestataire/inscription"
               @click="mobileMenuOpen = false"
-              class="flex items-center justify-center gap-2 w-full px-5 py-3 bg-gray-900 text-white text-sm font-black rounded-xl hover:bg-secondary transition-all"
+              class="flex items-center justify-center gap-2 w-full px-5 py-3 bg-primary text-white text-sm font-black rounded-xl hover:bg-secondary transition-all"
             >
               <i class="fas fa-user-plus"></i>
               Devenir Prestataire
@@ -139,8 +130,8 @@
       <!-- Titre + compteur -->
       <div class="flex items-center justify-between mb-6">
         <div>
-          <h2 class="text-xl font-black text-gray-900">Annuaire des Pros</h2>
-          <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">
+          <h2 class="text-xl font-black text-foreground">Annuaire des Pros</h2>
+          <p class="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mt-1">
             <span v-if="activeCity === 'Tout le pays'">Disponibles dans tout le pays</span>
             <span v-else-if="activeNeighborhood">{{ activeNeighborhood }}, {{ activeCity }}</span>
             <span v-else>Disponibles à {{ activeCity }}</span>
@@ -171,7 +162,7 @@
 
       <!-- LOADING STATE -->
       <div v-if="isLoading && providers.length === 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        <div v-for="n in 8" :key="n" class="h-64 bg-white rounded-3xl border border-border animate-pulse shadow-sm"></div>
+        <div v-for="n in 8" :key="n" class="h-64 bg-card rounded-3xl border border-border animate-pulse shadow-sm"></div>
       </div>
 
       <!-- GRID -->
@@ -181,11 +172,11 @@
 
       <!-- EMPTY STATE -->
       <div v-else-if="!isLoading" class="flex flex-col items-center justify-center py-32 text-center">
-        <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mb-6">
-          <i class="fas fa-search-minus text-3xl text-gray-300"></i>
+        <div class="w-20 h-20 bg-muted rounded-full flex items-center justify-center mb-6">
+          <i class="fas fa-search-minus text-3xl text-muted-foreground/50"></i>
         </div>
-        <h3 class="text-lg font-bold text-gray-900">Aucun expert trouvé</h3>
-        <p class="text-gray-500 mt-2 text-sm max-w-xs mx-auto">Nous n'avons pas encore de prestataire pour cette recherche ou dans cette zone.</p>
+        <h3 class="text-lg font-bold text-foreground">Aucun expert trouvé</h3>
+        <p class="text-muted-foreground mt-2 text-sm max-w-xs mx-auto">Nous n'avons pas encore de prestataire pour cette recherche ou dans cette zone.</p>
         <button @click="resetSearch" class="mt-6 text-secondary text-xs font-black uppercase hover:underline">
           Réinitialiser les filtres
         </button>
@@ -195,9 +186,9 @@
       <div ref="scrollTarget" class="py-12 flex justify-center">
         <div v-if="isLoading && providers.length > 0" class="flex items-center gap-3">
           <div class="w-6 h-6 border-2 border-secondary/20 border-t-secondary rounded-full animate-spin"></div>
-          <span class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">Chargement des experts...</span>
+          <span class="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">Chargement des experts...</span>
         </div>
-        <div v-else-if="!hasMorePages && providers.length > 0" class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-300 italic">
+        <div v-else-if="!hasMorePages && providers.length > 0" class="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/50 italic">
           Fin de l'annuaire
         </div>
       </div>

@@ -31,14 +31,15 @@
                     <div v-for="(msg, idx) in messages" :key="idx"
                         :class="['flex', msg.role === 'user' ? 'justify-end' : 'justify-start']">
 
-                        <div :class="[
+                        <div v-if="msg.role === 'model'" :class="[
                             'max-w-[85%] p-3 rounded-2xl text-sm shadow-sm animate-in slide-in-from-bottom-2 duration-300',
-                            msg.role === 'user'
-                                ? 'bg-primary text-primary-foreground rounded-tr-none'
-                                : 'bg-muted border border-border text-foreground rounded-tl-none'
-                        ]">
-                            {{ msg.content }}
-                        </div>
+                            'bg-muted border border-border text-foreground rounded-tl-none prose prose-sm dark:prose-invert prose-p:leading-snug prose-ul:my-1 prose-li:my-0 prose-headings:font-bold prose-headings:mb-1'
+                        ]" v-html="renderMarkdown(msg.content)"></div>
+
+                        <div v-else :class="[
+                            'max-w-[85%] p-3 rounded-2xl text-sm shadow-sm animate-in slide-in-from-bottom-2 duration-300',
+                            'bg-primary text-primary-foreground rounded-tr-none'
+                        ]">{{ msg.content }}</div>
                     </div>
 
                     <!-- Loading / Typing -->
@@ -84,7 +85,7 @@
         <button @click="isOpen = !isOpen"
             class="w-14 h-14 bg-primary text-primary-foreground rounded-full shadow-lg flex items-center justify-center hover:bg-primary/90 hover:scale-110 transition-all border-2 border-card relative group shadow-[0_8px_25px_-5px_rgba(var(--primary-rgb),0.5)]">
             <i
-                :class="['fas text-2xl transition-transform duration-500', isOpen ? 'fa-times rotate-90' : 'fa-robot']"></i>
+                :class="['fas  text-white  text-2xl transition-transform duration-500', isOpen ? 'fa-times rotate-90' : 'fa-robot']"></i>
 
             <span v-if="!isOpen"
                 class="absolute -top-1 -right-1 w-4 h-4 bg-secondary rounded-full border-2 border-card flex items-center justify-center animate-bounce">
@@ -103,6 +104,7 @@
 <script setup>
 import { ref, nextTick, watch } from 'vue';
 import axios from '@/../axios';
+import { marked } from 'marked';
 
 const isOpen = ref(false);
 const isLoading = ref(false);
@@ -119,6 +121,11 @@ const suggestions = [
     "Comment visiter un logement ?",
     "Quels sont les frais ?",
 ];
+
+const renderMarkdown = (text) => {
+    if (!text) return '';
+    return marked.parse(text);
+};
 
 const scrollToBottom = async () => {
     await nextTick();
@@ -163,7 +170,7 @@ const sendMessage = async () => {
     } catch (err) {
         messages.value.push({
             role: 'model',
-            content: 'Désolé, j\'ai un petit souci technique. Pouvez-vous réessayer dans un instant ?'
+            content: 'Désolé, j\'ai un petit souci technique. veuillez réessayer dans un instant ?'
         });
     } finally {
         isLoading.value = false;
@@ -220,5 +227,33 @@ watch(isOpen, (val) => {
 
 .animate-pulse-soft {
     animation: pulse-soft 2s infinite ease-in-out;
+}
+
+:deep(.prose p) {
+    margin-bottom: 0.5rem;
+}
+:deep(.prose p:last-child) {
+    margin-bottom: 0;
+}
+:deep(.prose ul) {
+    list-style-type: disc;
+    padding-left: 1rem;
+    margin-bottom: 0.5rem;
+}
+:deep(.prose ol) {
+    list-style-type: decimal;
+    padding-left: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+:deep(.prose li) {
+    margin-bottom: 0.25rem;
+}
+:deep(.prose strong) {
+    font-weight: 800;
+}
+:deep(.prose h1), :deep(.prose h2), :deep(.prose h3), :deep(.prose h4) {
+    font-weight: 800;
+    margin-top: 0.75rem;
+    margin-bottom: 0.25rem;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="relative py-2 overflow-hidden">
+  <div class="relative py-2 overflow-hidden mx-2  ">
     <!-- Header avec titre et navigation -->
     <div class="flex items-center justify-between mb-4 px-2">
       <h3 class="text-sm font-black text-foreground uppercase tracking-[0.2em] flex items-center gap-2">
@@ -63,7 +63,7 @@
 
         <!-- Avatar du vendeur (Simulé ou réel) -->
         <div class="absolute top-2 right-2 z-10 ring-2 ring-secondary rounded-full overflow-hidden w-6 h-6 border-2 border-white shadow-sm">
-          <img :src="`https://i.pravatar.cc/100?u=${story.id}`" class="w-full h-full object-cover">
+          <UserAvatar :user="{ avatar: story.agent_avatar, name: story.title, id: story.id }" size="xs" class="w-full h-full" />
         </div>
 
         <!-- Info en bas -->
@@ -87,6 +87,7 @@
 <script setup>
 import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
+import UserAvatar from '../common/UserAvatar.vue'
 
 const props = defineProps({
   stories: {

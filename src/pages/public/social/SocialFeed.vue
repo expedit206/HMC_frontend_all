@@ -1,5 +1,5 @@
 <template>
-  <div class="social-feed">
+  <div class="social-feed sm:mx-10">
     
     <!-- Boutons Raccourcis -->
     <QuickActionBar class="mb-4" />
@@ -17,7 +17,7 @@
       <TransitionGroup name="feed" tag="div">
         <template v-for="(item, index) in feedStore.feedItems" :key="item.feed_type + '-' + item.id + '-' + index">
           
-          <PropertyFeedCard v-if="item.feed_type === 'property'" :item="item" @open-comments="openCommentModal" />
+          <PropertyFeedCard v-if="item.feed_type === 'property'" :item="item" @open-comments="openCommentModal" @hide-item="hideFeedItem" />
           
           <ProductFeedCard v-else-if="item.feed_type === 'product'" :item="item" />
           
@@ -100,6 +100,12 @@ const closeCommentModal = () => {
 const updateCommentCount = (count) => {
   if (activeCommentItem.value) {
     activeCommentItem.value.review_count = count
+  }
+}
+
+const hideFeedItem = (id) => {
+  if (feedStore.feedItems) {
+    feedStore.hideItem(id, 'property');
   }
 }
 

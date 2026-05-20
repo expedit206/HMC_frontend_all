@@ -1,17 +1,6 @@
 <template>
   <aside class="w-[350px] bg-card border-l border-border h-[calc(100vh-80px)] sticky top-[80px] overflow-y-auto custom-scrollbar flex flex-col hidden xl:flex">
     
-    <!-- HEADER RECHERCHE RAPIDE (Visuel) -->
-    <div class="p-6 pb-2">
-      <div class="relative group">
-        <input 
-          type="text" 
-          placeholder="Rechercher sur le feed..." 
-          class="w-full bg-muted/50 border border-border rounded-2xl py-3 pl-12 pr-4 text-xs font-bold focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-hidden"
-        >
-        <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors"></i>
-      </div>
-    </div>
 
     <div class="p-6 space-y-8">
       
@@ -22,7 +11,6 @@
             <span class="w-1.5 h-1.5 bg-secondary rounded-full animate-pulse"></span>
             À la une
           </h3>
-          <span class="text-[10px] font-bold text-muted-foreground bg-muted px-2 py-0.5 rounded-md">Live</span>
         </div>
 
         <div class="group relative rounded-2xl overflow-hidden bg-muted aspect-4/5 shadow-lg shadow-black/5 hover:shadow-xl transition-all">
@@ -133,18 +121,7 @@
 
     </div>
 
-    <!-- MINI FOOTER -->
-    <div class="mt-auto p-6 pt-0">
-      <div class="border-t border-border pt-4 pb-2 flex flex-wrap gap-x-4 gap-y-2 justify-center">
-        <RouterLink to="/politique-confidentialite" class="text-[9px] font-black uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors">Politique</RouterLink>
-        <RouterLink to="/assistance" class="text-[9px] font-black uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors">Assistance</RouterLink>
-        <RouterLink to="/contact" class="text-[9px] font-black uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors">Contact</RouterLink>
-      </div>
-      <p class="text-[9px] font-black uppercase tracking-widest text-muted-foreground/40 text-center">
-        &copy; {{ new Date().getFullYear() }} HomeCameroon • Douala - Yaoundé
-      </p>
-    </div>
-
+   
   </aside>
 </template>
 

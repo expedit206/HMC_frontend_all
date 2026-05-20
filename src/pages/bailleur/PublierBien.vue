@@ -154,30 +154,12 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label
-                  class="block text-[10px] text-muted-foreground font-bold uppercase mb-2 ml-2"
-                  >Ville</label
-                >
-                <input
-                  v-model="form.city"
-                  type="text"
-                  required
-                  placeholder="Ex: Yaoundé"
-                  class="w-full px-5 py-4 bg-muted/20 border-none rounded-2xl text-sm font-medium focus:ring-2 focus:ring-secondary/20 outline-none transition-all text-foreground placeholder:text-muted-foreground"
-                />
-              </div>
-              <div>
-                <label
-                  class="block text-[10px] text-muted-foreground font-bold uppercase mb-2 ml-2"
-                  >Quartier / Adresse précise</label
-                >
-                <input
-                  v-model="form.location"
-                  type="text"
-                  required
-                  placeholder="Ex: Bastos, Rue de l'Ambassade"
-                  class="w-full px-5 py-4 bg-muted/20 border-none rounded-2xl text-sm font-medium focus:ring-2 focus:ring-secondary/20 outline-none transition-all text-foreground placeholder:text-muted-foreground"
+              <div class="col-span-1 md:col-span-2">
+                <CameroonLocationFields
+                  v-model:city="form.city"
+                  v-model:location="form.location"
+                  city-id="publier-city"
+                  neighborhood-id="publier-neighborhood"
                 />
               </div>
 
@@ -329,6 +311,7 @@
 import { ref, reactive } from "vue";
 import { RouterLink, useRouter } from "vue-router";
 import axios from "../../axios";
+import CameroonLocationFields from "@/common/CameroonLocationFields.vue";
 const router = useRouter();
 
 // Step Management

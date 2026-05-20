@@ -8,7 +8,6 @@
         <img v-if="avatarUrl" :src="avatarUrl" :alt="userName" class="w-full h-full object-cover"
         @error="handleError" />
         <div v-else class="w-full h-full flex items-center justify-center font-bold text-gray-500 uppercase"
-        {{ props }}
             :class="textClasses[size] || 'text-sm'" :style="{ backgroundColor: bgColor }">
             {{ initials }}
         </div>

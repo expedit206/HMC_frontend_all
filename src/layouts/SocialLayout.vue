@@ -23,9 +23,9 @@
 
         <div :class="[
           isFullWidth ? 'w-full ' : (showRightSidebar ? 'mx-auto ' : 'max-w-7xl mx-auto'),
-          isFullWidth ? '' : ' pt-0 sm:px-6',
+          isFullWidth ? '' :(route.name !== 'SocialFeed'? 'px-4':'px-0'),  ' pt-0 sm:px-',
           (hideFooter || noMainScroll) ? '' : 'pb-20',
-          'transition-all duration-300 h-full'
+          'transition-all duration-300 h-full pb-20'
         ]">
           <RouterView />
         </div>

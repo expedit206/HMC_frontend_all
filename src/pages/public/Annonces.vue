@@ -1,25 +1,12 @@
 <template>
-  <div class=" h-full overflow-hidden ">
+  <div class="h-[calc(100vh-80px)] lg:h-[calc(100vh-80px)] pb-16 lg:pb-0 overflow-hidden flex flex-col ">
     <!-- Header Mobile (visible uniquement sur mobile/tablette) -->
-    <div class="lg:hidden bg-card  pb-2 p-4 sticky top-0 z-40 flex items-center gap-2">
 
-      <div class="flex gap-3">
-        <button @click="showMobileFilters = true"
-          class="flex-1 flex items-center justify-center gap-2 bg-background border border-border rounded-lg px-4 py-2 shadow-sm hover: transition-colors">
-          <i class="fas fa-filter text-primary"></i>
-          <span class="font-semibold text-foreground">Filtres</span>
-        </button>
-      </div>
-      <div class="flex items-center gap-2 border p-2 w-full rounded-md hover:border-blue">
-        <input type="search" class="border-none w-full outline-none ">
-        <i class="fas fa-search absolute right-8 cursor-pointer"></i>
-      </div>
-    </div>
 
     <div class="h-full flex overflow-hidden">
       <!-- SIDEBAR FILTRES (Desktop) -->
       <aside
-        class="hidden lg:block w-[350px] border-r border-border bg-card overflow-y-auto custom-scrollbar flex-shrink-0">
+        class="hidden lg:block w-[350px] border-r border-border bg-card overflow-y-auto custom-scrollbar hidden-scrollbar flex-shrink-0">
         <div class="p-6">
           <!-- En-tête du filtre -->
           <div class="flex justify-between items-center mb-6 pb-4 border-b border-border">
@@ -30,13 +17,10 @@
             </button>
           </div>
 
-          <!-- Recherche rapide -->
-          <div class="mb-6">
-            <div class="relative">
-              <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground"></i>
-              <input v-model="filters.search" type="text" placeholder="Rechercher un bien..."
-                class="w-full bg-background border border-input rounded-[.45rem] pl-10 pr-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent transition-all" />
-            </div>
+          <!-- Filtres actifs -->
+          <div class="mb-4 flex items-center justify-between">
+             <span class="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Filtres</span>
+             <span class="text-[10px] font-bold text-primary px-2 py-0.5 bg-primary/10 rounded-full">{{ activeFiltersCount }} actifs</span>
           </div>
 
           <!-- Sections de filtres -->
@@ -83,7 +67,7 @@
                   <input type="text" placeholder="Rechercher une ville..."
                     class="w-full bg-background border border-input rounded-[.45rem] pl-10 pr-4 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent" />
                 </div>
-                <div class="max-h-40 overflow-y-auto custom-scrollbar">
+                <div class="max-h-40 overflow-y-auto custom-scrollbar hidden-scrollbar">
                   <label v-for="city in cities" :key="city.value"
                     class="flex items-center justify-between p-2 hover:bg-muted/50 rounded-[.45rem] cursor-pointer transition-colors"
                     :class="{ 'bg-secondary/10': filters.cities.includes(city.value) }">
@@ -272,13 +256,13 @@
       </aside>
 
       <!-- MAIN CONTENT (Scrollable Feed) -->
-      <main class="flex-1 overflow-y-auto custom-scrollbar h-full bg-muted/5+">
-        <div class="max-w-5xl mx-auto px-6 py-8">
+      <main class=" sm:mx-8 flex-1 custom-scrollbar hidden-scrollbar h-full bg-muted/5+ flex flex-col min-h-0">
+        <div class="max-w-5xl mx-auto py-2 flex flex-col h-full w-full">
           <!-- En-tête Desktop -->
-          <div class="hidden lg:block mb-8">
+          <div class="hidden lg:block mb-4 ">
             <div class="flex justify-between items-center">
 
-              <div class="flex items-center gap-3">
+              <div class="flex items-center gap-3 ">
                 <!-- Bouton Trier avec dropdown -->
                 <div class="relative">
                   <button @click="showSortDropdown = !showSortDropdown"
@@ -311,7 +295,7 @@
           </div>
 
           <!-- Filtres actifs (Tags) -->
-          <div class="mb-6" v-if="activeFiltersCount > 0">
+          <div class="mb-2" v-if="activeFiltersCount > 0">
             <div class="flex flex-wrap gap-2">
               <span v-for="city in filters.cities" :key="city"
                 class="px-3 py-1.5 bg-secondary text-white text-sm rounded-full flex items-center gap-2">
@@ -356,7 +340,8 @@
           </div>
 
           <!-- Liste des annonces -->
-          <div class="space-y-8">
+          <div class="space-y-1 overflow-y-scroll custom-scrollbar hidden-scrollbar h-full pb-20 lg:pb-4 flex-1 min-h-0">
+
             <!-- Squelettes chargement -->
             <template v-if="isLoading">
               <div v-for="n in 4" :key="n"
@@ -399,116 +384,12 @@
             <!-- Résultats -->
             <template v-else>
               <div v-for="property in properties" :key="property.id"
-                class="bg-card rounded-[.45rem] shadow-lg overflow-hidden border border-border hover:border-secondary transition-all group property-card">
+                class="  transition-all ">
                 <!-- ... existing property card content ... -->
-                <div class="flex flex-col md:flex-row">
-                  <!-- Image Section -->
-                  <div class="md:w-2/5 relative h-64 md:h-auto md:self-stretch overflow-hidden group/image">
-                    <div class="absolute inset-0 flex transition-transform duration-500 ease-in-out"
-                      :style="{ transform: `translateX(-${(property.currentImageIndex || 0) * 100}%)` }">
-                      <div v-for="(img, idx) in (property.all_images?.length ? property.all_images : [property.image])"
-                        :key="idx" class="min-w-full h-full bg-cover bg-center"
-                        :style="{ backgroundImage: `url('${prepareImageUrl(img)}')` }">
-                      </div>
-                    </div>
-
-                    <div
-                      class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent md:bg-gradient-to-r pointer-events-none">
-                    </div>
-
-                    <template v-if="property.all_images && property.all_images.length > 1">
-                      <button @click.prevent="prevPropertyImage(property)"
-                        class="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-black/30 hover:bg-black/60 text-white rounded-full flex items-center justify-center transition-all opacity-0 group-hover/image:opacity-100 z-30">
-                        <i class="fas fa-chevron-left text-xs"></i>
-                      </button>
-                      <button @click.prevent="nextPropertyImage(property)"
-                        class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-black/30 hover:bg-black/60 text-white rounded-full flex items-center justify-center transition-all opacity-0 group-hover/image:opacity-100 z-30">
-                        <i class="fas fa-chevron-right text-xs"></i>
-                      </button>
-
-                      <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5 z-30 pointer-events-none">
-                        <div v-for="(_, idx) in property.all_images" :key="idx"
-                          class="w-1.5 h-1.5 rounded-full transition-all"
-                          :class="idx === (property.currentImageIndex || 0) ? 'bg-secondary w-3' : 'bg-white/50'">
-                        </div>
-                      </div>
-                    </template>
-                    <!-- {{ property.type === "rent" ? "À louer" : "À vendre" }} -->
-
-                    <div v-if="property.category"
-                      class="flex items-center text-foreground/80 text-white text-sm absolute top-3 right-3 font-semibold italic p-2 py-1 border rounded-full drop-shadow-[2px_0px_2px_rgba(0,0,0,1)] ">
-                      <span class="drop-shadow-[1px_0px_1px_rgba(0,0,0,1)]">{{ property.category }}</span>
-                    </div>
-
-                    <div v-if="property.avg_rating > 0"
-                      class="absolute top-3 left-3 bg-black/70 backdrop-blur-sm text-white px-2.5 py-1 rounded-full text-xs font-bold flex items-center gap-1">
-                      <i class="fas fa-star text-amber-400 text-[10px]"></i>
-                      {{ property.avg_rating }}
-                    </div>
-
-                    <PropertyActionBar :property="property" :is-fav="isFavorite(property.id)" btn-size="md"
-                      position="absolute right-3 bottom-4" @toggle-favorite="toggleFavorite" @share="shareProperty" />
-                  </div>
-
-                  <div class="md:w-3/5 p-6 flex flex-col justify-between">
-                    <div>
-                      <div class="flex justify-between items-start mb-2 relative">
-                        <h2
-                          class="text-xl md:text-2xl font-bold text-foreground group-hover:text-secondary transition-colors line-clamp-1 pr-6"
-                          :title="property.title">
-                          {{ property.title }}
-                        </h2>
-                      </div>
-                      <p class="text-foreground/80 mb-4 line-clamp-2 text-sm md:text-base mt-2">
-                        {{ property.description }}
-                      </p>
-
-                      <div class="flex items-center text-secondary mb-4 text-sm font-medium">
-                        <i class="fas fa-map-marker-alt mr-2"></i>
-                        <span>{{ property.location }}</span>
-                        <!-- <span v-if="property.city"
-                          class="hidden sm:inline-block ml-4 text-xs text-muted-foreground px-2 py-0.5 rounded bg-muted">
-                          {{ property.city }}
-                        </span> -->
-                      </div>
-
-                      <div class="flex flex-wrap gap-4 mb-0 pb-2 border-b border-border">
-                        <div class="flex items-center text-foreground/80 text-sm">
-                          <i class="fas fa-check-circle text-secondary mr-1.5"></i>
-                          <span>{{ property.rooms || 0 }} Chambres</span>
-                        </div>
-                        <div class="flex items-center text-foreground/80 text-sm">
-                          <i class="fas fa-check-circle text-secondary mr-1.5"></i>
-                          <span>{{ property.bathrooms || 0 }} Douches</span>
-                        </div>
-                        <div v-if="property.area" class="flex items-center text-foreground/80 text-sm">
-                          <i class="fas fa-check-circle text-secondary mr-1.5"></i>
-                          <span>{{ property.area }} m²</span>
-                        </div>
-
-                      </div>
-
-                    </div>
-
-                    <div class="flex flex-col  items- mt-2">
-                      <div class="flex justify-between pb-1">
-                        <div class="text-secondary font-bold text-2xl">
-                          {{ formatPrice(property.price) }} F
-                          <span class="text-muted-foreground font-normal text-base">/ mois</span>
-                        </div>
-                        <div v-if="property.avg_rating > 0" class="flex items-center gap-1 mt-1">
-                          <i class="fas fa-star text-amber-400 text-xs"></i>
-                          <span class="text-xs text-muted-foreground ml-1">{{ property.avg_rating }}</span>
-                        </div>
-
-                      </div>
-                      <RouterLink :to="`/annonces/${property.slug}`"
-                        class="bg-secondary text-white text-center px-6 py-3 rounded-[.45rem] font-semibold hover:bg-primary transition-colors shadow-md hover:shadow-lg w-full">
-                        Voir les détails
-                      </RouterLink>
-                    </div>
-                  </div>
-                </div>
+          <PropertyFeedCard  :item="property" 
+          @open-comments="openCommentModal
+          " />
+                
               </div>
 
               <!-- Sentinel for Infinite Scroll -->
@@ -531,6 +412,14 @@
         </div>
       </main>
     </div>
+
+    <!-- Modale des commentaires contextuelle -->
+    <CommentModal 
+      :is-open="isCommentModalOpen" 
+      :item="activeCommentItem" 
+      @close="closeCommentModal" 
+      @updated-count="updateCommentCount"
+    />
   </div>
 </template>
 
@@ -542,11 +431,32 @@ import { useAuthStore } from "../../stores/auth";
 import PropertyActionBar from "@/PropertyActionBar.vue";
 import { usePropertyStore } from "../../stores/properties";
 import axios from "../../axios";
-
+import PropertyFeedCard from "@/social/PropertyFeedCard.vue";
+import CommentModal from "@/social/CommentModal.vue";
 const route = useRoute();
 const router = useRouter();
 const authStore = useAuthStore();
 const propertyStore = usePropertyStore();
+
+// Comment Logic
+const isCommentModalOpen = ref(false);
+const activeCommentItem = ref(null);
+
+const openCommentModal = (item) => {
+  activeCommentItem.value = item;
+  isCommentModalOpen.value = true;
+};
+
+const closeCommentModal = () => {
+  isCommentModalOpen.value = false;
+  setTimeout(() => (activeCommentItem.value = null), 300);
+};
+
+const updateCommentCount = (count) => {
+  if (activeCommentItem.value) {
+    activeCommentItem.value.review_count = count;
+  }
+};
 
 // UI State
 const showMobileFilters = ref(false);
@@ -767,6 +677,14 @@ const formatPrice = (price) => new Intl.NumberFormat("fr-FR").format(price);
   }
 }
 
+.hidden-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hidden-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
 .bg-muted\/50 {
   background: linear-gradient(90deg, hsl(var(--muted)) 25%, hsl(var(--muted)/0.3) 50%, hsl(var(--muted)) 75%);
   background-size: 200% 100%;
@@ -774,12 +692,12 @@ const formatPrice = (price) => new Intl.NumberFormat("fr-FR").format(price);
 }
 
 /* Transitions pour les cartes */
-.property-card {
+ {
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.property-card:hover {
-  transform: translateY(-4px);
+:hover {
+  /* transform: translateY(-4px); */
   box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
 }
 

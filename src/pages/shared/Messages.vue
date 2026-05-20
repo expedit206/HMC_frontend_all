@@ -37,8 +37,7 @@
             <div class="flex items-center gap-3">
               <!-- Avatar -->
               <div class="relative">
-                <img :src="conv.partner?.avatar_url || 'https://api.dicebear.com/7.x/avataaars/svg?seed=' + conv.partner?.name" 
-                     class="w-12 h-12 rounded-full border border-border object-cover bg-muted" />
+                <UserAvatar :user="conv.partner" size="lg" class="border border-border" />
                 <span v-if="conv.unread_count > 0" class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white rounded-full text-[10px] flex items-center justify-center font-black">
                   {{ conv.unread_count }}
                 </span>
@@ -81,8 +80,7 @@
             <button @click="selectedConversation = null" class="md:hidden w-8 h-8 rounded-full hover:bg-muted flex items-center justify-center text-foreground mr-1">
               <i class="fas fa-arrow-left"></i>
             </button>
-            <img :src="selectedConversation.partner?.avatar_url || 'https://api.dicebear.com/7.x/avataaars/svg?seed=' + selectedConversation.partner?.name" 
-                 class="w-10 h-10 rounded-full border border-border bg-muted shrink-0" />
+            <UserAvatar :user="selectedConversation.partner" size="md" class="border border-border shrink-0" />
             <div class="min-w-0">
               <h3 class="text-sm font-bold text-foreground truncate">{{ selectedConversation.partner?.name }}</h3>
               <p v-if="selectedConversation.servicePost" class="text-[10px] text-muted-foreground truncate flex items-center gap-1">
@@ -107,8 +105,7 @@
                :class="['flex', msg.sender_id === authStore.user?.id ? 'justify-end' : 'justify-start']">
             <!-- Received Message -->
             <div v-if="msg.sender_id !== authStore.user?.id" class="flex gap-2 max-w-[80%]">
-              <img :src="selectedConversation.partner?.avatar_url || 'https://api.dicebear.com/7.x/avataaars/svg?seed=' + selectedConversation.partner?.name" 
-                   class="w-6 h-6 rounded-full mt-auto shrink-0 bg-muted border border-border" />
+              <UserAvatar :user="selectedConversation.partner" size="xs" class="mt-auto shrink-0 border border-border" />
               <div class="bg-card border border-border text-foreground px-4 py-2.5 rounded-2xl rounded-bl-sm text-sm shadow-sm">
                 <p class="whitespace-pre-wrap leading-relaxed">{{ msg.content }}</p>
                 <span class="text-[9px] text-muted-foreground block mt-1 opacity-70">{{ formatTime(msg.created_at) }}</span>
@@ -152,6 +149,7 @@
 import { ref, onMounted, onUnmounted, nextTick } from 'vue';
 import { useAuthStore } from '../../stores/auth';
 import axios from '../../axios';
+import UserAvatar from '../../components/common/UserAvatar.vue';
 import { useRoute, useRouter } from 'vue-router';
 
 const authStore = useAuthStore();

@@ -1,6 +1,10 @@
 ajouter localisation sur formulaire d'inscription
 page reservé aux faq
-assistance IA
 paiement marketplace
 systeme de recherche intelligent
 logo mode sombre et favi icons
+utilisation du composant avatar dans tuos les endroits necessaire par exemple message
+utiliser lucide au lieu de fontawesome
+gerer les images du property feed
+gerer les filtres sur annonces
+garder l'historiUE AVEC LIA

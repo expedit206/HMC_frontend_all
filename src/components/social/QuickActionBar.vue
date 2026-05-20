@@ -1,21 +1,8 @@
 <template>
-  <div class="bg-card border-b border-border  shadow-sm my-2 p-4">
-    <div class="flex gap-3 items-center mb-4">
-      <div class="w-10 h-10 rounded-full border border-border bg-muted overflow-hidden flex-shrink-0">
-        <img v-if="userAvatar" :src="userAvatar" alt="Avatar" class="w-full h-full object-cover">
-        <div v-else class="w-full h-full flex items-center justify-center bg-primary text-white font-bold">
-          {{ userInitials }}
-        </div>
-      </div>
-      <div 
-        class="flex-1 bg-primary/5 hover:bg-muted/80 transition-colors border border-border rounded-full px-4 py-2.5 text-sm text-muted-foreground cursor-text"
-        @click="focusAction"
-      >
-        Que souhaitez-vous faire, {{ firstName }} ?
-      </div>
-    </div>
+  <div class="bg-card  shadow-sm  p-4">
+ 
     
-    <div class="flex items-center  border-t border-border pt-3">
+    <div class="flex items-center  ">
       <div class="flex items-center gap-1  w-full justify-between sm:justify-start">
         <RouterLink to="/publier-bien" class=" items-center gap-2 text-primary hover:bg-primary/10 px-2  py-1.5 rounded transition-colors group hidden md:flex">
           <i class="fas fa-home group-hover:scale-110 transition-transform"></i>

@@ -91,5 +91,14 @@ export const useFeedStore = defineStore('feed', {
     async refreshFeed() {
       await this.loadFeed()
     },
+
+    /**
+     * Masque un item localement
+     */
+    hideItem(id, type) {
+      if (this.feedItems) {
+        this.feedItems = this.feedItems.filter(item => !(item.id === id && item.feed_type === type));
+      }
+    }
   },
 })

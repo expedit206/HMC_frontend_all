@@ -266,3 +266,32 @@
     scroll-behavior: smooth;
   }
 }
+
+/* Hide scrollbars for all browsers */
+html {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+html::-webkit-scrollbar {
+  display: none;             /* Chrome, Safari, Opera */
+}
+
+body {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+body::-webkit-scrollbar {
+  display: none;             /* Chrome, Safari, Opera */
+}
+
+/* For any element with overflow */
+::-webkit-scrollbar {
+  display: none;
+}
+
+* {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}

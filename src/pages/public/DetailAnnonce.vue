@@ -1,673 +1,556 @@
 <template>
-  <div class="bg-background min-h-screen">
-    <!-- ═══════════════════════════════ SKELETON ═══════════════════════════════ -->
-    <div v-if="isLoading" class="max-w-7xl mx-auto px-4 py-8">
-      <div class="h-4 w-64 bg-muted rounded mb-6"></div>
-      <div class="grid lg:grid-cols-3 gap-8">
-        <div class="lg:col-span-2 space-y-6">
-          <div class="rounded-2xl p-6 border border-border bg-card">
-            <div class="h-8 w-3/4 bg-muted rounded mb-4"></div>
-            <div class="h-4 w-1/2 bg-muted rounded mb-6"></div>
-            <div class="flex gap-6">
-              <div class="h-4 w-24 bg-muted rounded"></div>
-              <div class="h-4 w-24 bg-muted rounded"></div>
-              <div class="h-4 w-24 bg-muted rounded"></div>
-            </div>
+  <div class="bg-background min-h-screen page-enter pb-20">
+
+    <!-- ═══════════════════ SKELETON ═══════════════════ -->
+    <div v-if="isLoading">
+      <div class="w-full h-[50vh] bg-muted animate-pulse"></div>
+      <div class="max-w-7xl mx-auto px-4 py-8 grid lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2 space-y-4">
+          <div class="h-5 w-1/3 bg-muted rounded animate-pulse"></div>
+          <div class="h-8 w-2/3 bg-muted rounded animate-pulse"></div>
+          <div class="h-4 w-1/2 bg-muted rounded animate-pulse"></div>
+          <div class="flex gap-4 mt-4">
+            <div class="h-10 w-24 bg-muted rounded-full animate-pulse" v-for="i in 4" :key="i"></div>
           </div>
-          <div class="rounded-2xl p-6 border border-border bg-card">
-            <div class="h-72 w-full bg-muted rounded-xl mb-4"></div>
-            <div class="grid grid-cols-4 gap-3">
-              <div v-for="i in 4" :key="i" class="h-20 bg-muted rounded-lg"></div>
-            </div>
-          </div>
-          <div class="rounded-2xl p-6 border border-border bg-card space-y-3">
-            <div class="h-5 w-40 bg-muted rounded"></div>
-            <div class="h-4 w-full bg-muted rounded"></div>
-            <div class="h-4 w-5/6 bg-muted rounded"></div>
-            <div class="h-4 w-4/6 bg-muted rounded"></div>
-          </div>
+          <div class="h-32 w-full bg-muted rounded animate-pulse mt-4"></div>
         </div>
-        <div class="lg:col-span-1 space-y-6">
-          <div class="rounded-2xl p-6 border border-border bg-card">
-            <div class="h-10 w-2/3 bg-muted rounded mb-6"></div>
-            <div class="h-12 w-full bg-muted rounded-xl mb-3"></div>
-            <div class="h-12 w-full bg-muted rounded-xl"></div>
-          </div>
-          <div class="rounded-2xl p-6 border border-border bg-card">
-            <div class="flex gap-4 mb-4">
-              <div class="w-16 h-16 bg-muted rounded-full"></div>
-              <div class="space-y-2 flex-1">
-                <div class="h-4 w-32 bg-muted rounded"></div>
-                <div class="h-3 w-24 bg-muted rounded"></div>
-              </div>
-            </div>
-          </div>
+        <div class="space-y-4">
+          <div class="h-64 w-full bg-muted rounded-xl animate-pulse"></div>
         </div>
       </div>
     </div>
 
-    <!-- ═══════════════════════════════ 404 ═══════════════════════════════════ -->
-    <div v-else-if="!property" class="max-w-7xl mx-auto px-4 py-32 text-center">
-      <i class="fas fa-home text-6xl text-muted-foreground/30 mb-6"></i>
-      <h2 class="text-2xl font-bold text-foreground mb-2">
-        Annonce introuvable
-      </h2>
-      <p class="text-muted-foreground mb-6">
-        Ce bien n'existe pas ou a été supprimé.
-      </p>
+    <!-- ═══════════════════ 404 ═══════════════════════ -->
+    <div v-else-if="!property" class="flex flex-col items-center justify-center min-h-screen text-center px-4">
+      <i class="fas fa-home text-6xl text-muted-foreground/20 mb-6"></i>
+      <h2 class="text-2xl font-bold text-foreground mb-2">Annonce introuvable</h2>
+      <p class="text-muted-foreground mb-6">Ce bien n'existe pas ou a été supprimé.</p>
       <RouterLink :to="{ name: 'Annonces' }"
         class="inline-flex items-center gap-2 bg-secondary text-secondary-foreground px-6 py-3 rounded-xl font-semibold hover:bg-primary hover:text-primary-foreground transition-colors">
         <i class="fas fa-arrow-left"></i> Retour aux annonces
       </RouterLink>
     </div>
 
-    <!-- ═══════════════════════════════ CONTENU ════════════════════════════════ -->
-    <div v-else class="max-w-7xl mx-auto px-4 py-8">
-      <!-- Fil d'Ariane -->
-      <nav class="text-sm text-muted-foreground flex items-center gap-2 mb-6 flex-wrap">
-        <RouterLink :to="{ name: 'Accueil' }" class="hover:text-secondary transition-colors">Accueil</RouterLink>
-        <i class="fas fa-chevron-right text-xs text-muted-foreground/40"></i>
-        <RouterLink :to="{ name: 'Annonces' }" class="hover:text-secondary transition-colors">Annonces</RouterLink>
-        <i class="fas fa-chevron-right text-xs text-muted-foreground/40"></i>
-        <span class="text-foreground font-medium line-clamp-1 max-w-xs">{{
-          property.title
-        }}</span>
-      </nav>
+    <!-- ═══════════════════ CONTENU ════════════════════ -->
+    <div v-else class="relative overflow-x-hidden">
 
-      <div class="grid lg:grid-cols-3 gap-8">
-        <!-- ════════════════════ COLONNE GAUCHE ════════════════════ -->
-        <div class="lg:col-span-2 space-y-6">
-          <!-- ── Titre & badges ── -->
-          <div class="bg-card rounded-2xl p-6 shadow-sm border border-border">
-            <div class="flex flex-wrap items-start justify-between gap-4 mb-4">
-              <div class="flex-1 min-w-0">
-                <div class="flex items-center flex-wrap gap-2 mb-3">
-                  <span class="px-4 py-1.5 bg-secondary text-secondary-foreground text-sm font-bold rounded-full">
-                    {{ property.type === "rent" ? "À louer" : "À vendre" }}
-                  </span>
-                  <span v-if="property.category"
-                    class="px-3 py-1.5 bg-primary/10 text-primary text-xs font-medium rounded-full">{{ property.category
-                    }}</span>
-                  <span v-if="property.etat"
-                    class="px-3 py-1.5 bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 text-xs font-medium rounded-full flex items-center gap-1">
-                    <i class="fas fa-check-circle"></i> {{ property.etat }}
-                  </span>
-                </div>
-                <h1 class="text-2xl md:text-3xl font-bold text-primary mb-2 leading-tight">
-                  {{ property.title }}
-                </h1>
-                <p class="text-muted-foreground flex items-center gap-2">
-                  <i class="fas fa-map-marker-alt text-secondary"></i>
-                  {{ property.location }}
-                </p>
+      <!-- ─── HERO GALERIE (pleine largeur) ─────────────────────────── -->
+      <div class="relative w-full h-[50vh] md:h-[65vh] bg-black overflow-hidden group">
+
+        <!-- Image principale -->
+        <img :src="activeImage" :alt="property.title"
+          class="w-full h-full object-cover transition-all duration-700 cursor-zoom-in" @click="showLightbox = true" />
+
+        <!-- Overlay dégradé bas -->
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none">
+        </div>
+
+        <!-- Badge procédure en cours -->
+        <div v-if="activeProcess"
+          class="absolute top-4 left-4 flex items-center gap-2 px-3 py-1.5 bg-orange-500/90 text-white text-xs font-bold rounded-full backdrop-blur-sm animate-pulse">
+          <i class="fas fa-spinner animate-spin"></i> Procédure en cours
+        </div>
+
+        <!-- Bouton retour (haut gauche) -->
+        <button @click="$router.back()"
+          class="absolute top-4 left-4 w-9 h-9 bg-black/40 backdrop-blur-sm text-white rounded-full flex items-center justify-center hover:bg-black/70 transition-all"
+          :class="activeProcess ? 'left-48' : 'left-4'">
+          <i class="fas fa-arrow-left text-sm"></i>
+        </button>
+
+        <!-- Actions (haut droite) -->
+        <div class="absolute top-4 right-4 flex items-center gap-2">
+          <button @click="toggleFavorite" :class="[
+            'w-9 h-9 rounded-full backdrop-blur-sm flex items-center justify-center transition-all text-sm',
+            property.is_favorite
+              ? 'bg-red-500 text-white shadow-lg shadow-red-500/40'
+              : 'bg-black/40 text-white hover:bg-red-500/80'
+          ]">
+            <i :class="property.is_favorite ? 'fas fa-heart' : 'far fa-heart'"></i>
+          </button>
+          <button @click="shareProperty"
+            class="w-9 h-9 bg-black/40 backdrop-blur-sm text-white rounded-full flex items-center justify-center hover:bg-black/70 transition-all text-sm">
+            <i class="fas fa-share-alt"></i>
+          </button>
+          <button @click="showLightbox = true"
+            class="hidden sm:flex w-9 h-9 bg-black/40 backdrop-blur-sm text-white rounded-full items-center justify-center hover:bg-black/70 transition-all text-sm">
+            <i class="fas fa-expand"></i>
+          </button>
+        </div>
+
+        <!-- Compteur photos (haut droite bas) -->
+        <div
+          class="absolute top-4 right-32 sm:right-36 flex items-center gap-1.5 px-3 py-1.5 bg-black/40 backdrop-blur-sm text-white text-xs rounded-full">
+          <i class="fas fa-camera"></i>
+          <span>{{ galleryImages.length }} photo{{ galleryImages.length > 1 ? 's' : '' }}</span>
+        </div>
+
+        <!-- Overlay contenu bas : titre + prix + badges -->
+        <div class="absolute bottom-0 left-0 right-0 p-4 md:p-6">
+          <!-- Fil d'Ariane discret -->
+          <nav class="hidden md:flex items-center gap-1.5 text-xs text-white/60 mb-3">
+            <RouterLink :to="{ name: 'Accueil' }" class="hover:text-white transition-colors">Accueil</RouterLink>
+            <i class="fas fa-chevron-right text-[10px]"></i>
+            <RouterLink :to="{ name: 'Annonces' }" class="hover:text-white transition-colors">Annonces</RouterLink>
+            <i class="fas fa-chevron-right text-[10px]"></i>
+            <span class="text-white/80 line-clamp-1 max-w-xs">{{ property.title }}</span>
+          </nav>
+
+          <!-- Badges -->
+          <div class="flex items-center flex-wrap gap-2 mb-2">
+            <span class="px-3 py-1 bg-secondary text-secondary-foreground text-xs font-bold rounded-full">
+              {{ property.type === 'rent' ? 'À louer' : 'À vendre' }}
+            </span>
+            <span v-if="property.category"
+              class="px-3 py-1 bg-white/20 backdrop-blur-sm text-white text-xs font-semibold rounded-full">
+              {{ property.category }}
+            </span>
+            <span v-if="property.etat"
+              class="px-3 py-1 bg-green-500/80 text-white text-xs font-semibold rounded-full flex items-center gap-1">
+              <i class="fas fa-check-circle"></i> {{ property.etat }}
+            </span>
+          </div>
+
+          <!-- Titre -->
+          <h1 class="text-xl md:text-3xl font-black text-white mb-1 leading-tight drop-shadow-md line-clamp-2">
+            {{ property.title }}
+          </h1>
+
+          <!-- Localisation + vues -->
+          <div class="flex items-center gap-4 text-white/80 text-sm">
+            <span class="flex items-center gap-1.5">
+              <i class="fas fa-map-marker-alt text-secondary"></i>
+              {{ property.location }}
+            </span>
+            <span class="flex items-center gap-1 text-white/50 text-xs">
+              <i class="fas fa-eye"></i> {{ property.views_count }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Navigation fléchée galerie -->
+        <button v-if="galleryImages.length > 1" @click="prevImage"
+          class="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-black/50 text-white rounded-full flex items-center justify-center hover:bg-black/80 transition-all opacity-0 group-hover:opacity-100">
+          <i class="fas fa-chevron-left text-sm"></i>
+        </button>
+        <button v-if="galleryImages.length > 1" @click="nextImage"
+          class="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-black/50 text-white rounded-full flex items-center justify-center hover:bg-black/80 transition-all opacity-0 group-hover:opacity-100">
+          <i class="fas fa-chevron-right text-sm"></i>
+        </button>
+
+        <!-- Miniatures (strip bas) -->
+        <div v-if="galleryImages.length > 1"
+          class="absolute bottom-0 left-0 right-0 flex gap-1.5 px-3 pb-2 overflow-x-auto no-scrollbar justify-end">
+          <button v-for="(img, i) in galleryImages" :key="i" @click="activeImage = img; activeIndex = i"
+            class="shrink-0 w-12 h-9 rounded overflow-hidden border-2 transition-all duration-200"
+            :class="activeImage === img ? 'border-secondary scale-105' : 'border-transparent opacity-60 hover:opacity-100'">
+            <img :src="img" class="w-full h-full object-cover" />
+          </button>
+        </div>
+      </div>
+
+      <!-- ─── CORPS PRINCIPAL ────────────────────────────────────────── -->
+      <div class="max-w-7xl mx-auto px-4 py-6 md:py-8 ">
+        <div class="grid lg:grid-cols-3 gap-6 lg:gap-8">
+
+          <!-- ════ COLONNE PRINCIPALE (2/3) ════════════════════════════ -->
+          <div class="lg:col-span-2 space-y-0 bg-card border border-border rounded-xl overflow-hidden">
+
+            <!-- CTA mobile — visible uniquement sur mobile, en haut du contenu -->
+            <div class="lg:hidden border-b border-border p-4">
+              <div class="flex items-baseline gap-2 mb-3">
+                <span class="text-3xl font-black text-secondary">{{ formatPrice(property.price) }}</span>
+                <span class="text-muted-foreground text-sm">FCFA / mois</span>
               </div>
-
-              <!-- Actions fav + partage -->
-              <div class="flex items-center gap-3 shrink-0">
-                <button v-if="property" @click="toggleFavorite" :class="[
-                  'p-3 rounded-xl transition-all flex items-center gap-1.5',
-                  property.is_favorite
-                    ? 'bg-destructive text-destructive-foreground shadow-md'
-                    : 'text-muted-foreground hover:bg-destructive/10 hover:text-destructive',
-                ]" title="Ajouter aux favoris">
-                  <i :class="property.is_favorite ? 'fas fa-heart' : 'far fa-heart'
-                    " class="text-lg"></i>
-                </button>
-                <button @click="shareProperty"
-                  class="p-3 text-muted-foreground rounded-xl hover:bg-secondary/10 hover:text-secondary transition-all"
-                  title="Partager">
-                  <i class="fas fa-share-alt text-lg"></i>
-                </button>
+              <div class="grid grid-cols-2 gap-2">
+                <RouterLink v-if="!activeProcess && property.type === 'rent'"
+                  :to="`/locataire/formulaire-location?property_id=${property.id}`"
+                  class="py-2.5 bg-primary text-primary-foreground rounded-lg font-bold text-sm flex items-center justify-center gap-2">
+                  <i class="fas fa-key"></i> Louer
+                </RouterLink>
+                <RouterLink v-if="!activeProcess"
+                  :to="`/programmer-visite?slug=${property.slug}&property_id=${property.id}`"
+                  class="py-2.5 bg-secondary text-secondary-foreground rounded-lg font-bold text-sm flex items-center justify-center gap-2">
+                  <i class="fas fa-calendar-check"></i> Visiter
+                </RouterLink>
+                <RouterLink v-if="activeProcess" :to="`/mon-suivi?property_id=${property.id}`"
+                  class="col-span-2 py-2.5 bg-orange-500 text-white rounded-lg font-bold text-sm flex items-center justify-center gap-2">
+                  <i class="fas fa-spinner animate-spin"></i> Suivre ma procédure
+                </RouterLink>
               </div>
             </div>
 
             <!-- Stats rapides -->
-            <div
-              class="flex flex-wrap items-center gap-4 md:gap-6 text-sm text-muted-foreground pt-4 border-t border-border">
-              <span v-if="property.bedrooms">
-                <i class="fas fa-bed text-secondary mr-1.5"></i>
-                {{ property.bedrooms }} chambre{{
-                  property.bedrooms > 1 ? "s" : ""
-                }}
-              </span>
-              <span v-if="property.bathrooms">
-                <i class="fas fa-bath text-secondary mr-1.5"></i>
-                {{ property.bathrooms }} salle{{
-                  property.bathrooms > 1 ? "s" : ""
-                }}
-                de bain
-              </span>
-              <span v-if="property.area">
-                <i class="fas fa-ruler-combined text-secondary mr-1.5"></i>
-                {{ property.area }} m²
-              </span>
-              <span v-if="property.construction_year">
-                <i class="fas fa-calendar-alt text-secondary mr-1.5"></i>
-                Construit en {{ property.construction_year }}
-              </span>
-              <span class="ml-auto flex items-center gap-1 text-xs">
-                <i class="fas fa-eye text-secondary/60"></i>
-                {{ property.views_count }} vues
-              </span>
-            </div>
-          </div>
-
-          <!-- ── Galerie d'images ── -->
-          <div class="bg-card rounded-2xl p-6 shadow-sm border border-border">
-            <!-- Image principale -->
-            <div class="relative rounded-xl overflow-hidden mb-4 group">
-              <img :src="activeImage" :alt="property.title"
-                class="w-full h-64 md:h-[420px] object-cover transition-all duration-500" />
-              <!-- Badge photos -->
-              <div
-                class="absolute top-4 right-4 px-3 py-1.5 bg-black/70 text-white text-sm rounded-full backdrop-blur-sm flex items-center gap-2">
-                <i class="fas fa-camera"></i>
-                {{ galleryImages.length }} photo{{
-                  galleryImages.length > 1 ? "s" : ""
-                }}
-              </div>
-              <!-- Nav fléchée -->
-              <button v-if="galleryImages.length > 1" @click="prevImage"
-                class="absolute left-8 md:left-12 top-1/2 -translate-y-1/2 w-7 h-7 bg-black/50 text-white rounded-full flex items-center justify-center hover:bg-black/80 transition-all group-hover:opacity-100">
-                <i class="fas fa-chevron-left text-sm"></i>
-              </button>
-              <button v-if="galleryImages.length > 1" @click="nextImage"
-                class="absolute  right-8 md:right-12 top-1/2 -translate-y-1/2 w-7 h-7 bg-black/50 text-white rounded-full flex items-center justify-center hover:bg-black/80 transition-all group-hover:opacity-100">
-                <i class="fas fa-chevron-right text-sm"></i>
-              </button>
-
-              <!-- Barre d'actions TikTok sur l'image principale -->
-              <PropertyActionBar :property="property" :is-fav="property.is_favorite" btn-size="md"
-                position="absolute right-2   bottom-2  md:bottom-2" @toggle-favorite="toggleFavorite"
-                @share="shareProperty" />
-            </div>
-            <!-- Miniatures -->
-            <div v-if="galleryImages.length > 1" class="grid grid-cols-4 sm:grid-cols-5 gap-2">
-              <img v-for="(img, i) in galleryImages" :key="i" :src="img" :alt="`Photo ${i + 1}`" @click="
-                activeImage = img;
-              activeIndex = i;
-              " :class="[
-                'w-full h-16 md:h-20 object-cover rounded-lg cursor-pointer transition-all duration-200 border-2',
-                activeImage === img
-                  ? 'border-secondary scale-105'
-                  : 'border-transparent opacity-70 hover:opacity-100 hover:scale-105',
-              ]" />
-            </div>
-          </div>
-
-          <!-- ── Description ── -->
-          <div class="bg-card rounded-2xl p-6 shadow-sm border border-border">
-            <h2 class="text-xl font-bold text-primary mb-4 flex items-center gap-2">
-              <i class="fas fa-file-alt text-secondary"></i>
-              Description
-            </h2>
-            <p class="text-foreground/80 leading-relaxed">
-              {{ property.description }}
-            </p>
-
-            <!-- Caractéristiques de base -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 pt-6 border-t border-border">
-              <div class="p-4 rounded-xl bg-muted/10">
-                <h4 class="font-bold text-primary mb-3 flex items-center gap-2">
-                  <i class="fas fa-list-ul text-secondary text-sm"></i>
-                  Caractéristiques
-                </h4>
-                <ul class="space-y-2 text-sm">
-                  <li v-if="property.area" class="flex items-center gap-2 text-foreground/80">
-                    <i class="fas fa-check text-secondary text-xs"></i> Surface
-                    : {{ property.area }} m²
-                  </li>
-                  <li v-if="property.bedrooms" class="flex items-center gap-2 text-foreground/80">
-                    <i class="fas fa-check text-secondary text-xs"></i>
-                    {{ property.bedrooms }} chambre{{
-                      property.bedrooms > 1 ? "s" : ""
-                    }}
-                  </li>
-                  <li v-if="property.bathrooms" class="flex items-center gap-2 text-foreground/80">
-                    <i class="fas fa-check text-secondary text-xs"></i>
-                    {{ property.bathrooms }} salle{{
-                      property.bathrooms > 1 ? "s" : ""
-                    }}
-                    de bain
-                  </li>
-                  <li v-if="property.construction_year" class="flex items-center gap-2 text-foreground/80">
-                    <i class="fas fa-check text-secondary text-xs"></i> Année de
-                    construction : {{ property.construction_year }}
-                  </li>
-                  <li v-if="property.etat" class="flex items-center gap-2 text-foreground/80">
-                    <i class="fas fa-check text-secondary text-xs"></i> État :
-                    {{ property.etat }}
-                  </li>
-                  <li class="flex items-center gap-2 text-foreground/80">
-                    <i class="fas fa-check text-secondary text-xs"></i> Ville :
-                    {{ property.city }}
-                  </li>
-                </ul>
-              </div>
-
-              <!-- Commodités -->
-              <div class="p-4 rounded-xl bg-muted/10">
-                <h4 class="font-bold text-primary mb-3 flex items-center gap-2">
-                  <i class="fas fa-star text-secondary text-sm"></i> Commodités
-                </h4>
-                <ul v-if="amenities.length" class="space-y-2 text-sm">
-                  <li v-for="a in amenities" :key="a" class="flex items-center gap-2 text-foreground/80">
-                    <i :class="`fas ${amenityIcon(a)} text-secondary text-xs`"></i>
-                    {{ a }}
-                  </li>
-                </ul>
-                <p v-else class="text-sm text-muted-foreground italic">
-                  Non renseignées
-                </p>
-              </div>
-            </div>
-
-            <!-- Grille icônes commodités -->
-            <div v-if="amenities.length" class="mt-6 pt-6 border-t border-border">
-              <h3 class="text-lg font-bold text-primary mb-4">
-                Équipements inclus
-              </h3>
-              <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-                <div v-for="a in amenities" :key="a"
-                  class="p-3  rounded-xl text-center hover:-translate-y-1 hover:shadow-md transition-all duration-300 group cursor-default border border-border">
-                  <i
-                    :class="`fas ${amenityIcon(a)} text-2xl text-secondary mb-2 group-hover:scale-110 transition-transform inline-block`"></i>
-                  <p class="text-xs font-medium text-foreground/80 leading-tight">
-                    {{ a }}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- ── Section Avis ── -->
-          <div class="bg-card rounded-2xl p-6 shadow-sm border border-border" id="avis">
-            <!-- En-tête avis -->
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-3">
-              <h2 class="text-xl font-bold text-primary flex items-center gap-2">
-                <i class="fas fa-star text-amber-500"></i>
-                Avis des visiteurs
-                <span class="text-base font-normal text-muted-foreground">({{ reviewStats?.total ?? 0 }})</span>
-              </h2>
-              <div v-if="reviewStats?.total" class="flex items-center gap-2">
-                <div class="flex items-center gap-0.5">
-                  <i v-for="s in 5" :key="s"
-                    :class="s <= Math.round(reviewStats.average) ? 'fas fa-star' : 'far fa-star'"
-                    class="text-amber-500 text-sm"></i>
-                </div>
-                <span class="font-bold text-primary text-lg">{{ reviewStats.average }}</span>
-                <span class="text-muted-foreground text-xs">/5</span>
-              </div>
-            </div>
-
-            <!-- Barre de distribution des notes -->
-            <div v-if="reviewStats?.total" class="mb-6 space-y-1.5">
-              <div v-for="star in [5, 4, 3, 2, 1]" :key="star" class="flex items-center gap-2 text-xs">
-                <span class="w-3 text-right font-medium text-muted-foreground">{{ star }}</span>
-                <i class="fas fa-star text-amber-400 text-[10px]"></i>
-                <div class="flex-1 bg-muted/30 rounded-full h-2 overflow-hidden">
-                  <div class="h-2 bg-amber-400 rounded-full transition-all duration-500"
-                    :style="{ width: reviewStats.total ? ((reviewStats[['one', 'two', 'three', 'four', 'five'][star - 1]] / reviewStats.total) * 100) + '%' : '0%' }">
+            <div class="px-4 py-4 border-b border-border">
+              <div class="flex flex-wrap gap-x-6 gap-y-3">
+                <div v-if="property.bedrooms" class="flex items-center gap-2 text-sm">
+                  <div class="w-8 h-8 rounded-full bg-secondary/10 flex items-center justify-center">
+                    <i class="fas fa-bed text-secondary text-xs"></i>
                   </div>
+                  <span class="font-semibold text-foreground">{{ property.bedrooms }}</span>
+                  <span class="text-muted-foreground">chambre{{ property.bedrooms > 1 ? 's' : '' }}</span>
                 </div>
-                <span class="w-6 text-muted-foreground">{{ reviewStats[['one', 'two', 'three', 'four', 'five'][star -
-                  1]]
-                  }}</span>
+                <div v-if="property.bathrooms" class="flex items-center gap-2 text-sm">
+                  <div class="w-8 h-8 rounded-full bg-secondary/10 flex items-center justify-center">
+                    <i class="fas fa-bath text-secondary text-xs"></i>
+                  </div>
+                  <span class="font-semibold text-foreground">{{ property.bathrooms }}</span>
+                  <span class="text-muted-foreground">salle{{ property.bathrooms > 1 ? 's' : '' }} de bain</span>
+                </div>
+                <div v-if="property.area" class="flex items-center gap-2 text-sm">
+                  <div class="w-8 h-8 rounded-full bg-secondary/10 flex items-center justify-center">
+                    <i class="fas fa-ruler-combined text-secondary text-xs"></i>
+                  </div>
+                  <span class="font-semibold text-foreground">{{ property.area }} m²</span>
+                </div>
+                <div v-if="property.city" class="flex items-center gap-2 text-sm">
+                  <div class="w-8 h-8 rounded-full bg-secondary/10 flex items-center justify-center">
+                    <i class="fas fa-city text-secondary text-xs"></i>
+                  </div>
+                  <span class="text-foreground">{{ property.city }}</span>
+                </div>
+                <div v-if="property.construction_year" class="flex items-center gap-2 text-sm">
+                  <div class="w-8 h-8 rounded-full bg-secondary/10 flex items-center justify-center">
+                    <i class="fas fa-calendar text-secondary text-xs"></i>
+                  </div>
+                  <span class="text-muted-foreground">{{ property.construction_year }}</span>
+                </div>
               </div>
             </div>
 
-            <!-- Formulaire avis -->
-            <div v-if="authStore.user && !myReview && !showReviewForm"
-              class="mb-6 p-4 bg-muted/10 rounded-xl border border-dashed border-border">
-              <p class="text-sm text-muted-foreground mb-3">Vous avez visité ce bien ? Partagez votre expérience !</p>
-              <button @click="showReviewForm = true"
-                class="px-5 py-2 bg-secondary text-secondary-foreground rounded-xl text-xs font-bold hover:bg-primary hover:text-primary-foreground transition-colors">
-                <i class="fas fa-pen mr-2"></i> Écrire un avis
-              </button>
+            <!-- Description -->
+            <div class="px-4 py-5 border-b border-border">
+              <h2 class="text-base font-bold text-foreground mb-3 flex items-center gap-2">
+                <span class="w-1 h-4 bg-secondary rounded-full inline-block"></span>
+                Description
+              </h2>
+              <p class="text-foreground/75 leading-relaxed text-sm md:text-base whitespace-pre-line">
+                {{ property.description }}
+              </p>
             </div>
 
-            <!-- Formulaire complet -->
-            <div v-if="showReviewForm && !myReview"
-              class="mb-6 bg-muted/10 rounded-xl border border-secondary/30 p-5 animate-fadeIn">
-              <h3 class="text-sm font-bold text-foreground mb-4">Votre évaluation</h3>
-
-              <!-- Étoiles interactives -->
-              <div class="flex items-center gap-1 mb-4">
-                <button v-for="s in 5" :key="s" @click="newReview.rating = s" @mouseover="reviewHover = s"
-                  @mouseleave="reviewHover = 0"
-                  class="text-2xl transition-transform hover:scale-110 focus:outline-none">
-                  <i
-                    :class="s <= (reviewHover || newReview.rating) ? 'fas fa-star text-amber-400' : 'far fa-star text-muted-foreground'"></i>
-                </button>
-                <span class="ml-2 text-sm font-medium text-foreground">
-                  {{ ['', 'Médiocre', 'Passable', 'Bien', 'Très bien', 'Excellent'][newReview.rating] }}
+            <!-- Commodités (pills) -->
+            <div v-if="amenities.length" class="px-4 py-5 border-b border-border">
+              <h2 class="text-base font-bold text-foreground mb-4 flex items-center gap-2">
+                <span class="w-1 h-4 bg-secondary rounded-full inline-block"></span>
+                Équipements inclus
+              </h2>
+              <div class="flex flex-wrap gap-2">
+                <span v-for="a in amenities" :key="a"
+                  class="inline-flex items-center gap-2 px-3 py-1.5 bg-muted/60 border border-border text-sm text-foreground rounded-full hover:bg-secondary/10 hover:border-secondary/30 transition-colors">
+                  <i :class="`fas ${amenityIcon(a)} text-secondary text-xs`"></i>
+                  {{ a }}
                 </span>
               </div>
-
-              <input v-model="newReview.title" type="text" placeholder="Titre de votre avis (optionnel)"
-                class="w-full px-4 py-2.5 bg-background border border-border rounded-xl text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-secondary/30 mb-3" />
-
-              <textarea v-model="newReview.comment" rows="4"
-                placeholder="Décrivez votre expérience avec ce bien... (min. 10 caractères)"
-                class="w-full px-4 py-2.5 bg-background border border-border rounded-xl text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-secondary/30 resize-none"></textarea>
-              <p v-if="newReview.comment.length > 0" class="text-right text-xs text-muted-foreground mt-1">{{
-                newReview.comment.length }}/1000</p>
-
-              <div class="flex gap-3 mt-4">
-                <button @click="submitReview"
-                  :disabled="isSubmittingReview || !newReview.rating || newReview.comment.length < 10"
-                  class="flex-1 py-2.5 bg-secondary text-secondary-foreground rounded-xl text-sm font-bold hover:bg-primary hover:text-primary-foreground transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
-                  <i v-if="isSubmittingReview" class="fas fa-circle-notch fa-spin mr-2"></i>
-                  {{ isSubmittingReview ? 'Publication...' : 'Publier mon avis' }}
-                </button>
-                <button @click="showReviewForm = false"
-                  class="px-5 py-2.5 border border-border text-muted-foreground rounded-xl text-sm hover:bg-muted/20 transition-colors">
-                  Annuler
-                </button>
-              </div>
-              <p v-if="reviewError" class="text-red-500 text-xs mt-2">{{ reviewError }}</p>
             </div>
 
-            <!-- Mon avis existant -->
-            <div v-if="myReview" class="mb-6 p-4 bg-secondary/5 border border-secondary/20 rounded-xl">
-              <div class="flex items-center justify-between mb-2">
-                <p class="text-xs font-bold text-secondary uppercase tracking-wide">Votre avis</p>
-                <button @click="deleteMyReview"
-                  class="text-xs text-destructive hover:text-destructive/80 transition-colors">
-                  <i class="fas fa-trash mr-1"></i> Supprimer
-                </button>
+            <!-- Processus locatif info -->
+            <div class="px-4 py-5 border-b border-border">
+              <h2 class="text-base font-bold text-foreground mb-4 flex items-center gap-2">
+                <span class="w-1 h-4 bg-secondary rounded-full inline-block"></span>
+                Comment ça marche ?
+              </h2>
+              <div class="flex flex-col sm:flex-row gap-4">
+                <div v-for="(step, i) in locatifSteps" :key="i" class="flex-1 flex gap-3 items-start">
+                  <div
+                    class="w-8 h-8 rounded-full bg-secondary text-secondary-foreground flex items-center justify-center text-xs font-black shrink-0">
+                    {{ i + 1 }}
+                  </div>
+                  <div>
+                    <p class="text-sm font-bold text-foreground">{{ step.title }}</p>
+                    <p class="text-xs text-muted-foreground mt-0.5">{{ step.desc }}</p>
+                  </div>
+                </div>
               </div>
-              <div class="flex items-center gap-0.5 mb-1">
-                <i v-for="s in 5" :key="s" :class="s <= myReview.rating ? 'fas fa-star' : 'far fa-star'"
-                  class="text-amber-400 text-xs"></i>
-              </div>
-              <p class="text-sm text-foreground/80">{{ myReview.comment }}</p>
             </div>
 
-            <!-- Liste des avis -->
-            <div v-if="reviewsLoading" class="space-y-4">
-              <div v-for="n in 3" :key="n" class="animate-pulse">
-                <div class="flex gap-3">
-                  <div class="w-10 h-10 bg-muted rounded-full"></div>
+            <!-- ── Section Commentaires (En remplacement des Avis) ── -->
+            <div class="px-4 py-5" id="commentaires">
+              <div class="flex items-center justify-between mb-5">
+                <h2 class="text-base font-bold text-foreground flex items-center gap-2">
+                  <span class="w-1 h-4 bg-secondary rounded-full inline-block"></span>
+                  Commentaires
+                  <span class="text-sm font-normal text-muted-foreground ml-1">({{ comments.length }})</span>
+                </h2>
+                <button v-if="authStore.user && !showReviewForm" @click="showReviewForm = true"
+                  class="text-xs font-bold text-secondary border border-secondary/30 px-3 py-1.5 rounded-full hover:bg-secondary hover:text-secondary-foreground transition-colors">
+                  <i class="fas fa-pen mr-1"></i> Laisser un commentaire
+                </button>
+              </div>
+
+              <!-- Formulaire commentaire (Réutilisation du design du formulaire d'avis) -->
+              <div v-if="showReviewForm" class="mb-5 p-4  rounded-xl ">
+                <h3 class="text-sm font-bold text-foreground mb-3">Votre commentaire</h3>
+                <textarea v-model="newComment" rows="3" placeholder="Écrivez votre commentaire ici..."
+                  class="w-full px-3 py-2 bg-background border border-border rounded-lg text-sm resize-none focus:outline-none focus:ring-2 focus:ring-secondary/30 text-foreground placeholder:text-muted-foreground"></textarea>
+                <div class="flex gap-2 mt-3">
+                  <button @click="submitComment" :disabled="isSubmittingComment || !newComment.trim()"
+                    class="flex-1 py-2 bg-secondary text-secondary-foreground rounded-lg text-sm font-bold hover:bg-primary hover:text-primary-foreground transition-colors disabled:opacity-50">
+                    <i v-if="isSubmittingComment" class="fas fa-circle-notch fa-spin mr-1"></i>
+                    {{ isSubmittingComment ? 'Publication...' : 'Publier' }}
+                  </button>
+                  <button @click="showReviewForm = false"
+                    class="px-4 py-2 border border-border text-muted-foreground rounded-lg text-sm hover:bg-muted/20 transition-colors">
+                    Annuler
+                  </button>
+                </div>
+              </div>
+
+              <!-- Liste commentaires -->
+              <div v-if="commentsLoading" class="space-y-4">
+                <div v-for="n in 3" :key="n" class="flex gap-3 animate-pulse">
+                  <div class="w-9 h-9 bg-muted rounded-full shrink-0"></div>
                   <div class="flex-1 space-y-2">
-                    <div class="h-3 w-28 bg-muted rounded"></div>
+                    <div class="h-3 w-24 bg-muted rounded"></div>
                     <div class="h-3 w-full bg-muted rounded"></div>
-                    <div class="h-3 w-4/5 bg-muted rounded"></div>
                   </div>
                 </div>
               </div>
-            </div>
-
-            <div v-else-if="reviews.length === 0 && !showReviewForm" class="py-10 text-center">
-              <i class="far fa-comment-dots text-4xl text-muted-foreground/30 mb-3"></i>
-              <p class="text-sm text-muted-foreground">Aucun avis pour le moment.</p>
-              <p v-if="!authStore.user" class="text-xs text-muted-foreground mt-1">
-                <RouterLink :to="{ name: 'Connexion' }" class="text-secondary hover:underline">Connectez-vous
-                </RouterLink>
-                pour laisser votre avis.
-              </p>
-            </div>
-
-            <div v-else class="space-y-5">
-              <div v-for="r in reviews" :key="r.id" class="border-b border-border pb-5 last:border-0 last:pb-0">
-                <div class="flex items-start justify-between mb-2">
-                  <div class="flex items-center gap-3">
-                    <div v-if="r.user?.avatar" class="w-10 h-10 rounded-full overflow-hidden shrink-0">
-                      <UserAvatar :user="r.user" size="sm" />
-
-                      <!-- <img :src="r.user.avatar" :alt="r.user.name" class="w-full h-full object-cover" /> -->
-                    </div>
-                    <div v-else
-                      class="w-10 h-10 bg-gradient-to-br from-secondary to-primary rounded-full flex items-center justify-center text-primary-foreground font-bold text-sm shrink-0">
-                      {{r.user?.name?.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)}}
-                    </div>
-                    <div>
-                      <div class="flex items-center gap-2">
-                        <h4 class="font-semibold text-foreground text-sm">{{ r.user?.name }}</h4>
-                        <span v-if="r.is_verified_tenant"
-                          class="inline-flex items-center gap-1 px-2 py-0.5 bg-green-100 dark:bg-green-950/30 text-green-700 dark:text-green-400 text-[10px] font-bold rounded-full">
-                          <i class="fas fa-check-circle text-[10px]"></i> Locataire vérifié
-                        </span>
-                      </div>
-                      <div class="flex items-center gap-0.5 mt-0.5">
-                        <i v-for="s in 5" :key="s" :class="s <= r.rating ? 'fas fa-star' : 'far fa-star'"
-                          class="text-amber-400 text-xs"></i>
-                      </div>
-                    </div>
-                  </div>
-                  <span class="text-xs text-muted-foreground whitespace-nowrap">
-                    {{ new Date(r.created_at).toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' }) }}
-                  </span>
-                </div>
-                <p v-if="r.title" class="text-sm font-semibold text-foreground mb-1 pl-13">{{ r.title }}</p>
-                <p class="text-foreground/70 text-sm leading-relaxed pl-13">{{ r.comment }}</p>
-              </div>
-
-              <!-- Pagination -->
-              <div v-if="reviewPagination.last_page > 1" class="flex justify-center gap-2 pt-2">
-                <button v-for="p in reviewPagination.last_page" :key="p" @click="fetchReviews(p)"
-                  :class="p === reviewPagination.current_page ? 'bg-secondary text-secondary-foreground' : 'bg-muted/20 text-muted-foreground hover:bg-muted/40'"
-                  class="w-8 h-8 rounded-lg text-xs font-bold transition-colors">{{ p }}</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- ════════════════════ SIDEBAR DROITE ════════════════════ -->
-        <div class="lg:col-span-1">
-          <div class="sticky top-24 space-y-5">
-            <!-- Carte prix & actions -->
-            <div class="bg-card rounded-2xl p-6 shadow-lg border border-border">
-              <div class="mb-5">
-                <div class="flex items-baseline gap-2 mb-1">
-                  <span class="text-3xl font-bold text-secondary">{{
-                    formatPrice(property.price)
-                  }}</span>
-                  <span class="text-muted-foreground text-sm">FCFA / mois</span>
-                </div>
-                <div class="text-sm text-muted-foreground  rounded-lg p-3 space-y-1 border border-border">
-                  <div class="flex items-center gap-2">
-                    <i class="fas fa-shield-alt text-secondary/60 w-4"></i>
-                    <span>Caution :
-                      <strong>{{ formatPrice(property.price * 2) }} FCFA</strong></span>
-                  </div>
-                  <div class="flex items-center gap-2">
-                    <i class="fas fa-calendar-alt text-secondary/60 w-4"></i>
-                    <span>Avance : <strong>1 mois</strong></span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="space-y-3">
-                <!-- Bloc de Poursuite de la procédure locative (s'il y en a une en cours) -->
-                <div v-if="activeProcess"
-                  class="bg-orange-50 dark:bg-orange-950/30 border border-orange-200 dark:border-orange-800 p-4 rounded-xl shadow-sm text-center">
-                  <p
-                    class="text-[10px] text-orange-600 dark:text-orange-400 font-black uppercase tracking-widest mb-1.5 flex items-center justify-center gap-1.5">
-                    <i class="fas fa-spinner animate-spin"></i> Procédure en
-                    cours
-                  </p>
-                  <p class="text-sm font-bold text-foreground mb-4">
-                    {{ activeProcess.label }}
-                  </p>
-
-                  <RouterLink :to="`/mon-suivi?property_id=${property.id}`"
-                    class="w-full py-2.5 bg-orange-600 text-white rounded-lg font-bold hover:bg-orange-700 transition-all flex items-center justify-center gap-2 shadow-md hover:shadow-lg text-sm">
-                    Suivre ma demande
-                    <i class="fas fa-arrow-right ml-1"></i>
+              <div v-else-if="comments.length === 0 && !showReviewForm" class="py-8 text-center">
+                <i class="far fa-comment-dots text-3xl text-muted-foreground/30 mb-2"></i>
+                <p class="text-sm text-muted-foreground">Aucun commentaire pour le moment.</p>
+                <p v-if="!authStore.user" class="text-xs text-muted-foreground mt-1">
+                  <RouterLink :to="{ name: 'Connexion' }" class="text-secondary hover:underline">Connectez-vous
                   </RouterLink>
-                </div>
-
-                <!-- Boutons standards (si aucune procédure active) -->
-                <template v-else>
-                  <RouterLink v-if="property.type === 'rent'"
-                    :to="`/locataire/formulaire-location?property_id=${property.id}`"
-                    class="w-full py-3 bg-primary text-primary-foreground rounded-xl font-bold hover:bg-primary/90 transition-all flex items-center justify-center gap-2 shadow-md hover:shadow-lg group">
-                    <i class="fas fa-key group-hover:scale-110 transition-transform"></i>
-                    Louer ce bien
-                  </RouterLink>
-                  <RouterLink :to="`/programmer-visite?slug=${property.slug}&property_id=${property.id}`"
-                    class="w-full py-3 bg-secondary text-secondary-foreground rounded-xl font-bold hover:bg-primary hover:text-primary-foreground transition-all flex items-center justify-center gap-2 shadow-md hover:shadow-lg group">
-                    <i class="fas fa-calendar-check group-hover:scale-110 transition-transform"></i>
-                    Programmer une visite
-                  </RouterLink>
-                </template>
-
-                <RouterLink :to="{ name: 'Assistance' }"
-                  class="w-full py-3 border-2 border-secondary text-secondary rounded-xl font-bold hover:bg-secondary hover:text-primary transition-all flex items-center justify-center gap-2">
-                  <i class="fas fa-headset"></i> Assistance
-                </RouterLink>
-              </div>
-
-              <div
-                class="mt-4 p-3 bg-blue-50 dark:bg-blue-950/30 border border-blue-100 dark:border-blue-900 rounded-xl">
-                <p class="text-sm text-blue-800 dark:text-blue-300 flex items-center gap-2">
-                  <i class="fas fa-clock text-blue-600 dark:text-blue-400"></i>
-                  Réponse moyenne : <strong>2 heures</strong>
+                  pour laisser un commentaire.
                 </p>
               </div>
-            </div>
-
-            <!-- Propriétaire -->
-            <div class="bg-card rounded-2xl p-6 shadow-sm border border-border">
-              <h3 class="text-base font-bold text-primary mb-4 flex items-center gap-2">
-                <i class="fas fa-user-circle text-secondary"></i> Propriétaire
-              </h3>
-              <div class="flex items-center gap-4 mb-4">
-                <div
-                  class="w-14 h-14 bg-gradient-to-br from-secondary to-primary rounded-full flex items-center justify-center text-primary-foreground text-lg font-bold shrink-0 overflow-hidden">
-                  <!-- <img v-if="property.owner?.avatar_url" :src="property.owner.avatar_url"
-                    class="w-full h-full object-cover" /> -->
-                  <UserAvatar v-if="property.owner" :user="property.owner" size="sm" />
-
-                  <span v-else>{{ ownerInitials }}</span>
-                </div>
-                <div>
-                  <h4 class="font-bold text-foreground">
-                    {{ property.owner?.name ?? "N/A" }}
-                  </h4>
-                  <p class="text-sm text-muted-foreground">Bailleur vérifié</p>
-                </div>
-              </div>
-
-              <div class="space-y-2.5 text-sm">
-                <div class="flex items-center justify-between">
-                  <span class="text-muted-foreground">Vérification</span>
-                  <span
-                    class="px-2 py-0.5 bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 text-xs font-medium rounded-full flex items-center gap-1">
-                    <i class="fas fa-check-circle"></i> Vérifié
-                  </span>
-                </div>
-                <div class="flex items-center justify-between">
-                  <span class="text-muted-foreground">Taux de réponse</span>
-                  <span class="font-medium text-foreground">97%</span>
-                </div>
-                <div class="flex items-center justify-between">
-                  <span class="text-muted-foreground">Délai de réponse</span>
-                  <span class="font-medium text-foreground">~2h</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Localisation -->
-            <div class="bg-card rounded-2xl p-6 shadow-sm border border-border">
-              <h3 class="text-base font-bold text-primary mb-4 flex items-center gap-2">
-                <i class="fas fa-map-marker-alt text-secondary"></i>
-                Localisation
-              </h3>
-              <!-- Mini carte placeholder stylisée -->
-              <div
-                class="rounded-xl overflow-hidden mb-4 relative bg-gradient-to-br from-green-50 to-green-100 dark:from-green-950/30 dark:to-green-900/30 h-44 flex items-center justify-center border border-green-200/50 dark:border-green-800/30">
-                <div class="text-center">
-                  <div
-                    class="w-12 h-12 bg-secondary rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg animate-bounce-slow">
-                    <i class="fas fa-map-marker-alt text-secondary-foreground text-xl"></i>
+              <div v-else class="space-y-4">
+                <div v-for="c in comments" :key="c.id"
+                  class="flex gap-3 pb-4 border-b border-border last:border-0 last:pb-0">
+                  <div class="shrink-0">
+                    <UserAvatar :user="c.user" size="sm" />
                   </div>
-                  <p class="text-sm font-semibold text-foreground">
-                    {{ property.city }}
-                  </p>
-                  <p class="text-xs text-muted-foreground">
-                    {{ property.region }}
-                  </p>
+                  <div class="flex-1">
+                    <div class="flex items-center justify-between mb-0.5">
+                      <span class="text-sm font-semibold text-foreground">{{ c.user?.name }}</span>
+                      <div class="flex items-center gap-3">
+                        <span class="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-tight">
+                          {{ new Date(c.created_at).toLocaleString('fr-FR', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }) }}
+                        </span>
+                        
+                        <div v-if="authStore.user?.id === c.user_id || authStore.user?.role === 'admin'" class="relative comment-menu-container">
+                          <button @click.stop="toggleCommentMenu(c.id)" 
+                            class="w-7 h-7 flex items-center justify-center rounded-full hover:bg-muted/40 transition-colors text-muted-foreground hover:text-foreground">
+                            <i class="fas fa-ellipsis-h text-xs"></i>
+                          </button>
+                          
+                          <!-- Dropdown -->
+                          <div v-if="activeMenuId === c.id" 
+                            class="absolute  bottom-5 right-5 mt-1 w-32 bg-card border border-border rounded-lg shadow-xl  overflow-hidden py-1 z-250">
+                            <button v-if="authStore.user?.id === c.user_id && canEditComment(c)" 
+                              @click="startEditingComment(c)"
+                              class="w-full px-3 py-2 text-left text-xs font-semibold hover:bg-muted/50 flex items-center gap-2 transition-colors">
+                              <i class="fas fa-edit text-secondary"></i> Modifier
+                            </button>
+                            <button @click="deleteComment(c.id)"
+                              class="w-full px-3 py-2 text-left text-xs font-semibold hover:bg-muted/50 text-destructive flex items-center gap-2 transition-colors">
+                              <i class="fas fa-trash-alt"></i> Supprimer
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div v-if="editingCommentId === c.id" class="mt-2">
+                      <textarea v-model="editingContent" rows="3"
+                        class="w-full px-3 py-2 bg-background border border-border rounded-lg text-sm resize-none focus:outline-none focus:ring-2 focus:ring-secondary/30 text-foreground"></textarea>
+                      <div class="flex gap-2 mt-2">
+                        <button @click="updateComment" :disabled="isUpdatingComment || !editingContent.trim()"
+                          class="px-4 py-1.5 bg-secondary text-secondary-foreground rounded-lg text-xs font-bold hover:bg-primary hover:text-primary-foreground transition-colors disabled:opacity-50">
+                          <i v-if="isUpdatingComment" class="fas fa-circle-notch fa-spin mr-1"></i>
+                          Enregistrer
+                        </button>
+                        <button @click="cancelEditingComment" class="px-4 py-1.5 border border-border text-muted-foreground rounded-lg text-xs hover:bg-muted/20 transition-colors">
+                          Annuler
+                        </button>
+                      </div>
+                    </div>
+                    <p v-else class="text-sm text-foreground/70 leading-relaxed">{{ c.content }}</p>
+                  </div>
+                </div>
+                <!-- Pagination -->
+                <div v-if="commentPagination.last_page > 1" class="flex justify-center gap-1.5 pt-2">
+                  <button v-for="p in commentPagination.last_page" :key="p" @click="fetchComments(p)"
+                    :class="p === commentPagination.current_page ? 'bg-secondary text-secondary-foreground' : 'bg-muted/30 text-muted-foreground hover:bg-muted/60'"
+                    class="w-8 h-8 rounded-lg text-xs font-bold transition-colors">{{ p }}</button>
                 </div>
               </div>
-              <p class="text-sm text-muted-foreground leading-relaxed">
-                <i class="fas fa-info-circle text-secondary mr-1.5"></i>
-                {{ property.location }}
-              </p>
+            </div>
+          </div>
+
+          <!-- ════ SIDEBAR (1/3) ════════════════════════════════════════ -->
+          <div class="hidden lg:block">
+            <div class="sticky top-24 space-y-4">
+
+              <!-- Card principale : prix + CTA + propriétaire + carte -->
+              <div class="bg-card border border-border rounded-2xl overflow-hidden shadow-lg">
+
+                <!-- Prix + infos financières -->
+                <div class="p-5 border-b border-border">
+                  <div class="flex items-baseline gap-2 mb-1">
+                    <span class="text-3xl font-black text-secondary">{{ formatPrice(property.price) }}</span>
+                    <span class="text-muted-foreground text-sm">FCFA / mois</span>
+                  </div>
+                  <div class="flex items-center gap-4 text-xs text-muted-foreground">
+                    <span class="flex items-center gap-1">
+                      <i class="fas fa-shield-alt text-secondary/60"></i>
+                      Caution : <strong class="text-foreground ml-1">{{ formatPrice(property.price * 2) }}
+                        FCFA</strong>
+                    </span>
+                    <span class="flex items-center gap-1">
+                      <i class="fas fa-calendar text-secondary/60"></i>
+                      Avance : <strong class="text-foreground ml-1">1 mois</strong>
+                    </span>
+                  </div>
+                </div>
+
+                <!-- CTA -->
+                <div class="p-5 space-y-2.5 border-b border-border">
+                  <!-- Procédure en cours -->
+                  <div v-if="activeProcess"
+                    class="p-3 bg-orange-50 dark:bg-orange-950/30 border border-orange-200 dark:border-orange-800 rounded-xl text-center">
+                    <p
+                      class="text-xs text-orange-600 dark:text-orange-400 font-bold uppercase tracking-wide mb-2 flex items-center justify-center gap-1">
+                      <i class="fas fa-spinner animate-spin"></i> Procédure en cours
+                    </p>
+                    <p class="text-sm font-bold text-foreground mb-3">{{ activeProcess.label }}</p>
+                    <RouterLink :to="`/mon-suivi?property_id=${property.id}`"
+                      class="w-full py-2.5 bg-orange-500 text-white rounded-xl font-bold hover:bg-orange-600 transition-all flex items-center justify-center gap-2 text-sm">
+                      Suivre ma demande <i class="fas fa-arrow-right"></i>
+                    </RouterLink>
+                  </div>
+
+                  <template v-else>
+                    <RouterLink v-if="property.type === 'rent'"
+                      :to="`/locataire/formulaire-location?property_id=${property.id}`"
+                      class="w-full py-3 bg-primary text-primary-foreground rounded-xl font-bold hover:bg-primary/90 transition-all flex items-center justify-center gap-2 shadow-md hover:shadow-lg group text-sm">
+                      <i class="fas fa-key group-hover:scale-110 transition-transform"></i>
+                      Louer ce bien
+                    </RouterLink>
+                    <RouterLink :to="`/programmer-visite?slug=${property.slug}&property_id=${property.id}`"
+                      class="w-full py-3 bg-secondary text-secondary-foreground rounded-xl font-bold hover:bg-primary hover:text-primary-foreground transition-all flex items-center justify-center gap-2 shadow-sm hover:shadow-md group text-sm">
+                      <i class="fas fa-calendar-check group-hover:scale-110 transition-transform"></i>
+                      Programmer une visite
+                    </RouterLink>
+                  </template>
+
+                  <RouterLink :to="{ name: 'Assistance' }"
+                    class="w-full py-2.5 border border-border text-muted-foreground rounded-xl font-semibold hover:bg-muted/20 transition-all flex items-center justify-center gap-2 text-sm">
+                    <i class="fas fa-headset"></i> Assistance
+                  </RouterLink>
+
+                  <p class="text-center text-xs text-muted-foreground flex items-center justify-center gap-1.5">
+                    <i class="fas fa-clock text-secondary/60"></i>
+                    Réponse moyenne en <strong class="text-foreground">2h</strong>
+                  </p>
+                </div>
+
+                <!-- Agent immobilier -->
+                <div class="p-5 border-b border-border">
+                  <p class="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-3">Agent immobilier
+                  </p>
+                  <div class="flex items-center gap-3">
+                    <UserAvatar v-if="property.agent" :user="property.agent" size="md" />
+                    <div v-else
+                      class="w-10 h-10 rounded-full bg-gradient-to-br from-secondary to-primary flex items-center justify-center text-primary-foreground font-bold shrink-0">
+                      <i class="fas fa-user-tie text-sm"></i>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                      <p class="font-bold text-foreground text-sm">{{ property.agent?.name ?? 'Agent HMC' }}</p>
+                      <span class="inline-flex items-center gap-1 text-[11px] text-secondary font-semibold">
+                        <i class="fas fa-id-badge text-[10px]"></i> Agent certifié HMC
+                      </span>
+                    </div>
+                    <span class="text-xs text-muted-foreground shrink-0">~2h</span>
+                  </div>
+                </div>
+
+                <!-- Carte Leaflet -->
+                <div class="p-5">
+                  <p
+                    class="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                    <i class="fas fa-map-marker-alt text-secondary"></i> Localisation
+                  </p>
+                  <PropertyMap :city="property.city" :region="property.region" :address="property.location"
+                    height="180px" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══════ BIENS SIMILAIRES ══════════════════════════════════════ -->
+        <div v-if="similarProperties.length" class="mt-10 pb-6">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-base font-bold text-foreground">
+              Biens similaires à <span class="text-secondary">{{ property.city }}</span>
+            </h2>
+            <RouterLink :to="{ name: 'Annonces' }"
+              class="text-secondary text-xs font-semibold hover:underline flex items-center gap-1">
+              Voir tout <i class="fas fa-arrow-right text-[10px]"></i>
+            </RouterLink>
+          </div>
+
+          <!-- Scroll horizontal sur mobile, grille sur sm+ -->
+          <div class="similar-scroll">
+            <div v-for="s in similarProperties" :key="s.id" class="similar-card">
+              <PropertyFeedCard :item="s" />
             </div>
           </div>
         </div>
       </div>
 
-      <!-- ═══════════════════ BIENS SIMILAIRES ═══════════════════ -->
-      <div v-if="similarProperties.length" class="mt-14">
-        <div class="flex justify-between items-center mb-6">
-          <h2 class="text-2xl font-bold text-primary">
-            Biens similaires à
-            <span class="text-secondary">{{ property.city }}</span>
-          </h2>
-          <RouterLink :to="{ name: 'Annonces' }"
-            class="text-secondary hover:text-primary font-medium flex items-center gap-2 transition-colors text-sm">
-            Voir tout <i class="fas fa-arrow-right"></i>
-          </RouterLink>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div v-for="s in similarProperties" :key="s.id"
-            class="bg-card rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 group border border-border hover:border-secondary relative">
-            <div class="relative overflow-hidden h-48">
-              <RouterLink :to="`/annonces/${s.slug || s.id}`">
-                <img :src="s.image" :alt="s.title"
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-              </RouterLink>
-
-              <span
-                class="absolute top-3 left-3 px-3 py-1 bg-secondary text-secondary-foreground text-xs font-bold rounded-full">
-                {{ formatPrice(s.price) }} F
-              </span>
-
-              <!-- Barre d'actions TikTok sur les biens similaires -->
-              <PropertyActionBar :property="s" :is-fav="s.is_favorite" btn-size="sm"
-                position="absolute right-2 bottom-2" @toggle-favorite="(id) => toggleFavorite(s)"
-                @share="(p) => shareProperty(p)" />
-            </div>
-            <div class="p-4">
-              <RouterLink :to="`/annonces/${s.slug || s.id}`">
-                <h3
-                  class="font-bold text-foreground mb-1 line-clamp-1 group-hover:text-secondary transition-colors text-sm">
-                  {{ s.title }}
-                </h3>
-              </RouterLink>
-              <p class="text-xs text-muted-foreground mb-3 flex items-center gap-1.5">
-                <i class="fas fa-map-marker-alt text-secondary"></i>
-                {{ s.location }}
-              </p>
-              <div class="flex items-center justify-between text-xs text-muted-foreground">
-                <div class="flex items-center gap-3">
-                  <span><i class="fas fa-bed text-secondary mr-1"></i>{{ s.rooms }}</span>
-                  <span><i class="fas fa-bath text-secondary mr-1"></i>{{ s.bathrooms }}</span>
-                  <span><i class="fas fa-ruler-combined text-secondary mr-1"></i>{{ s.area }}m²</span>
-                </div>
-              </div>
-            </div>
+      <!-- ─── LIGHTBOX ──────────────────────────────────────────────── -->
+      <Transition name="fade">
+        <div v-if="showLightbox"
+          class="fixed inset-0 z-[999] bg-black flex items-center justify-center p-4 h-screen w-full"
+          @click.self="showLightbox = false">
+          <!-- Fermer -->
+          <button @click="showLightbox = false"
+            class="absolute top-4 right-4 w-10 h-10 bg-white/10 text-white rounded-full flex items-center justify-center hover:bg-white/20 transition-all z-10">
+            <i class="fas fa-times"></i>
+          </button>
+          <!-- Compteur -->
+          <div class="absolute top-4 left-1/2 -translate-x-1/2 text-white/60 text-sm">
+            {{ activeIndex + 1 }} / {{ galleryImages.length }}
+          </div>
+          <!-- Image -->
+          <img :src="activeImage" class="max-h-[90vh] max-w-full object-cover rounded-lg select-none" />
+          <!-- Nav -->
+          <button v-if="galleryImages.length > 1" @click="prevImage"
+            class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/10 text-white rounded-full flex items-center justify-center hover:bg-white/20 transition-all">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <button v-if="galleryImages.length > 1" @click="nextImage"
+            class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/10 text-white rounded-full flex items-center justify-center hover:bg-white/20 transition-all">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+          <!-- Miniatures -->
+          <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 overflow-x-auto max-w-full px-4">
+            <button v-for="(img, i) in galleryImages" :key="i" @click="activeImage = img; activeIndex = i"
+              class="shrink-0 w-14 h-10 rounded overflow-hidden border-2 transition-all"
+              :class="activeImage === img ? 'border-secondary' : 'border-transparent opacity-50 hover:opacity-100'">
+              <img :src="img" class="w-full h-full object-cover" />
+            </button>
           </div>
         </div>
-      </div>
-    </div>
-    <!-- fin v-else -->
+      </Transition>
+
+    </div> 
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch } from "vue";
+import { ref, computed, onMounted, onUnmounted, watch } from "vue";
 import { RouterLink, useRoute, useRouter } from "vue-router";
 import { useAuthStore } from "../../stores/auth";
 import { useRentalStore } from "../../stores/rental";
 import { usePropertyStore } from "../../stores/properties";
 import axios from "../../axios";
-import PropertyActionBar from "@/PropertyActionBar.vue";
 import UserAvatar from "@/common/UserAvatar.vue";
+import PropertyMap from "@/common/PropertyMap.vue";
+import PropertyFeedCard from "@/social/PropertyFeedCard.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -681,6 +564,21 @@ const property = ref(null);
 const similarProperties = ref([]);
 const activeImage = ref("");
 const activeIndex = ref(0);
+const showLightbox = ref(false);
+
+const comments = ref([]);
+const commentsLoading = ref(false);
+const isSubmittingComment = ref(false);
+const newComment = ref('');
+const commentPagination = ref({ last_page: 1, current_page: 1 });
+
+watch(showLightbox, (val) => {
+  if (val) {
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.body.style.overflow = '';
+  }
+});
 
 // État du processus locatif
 const activeProcess = computed(() => {
@@ -690,6 +588,13 @@ const activeProcess = computed(() => {
   if (process.status === "cancelled") return null;
   return process;
 });
+
+// Étapes locatives explicatives
+const locatifSteps = [
+  { title: 'Visite (10 000 FCFA)', desc: "Réservez une visite avec un agent HMC. Les frais garantissent votre sérieux." },
+  { title: 'Dossier de candidature', desc: "Après la visite, soumettez vos documents. L'agent les étudie et valide ou rejette." },
+  { title: 'Contrat & Paiement', desc: "Dossier validé ? Payez la caution et l'avance via NotchPay pour devenir locataire officiel." },
+];
 
 // ─── Avis (reviews) — données réelles depuis l'API ────────────────────
 const reviews = ref([]);
@@ -759,6 +664,106 @@ const deleteMyReview = async () => {
   }
 };
 
+// ─── Commentaires — Nouveau système indépendant ──────────────────────
+const fetchComments = async (page = 1) => {
+  if (!property.value) return;
+  commentsLoading.value = true;
+  try {
+    const { data } = await axios.get(`/api/properties/${property.value.slug}/comments`, { params: { page } });
+    if (data.success) {
+      comments.value = data.data.data;
+      commentPagination.value = { last_page: data.data.last_page, current_page: data.data.current_page };
+    }
+  } catch (err) {
+    console.error('Erreur chargement commentaires:', err);
+  } finally {
+    commentsLoading.value = false;
+  }
+};
+
+const submitComment = async () => {
+  if (!newComment.value.trim()) return;
+  isSubmittingComment.value = true;
+  try {
+    const { data } = await axios.post(`/api/properties/${property.value.slug}/comments`, { content: newComment.value });
+    if (data.success) {
+      newComment.value = '';
+      await fetchComments();
+    }
+  } catch (err) {
+    console.error('Erreur publication commentaire:', err);
+  } finally {
+    isSubmittingComment.value = false;
+  }
+};
+
+const deleteComment = async (id) => {
+  if (!confirm('Supprimer ce commentaire ?')) return;
+  try {
+    await axios.delete(`/api/comments/${id}`);
+    await fetchComments();
+  } catch {
+    alert('Erreur lors de la suppression du commentaire.');
+  }
+};
+
+const editingCommentId = ref(null);
+const editingContent = ref('');
+const isUpdatingComment = ref(false);
+
+const startEditingComment = (comment) => {
+  editingCommentId.value = comment.id;
+  editingContent.value = comment.content;
+};
+
+const cancelEditingComment = () => {
+  editingCommentId.value = null;
+  editingContent.value = '';
+};
+
+const updateComment = async () => {
+  if (!editingCommentId.value || !editingContent.value.trim()) return;
+  isUpdatingComment.value = true;
+  try {
+    const { data } = await axios.put(`/api/comments/${editingCommentId.value}`, {
+      content: editingContent.value
+    });
+    if (data.success) {
+      cancelEditingComment();
+      await fetchComments();
+    }
+  } catch (err) {
+    alert(err.response?.data?.message || 'Erreur lors de la modification.');
+  } finally {
+    isUpdatingComment.value = false;
+  }
+};
+
+const canEditComment = (comment) => {
+  const created = new Date(comment.created_at);
+  const now = new Date();
+  const diffInHours = (now - created) / (1000 * 60 * 60);
+  return diffInHours < 24;
+};
+
+const activeMenuId = ref(null);
+const toggleCommentMenu = (id) => {
+  activeMenuId.value = activeMenuId.value === id ? null : id;
+};
+
+const handleClickOutside = (e) => {
+  if (activeMenuId.value && !e.target.closest('.comment-menu-container')) {
+    activeMenuId.value = null;
+  }
+};
+
+onMounted(() => {
+  window.addEventListener('click', handleClickOutside);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('click', handleClickOutside);
+});
 
 // ─── Données dérivées ────────────────────────────────────────────────
 const galleryImages = computed(() => {
@@ -775,40 +780,22 @@ const amenities = computed(() => {
   const a = property.value.amenities;
   if (Array.isArray(a)) return a;
   if (typeof a === "string") {
-    try {
-      return JSON.parse(a);
-    } catch {
-      return [];
-    }
+    try { return JSON.parse(a); } catch { return []; }
   }
   return [];
 });
 
 const ownerInitials = computed(() => {
   const name = property.value?.owner?.name ?? "";
-  return name
-    .split(" ")
-    .map((w) => w[0])
-    .join("")
-    .toUpperCase()
-    .slice(0, 2);
+  return name.split(" ").map((w) => w[0]).join("").toUpperCase().slice(0, 2);
 });
-
-const ownerPhone = computed(() => property.value?.owner?.phone ?? null);
 
 // ─── Icônes commodités ───────────────────────────────────────────────
 const amenityIconMap = {
-  Climatisation: "fa-snowflake",
-  Parking: "fa-parking",
-  "Sécurité 24/7": "fa-shield-alt",
-  "Wi-Fi": "fa-wifi",
-  "Eau courante": "fa-faucet",
-  "Électricité permanente": "fa-bolt",
-  Gardiennage: "fa-user-shield",
-  "Groupe électrogène": "fa-car-battery",
-  Balcon: "fa-tree",
-  Jardin: "fa-seedling",
-  "Cuisine équipée": "fa-utensils",
+  Climatisation: "fa-snowflake", Parking: "fa-parking", "Sécurité 24/7": "fa-shield-alt",
+  "Wi-Fi": "fa-wifi", "Eau courante": "fa-faucet", "Électricité permanente": "fa-bolt",
+  Gardiennage: "fa-user-shield", "Groupe électrogène": "fa-car-battery",
+  Balcon: "fa-tree", Jardin: "fa-seedling", "Cuisine équipée": "fa-utensils",
 };
 const amenityIcon = (name) => amenityIconMap[name] ?? "fa-check-circle";
 
@@ -818,19 +805,10 @@ const fetchProperty = async (slug) => {
   property.value = null;
   similarProperties.value = [];
   try {
-    // Note: On utilise le store pour bénéficier du cache
     const payload = await propertyStore.fetchPropertyDetails(slug);
-
-    if (!payload) {
-      console.warn('[DetailAnnonce] fetchPropertyDetails returned nothing for slug:', slug);
-      return;
-    }
-
+    if (!payload) return;
     const propData = payload.data;
-    if (!propData) {
-      console.warn('[DetailAnnonce] payload.data est null. payload reçu:', payload);
-      return;
-    }
+    if (!propData) return;
 
     property.value = propData;
     similarProperties.value = payload.similar ?? [];
@@ -840,22 +818,15 @@ const fetchProperty = async (slug) => {
     activeIndex.value = 0;
     document.title = `${propData.title} | Home Cameroun`;
 
-    // Charger les avis en parallèle (non bloquant)
     fetchReviews();
     fetchMyReview();
+    fetchComments();
 
     if (authStore.user) {
-      await Promise.all([
-        rentalStore.fetchVisits(),
-        rentalStore.fetchApplications(),
-      ]);
+      await Promise.all([rentalStore.fetchVisits(), rentalStore.fetchApplications()]);
     }
   } catch (err) {
-    if (err.message === 'PROPERTY_NOT_FOUND') {
-      console.warn('[DetailAnnonce] Bien introuvable:', slug);
-    } else {
-      console.error("Erreur chargement annonce:", err);
-    }
+    if (err.message !== 'PROPERTY_NOT_FOUND') console.error("Erreur chargement annonce:", err);
   } finally {
     isLoading.value = false;
   }
@@ -879,23 +850,12 @@ const nextImage = () => {
 const toggleFavorite = async (p = null) => {
   const target = p || property.value;
   if (!target) return;
-
-  if (!authStore.user) {
-    router.push({ name: "Connexion" });
-    return;
-  }
+  if (!authStore.user) { router.push({ name: "Connexion" }); return; }
   await propertyStore.toggleFavorite(target.id);
-
-  // If main property, sync with cache
   if (!p) {
-    const cachedPayload = propertyStore.propertyDetailsCache[target.slug];
-    if (cachedPayload && cachedPayload.data) {
-      target.is_favorite = cachedPayload.data.is_favorite;
-    } else {
-      target.is_favorite = !target.is_favorite;
-    }
+    const cached = propertyStore.propertyDetailsCache[target.slug];
+    target.is_favorite = cached?.data ? cached.data.is_favorite : !target.is_favorite;
   } else {
-    // If similar property, just toggle boolean
     target.is_favorite = !target.is_favorite;
   }
 };
@@ -903,19 +863,10 @@ const toggleFavorite = async (p = null) => {
 const shareProperty = async (p = null) => {
   const target = p || property.value;
   if (!target) return;
-
-  // Track share in backend
   await propertyStore.shareProperty(target.id);
-
   const url = p ? `${window.location.origin}/annonces/${p.slug || p.id}` : window.location.href;
-  const title = target.title;
-
   if (navigator.share) {
-    try {
-      await navigator.share({ title, url });
-    } catch (err) {
-      console.log('Erreur de partage:', err);
-    }
+    try { await navigator.share({ title: target.title, url }); } catch { }
   } else {
     navigator.clipboard.writeText(url);
     alert("Lien copié dans le presse-papiers !");
@@ -924,28 +875,69 @@ const shareProperty = async (p = null) => {
 
 const formatPrice = (price) => new Intl.NumberFormat("fr-FR").format(price);
 
-// ─── Mount & watch route change ──────────────────────────────────────
-onMounted(() => fetchProperty(route.params.slug));
+// ─── Raccourci clavier lightbox ──────────────────────────────────────
+const handleKeydown = (e) => {
+  if (!showLightbox.value) return;
+  if (e.key === 'Escape') showLightbox.value = false;
+  if (e.key === 'ArrowLeft') prevImage();
+  if (e.key === 'ArrowRight') nextImage();
+};
 
-watch(
-  () => route.params.slug,
-  (newId) => {
-    if (newId) {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      fetchProperty(newId);
-    }
-  },
-);
+// ─── Mount & watch ───────────────────────────────────────────────────
+onMounted(() => {
+  fetchProperty(route.params.slug);
+  window.addEventListener('keydown', handleKeydown);
+});
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleKeydown);
+  document.body.style.overflow = '';
+});
+
+watch(() => route.params.slug, (newId) => {
+  if (newId) {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    fetchProperty(newId);
+  }
+});
 </script>
 
 <style scoped>
-/* Skeleton shimmer */
-.bg-muted {
-  background-color: rgba(233, 228, 222, 0.456);
-  background-size: 200% 100%;
-  animation: shimmer 1.6s ease-in-out infinite;
+.page-enter {
+  animation: pageFadeIn 0.4s ease both;
 }
 
+@keyframes pageFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.25s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+/* Skeleton shimmer */
 @keyframes shimmer {
   0% {
     background-position: 200% 0;
@@ -956,20 +948,51 @@ watch(
   }
 }
 
-/* Bounce lent pour le marker carte */
-@keyframes bounce-slow {
+/* Biens similaires – scroll snap mobile, grille sm+ */
+.similar-scroll {
+  display: flex;
+  gap: 0.75rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  padding-bottom: 4px;
+}
 
-  0%,
-  100% {
-    transform: translateY(0);
+.similar-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.similar-card {
+  flex-shrink: 0;
+  width: 72vw;
+  max-width: 280px;
+  scroll-snap-align: start;
+}
+
+/* Override my-2 from PropertyFeedCard inside similar section */
+.similar-card :deep(article) {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+@media (min-width: 640px) {
+  .similar-scroll {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    overflow-x: visible;
+    scroll-snap-type: none;
   }
 
-  50% {
-    transform: translateY(-6px);
+  .similar-card {
+    width: auto;
+    max-width: none;
   }
 }
 
-.animate-bounce-slow {
-  animation: bounce-slow 2.5s ease-in-out infinite;
+@media (min-width: 1024px) {
+  .similar-scroll {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 </style>

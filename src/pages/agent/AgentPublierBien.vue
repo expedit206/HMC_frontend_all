@@ -138,6 +138,19 @@
                 />
               </div>
 
+              <!-- Localisation -->
+              <div>
+                <label class="text-[9px] font-black text-muted-foreground uppercase ml-2 mb-2 block">
+                  <i class="fas fa-map-marker-alt text-secondary mr-1"></i>Localisation
+                </label>
+                <CameroonLocationFields
+                  v-model:city="form.city"
+                  v-model:location="form.location"
+                  city-id="agent-city"
+                  neighborhood-id="agent-neighborhood"
+                />
+              </div>
+
               <div class="grid grid-cols-2 gap-4">
                 <div>
                   <label
@@ -249,6 +262,7 @@
 import { ref, reactive, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import axios from "../../axios";
+import CameroonLocationFields from "@/common/CameroonLocationFields.vue";
 const route = useRoute();
 const router = useRouter();
 
